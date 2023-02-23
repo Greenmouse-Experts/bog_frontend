@@ -205,7 +205,7 @@ export default function FormPackage({ formPayload, formClose }) {
             body: JSON.stringify(payload),
         };
 
-        fetch("https://bog.greenmouseproperties.com/api/projects/request", requestData)
+        fetch(`${process.env.REACT_APP_URL}/projects/request`, requestData)
             .then(response => response.text())
             .then(result =>
                 Swal.fire({
