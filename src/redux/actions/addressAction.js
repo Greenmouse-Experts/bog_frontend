@@ -2,40 +2,6 @@ import toaster from "toasted-notes";
 import "toasted-notes/src/styles.css";
 import Axios from '../../config/config';
 
-
-export const fetchProjects = async (setprojects, setLoading) => {
-    try {
-        setLoading(true);
-        const url = "/projects/all";
-        const authToken = localStorage.getItem("auth_token");
-        const config = {
-            headers:
-            {
-                "Content-Type": "application/json",
-                'Authorization': authToken
-            }
-        }
-        const res = await Axios.get(url, config);
-        const results = res.data;
-        const data = results.map(result => {
-            return {
-                projectSlug: result.projectSlug,
-            }
-        });
-        setprojects(data);
-        setLoading(false);
-    } catch (error) {
-        setLoading(false);
-        toaster.notify(
-            error.message,
-            {
-                duration: "4000",
-                position: "bottom",
-            }
-        );
-    }
-}
-
 export const fetchAddresses = async (setLoading, setAddresses, user) => {
     try {
         setLoading(true);
@@ -47,7 +13,7 @@ export const fetchAddresses = async (setLoading, setAddresses, user) => {
                 'Authorization': authToken
             }
         }
-        let url = '/address/view/all';
+        let url = `/address/view/all`;
         
         const res = await Axios.get(url, config);
         const results = res.data;
@@ -56,12 +22,51 @@ export const fetchAddresses = async (setLoading, setAddresses, user) => {
         setLoading(false);
     } catch (error) {
         setLoading(false);
-        toaster.notify(
-            error.message,
+        if (error.message === 'Request failed with status code 401') {
+            window.location.href = '/';
+        }
+        else {
+            toaster.notify(
+                error.message,
+                {
+                    duration: "4000",
+                    position: "bottom",
+                }
+            );
+        }
+    }
+}
+
+export const fetchStateAddresses = async (setAddresses, user, state) => {
+    try {
+        const authToken = localStorage.getItem("auth_token");
+        const config = {
+            headers:
             {
-                duration: "4000",
-                position: "bottom",
+                "Content-Type": "application/json",
+                'Authorization': authToken
             }
-        );
+        }
+
+        let _state = state === undefined ? '' : `?q=${state}`;
+        let url = `/address/view/all${_state}`;
+        
+        const res = await Axios.get(url, config);
+        const results = res.data;
+        // console.log(results)
+        setAddresses(results);
+    } catch (error) {
+        if (error.message === 'Request failed with status code 401') {
+            window.location.href = '/';
+        }
+        else {
+            toaster.notify(
+                error.message,
+                {
+                    duration: "4000",
+                    position: "bottom",
+                }
+            );
+        }
     }
 }
