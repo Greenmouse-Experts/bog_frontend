@@ -16,12 +16,24 @@ import toaster from "toasted-notes";
 import "toasted-notes/src/styles.css";
 import Swal from "sweetalert2";
 
+const orderProgress = [
+  {
+    status: "pending",
+    allowed: ["pending", "approved", "cancelled", "completed"],
+    percent: 10,
+  },
+  { status: "cancelled", allowed: ["approved", "completed"], percent: 30 },
+  { status: "approved", allowed: ["completed"], percent: 70 },
+  { status: "completed", allowed: ["completed"], percent: 100 },
+];
+
 export default function OrderDetails() {
   const { search } = useLocation();
   const productId = new URLSearchParams(search).get("productId");
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
+  const [progressVal, setProgressVal] = useState({});
 
   const getOrderDetail = async () => {
     try {
@@ -38,6 +50,9 @@ export default function OrderDetails() {
       setOrder(data);
       setLoading(false);
       setStatus(data.status);
+      setProgressVal(
+        orderProgress.find((progress) => progress.status === data.status)
+      );
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -64,9 +79,12 @@ export default function OrderDetails() {
           orderId: order.id,
           status: _status,
         };
-        
+        setProgressVal(
+          orderProgress.find((progress) => progress.status === _status)
+        );
+
         await Axios.patch(url, bodyParam, config);
-       
+
         //   setOrder(data);
         Swal.fire({
           title: "Success",
@@ -149,28 +167,64 @@ export default function OrderDetails() {
                 <p className="fw-600 underline">Order Progress</p>
                 <div className="my-6 mb-24 lg:my-10 relative w-11/12">
                   <div className="">
-                    <Progress value={50} color="amber" />
+                    <Progress value={progressVal.percent} color="amber" />
                   </div>
                   <div className="absolute -top-2 o-process">
-                    <IoMdCheckmarkCircle className="text-2xl circle bg-white text-secondary" />
-                    <p className="fw-500 w-8 lg:w-auto fs-400 text-gray-500">
+                    <IoMdCheckmarkCircle
+                      className={`text-2xl circle bg-white ${
+                        orderProgress[0].allowed.filter(
+                          (_allowed) => _allowed === status
+                        ).length > 0
+                          ? "text-secondary"
+                          : "text-gray-400"
+                      }`}
+                    />
+                    <p className={`fw-500 w-8 lg:w-auto fs-400 text-gray-500`}>
                       Order Sent
                     </p>
                   </div>
                   <div className="absolute -top-2 p-process">
-                    <IoMdCheckmarkCircle className="text-2xl circle bg-white text-secondary" />
-                    <p className="fw-500 fs-400 w-8 lg:w-auto  text-gray-500 relative -left-6">
+                    <IoMdCheckmarkCircle
+                      className={`text-2xl circle bg-white ${
+                        orderProgress[1].allowed.filter(
+                          (_allowed) => _allowed === status
+                        ).length > 0
+                          ? "text-secondary"
+                          : "text-gray-400"
+                      }`}
+                    />
+                    <p
+                      className={`fw-500 fs-400 w-8 lg:w-auto text-gray-500 relative -left-6`}
+                    >
                       Processing Order
                     </p>
                   </div>
                   <div className="absolute -top-2 s-process">
-                    <IoMdCheckmarkCircle className="text-2xl circle bg-white text-gray-400" />
-                    <p className="fw-500 fs-400 w-8 lg:w-auto  text-gray-500 relative -left-6">
+                    <IoMdCheckmarkCircle
+                      className={`text-2xl circle bg-white ${
+                        orderProgress[2].allowed.filter(
+                          (_allowed) => _allowed === status
+                        ).length > 0
+                          ? "text-secondary"
+                          : "text-gray-400"
+                      }`}
+                    />
+                    <p
+                      className={`fw-500 fs-400 w-8 lg:w-auto text-gray-500 relative -left-6`}
+                    >
                       Shipping Order
                     </p>
                   </div>
                   <div className="absolute -top-2 d-process">
-                    <IoMdCheckmarkCircle className="text-2xl circle bg-white text-gray-400" />
+                    <IoMdCheckmarkCircle
+                      className={`text-2xl circle bg-white ${
+                        orderProgress[3].allowed.filter(
+                          (_allowed) => _allowed === status
+                        ).length > 0
+                          ? "text-secondary"
+                          : "text-gray-400"
+                      }`}
+                    />
                     <p className="fw-500 fs-400 text-gray-500 relative -left-6">
                       Delivered
                     </p>
