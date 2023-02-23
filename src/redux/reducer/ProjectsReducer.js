@@ -30,8 +30,9 @@ const AdminProjectsReducer = (state = initialState, action) => {
             }
         case ActionType.ASSIGN_PROJECT:
             const oldProjects = [...state.projects];
-            console.log(payload);
-            const Index = oldProjects.findIndex(where => where.id === payload.projectId);
+          
+            const Index = oldProjects.findIndex(where => where.id === payload);
+            
             oldProjects[Index].status = "ongoing";
             return {
                 ...state,
