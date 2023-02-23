@@ -11,11 +11,11 @@ import Header from "./home-comp/Header";
 // import { PaystackButton } from "react-paystack";
 import { MdDeleteOutline } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { SuccessAlertWithRedirection } from "../../../src/services/endpoint";
+import { SuccessAlertWithRedirection } from "../../services/endpoint";
 import toaster from "toasted-notes";
 import "toasted-notes/src/styles.css";
-import Spinner from "../../../src/components/layouts/Spinner";
-import Axios from "../../../src/config/config";
+import Spinner from "../layouts/Spinner";
+import Axios from "../../config/config";
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 
@@ -83,7 +83,7 @@ export const Cart = () => {
       contact_phone: "",
     },
   });// eslint-disable-next-line
-  const { city, state, country, postal_code, address, contact_name, contact_email, contact_phone } = form.values;
+  // const { city, state, country, postal_code, address, contact_name, contact_email, contact_phone } = form.values;
   const value = form.values;
   let productsArray = carts.map((option) => {
     let prodInfo = {};
@@ -91,8 +91,10 @@ export const Cart = () => {
     prodInfo.quantity = option.quantity;
     return prodInfo;
   });
+
   useEffect(() => {
     setProducts(productsArray);
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -329,7 +331,7 @@ export const Cart = () => {
             <div className="bg-op fixed z-50 top-0 h-screen w-full flex justify-center items-center"  onClick={CloseModal}>
                 <div className="max-h-103 p-5 lg:p-10 bg-white w-11/12 lg:w-6/12 relative overflow-y-scroll " onClick={(e) => e.stopPropagation()}>
                   <FontAwesomeIcon icon={faTimes} className="text-2xl cursor-pointer absolute top-5 right-5" onClick={CloseModal} />
-                  <CartModal CloseModal={CloseModal}/>
+                  <CartModal CloseModal={CloseModal} />
                 </div>
             </div>
           )
