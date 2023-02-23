@@ -313,13 +313,7 @@ export default function ProjectsTable({ status }) {
                   <MenuItem onClick={() => gotoProjectFile(row.value)}>
                     View Submission
                   </MenuItem>
-                  <MenuItem
-                    onClick={() =>
-                      approveProjectForCommencement(row.value, true)
-                    }
-                  >
-                    Approve Project
-                  </MenuItem>
+                  
                 </>
               )}
               {row.cell.row.original.approvalStatus === "approved" &&
