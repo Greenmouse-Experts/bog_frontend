@@ -40,6 +40,7 @@
     "react-export-table-to-excel": "^1.0.6",
     "react-form-builder2": "^0.14.2",
     "react-google-recaptcha": "^2.1.0",
+    "react-hot-toast": "^2.4.0",
     "react-icons": "^4.6.0",
     "react-is": "^18.2.0",
     "react-loader-spinner": "^5.3.4",

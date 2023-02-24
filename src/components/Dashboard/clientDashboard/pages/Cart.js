@@ -8,8 +8,7 @@ import CartItems from "./CartItems";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { SuccessAlert } from "../../../../services/endpoint";
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 import Spinner from "../../../layouts/Spinner";
 import Axios from "../../../../config/config";
 import React, { useState, useEffect } from "react";
@@ -84,16 +83,24 @@ export default function Cart() {
         } catch (error) {
             setLoading(false);
             if (error.response.data.message) {
-                toaster.notify(error.response.data.message, {
-                    duration: "4000",
-                    position: "bottom",
-                });
+                toast.error(
+                    error.response.data.message,
+                    {
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
+                    }
+                );
                 return;
             }
-            toaster.notify(error.message, {
-                duration: "4000",
-                position: "bottom",
-            });
+            toast.error(
+                error.response.data.message,
+                {
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
+                }
+            );
         }
     };
     const handlePaystackSuccessAction = (reference) => {
