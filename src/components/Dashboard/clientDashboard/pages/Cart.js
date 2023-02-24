@@ -7,11 +7,11 @@ import { clearCart } from "../../../../redux/actions/cartAction";
 import CartItems from "./CartItems";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { SuccessAlert } from "../../../../../src/services/endpoint";
+import { SuccessAlert } from "../../../../services/endpoint";
 import toaster from "toasted-notes";
 import "toasted-notes/src/styles.css";
-import Spinner from "../../../../../src/components/layouts/Spinner";
-import Axios from "../../../../../src/config/config";
+import Spinner from "../../../layouts/Spinner";
+import Axios from "../../../../config/config";
 import React, { useState, useEffect } from "react";
 
 export default function Cart() {

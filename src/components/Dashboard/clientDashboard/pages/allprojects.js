@@ -107,7 +107,7 @@ export function AllProject() {
                                                             {getProjectCategory(item.project.projectTypes)}
                                                         </td>
                                                         <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                            {item.projectDetails.propertyLocation}
+                                                            {/* {item.projectDetails.propertyLocation !== null && item.projectDetails.propertyLocation} */}
                                                         </td>
                                                         <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
                                                             {dayjs(item.project.createdAt).format("YYYY-MM-DD")}
