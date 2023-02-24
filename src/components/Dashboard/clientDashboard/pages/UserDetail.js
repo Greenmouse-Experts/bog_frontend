@@ -14,7 +14,7 @@ import { VscReferences } from "react-icons/vsc";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import Swal from "sweetalert2";
-import toaster from "toasted-notes";
+import toast from 'react-hot-toast';
 import Axios from "../../../../config/config";
 import { formatNumber } from "../../../../services/helper";
 import Spinner from "../../../layouts/Spinner";
@@ -165,11 +165,12 @@ export default function UserDetails() {
             //setLoading(false);
         } catch (error) {
            // setLoading(false);
-            toaster.notify(
+            toast.error(
                 error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
@@ -196,11 +197,12 @@ export default function UserDetails() {
            // setLoading(false);
         } catch (error) {
            // setLoading(false);
-            toaster.notify(
-                error.message,
+            toast.error(
+               error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }

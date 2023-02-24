@@ -5,8 +5,7 @@ import { FaTimes } from "react-icons/fa";
 import { MdAddCircle } from "react-icons/md";
 import { RiDeleteBin3Line } from "react-icons/ri";
 import { subscriptionPlanSchema } from "../../../../../../services/validation";
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 import { useDispatch } from "react-redux";
 import { createSubscriptionPlan, updateSubscriptionPlan } from "../../../../../../redux/actions/SubscriptionAction";
 import Spinner from "../../../../../layouts/Spinner";
@@ -53,11 +52,12 @@ export const AddSub = ({ closeModal, item }) => {
     setLoading(true)
     if (inputFields.length === 0) {
       setLoading(false)
-      toaster.notify(
+      toast.error(
         "Please add the benefits involved with this package",
         {
-          duration: "4000",
-          position: "bottom",
+          duration: 6000,
+          position: "top-center",
+          style: { background: '#BD362F', color: 'white' },
         }
       );
       return

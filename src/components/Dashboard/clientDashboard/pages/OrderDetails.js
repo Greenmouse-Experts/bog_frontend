@@ -12,8 +12,7 @@ import ItemList from "./Order/ItemList";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import ReactStars from "react-rating-stars-component";
 
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 import Swal from "sweetalert2";
 
 const orderProgress = [
@@ -98,10 +97,14 @@ export default function OrderDetails() {
         });
       } catch (error) {
         console.log(error);
-        toaster.notify(error.message, {
-          duration: "4000",
-          position: "bottom",
-        });
+        toast.error(
+          error.message,
+          {
+            duration: 6000,
+            position: "top-center",
+            style: { background: '#BD362F', color: 'white' },
+          }
+        );
       }
     }
   };

@@ -1,6 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import toaster from "toasted-notes";
 import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 
 const redirect = () => {
   localStorage.setItem("user_token", null);
@@ -17,20 +18,29 @@ export default (error) => {
     const { errors, message } = error.data;
 
     if (message) {
-      toaster.notify(message, {
-        duration: "4000",
-        position: "bottom",
-      });
+      toast.error(
+        message,
+        {
+          duration: 4000,
+          position: "top-center",
+          style: { background: '#BD362F', color: 'white' },
+        }
+      );
       if (message === "token_expired") {
         redirect();
       }
     }
     if (errors && typeof errors === Array) {
       errors.forEach((error) => {
-        toaster.notify(error.code, {
-          duration: "4000",
-          position: "bottom",
-        });
+        toast.error(
+          error.code,
+          {
+            duration: 6000,
+            position: "top-center",
+            style: { background: '#BD362F', color: 'white' },
+          }
+        );
+
       });
   }
     }

@@ -5,8 +5,7 @@ import Spinner from '../layouts/Spinner';
 import { forgetPasswordValidation } from '../../services/validation';
 import Axios from "../../config/config";
 import Swal from "sweetalert2";
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 
 export default function Forget() {
 
@@ -25,11 +24,12 @@ export default function Forget() {
       })
     }).catch(error => {
       setLoading(false)
-      toaster.notify(
-        error.message,
+      toast.error(
+        error.response.data.message,
         {
-          duration: "4000",
-          position: "bottom",
+          duration: 6000,
+          position: "top-center",
+          style: { background: '#BD362F', color: 'white' },
         }
       );
     })

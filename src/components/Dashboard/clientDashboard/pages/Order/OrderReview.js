@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import ReactStars from 'react-rating-stars-component';
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 import Axios from '../../../../../config/config';
 import { SuccessAlert } from '../../../../../services/endpoint';
 import Spinner from '../../../../layouts/Spinner';
@@ -20,11 +19,12 @@ export const OrderReview = ({ review, productId }) => {
             setLoading(true);
             if (message === "" || star === 0) {
                 setLoading(false);
-                toaster.notify(
+                toast.error(
                     "Please fill all field",
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
                 return;
@@ -51,11 +51,12 @@ export const OrderReview = ({ review, productId }) => {
 
         } catch (error) {
             setLoading(false);
-            toaster.notify(
+            toast.error(
                 error?.response?.data?.message || error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }

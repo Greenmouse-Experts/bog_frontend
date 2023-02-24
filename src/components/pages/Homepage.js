@@ -12,8 +12,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeftLong, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { ReviewSlide, ReviewSlideSm } from "./home-comp/AboutSlides";
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 import Axios from "../../config/config";
 import Spinner from "../layouts/Spinner";
 import { HomepageBlog } from "./Blog/HomepageBlog";
@@ -99,11 +98,12 @@ export default function Homepage() {
 
         } catch (error) {
             setLoading(false);
-            toaster.notify(
+            toast.error(
                 error?.response?.data?.message || error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
