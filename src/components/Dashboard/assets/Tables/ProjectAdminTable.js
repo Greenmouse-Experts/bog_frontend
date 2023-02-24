@@ -135,8 +135,8 @@ export default function ProjectsTable({ status }) {
   } else {
     allProjects = allProjects.filter(
       (project) =>
-        project.approvalStatus === "pending" ||
-        project.approvalStatus === "in_review"
+        (project.approvalStatus === "pending" ||
+        project.approvalStatus === "in_review") && project.status !== 'approved'
     );
     // console.log(allProjects)
   }
@@ -324,13 +324,16 @@ export default function ProjectsTable({ status }) {
                   Post Project
                 </MenuItem>
               )}
-              {row.cell.row.original.approvalStatus === "in_review" && (
-                <MenuItem
-                  onClick={() => approveProjectForCommencement(row.value, true)}
-                >
-                  Approve Project
-                </MenuItem>
-              )}
+              {row.cell.row.original.approvalStatus === "in_review" &&
+                row.cell.row.original.status !== "ongoing" && (
+                  <MenuItem
+                    onClick={() =>
+                      approveProjectForCommencement(row.value, true)
+                    }
+                  >
+                    Approve Project
+                  </MenuItem>
+                )}
 
               {row.cell.row.original.status === "dispatched" && (
                 <MenuItem onClick={() => gotoServiceRequest(row.value)}>
