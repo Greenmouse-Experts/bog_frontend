@@ -26,3 +26,18 @@ export const Spinner2 = () => {
     </div>
   )
 }
+
+export const Loader = () => {
+  return (
+    <div className="loading-screen h-full">
+      <div className="loading-animation">
+        <img
+          className="text-flame logo lg:w-40"
+          src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1669563824/BOG/logo_1_1_ubgtnr.png"
+          alt="Logo"
+      />
+        <div className="loading-bar" />
+      </div>
+    </div>
+  )
+}
