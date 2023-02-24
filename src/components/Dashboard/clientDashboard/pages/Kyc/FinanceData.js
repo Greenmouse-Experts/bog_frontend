@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import Spinner from '../../../../layouts/Spinner';
@@ -9,6 +10,7 @@ export const FinanceData = ({ handleOpen, tab }) => {
     const [loading, setLoading] = useState(false);
     const [isLoaded, setDataLoaded] = useState(false);
     const [feedback, setFeetback] = useState(false);
+    const [banks, setBanks] = useState([]);
     const [formData, setFormData] = useState({
         bank_name: "",
         account_name: "",
@@ -22,9 +24,14 @@ export const FinanceData = ({ handleOpen, tab }) => {
         handleOpen(user.userType === "vendor" ? tab - 1 : user.userType === "professional" ? tab - 2 : tab - 1);
     }
     const user = useSelector((state) => state.auth.user);
+
     useEffect(() => {
         !isLoaded && dataLoader()
         setDataLoaded(true);
+        fetch(`https://nigerianbanks.xyz/`).then(response => response.json())
+            .then(data =>
+                setBanks(data)
+            );
     }, [])
 
     const dataLoader = () => {
@@ -43,6 +50,8 @@ export const FinanceData = ({ handleOpen, tab }) => {
 
 
     let newValue = {};
+    let bankCode = '';
+
     const updateValue = (newVal, variable) => {
         variable === 'bank_name' && (newValue = { bank_name: newVal });
         variable === 'account_name' && (newValue = { account_name: newVal });
@@ -55,6 +64,23 @@ export const FinanceData = ({ handleOpen, tab }) => {
             ...formData,
             ...newValue,
         });
+
+        banks.forEach((bank) => {
+            if (bank.name === formData.bank_name) {
+                bankCode = bank.code
+            }
+        });
+
+        const config = {
+            headers: {
+                Authorization: 'pk_test_0c79398dba746ce329d163885dd3fe5bc7e1f243'
+            }
+        };
+
+        if (variable === 'account_number') {
+            axios.get(`https://api.paystack.co/bank/resolve?account_number=${newVal}&bank_code=${bankCode}`, config);
+        }
+
         setIsSaving(true)
     };
 
@@ -73,14 +99,17 @@ export const FinanceData = ({ handleOpen, tab }) => {
             </div>
             <div className='mt-3'>
                 <label>Bank Name</label>
-                <input
+                <select
                     name="bank_name"
                     id="bank_name"
                     value={formData.bank_name}
                     onChange={(e) => { updateValue(e.target.value, "bank_name") }}
-                    type="text"
                     className='w-full mt-2 p-2 border border-gray-400 rounded'
-                />
+                >
+                    {banks.map((bank, index) => (
+                        <option value={bank.name} key={index}>{ bank.name }</option>
+                    ))}
+                    </select>
             </div>
             <div className='mt-3'>
                 <label>Bank Account Number</label>
