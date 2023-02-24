@@ -19,7 +19,7 @@ export default function ProjectDetailsClient() {
                 },
             };
             setLoading(true);
-            const url = `https://bog.greenmouseproperties.com/api/projects/v2/view-project/${projectId}`
+            const url = `${process.env.REACT_APP_URL}/projects/v2/view-project/${projectId}`
             const response = await Axios.get(url, config);
             const { data } = response;
             setProjects(data)
@@ -50,7 +50,7 @@ export default function ProjectDetailsClient() {
             project &&
             <div className="min-h-screen fs-500 relative">
                 <div className="w-full py-8 bg-white px-4">
-                    <p className="text-2xl fw-600 lg:flex items-center">Project ID: <span className="text-primary px-3">{project?.projectSlug}</span> <span className="text-xs text-blue-500 bg-light px-2">Ongoing</span></p>
+                    <p className="text-2xl fw-600 lg:flex items-center">Project ID: <span className="text-primary px-3">{project?.projectSlug}</span> <span className="text-xs text-blue-500 bg-light px-2">{project.status}</span></p>
                     <p className="fs-400 text-gray-600 mt-2">View project details</p>
                     <Breadcrumbs className="bg-white pl-0 mt-4">
                         <Link to="/" className="opacity-60">
