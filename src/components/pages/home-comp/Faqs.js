@@ -20,19 +20,16 @@ export default function Faqs() {
             <p className="lg:text-xl fs-600 font-primary fw-600 lg:py-2">What is BOG for ?</p>
         </AccordionHeader>
         <AccordionBody>
-          <p className="fw-500 fs-500">We're not always in the position that we want to be at. We're
-          constantly growing. We're constantly making mistakes. We're constantly
-          trying to express ourselves and actualize our dreams.</p>
+          <p className="fw-500 fs-500">BOG is a project management platform that
+            helps you carry out your project digitally and live tracking mode from wherever you are.</p>
         </AccordionBody>
       </Accordion>
       <Accordion open={open === 2}>
         <AccordionHeader onClick={() => handleOpen(2)}>
-            <p className="lg:text-xl fs-600 font-primary fw-600 lg:py-2">How can I create an account ? </p>
+          <p className="lg:text-xl fs-600 font-primary fw-600 lg:py-2">Who are the service partners?</p>
         </AccordionHeader>
         <AccordionBody>
-          <p className="fw-500 fs-500">We're not always in the position that we want to be at. We're
-          constantly growing. We're constantly making mistakes. We're constantly
-          trying to express ourselves and actualize our dreams.</p>
+          <p className="fw-500 fs-500">These are the personnel’s that provide construction services for your project (Architect, Structural Engineers etc).</p>
         </AccordionBody>
       </Accordion>
       <Accordion open={open === 3}>
@@ -40,9 +37,7 @@ export default function Faqs() {
          <p className="lg:text-xl fs-600 font-primary fw-600 lg:py-2"> What product can I buy on BOG ?</p>
         </AccordionHeader>
         <AccordionBody>
-          <p className="fw-500 fs-500">We're not always in the position that we want to be at. We're
-          constantly growing. We're constantly making mistakes. We're constantly
-          trying to express ourselves and actualize our dreams.</p>
+          <p className="fw-500 fs-500">All building materials are available on BOG, check the shop to purchase a product.</p>
         </AccordionBody>
       </Accordion>
       <Accordion open={open === 4}>
@@ -50,9 +45,7 @@ export default function Faqs() {
             <p className="lg:text-xl fs-600 font-primary fw-600 lg:py-2"> What is your return policy ?</p>
         </AccordionHeader>
         <AccordionBody>
-          <p className="fw-500 fs-500">We're not always in the position that we want to be at. We're
-          constantly growing. We're constantly making mistakes. We're constantly
-          trying to express ourselves and actualize our dreams.</p>
+          <p className="fw-500 fs-500">Click<Link to="/return" className="text-primary cursor-pointer">here</Link> to learn more about our return policy.</p>
         </AccordionBody>
       </Accordion>
     </Fragment>

@@ -119,8 +119,8 @@ export default function ProjectsTable({ status }) {
   };
 
   if (status) {
-    console.log(status);
-    allProjects = allProjects.filter((project) => project.status === status);
+    // console.log(status)
+    allProjects = allProjects.filter(project => project.status === status);
     // console.log(allProjects)
     // if (status === "in_review") {
     //   allProjects = allProjects.filter(
@@ -132,14 +132,11 @@ export default function ProjectsTable({ status }) {
     //     (where) => where.approvalStatus !== status
     //   );
     // }
-  } else {
-    allProjects = allProjects.filter(
-      (project) =>
-        project.approvalStatus === "pending" ||
-        project.approvalStatus === "in_review"
-    );
   }
-
+  else{
+    allProjects = allProjects.filter(project => project.approvalStatus === 'pending')
+  }
+  
   //   const formatNumber = (number) => {
   //     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   // }
@@ -316,13 +313,21 @@ export default function ProjectsTable({ status }) {
                   <MenuItem onClick={() => gotoProjectFile(row.value)}>
                     View Submission
                   </MenuItem>
+                  <MenuItem
+                    onClick={() =>
+                      approveProjectForCommencement(row.value, true)
+                    }
+                  >
+                    Approve Project
+                  </MenuItem>
                 </>
               )}
-              {row.cell.row.original.status === "approved" && (
-                <MenuItem onClick={() => openModal(row.value)}>
-                  Post Project
-                </MenuItem>
-              )}
+              {row.cell.row.original.approvalStatus === "approved" &&
+                row.cell.row.original.status !== "ongoing" && (
+                  <MenuItem onClick={() => openModal(row.value)}>
+                    Post Project
+                  </MenuItem>
+                )}
               {row.cell.row.original.approvalStatus === "in_review" &&
                 row.cell.row.original.status !== "ongoing" && (
                   <MenuItem

@@ -1,7 +1,8 @@
 import { Avatar } from '@material-tailwind/react';
 import React, { useEffect, useState } from 'react';
 import { BiCheckCircle } from 'react-icons/bi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMe } from '../../../../redux/actions/authAction';
 import { updateAccount, SuccessAlert } from '../../../../services/endpoint';
 import Spinner from '../../../layouts/Spinner';
 import { UserAvatar } from '../../assets/Avatar';
@@ -10,6 +11,7 @@ import { UserAvatar } from '../../assets/Avatar';
 
 const PersonalData = () => {
     const user = useSelector((state) => state.auth.user);
+    const dispatch = useDispatch();
     const [photo, setPhoto] = useState('');
     const [loading, setLoading] = useState(false);
     const [show, setShow] = useState(false);
@@ -59,6 +61,7 @@ const PersonalData = () => {
             }
             const result = await updateAccount(fd, config);
             if (result.success === true) {
+                dispatch(getMe())
                 setShow(true);
                 SuccessAlert("Account data update successfully!");
             }
