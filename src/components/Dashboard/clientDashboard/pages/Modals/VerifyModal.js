@@ -2,7 +2,7 @@ import { Button } from '@material-tailwind/react'
 import React from 'react'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
-import toaster from 'toasted-notes'
+import toast from 'react-hot-toast';
 import Axios from '../../../../../config/config'
 
 
@@ -51,16 +51,24 @@ export const VerifyModal = ({setVerify, client, reload}) => {
         } catch (error) {
           setLoading(false);
           if (error.response.data.message) {
-            toaster.notify(error.response.data.message, {
-              duration: "4000",
-              position: "bottom",
-            });
+            toast.error(
+              error.response.data.message,
+              {
+                duration: 6000,
+                position: "top-center",
+                style: { background: '#BD362F', color: 'white' },
+              }
+            );
             return;
           }
-          toaster.notify(error.message, {
-            duration: "4000",
-            position: "bottom",
-          });
+          toast.error(
+            error.message,
+            {
+              duration: 6000,
+              position: "top-center",
+              style: { background: '#BD362F', color: 'white' },
+            }
+          );
         }
       };
       if (loading){

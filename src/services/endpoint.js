@@ -1,7 +1,6 @@
 import Axios from "../config/config";
 import Swal from "sweetalert2";
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 // import { useNavigate } from 'react-router-dom';
 import  { Navigate } from 'react-router-dom'
 
@@ -17,11 +16,12 @@ export const updateAccount = async (payload, headers) => {
         const res = await Axios.patch(url, payload, headers);
         return res;
     } catch (error) {
-        toaster.notify(
+        toast.error(
             error.message,
             {
-                duration: "4000",
-                position: "bottom",
+                duration: 6000,
+                position: "top-center",
+                style: { background: '#BD362F', color: 'white' },
             }
         );
     }
@@ -34,11 +34,12 @@ export const updatePassword = async (payload) => {
         return res;
     } catch (error) {
         const errors = error.response.data.message;
-        toaster.notify(
+        toast.error(
             errors,
             {
-                duration: "4000",
-                position: "bottom",
+                duration: 6000,
+                position: "top-center",
+                style: { background: '#BD362F', color: 'white' },
             }
         );
     }
@@ -105,11 +106,12 @@ export const getBanks = async () => {
         return res;
     } catch (error) {
         const errors = error.response.data.message;
-        toaster.notify(
+        toast.error(
             errors,
             {
-                duration: "4000",
-                position: "bottom",
+                duration: 6000,
+                position: "top-center",
+                style: { background: '#BD362F', color: 'white' },
             }
         );
     }
@@ -122,11 +124,12 @@ export const markNotificationAsRead = async (id) => {
         return res;
     } catch (error) {
         const errors = error.response.data.message;
-        toaster.notify(
+        toast.error(
             errors,
             {
-                duration: "4000",
-                position: "bottom",
+                duration: 6000,
+                position: "top-center",
+                style: { background: '#BD362F', color: 'white' },
             }
         );
     }

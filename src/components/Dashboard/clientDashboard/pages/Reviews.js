@@ -2,8 +2,7 @@ import { Breadcrumbs } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Axios from "../../../../config/config";
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 import Spinner from "../../../layouts/Spinner";
 import ReviewItem from "./Review/ReviewItem";
 import { SuccessAlert } from "../../../../services/endpoint";
@@ -34,11 +33,12 @@ export default function Review() {
 
         } catch (error) {
             setLoading(false);
-            toaster.notify(
-                error?.response?.data?.message || error.message,
+            toast.error(
+                error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
@@ -68,11 +68,12 @@ export default function Review() {
 
         } catch (error) {
             setLoading(false);
-            toaster.notify(
-                error?.response?.data?.message || error.message,
+            toast.error(
+                error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
@@ -96,11 +97,12 @@ export default function Review() {
 
         } catch (error) {
             setLoading(false);
-            toaster.notify(
-                error?.response?.data?.message || error.message,
+            toast.error(
+                error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }

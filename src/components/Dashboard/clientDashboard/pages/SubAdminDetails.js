@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Axios from "../../../../config/config";
 import Spinner from "../../../layouts/Spinner";
-import toaster from "toasted-notes";
+import toast from 'react-hot-toast';
 
 
 export default function SubAdminDetails() {
@@ -61,11 +61,12 @@ export default function SubAdminDetails() {
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            toaster.notify(
+            toast.error(
                 error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
@@ -95,11 +96,12 @@ export default function SubAdminDetails() {
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            toaster.notify(
+            toast.error(
                 error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
@@ -124,11 +126,12 @@ export default function SubAdminDetails() {
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            toaster.notify(
+            toast.error(
                 error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }

@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { BiCheckCircle } from 'react-icons/bi';
 import { SuccessAlert } from '../../../../services/endpoint';
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 import SelectableItem from '../../../widgets/SelectableItem';
 import Spinner from '../../../layouts/Spinner';
 import Axios from '../../../../config/config';
@@ -46,11 +45,12 @@ const BankDetail = () => {
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            toaster.notify(
+            toast.error(
                 error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
@@ -73,21 +73,23 @@ const BankDetail = () => {
             setLoading(true)
             if (!account_name || !account_number) {
                 setLoading(false)
-                toaster.notify(
+                toast.error(
                     "Please fill all field",
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
                 return;
             } else if (!selectedBank) {
                 setLoading(false)
-                toaster.notify(
+                toast.error(
                     "Please select your bank",
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
                 return;
@@ -106,20 +108,22 @@ const BankDetail = () => {
         } catch (error) {
             setLoading(false);
             if (error.response.data.message) {
-                toaster.notify(
+                toast.error(
                     error.response.data.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
                 return;
             }
-            toaster.notify(
-                error.message,
+            toast.error(
+                error.response.data.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
