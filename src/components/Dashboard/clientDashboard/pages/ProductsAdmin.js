@@ -13,8 +13,11 @@ import { MdOutlineProductionQuantityLimits } from "react-icons/md"
 
 export default function ProductsAdmin() {
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
+    const stopLoading = () => setLoading(false);
     useEffect(() => {
-        dispatch(getAdminProducts());
+        setLoading(true);
+        dispatch(getAdminProducts(stopLoading));
         dispatch(getCategories());
     }, [dispatch])
 
@@ -24,6 +27,8 @@ export default function ProductsAdmin() {
     function CloseModal() {
         setAdminAdd(false)
     }
+
+    console.log(loading)
 
     return (
         <div className="">
@@ -67,16 +72,16 @@ export default function ProductsAdmin() {
                             </TabList>
                             <TabPanel>
                                 
-                                <ProductTable />
+                                <ProductTable loader={loading} />
                             </TabPanel> 
                             <TabPanel>
-                                <ProductTable status={"in_review"} />
+                                <ProductTable status={"in_review"} loader={loading} />
                             </TabPanel>
                             <TabPanel>
-                                <ProductTable status={"approved"} />
+                                <ProductTable status={"approved"} loader={loading} />
                             </TabPanel>
                             <TabPanel>
-                                <ProductTable status={"disapproved"} />
+                                <ProductTable status={"disapproved"} loader={loading} />
                             </TabPanel>
                         </Tabs>
                     </div>
