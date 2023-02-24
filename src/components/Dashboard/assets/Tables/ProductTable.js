@@ -21,6 +21,7 @@ import Papa from "papaparse";
 import * as XLSX from 'xlsx'
 import DeleteModal from "../../clientDashboard/pages/Product/Modals/DeleteModal";
 import AdminEditProduct from "../../clientDashboard/pages/Product/Modals/AdminEditProduct";
+import { Loader } from "../../../layouts/Spinner";
 
 
 
@@ -87,7 +88,7 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
 
 
 
-export default function ProductTable({ status }) {
+export default function ProductTable({ status, loader }) {
   let adminProducts = useSelector((state) => state.products.adminProducts);
   const [productDelete, setProductDelete] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -193,12 +194,17 @@ export default function ProductTable({ status }) {
 
 
   const data = useMemo(() => adminProducts, [adminProducts]);
-
+  console.log(loader)
   return (
     <>
 
       <div className="overflow-hidden px-4 bg-white py-8 rounded-md">
-        <Table columns={columns} data={data} className="" />
+        {loader ? (
+          <Loader />
+        ) 
+          : (
+            <Table columns={columns} data={data} className="" />  
+        )}
       </div>
       {productDelete && (
         <DeleteModal product={selectedProduct} CloseDelete={CloseDelete} isAdmin={true} />

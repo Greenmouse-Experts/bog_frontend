@@ -11,6 +11,9 @@ export const FinanceData = ({ handleOpen, tab }) => {
     const [isLoaded, setDataLoaded] = useState(false);
     const [feedback, setFeetback] = useState(false);
     const [banks, setBanks] = useState([]);
+    const [bankLoader, setVerifyLoader] = useState(false);
+    const [bankError, setBankError] = useState('');
+
     const [formData, setFormData] = useState({
         bank_name: "",
         account_name: "",
@@ -71,14 +74,50 @@ export const FinanceData = ({ handleOpen, tab }) => {
             }
         });
 
+        const authToken = localStorage.getItem("auth_token");
         const config = {
-            headers: {
-                Authorization: 'pk_test_0c79398dba746ce329d163885dd3fe5bc7e1f243'
+            headers:
+            {
+                "Content-Type": "application/json",
+                'Authorization': authToken
             }
-        };
+
+        }
+
+        const payload = {
+            account_number: newVal,
+            bank_code : bankCode
+        }
 
         if (variable === 'account_number') {
-            axios.get(`https://api.paystack.co/bank/resolve?account_number=${newVal}&bank_code=${bankCode}`, config);
+            setFormData({
+                bank_name: formData.bank_name,
+                account_name: '',
+                account_number: newVal,
+                account_type: formData.account_type,
+                overdraft_facility: formData.overdraft_facility,
+                banker_address: formData.banker_address,
+            });
+            setBankError('');
+
+            if (newVal.length === 10) {
+                setVerifyLoader(true);
+                axios.post(`https://bog.greenmouseproperties.com/api/bank/verify-account`, payload, config).then((response) => {
+                    setVerifyLoader(false);
+                    setBankError('');
+                    setFormData({
+                            bank_name: formData.bank_name,
+                            account_name: response.data.data.account_name,
+                            account_number: newVal,
+                            account_type: formData.account_type,
+                            overdraft_facility: formData.overdraft_facility,
+                            banker_address: formData.banker_address,
+                    })
+                }).catch((err) => {
+                    setVerifyLoader(false);
+                    setBankError(err.response.data.message)
+                })
+            }
         }
 
         setIsSaving(true)
@@ -87,17 +126,6 @@ export const FinanceData = ({ handleOpen, tab }) => {
     return (
         <div className='lg:px-4 scale-ani'>
             <div>
-                <label>Bank Account Holder Name</label>
-                <input
-                    name="account_name"
-                    id="account_name"
-                    value={formData.account_name}
-                    onChange={(e) => { updateValue(e.target.value, "account_name") }}
-                    type="text"
-                    className='w-full mt-2 p-2 border border-gray-400 rounded'
-                />
-            </div>
-            <div className='mt-3'>
                 <label>Bank Name</label>
                 <select
                     name="bank_name"
@@ -111,7 +139,7 @@ export const FinanceData = ({ handleOpen, tab }) => {
                     ))}
                     </select>
             </div>
-            <div className='mt-3'>
+            <div className='mt-5'>
                 <label>Bank Account Number</label>
                 <input
                     name="account_number"
@@ -122,7 +150,27 @@ export const FinanceData = ({ handleOpen, tab }) => {
                     className='w-full mt-2 p-2 border border-gray-400 rounded'
                 />
             </div>
-            <div className='mt-3'>
+            <div className='mt-5 mb-8'>
+                <label>Bank Account Holder Name</label>
+                <input
+                    name="account_name"
+                    id="account_name"
+                    value={formData.account_name}
+                    onChange={(e) => { updateValue(e.target.value, "account_name") }}
+                    type="text"
+                    disabled={true}
+                    className='w-full mt-2 p-2 border border-gray-400 rounded'
+                />
+                {bankLoader && (
+                    <span className='font-semibold italic text-xs mt-1' style={{ float: 'right', color: 'green' }}>Verifying account ...</span>
+                )}
+                {
+                    bankError !== '' && (
+                        <span className='font-semibold text-xs mt-1' style={{ float: 'right', color: 'red' }}>{ bankError }</span> 
+                    )
+                }
+            </div>
+            <div className='mt-5'>
                 <label>Name and address of banker(s) from whom references can be obtained, if necessary</label>
                 <textarea
                     name="banker_address"
@@ -132,7 +180,7 @@ export const FinanceData = ({ handleOpen, tab }) => {
                     className='w-full p-2 mt-2 border border-gray-400 rounded h-24'
                 />
             </div>
-            <div className='mt-3'>
+            <div className='mt-5'>
                 <label>Type of Account</label>
                 <div className='flex items-center mt-3'>
                     <input
@@ -155,7 +203,7 @@ export const FinanceData = ({ handleOpen, tab }) => {
                     />
                     <label>Savings Account</label>
                 </div>
-                <div className='mt-3'>
+                <div className='mt-5'>
                     <label>Level of current overdraft facility</label>
                     <input
                         name="overdraft_facility"

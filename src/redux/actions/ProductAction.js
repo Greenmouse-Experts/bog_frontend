@@ -265,7 +265,7 @@ export const getUserProducts = (category) => {
     }
 }
 
-export const getAdminProducts = (category) => {
+export const getAdminProducts = (stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -280,6 +280,7 @@ export const getAdminProducts = (category) => {
             dispatch(loading());
             const response = await axios.get('/product/admin/get-products', config);
             console.log(response);
+            stopLoading();
             dispatch(fetchAdminProduct(response.data))
         } catch (error) {
             console.log(error.message);
@@ -288,6 +289,7 @@ export const getAdminProducts = (category) => {
             }
             else {
                 dispatch(setError(error.message));
+                stopLoading();
                 toast.error(
                     error?.response?.data?.message || error.message,
                     {
