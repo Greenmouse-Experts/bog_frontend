@@ -1,7 +1,6 @@
 import * as ActionType from '../type';
 import axios from '../../config/config';
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 
 
@@ -61,11 +60,12 @@ export const getUsers = () => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "top",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -96,11 +96,12 @@ export const getAdmins = () => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -137,11 +138,12 @@ export const createAdmin = (payload, saveLoading) => {
             else {
                 dispatch(setError(error.message));
                 saveLoading();
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -172,11 +174,12 @@ export const revokeAdminAccess = (payload) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }

@@ -1,5 +1,4 @@
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 import Axios from '../../config/config';
 
 export const fetchAddresses = async (setLoading, setAddresses, user) => {
@@ -26,11 +25,12 @@ export const fetchAddresses = async (setLoading, setAddresses, user) => {
             window.location.href = '/';
         }
         else {
-            toaster.notify(
+            toast.error(
                 error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
@@ -60,11 +60,12 @@ export const fetchStateAddresses = async (setAddresses, user, state) => {
             window.location.href = '/';
         }
         else {
-            toaster.notify(
+            toast.error(
                 error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }

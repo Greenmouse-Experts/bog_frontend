@@ -1,7 +1,6 @@
 import * as ActionType from '../type';
 import axios from '../../config/config';
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 
 export const loading = () => {
     return {
@@ -66,11 +65,12 @@ export const fetchAllUserNotifications = (userId) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -100,11 +100,12 @@ export const fetchAllAdminNotifications = () => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -134,11 +135,12 @@ export const deleteAdminNotification = (id) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -168,11 +170,12 @@ export const deleteUserNotification = (id) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }

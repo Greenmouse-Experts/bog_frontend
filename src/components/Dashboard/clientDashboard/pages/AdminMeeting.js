@@ -17,7 +17,7 @@ import {
   } from "@material-tailwind/react";
 import SelectableItem from "../../../widgets/SelectableItem";
 import Axios from '../../../../config/config';
-import toaster from "toasted-notes";
+import toast from 'react-hot-toast';
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import Spinner from "../../../layouts/Spinner";
@@ -113,11 +113,12 @@ const AdminMeeting = () => {
                 status: "error",
                 icon: <FaTimes />
             })
-            toaster.notify(
+            toast.error(
                 error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }

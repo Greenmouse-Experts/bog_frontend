@@ -1,5 +1,4 @@
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 import Axios from '../../config/config';
 
 
@@ -30,11 +29,12 @@ export const fetchProjects = async (setprojects, setLoading) => {
             window.location.href = '/';
         }
         else {
-            toaster.notify(
+            toast.error(
                 error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
@@ -72,11 +72,12 @@ export const fetchMeetings = async (setLoading, setMeeting, user, isAdmin) => {
             window.location.href = '/';
         }
         else {
-            toaster.notify(
+            toast.error(
                 error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
