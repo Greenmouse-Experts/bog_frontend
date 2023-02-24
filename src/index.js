@@ -12,6 +12,7 @@ import TimeAgo from 'javascript-time-ago'
 import FetchMeIfAuthenticated from './hooks/useFetchMe';
 import FetchAdminNotification from './hooks/useFetchAdminNotification';
 import FetchUserNotification from './hooks/useFetchUserNotification';
+import { Toaster } from 'react-hot-toast';
 
 import en from 'javascript-time-ago/locale/en.json'
 import ru from 'javascript-time-ago/locale/ru.json'
@@ -32,6 +33,7 @@ const app = (
       <ThemeProvider>
         <ErrorBoundary>
           <App />
+          <Toaster />
         </ErrorBoundary>
       </ThemeProvider>
       {/* </React.StrictMode> */}

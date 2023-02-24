@@ -1,8 +1,7 @@
 import * as ActionType from '../type';
 import axios from '../../config/config';
 import Swal from "sweetalert2";
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 
 
 export const loading = () => {
@@ -139,11 +138,12 @@ export const getProducts = () => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
-                    error.message,
+                toast.error(
+                    error?.response?.data?.message || error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -175,11 +175,12 @@ export const getCategories = () => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
-                    error.message,
+                toast.error(
+                    error?.response?.data?.message || error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -212,11 +213,12 @@ export const getSimilarProduct = (category) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
-                    error.message,
+                toast.error(
+                    error?.response?.data?.message || error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -249,11 +251,12 @@ export const getUserProducts = (category) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
-                    error.message,
+                toast.error(
+                    error?.response?.data?.message || error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -285,11 +288,12 @@ export const getAdminProducts = (category) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
-                    error.message,
+                toast.error(
+                    error?.response?.data?.message || error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -330,11 +334,12 @@ export const removeProduct = (productId, saveLoading, isAdmin) => {
             else {
                 dispatch(setError(error.message));
                 saveLoading();
-                toaster.notify(
+                toast.error(
                     error?.response?.data?.message || error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -375,11 +380,12 @@ export const createProduct = (payload, saveLoading) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error?.response?.data?.message || error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -413,11 +419,12 @@ export const removeCategory = (categoryId, saveLoading) => {
             else {
                 dispatch(setError(error.message));
                 saveLoading();
-                toaster.notify(
+                toast.error(
                     error?.response?.data?.message || error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -455,11 +462,12 @@ export const updateCategory = (payload, saveLoading, categoryId) => {
             else {
                 dispatch(setError(error.message));
                 saveLoading();
-                toaster.notify(
+                toast.error(
                     error?.response?.data?.message || error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -494,11 +502,12 @@ export const createCategory = (payload, saveLoading) => {
             else {
                 dispatch(setError(error.message));
                 saveLoading();
-                toaster.notify(
+                toast.error(
                     error?.response?.data?.message || error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -537,11 +546,12 @@ export const updateProduct = (payload, productId, saveLoading) => {
             else {
                 dispatch(setError(error.message));
                 saveLoading();
-                toaster.notify(
+                toast.error(
                     error?.response?.data?.message || error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -579,11 +589,12 @@ export const addProductToStore = (productId, saveLoading) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error?.response?.data?.message || error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -616,11 +627,12 @@ export const ApproveProduct = (payload, saveLoading) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error?.response?.data?.message || error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }

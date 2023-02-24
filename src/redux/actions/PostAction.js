@@ -1,9 +1,7 @@
 import * as ActionType from '../type';
 import axios from '../../config/config';
 import Swal from "sweetalert2";
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
-
+import toast from 'react-hot-toast';
 
 export const loading = () => {
     return {
@@ -72,11 +70,12 @@ export const getAllBlogCategories = () => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -104,11 +103,12 @@ export const  getAllBlogPosts = () => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -142,11 +142,12 @@ export const deleteBlogPost = (id) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -184,11 +185,12 @@ export const createBlogPost = (payload, saveLoading, navigate) => {
             else {
                 dispatch(setError(error.message));
                 saveLoading();
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -226,11 +228,12 @@ export const updateBlogPost = (payload, saveLoading, navigate) => {
             else {
                 dispatch(setError(error.message));
                 saveLoading();
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }

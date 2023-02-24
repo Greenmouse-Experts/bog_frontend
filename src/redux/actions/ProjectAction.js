@@ -1,8 +1,7 @@
 import * as ActionType from '../type';
 import axios from '../../config/config';
 import Swal from "sweetalert2";
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 
 export const loading = () => {
     return {
@@ -123,11 +122,12 @@ export const getDeliveryAddresses = () => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -159,11 +159,12 @@ export const getMyProject = (userType, navigate) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -192,11 +193,12 @@ export const fetchServiceCategories = () => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -232,11 +234,12 @@ export const deleteServiceCategory = (id) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -271,11 +274,12 @@ export const createServiceCategory = (payload, saveLoading) => {
             else {
                 dispatch(setError(error.message));
                 saveLoading();
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -313,11 +317,12 @@ export const updateServiceCategory = (payload, saveLoading) => {
             else {
                 dispatch(setError(error.message));
                 saveLoading();
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -347,11 +352,12 @@ export const getProjects = () => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -392,11 +398,12 @@ export const commenceProject = (projectId) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -437,11 +444,12 @@ export const approveProjectToStart = (payload) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -471,11 +479,12 @@ export const getDispatchedProjects = (userId) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -505,11 +514,12 @@ export const getServicePartnerProjects = (userId) => {
             }
             else {
                 dispatch(setError(error.message));
-                toaster.notify(
+                toast.error(
                     error.message,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -549,11 +559,12 @@ export const DispatchProject = ({projectId, score}) => {
             }
             else {
                 dispatch(setError(errorMsg));
-                toaster.notify(
+                toast.error(
                     errorMsg,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -591,11 +602,12 @@ export const bidForProject = (payload, saveLoading) => {
             else {
                 dispatch(setError(errorMsg));
                 saveLoading()
-                toaster.notify(
-                    errorMsg,
+                toast.error(
+                    error.Msg,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -634,11 +646,12 @@ export const assignProjectToPartner = (payload, saveLoading) => {
             else {
                 dispatch(setError(errorMsg));
                 saveLoading()
-                toaster.notify(
+                toast.error(
                     errorMsg,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }
@@ -675,11 +688,12 @@ export const deleteUserProject = (id) => {
             }
             else {
                 dispatch(setError(errorMsg));
-                toaster.notify(
+                toast.error(
                     errorMsg,
                     {
-                        duration: "4000",
-                        position: "bottom",
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
                     }
                 );
             }

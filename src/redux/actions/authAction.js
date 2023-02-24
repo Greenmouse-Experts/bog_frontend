@@ -1,8 +1,7 @@
 import * as ActionType from '../type';
 import axios from '../../config/config';
 import Swal from "sweetalert2";
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 // import setAuthToken from '../../config/setAuthHeader';
 import { setAlert } from './alert';
 
@@ -88,11 +87,12 @@ export const loginUser = (apiData, navigate, stopLoading) => {
             stopLoading();
             dispatch(setError(errors));
             dispatch(setAlert(errors, "danger"))
-            toaster.notify(
+            toast.error(
                 errors,
                 {
-                    duration: "4000",
-                    position: "top",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
@@ -126,11 +126,12 @@ export const loginAdmin = (apiData, navigate, stopLoading) => {
             stopLoading();
             dispatch(setError(errors));
             dispatch(setAlert(errors, "danger"))
-            toaster.notify(
+            toast.error(
                 errors,
                 {
-                    duration: "4000",
-                    position: "top",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color : 'white'},
                 }
             );
         }
@@ -159,13 +160,12 @@ export const register = (apiData, navigate, stopLoading) => {
             dispatch(setError(errors));
             dispatch(setAlert(errors, "danger"))
             stopLoading();
-            console.log(errors);
-
-            toaster.notify(
+            toast.error(
                 errors,
                 {
-                    duration: "4000",
-                    position: "top",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
