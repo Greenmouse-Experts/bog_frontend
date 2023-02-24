@@ -21,7 +21,7 @@ import Papa from "papaparse";
 import * as XLSX from 'xlsx'
 import DeleteModal from "../../clientDashboard/pages/Product/Modals/DeleteModal";
 import AdminEditProduct from "../../clientDashboard/pages/Product/Modals/AdminEditProduct";
-import { Spinner2 } from "../../../layouts/Spinner";
+import { Loader } from "../../../layouts/Spinner";
 
 
 
@@ -200,7 +200,7 @@ export default function ProductTable({ status, loader }) {
 
       <div className="overflow-hidden px-4 bg-white py-8 rounded-md">
         {loader ? (
-          <Spinner2 />
+          <Loader />
         ) 
           : (
             <Table columns={columns} data={data} className="" />  
