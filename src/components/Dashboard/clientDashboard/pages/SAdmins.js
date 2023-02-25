@@ -2,18 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Breadcrumbs } from "@material-tailwind/react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getAdmins } from "../../../../redux/actions/UserAction";
 import AddAdminModal from "./Admins/Modals/AddAdminModal";
 import { SubAdminTable } from "../../assets/Tables/SubAdminTable";
-import { Spinner2 } from "../../../layouts/Spinner";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
 
 export default function Sadmins() {
     const dispatch = useDispatch();
-    const { admins } = useSelector((state) => state.users);
-    const isLoading = useSelector((state) => state.users.isLoading)
-    console.log(admins);
+    const [loading, setLoading] = useState(false);
+    const stopLoading = () => setLoading(false);
 
     const [adminAdd, setAdminAdd] = useState(false);
 
@@ -22,7 +20,8 @@ export default function Sadmins() {
     }
 
     useEffect(() => {
-        dispatch(getAdmins());
+        setLoading(true);
+        dispatch(getAdmins(stopLoading));
     }, [dispatch])
 
 
@@ -66,7 +65,7 @@ export default function Sadmins() {
                                 <Tab>All Sub-Admins</Tab>
                             </TabList>
                             <TabPanel>
-                                {isLoading === true? <Spinner2/> : <SubAdminTable/>}
+                                <SubAdminTable loader={loading} />
                             </TabPanel>
                         </Tabs>
                     </div>

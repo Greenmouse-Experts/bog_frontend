@@ -41,7 +41,7 @@ export const fetchProjects = async (setprojects, setLoading) => {
     }
 }
 
-export const fetchMeetings = async (setLoading, setMeeting, user, isAdmin) => {
+export const fetchMeetings = async (setLoading, setMeeting, user, stopLoading, isAdmin) => {
     try {
         setLoading(true);
         const authToken = localStorage.getItem("auth_token");
@@ -66,12 +66,14 @@ export const fetchMeetings = async (setLoading, setMeeting, user, isAdmin) => {
         console.log(results)
         setMeeting(results);
         setLoading(false);
+        stopLoading();
     } catch (error) {
         setLoading(false);
         if (error.message === 'Request failed with status code 401') {
             window.location.href = '/';
         }
         else {
+            stopLoading();
             toast.error(
                 error.message,
                 {

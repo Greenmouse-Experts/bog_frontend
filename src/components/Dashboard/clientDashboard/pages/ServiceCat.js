@@ -8,17 +8,21 @@ import { MdOutlineEngineering } from "react-icons/md";
 import { ServiceCategoryTable } from "../../assets/Tables/ServiceCatTable";
 import { useEffect } from "react";
 import { getAllServiceCategories } from "../../../../redux/actions/ServiceCategoryAction";
+import { Loader } from "../../../layouts/Spinner";
 
 export default function ServiceCategory() {
     const dispatch = useDispatch();
 
     const [adminAdd, setAdminAdd] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const stopLoading = () => setLoading(false);
 
     const categories = useSelector((state) => state.service.services);
 
     useEffect(() => {
-        dispatch(getAllServiceCategories())
+        setLoading(true);
+        dispatch(getAllServiceCategories(stopLoading))
     }, [dispatch]);
 
     const openEditModal = (item) => {
@@ -65,7 +69,10 @@ export default function ServiceCategory() {
                 <div className="lg:p-5 px-2 py-4">
                     <div className="bg-white lg:p-5 lg:mt-6 mt-6 rounded-lg">
                         <div className="">
-                            {categories.length > 0 ? <ServiceCategoryTable adminEdit={openEditModal} /> : <center><h5>No Categories added. Add new ones</h5></center>}
+                            {
+                                loading ? <Loader size /> :
+                                    categories.length > 0 ? <ServiceCategoryTable adminEdit={openEditModal} /> : <center><h5>No Categories added. Add new ones</h5></center>
+                            }
                         </div>
                     </div>
                 </div>

@@ -39,7 +39,7 @@ export const setError = (payload) => {
     }
 }
 
-export const getUsers = () => {
+export const getUsers = (stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -52,9 +52,11 @@ export const getUsers = () => {
 
             }
             const response = await axios.get('/all/users', config);
+            stopLoading();
             dispatch(fetchUsers(response.users))
         } catch (error) {
             console.log(error.message);
+            stopLoading();
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -75,7 +77,7 @@ export const getUsers = () => {
 }
 
 
-export const getAdmins = () => {
+export const getAdmins = (stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -88,6 +90,7 @@ export const getAdmins = () => {
 
             }
             const response = await axios.get('/all/admin', config);
+            stopLoading();
             dispatch(fetchAdmin(response.users))
         } catch (error) {
             console.log(error.message);
@@ -95,6 +98,7 @@ export const getAdmins = () => {
                 window.location.href = '/';
             }
             else {
+                stopLoading();
                 dispatch(setError(error.message));
                 toast.error(
                     error.message,

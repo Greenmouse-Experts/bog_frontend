@@ -5,16 +5,16 @@ import { BiEdit } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
 import useFetchHook from "../../../../hooks/useFetchHook";
 import { formatNumber, getProjectCategory, getUserType } from "../../../../services/helper";
-import Spinner from "../../../layouts/Spinner";
+import { Loader } from "../../../layouts/Spinner";
 
 export default function ProjectDetails() {
     const { search } = useLocation();
     const projectId = new URLSearchParams(search).get("projectId");
-    const { loading, data: project} = useFetchHook(`/projects/view-project/${projectId}`)
+    const { loading, data: project} = useFetchHook(`/projects/v2/view-project/${projectId}`)
     
     if (loading) {
         return (
-            <center><Spinner /></center>
+            <center><Loader /></center>
         )
     }
     console.log({project});

@@ -8,13 +8,17 @@ import Swal from "sweetalert2";
 import { BiMessageRoundedDetail} from "react-icons/bi";
 import { MessageModal } from "../Users/MessageModal";
 import { MessageTable } from "../../../assets/Tables/MessageTable";
+import { Loader } from "../../../../layouts/Spinner";
 
 export default function AdminInbox() {
     const dispatch = useDispatch();
     const [message, setMessage] = useState(false);
     const [view, setView] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState();
     const announcements = useSelector((state) => state.announcements.announcements);
+
+    const stopLoading = () => setLoading(false);
 
     const closeModal = () => {
         setMessage(false)
@@ -31,7 +35,8 @@ export default function AdminInbox() {
     }
 
     useEffect(() => {
-        dispatch(getAllAnnouncements())
+        setLoading(true)
+        dispatch(getAllAnnouncements(stopLoading))
     }, [dispatch]);
 
 
@@ -87,7 +92,9 @@ export default function AdminInbox() {
                 {/* content */}
                 <div className="lg:p-5 px-3 py-5 mt-6">
                     <div className="p-6 bg-white rounded-lg">
-                        { announcements.length > 0 ? <MessageTable openModal={openViewModal} deleteMsg={deleteMessage}/> : <p className="text-center my-10">No content yet</p>}
+                        {
+                            loading ? <Loader size /> :
+                                announcements.length > 0 ? <MessageTable openModal={openViewModal} deleteMsg={deleteMessage} /> : <p className="text-center my-10">No content yet</p>}
                     </div>
                 </div>
             </div>

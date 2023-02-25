@@ -52,7 +52,7 @@ export const editCategory = (payload) => {
 }
 
 
-export const getAllServiceCategories = () => {
+export const getAllServiceCategories = (stopLoading) => {
     return async (dispatch) => {
         try {
             dispatch(loading());
@@ -63,6 +63,7 @@ export const getAllServiceCategories = () => {
                 },
             }
             const response = await axios.get('/services/all', config);
+            stopLoading();
             dispatch(fetchCategory(response.data))
         } catch (error) {
             console.log(error.message);
@@ -70,6 +71,7 @@ export const getAllServiceCategories = () => {
                 window.location.href = '/';
             }
             else {
+                stopLoading();
                 dispatch(setError(error.message));
                 toast.error(
                     error.message,
