@@ -16,7 +16,7 @@ import {
   Button,
 } from "@material-tailwind/react";
 import Axios from "../../../../config/config";
-import toaster from "toasted-notes";
+import toast from 'react-hot-toast';
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import Spinner from "../../../layouts/Spinner";
@@ -110,10 +110,14 @@ const DeliveryAddresses = () => {
         status: "error",
         icon: <FaTimes />,
       });
-      toaster.notify(error.message, {
-        duration: "4000",
-        position: "bottom",
-      });
+      toast.error(
+        error.message,
+        {
+          duration: 6000,
+          position: "top-center",
+          style: { background: '#BD362F', color: 'white' },
+        }
+      );
     }
   };
   const formik = useFormik({

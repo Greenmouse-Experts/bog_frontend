@@ -11,8 +11,7 @@ import PostImageItem from "./PostImageItem";
 import { capitalizeFirstLetter } from "../../../../../services/helper";
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
+import toast from 'react-hot-toast';
 
 export default function EditPost() {
     const navigate = useNavigate();
@@ -138,11 +137,12 @@ export default function EditPost() {
             }
         } catch (error) {
             setLoading(false);
-            toaster.notify(
+            toast.error(
                 error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }

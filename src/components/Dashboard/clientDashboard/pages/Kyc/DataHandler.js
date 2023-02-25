@@ -1,6 +1,6 @@
 import { BsCheck } from "react-icons/bs";
 import { FaTimes } from "react-icons/fa";
-import toaster from "toasted-notes";
+import toast from 'react-hot-toast';
 import Axios from "../../../../../config/config";
 
 export const saveData = async ({url, setLoading, formData, user, setFormData, setFeetback, setData, hasFile}) => {
@@ -51,11 +51,12 @@ export const saveData = async ({url, setLoading, formData, user, setFormData, se
             status: "error",
             icon: <FaTimes />
         })
-        toaster.notify(
+        toast.error(
             error.message,
             {
-                duration: "4000",
-                position: "bottom",
+                duration: 6000,
+                position: "top-center",
+                style: { background: '#BD362F', color: 'white' },
             }
         );
     }
@@ -88,11 +89,12 @@ export const hasFileDelete = async ({url, id, user, setLoading, setData, setFeet
             status: "error",
             icon: <FaTimes />
         })
-        toaster.notify(
+        toast.error(
             error.message,
             {
-                duration: "4000",
-                position: "bottom",
+                duration: 6000,
+                position: "top-center",
+                style: { background: '#BD362F', color: 'white' },
             }
         );
     }

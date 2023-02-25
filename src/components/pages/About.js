@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import Axios from "../../config/config";
-import toaster from "toasted-notes";
+import toast from 'react-hot-toast';
 import { Link } from "react-router-dom";
 import { AboutSlides, AboutSlides2, AboutSlidesSm, ReviewSlideSm } from "./home-comp/AboutSlides";
 import Footer from "./home-comp/Footer";
@@ -25,11 +25,12 @@ export default function About() {
 
         } catch (error) {
             setLoading(false);
-            toaster.notify(
+            toast.error(
                 error?.response?.data?.message || error.message,
                 {
-                    duration: "4000",
-                    position: "bottom",
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
                 }
             );
         }
