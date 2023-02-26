@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import { DownloadTableExcel } from "react-export-table-to-excel";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,12 +8,12 @@ import { Breadcrumbs} from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 // import { HiOutlineDocumentDownload } from "react-icons/hi";
 // import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { getAdminOrders } from '../../../../redux/actions/OrderAction';
 import { useDispatch } from "react-redux";
 import OrderTable from "../../assets/Tables/OrderTable";
 
 export default function OrdersAdmin() {
+    const [loading, setLoading] = useState(false);
     //   const formatNumber = (number) => {
     //     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     // }
@@ -34,11 +34,9 @@ export default function OrdersAdmin() {
     //     }
 
     // }
-    let adminOrders = useSelector((state) => state.orders.adminOrders);
     //  if (status) {
     //     adminOrders = adminOrders.filter(where => where.status === status)
     //  }
-    console.log(adminOrders);
     // console.log(`====== ${adminOrders}`);
     //   const dispatch = useDispatch();
 
@@ -49,8 +47,11 @@ export default function OrdersAdmin() {
     // const products = useRef(null);
     // const navigate = useNavigate()
     const dispatch = useDispatch();
+    const stopLoading = () => setLoading(false);
+
     useEffect(() => {
-        dispatch(getAdminOrders());
+        setLoading(true);
+        dispatch(getAdminOrders(stopLoading));
         // dispatch(getCategories());
     }, [dispatch])
   
@@ -93,16 +94,16 @@ export default function OrdersAdmin() {
                                 <Tab>Cancelled</Tab>
                             </TabList>
                             <TabPanel>
-                                 <OrderTable />
+                                 <OrderTable loader={loading} />
                             </TabPanel>
                              <TabPanel>
-                                <OrderTable status={"in_review"} />
+                                <OrderTable status={"in_review"} loader={loading} />
                             </TabPanel>
                             <TabPanel>
-                                <OrderTable status={"approved"} />
+                                <OrderTable status={"approved"} loader={loading} />
                             </TabPanel>
                             <TabPanel>
-                                <OrderTable status={"disapproved"} />
+                                <OrderTable status={"disapproved"} loader={loading} />
                             </TabPanel>
                             
                         </Tabs>

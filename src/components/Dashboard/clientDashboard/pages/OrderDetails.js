@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import Axios from "../../../../config/config";
-import Spinner from "../../../layouts/Spinner";
+import { Loader } from "../../../layouts/Spinner";
 import ItemList from "./Order/ItemList";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import ReactStars from "react-rating-stars-component";
@@ -116,7 +116,7 @@ export default function OrderDetails() {
   if (loading || !order) {
     return (
       <center>
-        <Spinner />
+        <Loader />
       </center>
     );
   }

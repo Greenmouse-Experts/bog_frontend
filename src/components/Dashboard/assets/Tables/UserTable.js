@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react'
+import { useSelector } from 'react-redux';
 // import Spinner from '../../../layouts/Spinner';
-import { getUsers } from '../../../../redux/actions/UserAction';
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight, FaFileDownload } from "react-icons/fa";
@@ -21,6 +20,7 @@ import "jspdf-autotable";
 import { useExportData } from "react-table-plugins";
 import Papa from "papaparse";
 import * as XLSX from 'xlsx'
+import { Loader } from '../../../layouts/Spinner';
 
 
 // export table files
@@ -83,16 +83,7 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
 }
 
 
-export function UsersTable({ status, userType }) {
-
-  const dispatch = useDispatch()
-  // const isLoading = useSelector((state) => state.users.isLoading);
-
-  useEffect(() => {
-
-    dispatch(getUsers())
-
-  }, [dispatch])
+export function UsersTable({ status, userType, loader }) {
 
   let userDatas = useSelector((state) => state.users.users);
   let users = userDatas?.map(data => data.user)
@@ -156,8 +147,8 @@ export function UsersTable({ status, userType }) {
         Header: "Provider",
         accessor: "ServiceTypeId",
         Cell: (props) => {
-          const {service_category} = props.cell.row.original.profile;
-          
+          const { service_category } = props.cell.row.original.profile ? props.cell.row.original.profile :  'N/A';
+                    
           return typeof service_category !== 'undefined' && service_category !== null ? service_category.title : 'N/A'
         }
         
@@ -193,7 +184,14 @@ export function UsersTable({ status, userType }) {
   return (
     <>
       <div className="overflow-hidden px-4 bg-white py-8 rounded-md">
-        <Table columns={columns} data={data} className="" />
+        {loader ? (
+          <Loader size={true} />
+        )
+          : (
+            <Table columns={columns} data={data} className="" />
+          )
+        }
+
       </div>
     </>
   );

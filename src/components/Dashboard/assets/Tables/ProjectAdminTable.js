@@ -44,6 +44,7 @@ import {
   DispatchProject,
 } from "../../../../redux/actions/ProjectAction";
 import DispatchProjectModal from "../../clientDashboard/pages/Modals/DispatchProject";
+import { Loader } from "../../../layouts/Spinner";
 
 // export table files
 
@@ -104,7 +105,7 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export default function ProjectsTable({ status }) {
+export default function ProjectsTable({ status, loader }) {
   // let   allProjects = useSelector((state) => state.orders.  allProjects);
   let allProjects = useSelector((state) => state.allprojects.projects);
   const [open, setOpen] = useState(false);
@@ -375,7 +376,9 @@ export default function ProjectsTable({ status }) {
         />
       )}
       <div className="overflow-hidden px-4 bg-white py-8 rounded-md">
-        <Table columns={columns} data={data} className="" />
+        {loader ? <Loader size /> :
+          <Table columns={columns} data={data} className="" />
+        }
       </div>
     </>
   );

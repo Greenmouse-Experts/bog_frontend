@@ -38,7 +38,7 @@ export const addAnnouncement = (payload) => {
 }
 
 
-export const  getAllAnnouncements = () => {
+export const  getAllAnnouncements = (stopLoading) => {
     return async (dispatch) => {
         try {
             dispatch(loading());
@@ -49,6 +49,7 @@ export const  getAllAnnouncements = () => {
                 },
             }
             const response = await axios.get('/announcements/all', config);
+            stopLoading();
             dispatch(fetchAnnouncement(response.data))
         } catch (error) {
             console.log(error.message);
@@ -56,6 +57,7 @@ export const  getAllAnnouncements = () => {
                 window.location.href = '/';
             }
             else {
+                stopLoading();
                 dispatch(setError(error.message));
                 toast.error(
                     error.message,

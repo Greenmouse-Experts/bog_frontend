@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Axios from "../../../../config/config";
-import Spinner from "../../../layouts/Spinner";
+import { Loader } from "../../../layouts/Spinner";
 import dayjs from 'dayjs';
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
@@ -42,7 +42,7 @@ export default function ProductDetailsAdmin() {
     }
 
     if (loading) {
-        return <center><Spinner /></center>
+        return <center><Loader /></center>
     }
 
     const approveProduct = () => {
@@ -140,7 +140,7 @@ export default function ProductDetailsAdmin() {
                                     </div>
                                     <div className="mt-5">
                                         <label className="block fw-500">Product Category</label>
-                                        <input type="text" value={product?.category.name} className="w-full  border border-gray-400 rounded mt-2 py-2 px-2" required />
+                                        <input type="text" value={product.category ? product?.category.name : ''} className="w-full  border border-gray-400 rounded mt-2 py-2 px-2" required />
                                     </div>
                                     <div className="mt-5">
                                         <label className="block fw-500">Date Posted</label>

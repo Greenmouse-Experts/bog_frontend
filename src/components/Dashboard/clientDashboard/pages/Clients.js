@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { Link } from "react-router-dom";
 import {  UsersTable } from "../../assets/Tables/UserTable";
 import { Breadcrumbs } from "@material-tailwind/react";
 import { ClientTable } from "../../assets/Tables/clientTable";
-import { Spinner2 } from "../../../layouts/Spinner";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getUsers } from "../../../../redux/actions/UserAction";
 
 export default function Clients() {
 
-    const isLoading = useSelector((state) => state.users.isLoading)
+    const dispatch = useDispatch()
+    // const isLoading = useSelector((state) => state.users.isLoading);
+    const [loading, setLoading] = useState(false);
+    const stopLoading = () => setLoading(false);
+
+    useEffect(() => {
+        setLoading(true);
+        dispatch(getUsers(stopLoading))
+    }, [dispatch]) 
 
     return (
         <div>
@@ -48,13 +56,13 @@ export default function Clients() {
                             <Tab>Corporate</Tab>
                         </TabList>
                         <TabPanel>
-                            {isLoading === false? <ClientTable /> : <Spinner2/>}
+                              <ClientTable loader={loading} />
                         </TabPanel>
                         <TabPanel>
-                            <UsersTable userType={"private_client"}/>
+                                <UsersTable userType={"private_client"} loader={loading} />
                         </TabPanel>
                         <TabPanel>
-                            <UsersTable userType={"corporate_client"}/>
+                                <UsersTable userType={"corporate_client"} loader={loading} />
                         </TabPanel>
                         </Tabs>
                     </div>

@@ -12,12 +12,16 @@ import CreateCategoryProject from "./projects/Modal/CreateCategory";
 import CategoryItem from "./projects/CategoryItem";
 import ViewService from "./projects/Modal/ViewService";
 import { getAllServiceCategories } from "../../../../redux/actions/ServiceCategoryAction";
+import { Loader } from "../../../layouts/Spinner";
 
 export default function ProjectCategory() {
     const dispatch = useDispatch();
     const products = useRef(null);
     const [openViewModal, setOpenViewModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const stopLoading = () => setLoading(false);
+
     const handleViewOpen = (data) => {
         setSelectedItem(data);
         setOpenViewModal(true)
@@ -40,8 +44,9 @@ export default function ProjectCategory() {
     }
 
     useEffect(() => {
-        dispatch(getAllServiceCategories())
-        dispatch(fetchServiceCategories()); // eslint-disable-next-line 
+        setLoading(true);
+        dispatch(getAllServiceCategories(stopLoading))
+        dispatch(fetchServiceCategories(stopLoading)); // eslint-disable-next-line 
     }, [dispatch]);
 
     return (
@@ -77,73 +82,75 @@ export default function ProjectCategory() {
                 {/* product contents */}
                 <div className="lg:p-5 px-2 py-4">
                     <div className="bg-white lg:p-5 lg:mt-6 mt-6 rounded-lg">
-                        <Tabs className="px-2 lg:px-0 py-5 lg:py-0">
-                            <TabList className="">
-                                <Tab>Service Category</Tab>
-                            </TabList>
-                            <TabPanel>
-                                <div className="mt-10">
-                                    <div className="flex items-center">
-                                        <div class="flex text-gray-600">
-                                            <input
-                                                className="border-2 border-gray-300 bg-white h-10 px-5 lg:pr-5 rounded-l-lg text-sm focus:outline-none"
-                                                type="search"
-                                                name="search order by name"
-                                                placeholder="Search"
-                                            />
-                                            <button
-                                                type="submit"
-                                                className=" bg-primary right-0 top-0 py-2 px-4 rounded-r-lg"
+                        {loading ? <Loader size /> :
+                            <Tabs className="px-2 lg:px-0 py-5 lg:py-0">
+                                <TabList className="">
+                                    <Tab>Service Category</Tab>
+                                </TabList>
+                                <TabPanel>
+                                    <div className="mt-10">
+                                        <div className="flex items-center">
+                                            <div class="flex text-gray-600">
+                                                <input
+                                                    className="border-2 border-gray-300 bg-white h-10 px-5 lg:pr-5 rounded-l-lg text-sm focus:outline-none"
+                                                    type="search"
+                                                    name="search order by name"
+                                                    placeholder="Search"
+                                                />
+                                                <button
+                                                    type="submit"
+                                                    className=" bg-primary right-0 top-0 py-2 px-4 rounded-r-lg"
+                                                >
+                                                    <FontAwesomeIcon icon={faSearch} className="text-white" />
+                                                </button>
+                                            </div>
+                                            <DownloadTableExcel
+                                                filename="All product partners"
+                                                sheet="users"
+                                                currentTableRef={products.current}
                                             >
-                                                <FontAwesomeIcon icon={faSearch} className="text-white" />
-                                            </button>
+                                                <button className="bg-light mx-4 p-2 text-2xl text-primary"><HiOutlineDocumentDownload className="text-primary" /> </button>
+                                            </DownloadTableExcel>
                                         </div>
-                                        <DownloadTableExcel
-                                            filename="All product partners"
-                                            sheet="users"
-                                            currentTableRef={products.current}
-                                        >
-                                            <button className="bg-light mx-4 p-2 text-2xl text-primary"><HiOutlineDocumentDownload className="text-primary" /> </button>
-                                        </DownloadTableExcel>
                                     </div>
-                                </div>
-                                <div className="overflow-x-auto mt-6">
-                                    <table className="items-center w-full bg-transparent border-collapse" ref={products}>
-                                        <tbody>
-                                            <tr className="thead-light bg-light">
-                                                <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                                                    S/N
-                                                </th>
-                                                <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                                                    Service Provider
-                                                </th>
-                                                <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                                                    Service Name
-                                                </th>
-                                                <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                                                    Project Slug
-                                                </th>
+                                    <div className="overflow-x-auto mt-6">
+                                        <table className="items-center w-full bg-transparent border-collapse" ref={products}>
+                                            <tbody>
+                                                <tr className="thead-light bg-light">
+                                                    <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                                                        S/N
+                                                    </th>
+                                                    <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                                                        Service Provider
+                                                    </th>
+                                                    <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                                                        Service Name
+                                                    </th>
+                                                    <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                                                        Project Slug
+                                                    </th>
 
-                                                <th className="px-2 fw-600 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                                                    Action
-                                                </th>
-                                            </tr>
-                                            {
-                                                categories.length > 0 ? categories.map((category, index) => (
-                                                    <CategoryItem 
-                                                    item={category} 
-                                                    key={category.id} 
-                                                    sn={index + 1} 
-                                                    handleViewOpen={handleViewOpen}
-                                                    openEdit={openEdit}
-                                                    />
-                                                )) : <center><h5>No Service Type added. Add new ones</h5></center>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </TabPanel>
-                        </Tabs>
+                                                    <th className="px-2 fw-600 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                                                        Action
+                                                    </th>
+                                                </tr>
+                                                {
+                                                    categories.length > 0 ? categories.map((category, index) => (
+                                                        <CategoryItem
+                                                            item={category}
+                                                            key={category.id}
+                                                            sn={index + 1}
+                                                            handleViewOpen={handleViewOpen}
+                                                            openEdit={openEdit}
+                                                        />
+                                                    )) : <center><h5>No Service Type added. Add new ones</h5></center>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </TabPanel>
+                            </Tabs>
+                        }
                     </div>
                 </div>
             </div>

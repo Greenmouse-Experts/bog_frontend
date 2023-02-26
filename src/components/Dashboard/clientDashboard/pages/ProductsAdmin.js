@@ -28,8 +28,6 @@ export default function ProductsAdmin() {
         setAdminAdd(false)
     }
 
-    console.log(loading)
-
     return (
         <div className="">
             <div className="min-h-screen fs-500 relative">

@@ -27,16 +27,14 @@ export const Spinner2 = () => {
   )
 }
 
-export const Loader = () => {
+export const Loader = ({size}) => {
   return (
-    <div className="loading-screen h-full">
-      <div className="loading-animation">
-        <img
-          className="text-flame logo lg:w-40"
-          src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1669563824/BOG/logo_1_1_ubgtnr.png"
-          alt="Logo"
-      />
-        <div className="loading-bar" />
+    <div className="loading-screen h-full flex justify-center" style={{minHeight : size ? '30vh' : '75vh'}}>
+      <div className="wrapper flex relative" style={{top : size ? '15vh' : '35vh'}}>
+        <span className="dot"></span>
+        <span className="dot"></span>
+        <span className="dot"></span>
+        <span className="dot"></span>
       </div>
     </div>
   )

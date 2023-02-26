@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // import { BsThreeDotsVertical } from "react-icons/bs";
 import { UsersTable } from "../../assets/Tables/UserTable";
 import { Breadcrumbs } from "@material-tailwind/react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { useSelector } from "react-redux";
-import { Spinner2 } from "../../../layouts/Spinner";
+import { useDispatch } from "react-redux";
+import { getUsers } from "../../../../redux/actions/UserAction";
 
 export default function Spartners() {
 
-    const isLoading = useSelector((state) => state.users.isLoading)
+    const dispatch = useDispatch();
+    // const isLoading = useSelector((state) => state.users.isLoading);
+    const [loading, setLoading] = useState(false);
+    const stopLoading = () => setLoading(false);
+
+    useEffect(() => {
+        setLoading(true);
+        dispatch(getUsers(stopLoading))
+    }, [dispatch])
 
 
     return (
@@ -49,13 +57,13 @@ export default function Spartners() {
                             <Tab>Inactive</Tab>
                         </TabList>
                         <TabPanel>
-                            {isLoading === false? <UsersTable userType={"professional"}/> : <Spinner2/>}
+                                <UsersTable userType={"professional"} loader={loading} />
                         </TabPanel>
                         <TabPanel>
-                            <UsersTable userType={"professional"} status={true}/>
+                                <UsersTable userType={"professional"} status={true} loader={loading} />
                         </TabPanel>
                         <TabPanel>
-                            <UsersTable userType={"professional"} status={false}/>
+                                <UsersTable userType={"professional"} status={false} loader={loading} />
                         </TabPanel>
                         </Tabs>
                     </div>

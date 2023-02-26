@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBlogCategories, updateBlogPost } from '../../../../../redux/actions/PostAction';
 import MultiSelectableItem from "../../../../widgets/MultiSelectItem";
-import Spinner from "../../../../layouts/Spinner";
+import Spinner, { Loader } from "../../../../layouts/Spinner";
 import Axios from "../../../../../config/config";
 import PostImageItem from "./PostImageItem";
 import { capitalizeFirstLetter } from "../../../../../services/helper";
@@ -151,7 +151,7 @@ export default function EditPost() {
     if (loading || !blog) {
         return (
             <center>
-                <Spinner />
+                <Loader />
             </center>
         )
     }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { Breadcrumbs } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
@@ -9,8 +9,12 @@ import { getProjects } from "../../../../redux/actions/ProjectAction";
 export default function ProjectRequest() {
 
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
+    const stopLoading = () => setLoading(false);
+
     useEffect(() => {
-        dispatch(getProjects());
+        setLoading(true);
+        dispatch(getProjects(stopLoading));
     }, [dispatch])
 
     return (
@@ -48,7 +52,7 @@ export default function ProjectRequest() {
                                 <Tab>All Projects Requests</Tab>
                             </TabList>
                             <TabPanel>
-                                <ProjectsTable status="" />
+                                <ProjectsTable status="" loader={loading} />
                             </TabPanel>
                         </Tabs>
                     </div>

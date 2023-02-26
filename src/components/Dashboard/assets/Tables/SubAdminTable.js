@@ -1,8 +1,7 @@
-import React, {  useEffect } from 'react'
+import React from 'react'
 // import { BsThreeDotsVertical } from 'react-icons/bs';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector} from 'react-redux';
 // import Spinner from '../../../layouts/Spinner';
-import { getAdmins } from '../../../../redux/actions/UserAction';
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight, FaEye, FaFileDownload } from "react-icons/fa";
@@ -21,6 +20,7 @@ import "jspdf-autotable";
 import { useExportData } from "react-table-plugins";
 import Papa from "papaparse";
 import * as XLSX from 'xlsx'
+import { Loader } from '../../../layouts/Spinner';
 
 // export table files
 
@@ -81,16 +81,7 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export function SubAdminTable({status, userType}) {
-
-  const dispatch = useDispatch()
-  // const isLoading = useSelector((state) => state.users.isLoading);
-
-  useEffect (() => {
-
-    dispatch(getAdmins())
-      
-  }, [dispatch]) 
+export function SubAdminTable({status, userType, loader}) {
 
   let admin = useSelector((state) => state.users.admins);
 //   let users = userDatas?.map(data => data.user)
@@ -165,7 +156,12 @@ if (status) {
       return (
         <>
           <div className="overflow-hidden px-4 bg-white py-8 rounded-md">
-            <Table columns={columns} data={data}  className=""/>
+            {loader ? (
+              <Loader size={true} />
+            )
+              : (
+                <Table columns={columns} data={data} className="" />
+              )}
           </div>
         </>
       );
