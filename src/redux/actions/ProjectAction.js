@@ -331,7 +331,7 @@ export const updateServiceCategory = (payload, saveLoading) => {
     }
 }
 
-export const getProjects = () => {
+export const getProjects = (stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -345,12 +345,14 @@ export const getProjects = () => {
             dispatch(loading());
             const response = await axios.get('/projects/all', config);
             console.log(response);
+            stopLoading();
             dispatch(fetchProjects(response.data))
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
             else {
+                stopLoading();
                 dispatch(setError(error.message));
                 toast.error(
                     error.message,

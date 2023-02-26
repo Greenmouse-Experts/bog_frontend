@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Axios from "../../../../config/config";
-import Spinner from "../../../layouts/Spinner";
+import { Loader } from "../../../layouts/Spinner";
 import toast from 'react-hot-toast';
 
 
@@ -220,7 +220,7 @@ export default function SubAdminDetails() {
     }
 
     if (loading) {
-        return <center><Spinner /></center>
+        return <center><Loader /></center>
     }
 
 

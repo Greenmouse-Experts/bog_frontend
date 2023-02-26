@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import useFetchHook from '../../../../../hooks/useFetchHook';
-import Spinner from '../../../../layouts/Spinner';
+import { Loader } from '../../../../layouts/Spinner';
 
 export const ViewBlog = () => {
     const { postId } = useParams();
@@ -11,7 +11,7 @@ export const ViewBlog = () => {
 
     if (loading || !blog) {
         return <center>
-            <Spinner />
+            <Loader />
         </center>
     }
 

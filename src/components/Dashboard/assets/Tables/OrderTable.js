@@ -20,6 +20,7 @@ import "jspdf-autotable";
 import { useExportData } from "react-table-plugins";
 import Papa from "papaparse";
 import * as XLSX from 'xlsx'
+import { Loader } from "../../../layouts/Spinner";
 
  
 
@@ -82,7 +83,7 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export default function OrderTable({status}){
+export default function OrderTable({status, loader}){
   // let adminOrders = useSelector((state) => state.orders.adminOrders);
       let adminOrders = useSelector((state) => state.orders.adminOrders);
 
@@ -170,7 +171,10 @@ export default function OrderTable({status}){
       return (
         <>
           <div className="overflow-hidden px-4 bg-white py-8 rounded-md">
-            <Table columns={columns} data={data}  className=""/>
+            {
+              loader ? <Loader size /> :
+              <Table columns={columns} data={data} className="" />
+            }
           </div>
         </>
       );

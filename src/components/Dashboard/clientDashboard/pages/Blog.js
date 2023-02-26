@@ -1,21 +1,25 @@
 import { Breadcrumbs } from "@material-tailwind/react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBlogPosts } from "../../../../redux/actions/PostAction";
 import { FaBlogger } from "react-icons/fa";
 import { BlogTable } from "../../assets/Tables/BlogTable";
+import { Loader } from "../../../layouts/Spinner";
 
 export default function Blog() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const blogs = useSelector((state) => state.blog.posts);
+    const [loading, setLoading] = useState(false);
+    const stopLoading = () => setLoading(false);
 
     useEffect(() => {
-        dispatch(getAllBlogPosts());
+        setLoading(true)
+        dispatch(getAllBlogPosts(stopLoading));
     }, [dispatch]);
 
     return (
@@ -53,32 +57,36 @@ export default function Blog() {
                 <div className="lg:p-5 px-3 py-5 mt-6">
                 <div className="bg-white lg:p-5  rounded-lg">
                         <Tabs className="px-2 lg:px-0 py-5 lg:py-0">
-                            <TabList className="">
-                                <Tab>All Blog Posts</Tab>
-                                <Tab>Published</Tab>
-                                <Tab>Draft</Tab>
-                            </TabList>
-                            <TabPanel>
-                                <div className="">
-                                    {
-                                        blogs.length > 0 ? <BlogTable/> : <p className="mt-10 ml-4">No Blog Post Created</p>
-                                    }
-                                </div>
-                            </TabPanel>
-                            <TabPanel>
-                                <div className="">
-                                    {
-                                        blogs.length > 0 ? <BlogTable status={"published"}/> : <p className="mt-10 ml-4">No Blog Post Created</p>
-                                    }
-                                </div>
-                            </TabPanel>
-                            <TabPanel>
-                                <div className="">
-                                    {
-                                        blogs.length > 0 ? <BlogTable status={"draft"}/> : <p className="mt-10 ml-4">No Blog Post Created</p>
-                                    }
-                                </div>
-                            </TabPanel>
+                            {loading ? <Loader size /> :
+                                <>
+                                    <TabList className="">
+                                        <Tab>All Blog Posts</Tab>
+                                        <Tab>Published</Tab>
+                                        <Tab>Draft</Tab>
+                                    </TabList>
+                                    <TabPanel>
+                                        <div className="">
+                                            {
+                                                blogs.length > 0 ? <BlogTable /> : <p className="mt-10 ml-4">No Blog Post Created</p>
+                                            }
+                                        </div>
+                                    </TabPanel>
+                                    <TabPanel>
+                                        <div className="">
+                                            {
+                                                blogs.length > 0 ? <BlogTable status={"published"} /> : <p className="mt-10 ml-4">No Blog Post Created</p>
+                                            }
+                                        </div>
+                                    </TabPanel>
+                                    <TabPanel>
+                                        <div className="">
+                                            {
+                                                blogs.length > 0 ? <BlogTable status={"draft"} /> : <p className="mt-10 ml-4">No Blog Post Created</p>
+                                            }
+                                        </div>
+                                    </TabPanel>
+                                </>
+                            }
                         </Tabs>
                     </div>         
                 </div>

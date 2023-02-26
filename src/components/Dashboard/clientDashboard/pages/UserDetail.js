@@ -17,7 +17,7 @@ import Swal from "sweetalert2";
 import toast from 'react-hot-toast';
 import Axios from "../../../../config/config";
 import { formatNumber } from "../../../../services/helper";
-import Spinner from "../../../layouts/Spinner";
+import Spinner, { Loader } from "../../../layouts/Spinner";
 import { VerifyModal } from "./Modals/VerifyModal";
 
 // const baseURL = process.env.REACT_APP_IMAGE_URL;
@@ -104,7 +104,7 @@ export default function UserDetails() {
 
 
     if (loading) {
-        return <center><Spinner /></center>
+        return <center><Loader /></center>
     }
 
 

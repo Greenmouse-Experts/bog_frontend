@@ -152,7 +152,7 @@ export const getProducts = () => {
     }
 }
 
-export const getCategories = () => {
+export const getCategories = (stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -167,6 +167,7 @@ export const getCategories = () => {
             dispatch(loading());
             const response = await axios.get('/product/category', config);
             console.log(response);
+            stopLoading();
             dispatch(fetchCategory(response.data))
         } catch (error) {
             console.log(error.message);
@@ -174,6 +175,7 @@ export const getCategories = () => {
                 window.location.href = '/';
             }
             else {
+                stopLoading();
                 dispatch(setError(error.message));
                 toast.error(
                     error?.response?.data?.message || error.message,

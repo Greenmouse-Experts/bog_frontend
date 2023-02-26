@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Axios from "../../../../config/config";
 import toast from 'react-hot-toast';
-import Spinner from "../../../layouts/Spinner";
+import { Loader } from "../../../layouts/Spinner";
 import ReviewItem from "./Review/ReviewItem";
 import { SuccessAlert } from "../../../../services/endpoint";
 
@@ -114,10 +114,9 @@ export default function Review() {
 
     if (loading) {
         return <center>
-            <Spinner />
+            <Loader />
         </center>
     }
-    console.log(reviews);
 
 
     return (

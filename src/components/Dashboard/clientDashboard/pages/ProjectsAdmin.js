@@ -18,13 +18,16 @@ export default function ProjectsAdmin() {
     // const navigate = useNavigate()
 
     const [adminAdd, setAdminAdd] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const stopLoading = () => setLoading(false);
 
     function CloseModal() {
         setAdminAdd(false)
     }
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getProjects());
+        setLoading(true);
+        dispatch(getProjects(stopLoading));
         // dispatch(getCategories());
     }, [dispatch])
 
@@ -71,19 +74,19 @@ export default function ProjectsAdmin() {
                                 <Tab>Overdue</Tab>
                             </TabList>
                             <TabPanel>
-                                <ProjectsTable status={"approved"} />
+                                <ProjectsTable status={"approved"} loader={loading} />
                             </TabPanel>
                             <TabPanel>
-                                <ProjectsTable status={"dispatched"} />
+                                <ProjectsTable status={"dispatched"} loader={loading} />
                             </TabPanel>
                             <TabPanel>
-                                <ProjectsTable status={"ongoing"} />
+                                <ProjectsTable status={"ongoing"} loader={loading} />
                             </TabPanel>
                             <TabPanel>
-                                <ProjectsTable status={"completed"} />
+                                <ProjectsTable status={"completed"} loader={loading} />
                             </TabPanel>
                             <TabPanel>
-                                <ProjectsTable status={"completed"} />
+                                <ProjectsTable status={"completed"} loader={loading} />
                             </TabPanel>
                             
                         </Tabs>

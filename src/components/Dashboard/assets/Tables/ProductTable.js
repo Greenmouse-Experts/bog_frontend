@@ -200,7 +200,7 @@ export default function ProductTable({ status, loader }) {
 
       <div className="overflow-hidden px-4 bg-white py-8 rounded-md">
         {loader ? (
-          <Loader />
+          <Loader size={true} />
         ) 
           : (
             <Table columns={columns} data={data} className="" />  

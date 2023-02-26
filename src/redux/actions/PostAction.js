@@ -84,7 +84,7 @@ export const getAllBlogCategories = () => {
     }
 }
 
-export const  getAllBlogPosts = () => {
+export const  getAllBlogPosts = (stopLoading) => {
     return async (dispatch) => {
         try {
             dispatch(loading());
@@ -95,6 +95,7 @@ export const  getAllBlogPosts = () => {
                 },
             }
             const response = await axios.get('/blog/get-blogs', config);
+            stopLoading();
             // console.log(response);
             dispatch( fetchPost(response.data))
         } catch (error) {
@@ -102,6 +103,7 @@ export const  getAllBlogPosts = () => {
                 window.location.href = '/';
             }
             else {
+                stopLoading();
                 dispatch(setError(error.message));
                 toast.error(
                     error.message,

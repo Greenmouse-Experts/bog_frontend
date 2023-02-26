@@ -8,6 +8,7 @@ import CreateCategoryModal from "./Product/Modals/CreateCategoryModal";
 import { ProductCategoryTable } from "../../assets/Tables/ProductCatTable";
 import EditCategoryModal from "./Product/Modals/EditCategoryModal";
 import DeleteCategoryModal from "./Product/Modals/DeleteCategoryModal";
+import { Loader } from "../../../layouts/Spinner";
 
 export default function ProductsCategory() {
     const dispatch = useDispatch();
@@ -16,7 +17,8 @@ export default function ProductsCategory() {
     const [adminEdit, setAdminEdit] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [rowValue, setRowValue] = useState()
-  const [rowId, setRowId] = useState()
+    const [rowId, setRowId] = useState();
+    const [loading, setLoading] = useState(false);
 
   const AdminEdit = (id) => {
     setAdminEdit(true)
@@ -38,8 +40,11 @@ export default function ProductsCategory() {
         setDeleteModal(false)
     }
 
+    const stopLoading = () => setLoading(false);
+
     useEffect(() => {
-        dispatch(getCategories());
+        setLoading(true);
+        dispatch(getCategories(stopLoading));
     }, []);
 
     return (
@@ -76,7 +81,9 @@ export default function ProductsCategory() {
                 <div className="lg:p-5 px-2 py-4">
                     <div className="bg-white lg:p-5 lg:mt-6 mt-6 rounded-lg">
                         <div className="">
-                            {categories.length > 0 ? <ProductCategoryTable adminEdit={AdminEdit} adminDelete={AdminDelete}/> : <center><h5>No Categories added. Add new ones</h5></center>}
+                            {
+                                loading ? <Loader size /> :
+                                categories.length > 0 ? <ProductCategoryTable adminEdit={AdminEdit} adminDelete={AdminDelete} /> : <center><h5>No Categories added. Add new ones</h5></center>}
                         </div>
                     </div>
                 </div>

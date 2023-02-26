@@ -40,7 +40,7 @@ export const fetchOrderRequest = (payload) => {
     }
 }
  
-export const getAdminOrders = () => {
+export const getAdminOrders = (stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -54,6 +54,7 @@ export const getAdminOrders = () => {
             }
             dispatch(loading());
             const response = await axios.get('/orders/all', config);
+            stopLoading();
             dispatch(fetchAdminOrder(response.data))
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
@@ -61,6 +62,7 @@ export const getAdminOrders = () => {
             }
             else {
                 dispatch(setError(error.message));
+                stopLoading();
                 toast.error(
                     error.message,
                     {
