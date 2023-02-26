@@ -121,23 +121,24 @@ export default function ProjectsTable({ status, loader }) {
 
   if (status) {
     // console.log(status)
-    allProjects = allProjects.filter((project) => project.status === status);
+
     // console.log(allProjects)
-    // if (status === "in_review") {
-    //   allProjects = allProjects.filter(
-    //     (where) => where.approvalStatus === status
-    //   );
-    //   console.log({ allProjects });
-    // } else {
-    //   allProjects = allProjects.filter(
-    //     (where) => where.approvalStatus !== status
-    //   );
-    // }
+    if (status === "approved") {
+      allProjects = allProjects.filter(
+        (where) =>
+          where.approvalStatus !== "pending" &&
+          where.approvalStatus !== "in_review"
+      );
+      // console.log({ allProjects });
+    } else {
+      allProjects = allProjects.filter((project) => project.status === status);
+    }
   } else {
     allProjects = allProjects.filter(
       (project) =>
-        project.approvalStatus === "pending" ||
-        project.approvalStatus === "in_review"
+        (project.approvalStatus === "pending" ||
+          project.approvalStatus === "in_review") &&
+        project.status !== "approved"
     );
     // console.log(allProjects)
   }
@@ -308,7 +309,9 @@ export default function ProjectsTable({ status, loader }) {
                   View Details
                 </MenuItem>
               )}
-              {row.cell.row.original.status === "ongoing" && (
+              {(row.cell.row.original.status === "ongoing" ||
+                row.cell.row.original.status === "dispatched" ||
+                row.cell.row.original.status === "completed") && (
                 <MenuItem onClick={() => gotoDetailsPage(row.value)}>
                   View Details
                 </MenuItem>
@@ -320,18 +323,22 @@ export default function ProjectsTable({ status, loader }) {
                   </MenuItem>
                 </>
               )}
-              {row.cell.row.original.approvalStatus === "approved" && (
-                <MenuItem onClick={() => openModal(row.value)}>
-                  Post Project
-                </MenuItem>
-              )}
-              {row.cell.row.original.approvalStatus === "in_review" && (
-                <MenuItem
-                  onClick={() => approveProjectForCommencement(row.value, true)}
-                >
-                  Approve Project
-                </MenuItem>
-              )}
+              {row.cell.row.original.approvalStatus === "approved" &&
+                row.cell.row.original.status === "approved" && (
+                  <MenuItem onClick={() => openModal(row.value)}>
+                    Post Project
+                  </MenuItem>
+                )}
+              {row.cell.row.original.approvalStatus === "in_review" &&
+                row.cell.row.original.status !== "ongoing" && (
+                  <MenuItem
+                    onClick={() =>
+                      approveProjectForCommencement(row.value, true)
+                    }
+                  >
+                    Approve Project
+                  </MenuItem>
+                )}
 
               {row.cell.row.original.status === "dispatched" && (
                 <MenuItem onClick={() => gotoServiceRequest(row.value)}>
@@ -339,7 +346,8 @@ export default function ProjectsTable({ status, loader }) {
                 </MenuItem>
               )}
               {row.cell.row.original.status !== "ongoing" &&
-                row.cell.row.original.status !== "dispatched" && (
+                row.cell.row.original.status !== "dispatched" &&
+                row.cell.row.original.status !== "disapproved" && (
                   <MenuItem
                     className="bg-red-600 text-white hover:text-white hover:bg-red-500"
                     onClick={() =>
