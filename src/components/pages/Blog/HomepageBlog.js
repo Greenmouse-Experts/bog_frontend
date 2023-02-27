@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { BsArrowRight } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
@@ -11,10 +11,14 @@ import Spinner from '../../layouts/Spinner';
 export const HomepageBlog = () => {
     const dispatch = useDispatch();
 
-    const  {posts, isLoading} = useSelector((state) => state.blog);
+    const { posts } = useSelector((state) => state.blog);
+    const [isLoading, setLoading] = useState(false);
+    
+    const stopLoading = () => setLoading(false);
 
     useEffect(() => {
-        dispatch(getAllBlogPosts());
+        setLoading(true);
+        dispatch(getAllBlogPosts(stopLoading));
     }, [dispatch]);
 
     if (isLoading) {

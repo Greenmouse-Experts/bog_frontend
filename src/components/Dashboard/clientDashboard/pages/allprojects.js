@@ -1,8 +1,7 @@
-import { Button } from "@material-tailwind/react";
+import { Button, Menu, MenuHandler, MenuItem, MenuList } from "@material-tailwind/react";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
-import { BsInfoCircleFill } from "react-icons/bs";
-import { FaCheck, FaRegEye, FaTimes } from "react-icons/fa";
+import { BsInfoCircleFill, BsThreeDotsVertical } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getDispatchedProjects } from "../../../../redux/actions/ProjectAction";
@@ -116,11 +115,16 @@ export function AllProject() {
                                                             Pending
                                                         </td>
                                                         <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                            <div className="flex text-xl">
-                                                                <p className="text-secondary cursor-pointer" onClick={() => gotoForm(item.projectId)}><FaRegEye /></p>
-                                                                <p className="text-primary px-3 cursor-pointer" onClick={() =>OpenQoute(item)}><FaCheck /></p>
-                                                                <p className="text-red-600 cursor-pointer" onClick={OpenDecline}><FaTimes /></p>
-                                                            </div>
+                                                            <Menu placement="left-start" className="w-16">
+                                                                <MenuHandler>
+                                                                    <Button className="border-none bg-transparent shadow-none hover:shadow-none text-primary px-0"><button className="lg:text-xl text-primary"><BsThreeDotsVertical /></button></Button>
+                                                                </MenuHandler>
+                                                                <MenuList className="w-16 bg-gray-100 fw-600 text-black">
+                                                                    <MenuItem onClick={() => gotoForm(item.projectId)}>View Details</MenuItem>
+                                                                    <MenuItem onClick={() => OpenQoute(item)}>Accept Project</MenuItem>
+                                                                    <MenuItem onClick={OpenDecline}>Decline Project</MenuItem>
+                                                                </MenuList>
+                                                                </Menu>
                                                         </td>
                                                     </tr>
                                                 )) : null
