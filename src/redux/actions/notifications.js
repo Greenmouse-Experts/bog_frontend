@@ -44,7 +44,7 @@ export const removeUserNotifications = (payload) => {
 }
 
 
-export const fetchAllUserNotifications = (userId) => {
+export const fetchAllUserNotifications = (userId,stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -57,13 +57,14 @@ export const fetchAllUserNotifications = (userId) => {
             }
             dispatch(loading());
             const response = await axios.get(`/notifications/user/${userId}`, config);
-            console.log(response);
+            stopLoading();
             dispatch(fetchUserNotifications(response.data))
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
             else {
+                stopLoading();
                 dispatch(setError(error.message));
                 toast.error(
                     error.message,
