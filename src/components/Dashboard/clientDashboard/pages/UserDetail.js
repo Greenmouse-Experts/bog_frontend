@@ -35,10 +35,6 @@ export default function UserDetails() {
     const [verify, setVerify] = useState(false);
     const [disable, setDisable] = useState(false);
     const [kyc, setKyc] = useState(null);
-    const [otherDetails, setOtherDetails] = useState({
-        dispatched: [],
-        ongoing: []
-    })
 
 
     const fetchUserDetails = async (userId, userType) => {
@@ -47,24 +43,12 @@ export default function UserDetails() {
             const url = `/users/get-user/${userId}?userType=${userType}`
             const res = await Axios.get(url);
             const datas = res.data
-       
-            if(res.success){
-                const url2 = `/projects/v2/assigned-projects/${datas.user.id}`;
-                const res2 = await Axios.get(url2);
-
-                // const url3 = `/projects/v2/dispatched-projects/${datas.user.id}`;
-                // const res3 = await Axios.get(url3);
-
-                // setOtherDetails({dispatched: res3.data})
-                setOtherDetails({ongoing: res2.data})
-
-                setClient(res.data.user);
-                setAccounts(res.data.accounts);
-                setLoading(false);
-                setMoreDetails(true)
-                return datas;
-            }
-            
+            console.log(datas)
+            setClient(res.data.user);
+            setAccounts(res.data.accounts);
+            setLoading(false);
+            setMoreDetails(true)
+            return datas;
         } catch (error) {
             setLoading(false);
         }
@@ -89,7 +73,6 @@ export default function UserDetails() {
             console(error)
         }
     }
-
 
     const Reload = () => {
        /* setTimeout(() => {
@@ -452,7 +435,7 @@ export default function UserDetails() {
                                                                 </div>
                                                                 <div className="fw-500 mt-2 flex">
                                                                     <p className="text-gray-500">Ongoing Projects</p>
-                                                                    <p className="pl-3">{otherDetails.ongoing.length}</p>
+                                                                    <p className="pl-3">{accounts.length}</p>
                                                                 </div>
                                                             </div>
                                                             <div className="border-b mt-2 lg:pl-4 py-2">
@@ -461,7 +444,7 @@ export default function UserDetails() {
                                                                 </div>
                                                                 <div className="fw-500 mt-2 flex">
                                                                     <p className="text-gray-500">Completed Projects:</p>
-                                                                    <p className="pl-3">{[].length}</p>
+                                                                    <p className="pl-3">{accounts.length}</p>
                                                                 </div>
                                                             </div>
                                                         </div>
