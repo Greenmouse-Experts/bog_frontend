@@ -32,6 +32,7 @@ export default function UserDetails() {
     const [accounts, setAccounts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [moreDetails, setMoreDetails] = useState(false);
+    const [projects, setProjects] = useState([]);
     const [verify, setVerify] = useState(false);
     const [disable, setDisable] = useState(false);
     const [kyc, setKyc] = useState(null);
@@ -46,6 +47,7 @@ export default function UserDetails() {
             console.log(datas)
             setClient(res.data.user);
             setAccounts(res.data.accounts);
+            setProjects(res.data);
             setLoading(false);
             setMoreDetails(true)
             return datas;
@@ -95,6 +97,8 @@ export default function UserDetails() {
             fetchKycDetails(userId, client.profile.userType)
         }
     }, [client])
+
+    console.log(client);
 
     useEffect(() => {
         if (kyc) {
@@ -435,7 +439,7 @@ export default function UserDetails() {
                                                                 </div>
                                                                 <div className="fw-500 mt-2 flex">
                                                                     <p className="text-gray-500">Ongoing Projects</p>
-                                                                    <p className="pl-3">{accounts.length}</p>
+                                                                    <p className="pl-3">{projects ? projects.ongoingProjects.length : 0}</p>
                                                                 </div>
                                                             </div>
                                                             <div className="border-b mt-2 lg:pl-4 py-2">
@@ -444,7 +448,7 @@ export default function UserDetails() {
                                                                 </div>
                                                                 <div className="fw-500 mt-2 flex">
                                                                     <p className="text-gray-500">Completed Projects:</p>
-                                                                    <p className="pl-3">{accounts.length}</p>
+                                                                    <p className="pl-3">{projects ? projects.completedProjects.length : 0}</p>
                                                                 </div>
                                                             </div>
                                                         </div>

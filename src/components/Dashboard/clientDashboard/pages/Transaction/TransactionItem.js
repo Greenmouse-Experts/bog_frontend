@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import Axios from '../../../../../config/config';
 import { formatNumber } from '../../../../../services/helper';
-import { Spinner2 } from '../../../../layouts/Spinner';
+import { Loader } from '../../../../layouts/Spinner';
 
 export const TransactionDetails = () => {
 
@@ -46,7 +46,7 @@ export const TransactionDetails = () => {
 
 
   if (loading){
-    return <center><Spinner2 /></center>
+    return <center><Loader /></center>
   }   
 
   return (

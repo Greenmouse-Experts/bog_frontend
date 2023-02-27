@@ -1,9 +1,8 @@
 import toast from 'react-hot-toast';
 import Axios from '../../config/config';
 
-export const fetchAddresses = async (setLoading, setAddresses, user) => {
+export const fetchAddresses = async (stopLoading, setAddresses, user) => {
     try {
-        setLoading(true);
         const authToken = localStorage.getItem("auth_token");
         const config = {
             headers:
@@ -18,13 +17,13 @@ export const fetchAddresses = async (setLoading, setAddresses, user) => {
         const results = res.data;
         // console.log(results)
         setAddresses(results);
-        setLoading(false);
+        stopLoading();
     } catch (error) {
-        setLoading(false);
         if (error.message === 'Request failed with status code 401') {
             window.location.href = '/';
         }
         else {
+            stopLoading();
             toast.error(
                 error.message,
                 {

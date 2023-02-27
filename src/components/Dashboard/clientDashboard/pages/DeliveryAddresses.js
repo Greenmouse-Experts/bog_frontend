@@ -19,7 +19,7 @@ import Axios from "../../../../config/config";
 import toast from 'react-hot-toast';
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
-import Spinner from "../../../layouts/Spinner";
+import Spinner, { Loader } from "../../../layouts/Spinner";
 import AddressListItem from "./AddressListItem";
 import ActionFeedBack from "./Modals/ActionFeedBack";
 import { BsCheck } from "react-icons/bs";
@@ -36,16 +36,17 @@ const DeliveryAddresses = () => {
     setDeliveryAddress(false);
   }
 
+  const stopLoading = () => setLoading(false);
+
   useEffect(() => {
     const handlefetch = () => {
       setLoading(true)
-      if (user && loading) {
-        fetchAddresses(setLoading, setAddresses, user);
+      if (user) {
+        fetchAddresses(stopLoading, setAddresses, user);
       }
-      setLoading(false)
     }
     handlefetch()
-  }, [user, loading]);
+  }, [user]);
 
   // const handleProjectChange = (val) => {
   //     const value = val.value;
@@ -177,82 +178,88 @@ const DeliveryAddresses = () => {
                          <ProductTable/>
                     </div> */}
           <div className="bg-white lg:p-5  mt-6 rounded-lg">
-            <div className="mt-10 flex justify-between">
-              <div class="flex text-gray-600">
-                <input
-                  class="border-2 border-gray-300 bg-white h-10 px-5 pr-4 rounded-l-lg text-sm focus:outline-none"
-                  type="search"
-                  name="search order by name"
-                  placeholder="Search"
-                />
-                <button
-                  type="submit"
-                  class=" bg-primary right-0 top-0 py-2 px-4 rounded-r-lg"
-                >
-                  <FontAwesomeIcon icon={faSearch} className="text-white" />
-                </button>
-              </div>
-              <Menu>
-                <MenuHandler>
-                  <Button className="p-0 m-0 bg-transparent shadow-none text-blue-800 hover:shadow-none flex items-center">
-                    {" "}
-                    Export <FaFileDownload className="text-2xl" />
-                  </Button>
-                </MenuHandler>
-                <MenuList>
-                  <MenuItem>Export as CSV</MenuItem>
-                  <MenuItem>Export as Excel</MenuItem>
-                  <MenuItem>Export as PDF</MenuItem>
-                </MenuList>
-              </Menu>
-            </div>
-            <CardBody>
-              <div className="overflow-x-auto">
-                <table className="items-center w-full bg-transparent border-collapse">
-                  <thead className="thead-light bg-light">
-                    <tr>
-                      <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                        S/N
-                      </th>
-                      <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                        Title
-                      </th>
-                      <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                        Address
-                      </th>
-                      <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                        State
-                      </th>
-                      <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                        Country
-                      </th>
-                      <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                        Status
-                      </th>
-                      <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                        Charge
-                      </th>
-                      <th className="px-2 fw-600 text-primary align-middle text-center border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap w-56">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      <AddressListItem
-                        filterBy={true}
-                        addresses={addresses}
-                        removeAddress={removeFromAddress}
-                        updateAddressStatus={updateAddressStatus}
-                        // activateAddress={activateAddress}
-                        // deactivateAddress={deactivateAddress}
-                      />
-                    }
-                  </tbody>
-                </table>
-                {/* {meetings.length > 0? <MeetingTable filterBy="attended" status={'attended'} meet={meetings} removeMeet={removeFromMeeting} /> : ''} */}
-              </div>
-            </CardBody>
+            {loading ?
+              <Loader size />
+              :
+              <>
+                <div className="mt-10 flex justify-between">
+                  <div class="flex text-gray-600">
+                    <input
+                      class="border-2 border-gray-300 bg-white h-10 px-5 pr-4 rounded-l-lg text-sm focus:outline-none"
+                      type="search"
+                      name="search order by name"
+                      placeholder="Search"
+                    />
+                    <button
+                      type="submit"
+                      class=" bg-primary right-0 top-0 py-2 px-4 rounded-r-lg"
+                    >
+                      <FontAwesomeIcon icon={faSearch} className="text-white" />
+                    </button>
+                  </div>
+                  <Menu>
+                    <MenuHandler>
+                      <Button className="p-0 m-0 bg-transparent shadow-none text-blue-800 hover:shadow-none flex items-center">
+                        {" "}
+                        Export <FaFileDownload className="text-2xl" />
+                      </Button>
+                    </MenuHandler>
+                    <MenuList>
+                      <MenuItem>Export as CSV</MenuItem>
+                      <MenuItem>Export as Excel</MenuItem>
+                      <MenuItem>Export as PDF</MenuItem>
+                    </MenuList>
+                  </Menu>
+                </div>
+                <CardBody>
+                  <div className="overflow-x-auto">
+                    <table className="items-center w-full bg-transparent border-collapse">
+                      <thead className="thead-light bg-light">
+                        <tr>
+                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                            S/N
+                          </th>
+                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                            Title
+                          </th>
+                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                            Address
+                          </th>
+                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                            State
+                          </th>
+                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                            Country
+                          </th>
+                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                            Status
+                          </th>
+                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                            Charge
+                          </th>
+                          <th className="px-2 fw-600 text-primary align-middle text-center border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap w-56">
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          <AddressListItem
+                            filterBy={true}
+                            addresses={addresses}
+                            removeAddress={removeFromAddress}
+                            updateAddressStatus={updateAddressStatus}
+                          // activateAddress={activateAddress}
+                          // deactivateAddress={deactivateAddress}
+                          />
+                        }
+                      </tbody>
+                    </table>
+                    {/* {meetings.length > 0? <MeetingTable filterBy="attended" status={'attended'} meet={meetings} removeMeet={removeFromMeeting} /> : ''} */}
+                  </div>
+                </CardBody>
+              </>
+            }
           </div>
         </div>
         {deliveryAddress && (
