@@ -45,7 +45,7 @@ export default function Faqs() {
             <p className="lg:text-xl fs-600 font-primary fw-600 lg:py-2"> What is your return policy ?</p>
         </AccordionHeader>
         <AccordionBody>
-          <p className="fw-500 fs-500">Click<Link to="/return" className="text-primary cursor-pointer">here</Link> to learn more about our return policy.</p>
+          <p className="fw-500 fs-500">Click <Link to="/return" className="text-primary cursor-pointer"> here</Link> to learn more about our return policy.</p>
         </AccordionBody>
       </Accordion>
     </Fragment>

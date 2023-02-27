@@ -255,7 +255,7 @@ export function  ReviewSlide({reviews}) {
             let tl = gsap.timeline();
 
            
-            tl.to(review.current, {xPercent:-60, duration: 32,repeat: -1, ease:"none"})
+            tl.to(review.current, {xPercent:-90, duration: 32, repeat: 1, ease:"none"})
         
             review.current.addEventListener("mouseenter", function () {
                 tl.pause();
@@ -265,8 +265,7 @@ export function  ReviewSlide({reviews}) {
               });
         }, );
         
-        
-            return () => ctx.revert();
+        return () => ctx.revert();
     }, []);
 
     return (

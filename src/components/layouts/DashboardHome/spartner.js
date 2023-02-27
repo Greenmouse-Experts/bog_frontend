@@ -128,7 +128,7 @@ export default function ServiceDashboard() {
           </div>
           {/* request analysis */}
           <div className="bg-white mt-6 rounded-lg ">
-            <div className="flex justify-between fw-600 fs-700 bg-primary rounded-t-lg text-white p-4"><p className="fw-600 fs-700">Recent Requests</p> <Link to="projects"><p className="border-secondary text-black bg-light fs-400 rounded fw-500 px-2 py-1">View All</p></Link></div>
+            <div className="flex justify-between fw-600 fs-700 bg-primary rounded-t-lg text-white p-4"><p className="fw-600 fs-700">Recent Requests</p> <Link to="allprojects"><p className="border-secondary text-black bg-light fs-400 rounded fw-500 px-2 py-1">View All</p></Link></div>
 
             {   dispatchedProjects.length > 0 ? 
                 dispatchedProjects.slice(0,4).map((item, index) => {
