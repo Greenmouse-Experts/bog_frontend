@@ -77,7 +77,7 @@ export const getAdminOrders = (stopLoading) => {
     }
 }
  
-export const getUserOrders = () => {
+export const getUserOrders = (stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -91,12 +91,14 @@ export const getUserOrders = () => {
             }
             dispatch(loading());
             const response = await axios.get('/orders/my-orders', config);
+            stopLoading();
             dispatch(fetchUserOrder(response.data))
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
             else {
+                stopLoading();
                 dispatch(setError(error.message));
                 toast.error(
                     error.message,

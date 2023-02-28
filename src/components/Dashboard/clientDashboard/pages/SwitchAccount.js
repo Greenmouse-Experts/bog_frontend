@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getMe } from "../../../../redux/actions/authAction";
 import Axios from "../../../../config/config";
 import { AccountType } from "./AccountType";
-import { Spinner2 } from "../../../layouts/Spinner";
+import { Loader } from "../../../layouts/Spinner";
 
 
 export const SwitchAccount = () => {
@@ -59,7 +59,7 @@ export const SwitchAccount = () => {
 
     if (loading) {
         return <center>
-            <Spinner2 />
+            <Loader />
         </center>
     }
 

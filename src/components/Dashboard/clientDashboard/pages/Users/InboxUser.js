@@ -6,7 +6,7 @@ import { MessageModal } from "./MessageModal";
 // import { RiDeleteBin5Line } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import useFetchHook from "../../../../../hooks/useFetchHook";
-import Spinner from "../../../../layouts/Spinner";
+import { Loader } from "../../../../layouts/Spinner";
 import { cutText, getUserTypeRevserse } from "../../../../../services/helper";
 import dayjs from "dayjs";
 
@@ -28,7 +28,7 @@ export default function UserInbox() {
     if (loading) {
         return (
             <center>
-                <Spinner />
+                <Loader />
             </center>
         )
     }

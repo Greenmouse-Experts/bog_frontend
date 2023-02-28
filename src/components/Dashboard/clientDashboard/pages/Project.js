@@ -1,5 +1,5 @@
 // import React from "react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { Breadcrumbs, Button, Menu, MenuHandler, MenuItem, MenuList } from "@material-tailwind/react";
 import ProjectChart from "../../assets/ProjectChart";
@@ -10,32 +10,37 @@ import { getMyProject } from '../../../../redux/actions/ProjectAction';
 import { useDispatch } from "react-redux";
 import { getProjectCategory } from "../../../../services/helper";
 import dayjs from "dayjs";
+import { Loader } from "../../../layouts/Spinner";
 
 export default function Projects() {
     const auth = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(false);
+    const stopLoading = () => setLoading(false);
+
     useEffect(() => {
         if (auth.user) {
-            dispatch(getMyProject(auth.user.userType, navigate));
+            setLoading(true);
+            dispatch(getMyProject(auth.user.userType, navigate, stopLoading));
         }
     }, [dispatch, auth, navigate])
     let projects = null;
 
     if (auth?.user?.userType === "private_client") {
-        projects = <ClientProject />
+        projects = <ClientProject isLoading={ loading } />
     } else if (auth?.user?.userType === "corporate_client") {
-        projects = <ClientProject />
+        projects = <ClientProject isLoading={loading} />
     } else if (auth?.user?.userType === "professional") {
-        projects = <ServiceProject />
+        projects = <ServiceProject isLoading={loading} />
     } else if (auth?.user?.userType === "admin") {
-        projects = <ServiceProject />
+        projects = <ServiceProject isLoading={loading} />
     }
     return projects;
 }
 
-export function ClientProject() {
+export function ClientProject({isLoading}) {
 
     // const navigate = useNavigate();
 
@@ -66,6 +71,8 @@ export function ClientProject() {
                     </Breadcrumbs>
                 </div>
                 {/* content */}
+                {isLoading ? <Loader size />
+                    :
                 <div className="lg:p-5 px-3 py-5 mt-6">
                     {/* project analysis and calendar*/}
                     <div className="">
@@ -80,17 +87,17 @@ export function ClientProject() {
                                         <Tab>Completed</Tab>
                                     </TabList>
                                     <TabPanel>
-                                        <ProjectTable />
+                                        <ProjectTable isLoader={isLoading} />
 
                                     </TabPanel>
                                     <TabPanel>
-                                        <ProjectTable status={"pending"} />
+                                        <ProjectTable status={"pending"} isLoader={isLoading} />
                                     </TabPanel>
                                     <TabPanel>
-                                        <ProjectTable status={"approved"} />
+                                        <ProjectTable status={"approved"} isLoader={isLoading} />
                                     </TabPanel>
                                     <TabPanel>
-                                        <ProjectTable status={"completed"} />
+                                        <ProjectTable status={"completed"} isLoader={isLoading} />
                                     </TabPanel>
                                 </Tabs>
                             </div>
@@ -111,12 +118,13 @@ export function ClientProject() {
                         </div>
                     </div>
                 </div>
+                }
             </div>
         </div>
     )
 }
 
-export function ServiceProject() {
+export function ServiceProject({isLoading}) {
     const { projects } = useSelector((state) => state.projects);
 
     return (
@@ -155,6 +163,8 @@ export function ServiceProject() {
                                     <p className="fw-600 fs-600 lg:text-lg mb-6 lg:mb-0">My Projects</p>
                                 </div>
                             </div>
+                            {isLoading ? <Loader size />
+                                :
                             <div className="px-5 mt-6">
                                 <div className="overflow-x-auto">
                                     <table className="items-center w-full bg-transparent border-collapse">
@@ -227,6 +237,7 @@ export function ServiceProject() {
                                     </table>
                                 </div>
                             </div>
+                            }
                         </div>
                     </div>
                 </div>

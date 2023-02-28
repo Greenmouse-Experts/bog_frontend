@@ -136,7 +136,7 @@ export const getDeliveryAddresses = () => {
     }
 }
 
-export const getMyProject = (userType, navigate) => {
+export const getMyProject = (userType, navigate, stopLoading) => {
     return async (dispatch) => {
         try {
             dispatch(loading());
@@ -151,6 +151,7 @@ export const getMyProject = (userType, navigate) => {
             const url  = userType === "professional" ? `/projects/service-request?userType=${userType}` : `/projects/my-request?userType=${userType}`
             const response = await axios.get(url, config);
             console.log(response);
+            stopLoading();
             dispatch(fetchMyProject(response.data))
         } catch (error) {
             console.log(error.message);
@@ -158,6 +159,7 @@ export const getMyProject = (userType, navigate) => {
                 navigate("/");
             }
             else {
+                stopLoading();
                 dispatch(setError(error.message));
                 toast.error(
                     error.message,
@@ -662,7 +664,7 @@ export const assignProjectToPartner = (payload, saveLoading) => {
     }
 }
 
-export const deleteUserProject = (id) => {
+export const deleteUserProject = (id, stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -676,6 +678,7 @@ export const deleteUserProject = (id) => {
             // dispatch(loading());
             const response = await axios.delete(`/projects/delete/${id}`, config);
             console.log(response);
+            stopLoading();
             dispatch(removeProject(id));
             Swal.fire({
                 title: "Done",
@@ -689,6 +692,7 @@ export const deleteUserProject = (id) => {
                 window.location.href = '/';
             }
             else {
+                stopLoading();
                 dispatch(setError(errorMsg));
                 toast.error(
                     errorMsg,

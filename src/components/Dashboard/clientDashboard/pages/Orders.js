@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { Breadcrumbs, CardBody } from "@material-tailwind/react";
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,13 +8,17 @@ import { getUserOrders } from "../../../../redux/actions/OrderAction";
 import OrderItem from "./Order/OrderItem";
 import OrderHeader from "./Order/OrderHeader";
 import SearchHeader from "./Order/SearchHeader";
+import { Loader } from "../../../layouts/Spinner";
 
 export default function Orders() {
   const dispatch = useDispatch();
-  let orders = useSelector((state) => state.orders.userOrders)
+  let orders = useSelector((state) => state.orders.userOrders);
+  const [loading, setLoading] = useState(false);
+  const stopLoading = () => setLoading(false);
 
   useEffect(() => {
-    dispatch(getUserOrders())
+    setLoading(true);
+    dispatch(getUserOrders(stopLoading));
   }, [])
 
   return (
@@ -48,6 +52,8 @@ export default function Orders() {
         </div>
         <div className="p-5">
           <div className="bg-white lg:p-5 mt-6 rounded-lg">
+            {loading ?  <Loader size />
+              :
             <Tabs className="px-2 lg:px-0 py-5 lg:py-0">
               <TabList className="">
                 <Tab>All Orders</Tab>
@@ -140,6 +146,7 @@ export default function Orders() {
                 </CardBody>
               </TabPanel>
             </Tabs>
+            }
           </div>
         </div>
       </div>
