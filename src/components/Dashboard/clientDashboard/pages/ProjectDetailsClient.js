@@ -1,8 +1,9 @@
 import { Avatar, Breadcrumbs } from "@material-tailwind/react";
 import { Link, useLocation } from "react-router-dom";
 import Axios from "../../../../config/config";
-import Spinner from "../../../layouts/Spinner";
+import { Loader } from "../../../layouts/Spinner";
 import React, { useState, useEffect } from "react";
+import dayjs from "dayjs";
 
 export default function ProjectDetailsClient() {
     const { search } = useLocation();
@@ -40,7 +41,7 @@ export default function ProjectDetailsClient() {
 
     if (loading || !project) {
         return <center>
-            <Spinner />
+            <Loader />
         </center>
     }
 
@@ -89,9 +90,9 @@ export default function ProjectDetailsClient() {
                                                 <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667899753/BOG/sands_cy9q3x.png" alt="order" className="w-16 h-16 lg:h-20 lg:w-20 rounded-lg" />
                                             </div>
                                             <div className="grid content-between  pl-4 fw-500">
-                                                <p><span className="text-gray-600 fs-400">Project Name:</span> My Land Survey</p>
-                                                <p><span className="text-gray-600 fs-400">Service Required:</span> Land Survey</p>
-                                                <p><span className="text-gray-600 fs-400">Start Date:</span> 18-11-22</p>
+                                                        <p><span className="text-gray-600 fs-400">Project Name:</span> { project?.projectTypes }</p>
+                                                        <p><span className="text-gray-600 fs-400">Service Required:</span> { project?.title }</p>
+                                                        <p><span className="text-gray-600 fs-400">Start Date:</span> {dayjs(project?.createdAt).format('DD/MM/YYYY')}</p>
                                             </div>
                                         </div>
                                         <div className="fw-500 mt-2 lg:mt-0 lg:text-end">

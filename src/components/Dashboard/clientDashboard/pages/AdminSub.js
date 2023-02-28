@@ -4,7 +4,7 @@ import { MdPlaylistAddCheck } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getAllSubscriptionPlans } from "../../../../redux/actions/SubscriptionAction";
-import Spinner from "../../../layouts/Spinner";
+import { Loader } from "../../../layouts/Spinner";
 import { SubscriptionTable } from "../../assets/Tables/Subscription";
 import { AddSub } from "./Admins/Modals/AddSub";
 
@@ -30,7 +30,7 @@ export default function AdminSub() {
 
     if (isLoading) {
         return <center>
-            <Spinner />
+            <Loader />
         </center>
     }
 

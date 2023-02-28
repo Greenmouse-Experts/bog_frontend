@@ -13,7 +13,7 @@ import AddProduct from "./Product/AddProduct";
 import ProductItem from "./Product/ProductItem";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserProducts, getCategories } from '../../../../redux/actions/ProductAction';
-import Spinner from "../../../layouts/Spinner";
+import { Loader } from "../../../layouts/Spinner";
 import DraftProduct from "./Product/DraftProduct";
 import EditProduct from "./Product/EditProduct";
 import DeleteModal from "./Product/Modals/DeleteModal";
@@ -54,7 +54,7 @@ export default function Products() {
     }, [dispatch]);
 
     if (isLoading) {
-        return <center><Spinner /></center>
+        return <center><Loader /></center>
     }
 
 
