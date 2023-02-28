@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Axios from '../../../../config/config';
 import toast from 'react-hot-toast';
 import { SuccessAlert } from '../../../../services/endpoint';
-import Spinner from '../../../layouts/Spinner';
+import Spinner, { Loader } from '../../../layouts/Spinner';
 import useFetchHook from '../../../../hooks/useFetchHook';
 
 export const Testimonial = () => {
@@ -68,7 +68,7 @@ export const Testimonial = () => {
 
     if (isLoading) {
         return <center>
-            <Spinner />
+            <Loader />
         </center>
     }
 

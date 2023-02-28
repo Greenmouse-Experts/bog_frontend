@@ -20,7 +20,7 @@ import Axios from '../../../../config/config';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import Spinner from "../../../layouts/Spinner";
+import Spinner, { Loader } from "../../../layouts/Spinner";
 import MeetingListItem from "./MeetingListItem";
 import ActionFeedBack from "./Modals/ActionFeedBack";
 import { BsCheck } from "react-icons/bs";
@@ -33,6 +33,7 @@ const Meetings = () => {
     const [rMeet, setRMeet] = useState(false)
     const [selectedProject, setSelectedProject] = useState();
     const [loading, setLoading] = useState(false);
+    const [fetchLoading, setFetchLoading] = useState(false);
     const [feedback, setFeetback] = useState(false);
     const [meetings, setMeeting] = useState([]);
     const user = useSelector((state) => state.auth.user);
@@ -40,9 +41,12 @@ const Meetings = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const stopLoading = () => setFetchLoading(false);
+
     useEffect(() => {
         if (user) {
-            dispatch(getMyProject(user.userType, navigate));
+            setFetchLoading(true);
+            dispatch(getMyProject(user.userType, navigate, stopLoading));
         }
 
     }, [dispatch, user]);
@@ -175,6 +179,8 @@ const Meetings = () => {
                     {/* <div className="bg-white px-4 lg:px-8 py-6 rounded-md">
                          <ProductTable/>
                     </div> */}
+                    {fetchLoading ? <Loader size />  
+                        :
                     <div className="bg-white lg:p-5  mt-6 rounded-lg">
                         <Tabs className="px-2 lg:px-0 py-5 lg:py-0">
                             <TabList className="flex fs-400">
@@ -337,6 +343,7 @@ const Meetings = () => {
                             </TabPanel>
                         </Tabs>
                     </div>
+                    }
                 </div>
                 {rMeet && (
                     <div className="fixed font-primary top-0 left-0 w-full h-screen bg-op center-item z-40" onClick={CloseDelete}>

@@ -101,7 +101,7 @@ const PersonalData = () => {
                             {user.profile ?
                                 <label className="block mb-1 border-black">
                                     <small><b>Service Title:</b></small><br/>
-                                    {user.profile.service_category.title}
+                                    {user.profile.service_category ? user.profile.service_category.title : ''}
                                 </label>
                             : ''   
                         }

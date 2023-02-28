@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getDispatchedProjects } from "../../../../redux/actions/ProjectAction";
 import { getProjectCategory } from "../../../../services/helper";
-import Spinner from "../../../layouts/Spinner";
+import { Loader } from "../../../layouts/Spinner";
 import QouteProject from "./projects/Modal/QouteProject";
 
 export function AllProject() {
@@ -43,7 +43,7 @@ export function AllProject() {
       }
 
     if (isLoading) {
-        return <center><Spinner /> </center>
+        return <center><Loader /> </center>
     }
 
     return (

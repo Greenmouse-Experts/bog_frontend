@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 // import { BiEdit } from "react-icons/bi";
 import { Link, useParams } from "react-router-dom";
 import Axios from "../../../../config/config";
-import Spinner from "../../../layouts/Spinner";
+import { Loader } from "../../../layouts/Spinner";
 import ItemList from "./Order/ItemList";
 import dayjs from "dayjs";
 import { IoMdCheckmarkCircle } from "react-icons/io";
@@ -64,7 +64,7 @@ export default function UserOrderDetail() {
   if (loading || !order) {
     return (
       <center>
-        <Spinner />
+        <Loader />
       </center>
     );
   }
