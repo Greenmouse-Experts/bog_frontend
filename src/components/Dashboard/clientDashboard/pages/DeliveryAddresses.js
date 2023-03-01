@@ -16,7 +16,7 @@ import {
   Button,
 } from "@material-tailwind/react";
 import Axios from "../../../../config/config";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import Spinner, { Loader } from "../../../layouts/Spinner";
@@ -40,12 +40,12 @@ const DeliveryAddresses = () => {
 
   useEffect(() => {
     const handlefetch = () => {
-      setLoading(true)
+      setLoading(true);
       if (user) {
         fetchAddresses(stopLoading, setAddresses, user);
       }
-    }
-    handlefetch()
+    };
+    handlefetch();
   }, [user]);
 
   // const handleProjectChange = (val) => {
@@ -64,17 +64,15 @@ const DeliveryAddresses = () => {
   };
 
   const updateAddressStatus = (param, id) => {
-    
-    let updatedAddresses = addresses.map(_address => {
-      let updated = _address
-      if(_address.id === id){
-        updated = {...updated, param}
+    let updatedAddresses = addresses.map((_address) => {
+      let updated = _address;
+      if (_address.id === id) {
+        updated = { ...updated, param };
       }
-      return updated
-    })
-    setAddresses(updatedAddresses)
-    setLoading(true)
-    
+      return updated;
+    });
+    setAddresses(updatedAddresses);
+    setLoading(true);
   };
 
   const authToken = localStorage.getItem("auth_token");
@@ -111,20 +109,18 @@ const DeliveryAddresses = () => {
         status: "error",
         icon: <FaTimes />,
       });
-      toast.error(
-        error.message,
-        {
-          duration: 6000,
-          position: "top-center",
-          style: { background: '#BD362F', color: 'white' },
-        }
-      );
+      toast.error(error.message, {
+        duration: 6000,
+        position: "top-center",
+        style: { background: "#BD362F", color: "white" },
+      });
     }
   };
   const formik = useFormik({
     initialValues: {
       title: "",
       address: "",
+      delivery_time: "",
       state: "",
       country: "",
       charge: "",
@@ -132,7 +128,7 @@ const DeliveryAddresses = () => {
     },
     onSubmit: createDeliveryAddress,
   });
-  const { title, address, state, country, charge, zipcode } = formik.values;
+  const { title, address, delivery_time, state, country, charge, zipcode } = formik.values;
 
   return (
     <div>
@@ -178,9 +174,9 @@ const DeliveryAddresses = () => {
                          <ProductTable/>
                     </div> */}
           <div className="bg-white lg:p-5  mt-6 rounded-lg">
-            {loading ?
+            {loading ? (
               <Loader size />
-              :
+            ) : (
               <>
                 <div className="mt-10 flex justify-between">
                   <div class="flex text-gray-600">
@@ -237,6 +233,9 @@ const DeliveryAddresses = () => {
                           <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
                             Charge
                           </th>
+                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                            Delivery Time
+                          </th>
                           <th className="px-2 fw-600 text-primary align-middle text-center border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap w-56">
                             Action
                           </th>
@@ -249,8 +248,8 @@ const DeliveryAddresses = () => {
                             addresses={addresses}
                             removeAddress={removeFromAddress}
                             updateAddressStatus={updateAddressStatus}
-                          // activateAddress={activateAddress}
-                          // deactivateAddress={deactivateAddress}
+                            // activateAddress={activateAddress}
+                            // deactivateAddress={deactivateAddress}
                           />
                         }
                       </tbody>
@@ -259,7 +258,7 @@ const DeliveryAddresses = () => {
                   </div>
                 </CardBody>
               </>
-            }
+            )}
           </div>
         </div>
         {deliveryAddress && (
@@ -273,7 +272,7 @@ const DeliveryAddresses = () => {
             >
               <form onSubmit={formik.handleSubmit}>
                 <div className="flex justify-between">
-                  <p className="lg:text-lg fw-600">Create address</p>
+                  <p className="lg:text-lg fw-600">Create Address</p>
                   <FaTimes onClick={CloseDelete} />
                 </div>
 
@@ -335,6 +334,19 @@ const DeliveryAddresses = () => {
                     className="w-full h-24 border border-gray-400 rounded mt-2 p-2"
                     required
                   ></textarea>
+                </div>
+                <div className="mt-5">
+                  <label className="block">Delivery Time</label>
+                  <input
+                    type="text"
+                    name="delivery_time"
+                    id="delivery_time"
+                    value={delivery_time}
+                    placeholder="Enter Delivery time"
+                    onChange={formik.handleChange}
+                    className="w-full border border-gray-400 rounded mt-2 p-2"
+                    required
+                  />
                 </div>
 
                 <div className="mt-5">

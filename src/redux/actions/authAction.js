@@ -64,7 +64,7 @@ export const getMe = () => {
 export const loginUser = (apiData, navigate, stopLoading, displayError) => {
     return async (dispatch) => {
         try {
-            const url = `/user/verify/login`;
+            const url = `/user/login`;
             const response = await axios.post(url, apiData);
             dispatch(login(response));
             stopLoading();
