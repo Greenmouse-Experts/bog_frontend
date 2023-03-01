@@ -1,19 +1,23 @@
 import { Breadcrumbs } from "@material-tailwind/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { fetchAllAdminNotifications } from "../../../../redux/actions/notifications";
+import { Loader } from "../../../layouts/Spinner";
 // import Spinner from "../../../layouts/Spinner";
 import NotificationItem from "./Notification/NotificationItem";
 
 export default function Notify() {
     const dispatch = useDispatch();
     const notifications = useSelector(state => state.notifications.adminNotifications);
-    
+    const [loading, setLoading] = useState(false);
+    const stopLoading = () => setLoading(false);
+
     useEffect(() => {
-        dispatch(fetchAllAdminNotifications())
-    }, [dispatch,]);
+        setLoading(true)
+        dispatch(fetchAllAdminNotifications(stopLoading()))
+    }, [dispatch]);
 
     return (
         <div>
@@ -43,43 +47,46 @@ export default function Notify() {
                 {/* notifications */}
                 <div className="lg:p-5 px-2 py-4">
                     <div className="lg:w-8/12 xl:w-7/12 mx-auto lg:py-8 py-4 lg:px-6 bg-white rounded-md">
-                        <Tabs>
-                            <TabList>
-                                <Tab>Recent</Tab>
-                                <Tab>All Notifications</Tab>
-                                <Tab>Unread</Tab>
-                            </TabList>
-                            <TabPanel>
-                                <div className="mt-10 px-3 pb-5">
-                                    {
-                                        notifications.length > 0 &&
-                                        notifications.filter(where => !where.isRead).map(item => (
-                                            <NotificationItem key={item.id} item={item} isAdmin />
-                                        ))
-                                    }
-                                </div>
-                            </TabPanel>
-                            <TabPanel>
-                                <div className="mt-10 px-3 lg:px--0 lg:pb-0 pb-5">
-                                    {
-                                        notifications &&
-                                        notifications.map(item => (
-                                            <NotificationItem key={item.id} item={item} isAdmin />
-                                        ))
-                                    }
-                                </div>
-                            </TabPanel>
-                            <TabPanel>
-                                <div className="mt-10 pb-8 px-3">
-                                    {
-                                        notifications &&
-                                        notifications.filter(where => !where.isRead).map(item => (
-                                            <NotificationItem key={item.id} item={item} isAdmin />
-                                        ))
-                                    }
-                                </div>
-                            </TabPanel>
-                        </Tabs>
+                        {loading ? <Loader size />
+                            :
+                            <Tabs>
+                                <TabList>
+                                    <Tab>Recent</Tab>
+                                    <Tab>All Notifications</Tab>
+                                    <Tab>Unread</Tab>
+                                </TabList>
+                                <TabPanel>
+                                    <div className="mt-10 px-3 pb-5">
+                                        {
+                                            notifications.length > 0 &&
+                                            notifications.filter(where => !where.isRead).map(item => (
+                                                <NotificationItem key={item.id} item={item} isAdmin />
+                                            ))
+                                        }
+                                    </div>
+                                </TabPanel>
+                                <TabPanel>
+                                    <div className="mt-10 px-3 lg:px--0 lg:pb-0 pb-5">
+                                        {
+                                            notifications &&
+                                            notifications.map(item => (
+                                                <NotificationItem key={item.id} item={item} isAdmin />
+                                            ))
+                                        }
+                                    </div>
+                                </TabPanel>
+                                <TabPanel>
+                                    <div className="mt-10 pb-8 px-3">
+                                        {
+                                            notifications &&
+                                            notifications.filter(where => !where.isRead).map(item => (
+                                                <NotificationItem key={item.id} item={item} isAdmin />
+                                            ))
+                                        }
+                                    </div>
+                                </TabPanel>
+                            </Tabs>
+                        }
                     </div>
                 </div>
             </div>

@@ -7,18 +7,24 @@ import { useFormik } from 'formik';
 import { loginValidation } from '../../services/validation'
 import Spinner from "../layouts/Spinner";
 import { FaRegEyeSlash, FaRegEye } from 'react-icons/fa';
+import { Alert } from "@material-tailwind/react";
 
 export default function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     // const error = useSelector((state) => state.auth.error);
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
     const [loading, setLoading] = useState(false);
+    const [errorShow, setError] = useState(false);
+
+    let errorCatch = useSelector((state) => state.auth.error);
     const stopLoading = () => setLoading(false);
+    const displayError = () => setError(true);
+
     const handleSubmit = (values) => {
         setLoading(true)
-        console.log(values);
-        dispatch(loginUser(values, navigate, stopLoading));
+        dispatch(loginUser(values, navigate, stopLoading, displayError));
     }
     const [passwordType, setPasswordType] = useState("password");
     const togglePassword = () => {
@@ -48,6 +54,7 @@ export default function Login() {
         return <Navigate to="/dashboard" replace />
     }
 
+
     return (
         <div className="bg-login min-h-screen bg-cover text-black font-primary" >
             <div className="flex lg:pt-16 text-sm h-screen items-center justify-center">
@@ -61,6 +68,14 @@ export default function Login() {
                             <p className="text-xl fw-700">Log into your account</p>
 
                         </div>
+
+                        <Alert show={errorShow}
+                            dismissible={{
+                                onClose: () => setError(false),
+                            }}
+                             color="red" className="mt-5"
+                        >{errorCatch}</Alert>
+
                         <div className="mt-8">
                             <form onSubmit={formik.handleSubmit}>
                                 <div className="w-full">
