@@ -66,6 +66,9 @@ const AddressListItem = ({
             <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
               NGN {res.charge.toLocaleString()}
             </td>
+            <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+              {res.delivery_time}
+            </td>
             <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-center">
               <div className="flex justify-center text-primary cursor-pointer items-center text-xl">
                 <div className="flex text-xl">
