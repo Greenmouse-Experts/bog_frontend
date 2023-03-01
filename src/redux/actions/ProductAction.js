@@ -167,15 +167,14 @@ export const getCategories = (stopLoading) => {
             dispatch(loading());
             const response = await axios.get('/product/category', config);
             console.log(response);
-            stopLoading();
             dispatch(fetchCategory(response.data))
+            stopLoading();
         } catch (error) {
-            console.log(error.message);
+            stopLoading();
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
             else {
-                stopLoading();
                 dispatch(setError(error.message));
                 toast.error(
                     error?.response?.data?.message || error.message,

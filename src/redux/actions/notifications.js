@@ -80,7 +80,7 @@ export const fetchAllUserNotifications = (userId,stopLoading) => {
     }
 }
 
-export const fetchAllAdminNotifications = () => {
+export const fetchAllAdminNotifications = (stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -94,13 +94,15 @@ export const fetchAllAdminNotifications = () => {
             dispatch(loading());
             const response = await axios.get('/notifications/admin', config);
             console.log(response);
-            dispatch(fetchAdminNotifications(response.data))
+            dispatch(fetchAdminNotifications(response.data));
+            stopLoading();
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
             else {
                 dispatch(setError(error.message));
+                stopLoading();
                 toast.error(
                     error.message,
                     {

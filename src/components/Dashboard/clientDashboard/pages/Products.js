@@ -26,6 +26,7 @@ export default function Products() {
     const [productEdit, setProductEdit] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState(null)
     const products = useSelector((state) => state.products.userProducts);
+    const categories = useSelector((state) => state.products.categories);
     const isLoading = useSelector((state) => state.products.isLoading);
 
     const draftProducts = products.length > 0 ? products.filter(where => where.status === "draft") : [];
@@ -37,6 +38,7 @@ export default function Products() {
         setProductEdit(true)
     }
     const changeDeleteProduct = (val) => {
+        console.log(val);
         setSelectedProduct(val);
         setProductDelete(true)
     }
@@ -57,6 +59,7 @@ export default function Products() {
         return <center><Loader /></center>
     }
 
+    console.log(categories);
 
     return (
         <div className="">
@@ -109,7 +112,7 @@ export default function Products() {
                                     </div>
                                 </TabPanel>
                                 <TabPanel>
-                                    <AddProduct />
+                                    <AddProduct categoryArr={categories} />
                                 </TabPanel>
                                 <TabPanel>
                                     <div>

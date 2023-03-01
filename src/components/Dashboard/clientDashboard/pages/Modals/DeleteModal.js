@@ -49,7 +49,7 @@ const DeleteModal = ({ CloseDelete, meetingId, setFeetback, removeMeeting }) => 
         <div className="fixed font-primary left-0 top-0 w-full h-screen bg-op center-item z-40" onClick={CloseDelete}>
             <div className="bg-white lg:w-5/12 rounded-md  overscroll-none  w-11/12 pt-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
                 <div className="flex lg:px-6 px-5">
-                    <div className="text-2xl pr-3 text-yellow-600">
+                    <div className="text-2xl pr-3 text-red-600">
                         <BsExclamationCircleFill />
                     </div>
                     <div>

@@ -6,9 +6,8 @@ import { productSchema } from '../../../../../services/validation';
 import Spinner from '../../../../layouts/Spinner';
 import { createProduct } from '../../../../../redux/actions/ProductAction';
 
-const AddProduct = () => {
+const AddProduct = ({categoryArr}) => {
     const dispatch = useDispatch();
-    const categories = useSelector((state) => state.products.categories);
     const { user } = useSelector((state) => state.auth);
     const [category, setCategory] = useState("");
     const [photos, setPhotos] = useState([]);
@@ -51,7 +50,8 @@ const AddProduct = () => {
         const value = val.value;
         setCategory(value);
     }
-    const options = categories.length > 0 ? categories.map(category => {
+    console.log(categoryArr);
+    const options = categoryArr.length > 0 ? categoryArr.map(category => {
         return {
             label: category.name,
             value: category.id

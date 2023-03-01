@@ -61,12 +61,11 @@ export const getMe = () => {
     }
 }
 
-export const loginUser = (apiData, navigate, stopLoading) => {
+export const loginUser = (apiData, navigate, stopLoading, displayError) => {
     return async (dispatch) => {
         try {
-            const url = `/user/login`;
+            const url = `/user/verify/login`;
             const response = await axios.post(url, apiData);
-            
             dispatch(login(response));
             stopLoading();
             // Swal.fire({
@@ -85,16 +84,9 @@ export const loginUser = (apiData, navigate, stopLoading) => {
             console.log(error.message);
             const errors = error.response.data.message;
             stopLoading();
+            displayError();
             dispatch(setError(errors));
             dispatch(setAlert(errors, "danger"))
-            toast.error(
-                errors,
-                {
-                    duration: 6000,
-                    position: "top-center",
-                    style: { background: '#BD362F', color: 'white' },
-                }
-            );
         }
     }
 }

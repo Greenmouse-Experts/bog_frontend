@@ -71,7 +71,7 @@ export default function ServiceDashboard() {
               </Link>
             </div>
             <div className="bg-yellow-50 mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
-              <Link to="projects" className="flex justify-between items-center w-full">
+              <Link to="allprojects" className="flex justify-between items-center w-full">
                 <div>
                   <p className="text-xxl pb-2 fw-600">{dispatchedProjects? dispatchedProjects.length : 0}</p>
                   <p className="text-gray-600">Available Projects</p>
