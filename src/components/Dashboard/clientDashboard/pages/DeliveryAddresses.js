@@ -349,6 +349,7 @@ const DeliveryAddresses = () => {
                     className="w-full border border-gray-400 rounded mt-2 p-2"
                     required
                   />
+                  e.g: 2 working days
                 </div>
 
                 <div className="mt-5">
