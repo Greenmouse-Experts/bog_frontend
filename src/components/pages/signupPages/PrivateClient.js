@@ -17,6 +17,8 @@ const PrivateClient = () => {
     const stopLoading = () => setLoading(false);
     const captchaRef = useRef(null)
 
+    // console.log(process.env.REACT_APP_SITE_KEY)
+
     const handleSubmit = (values) => {
         try {
             setLoading(true)
@@ -47,7 +49,7 @@ const PrivateClient = () => {
     const [passTooltip, setPassTooltip] = useState(false)
 
     const referenceValue = localStorage.getItem("reference");
-    console.log({referenceValue});
+   
 
     const formik = useFormik({
 
