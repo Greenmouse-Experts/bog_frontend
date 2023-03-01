@@ -13,11 +13,15 @@ import { OrderReview } from "./Order/OrderReview";
 const orderProgress = [
   {
     status: "pending",
-    allowed: ["pending", "approved", "cancelled", "completed"],
-    percent: 10,
+    allowed: ["pending", "approved", "shipped", "completed"],
+    percent: 0,
   },
-  { status: "cancelled", allowed: ["approved", "completed"], percent: 30 },
-  { status: "approved", allowed: ["completed"], percent: 70 },
+  {
+    status: "cancelled",
+    allowed: ["cancelled"], percent: 0
+  },
+  { status: "approved", allowed: ["approved", "shipped", "completed"], percent: 35 },
+  { status: "shipped", allowed: ["shipped", "completed"], percent: 75 },
   { status: "completed", allowed: ["completed"], percent: 100 },
 ];
 
@@ -117,70 +121,70 @@ export default function UserOrderDetail() {
               <p className="fw-600 underline">Order Progress</p>
 
               <div className="my-6 mb-24 lg:my-10 relative w-11/12">
-                <div className="">
-                  <Progress value={progressVal.percent} color="amber" />
+                  <div className="">
+                    <Progress value={progressVal.percent} color="amber" />
+                  </div>
+                  <div className="absolute -top-2 o-process">
+                    <IoMdCheckmarkCircle
+                      className={`text-2xl circle bg-white ${
+                        orderProgress[0].allowed.filter(
+                          (_allowed) => _allowed === status
+                        ).length > 0
+                          ? "text-secondary"
+                          : "text-gray-400"
+                      }`}
+                    />
+                    <p className={`fw-500 w-8 lg:w-auto fs-400 text-gray-500`}>
+                      Order Sent
+                    </p>
+                  </div>
+                  <div className="absolute -top-2 p-process">
+                    <IoMdCheckmarkCircle
+                      className={`text-2xl circle bg-white ${
+                        orderProgress[2].allowed.filter(
+                          (_allowed) => _allowed === status
+                        ).length > 0
+                          ? "text-secondary"
+                          : "text-gray-400"
+                      }`}
+                    />
+                    <p
+                      className={`fw-500 fs-400 w-8 lg:w-auto text-gray-500 relative -left-6`}
+                    >
+                      Confirmed
+                    </p>
+                  </div>
+                  <div className="absolute -top-2 s-process">
+                    <IoMdCheckmarkCircle
+                      className={`text-2xl circle bg-white ${
+                        orderProgress[3].allowed.filter(
+                          (_allowed) => _allowed === status
+                        ).length > 0
+                          ? "text-secondary"
+                          : "text-gray-400"
+                      }`}
+                    />
+                    <p
+                      className={`fw-500 fs-400 w-8 lg:w-auto text-gray-500 relative -left-6`}
+                    >
+                      Shipped
+                    </p>
+                  </div>
+                  <div className="absolute -top-2 d-process">
+                    <IoMdCheckmarkCircle
+                      className={`text-2xl circle bg-white ${
+                        orderProgress[4].allowed.filter(
+                          (_allowed) => _allowed === status
+                        ).length > 0
+                          ? "text-secondary"
+                          : "text-gray-400"
+                      }`}
+                    />
+                    <p className="fw-500 fs-400 text-gray-500 relative -left-6">
+                      Delivered
+                    </p>
+                  </div>
                 </div>
-                <div className="absolute -top-2 o-process">
-                  <IoMdCheckmarkCircle
-                    className={`text-2xl circle bg-white ${
-                      orderProgress[0].allowed.filter(
-                        (_allowed) => _allowed === status
-                      ).length > 0
-                        ? "text-secondary"
-                        : "text-gray-400"
-                    }`}
-                  />
-                  <p className={`fw-500 w-8 lg:w-auto fs-400 text-gray-500`}>
-                    Order Sent
-                  </p>
-                </div>
-                <div className="absolute -top-2 p-process">
-                  <IoMdCheckmarkCircle
-                    className={`text-2xl circle bg-white ${
-                      orderProgress[1].allowed.filter(
-                        (_allowed) => _allowed === status
-                      ).length > 0
-                        ? "text-secondary"
-                        : "text-gray-400"
-                    }`}
-                  />
-                  <p
-                    className={`fw-500 fs-400 w-8 lg:w-auto text-gray-500 relative -left-6`}
-                  >
-                    Processing Order
-                  </p>
-                </div>
-                <div className="absolute -top-2 s-process">
-                  <IoMdCheckmarkCircle
-                    className={`text-2xl circle bg-white ${
-                      orderProgress[2].allowed.filter(
-                        (_allowed) => _allowed === status
-                      ).length > 0
-                        ? "text-secondary"
-                        : "text-gray-400"
-                    }`}
-                  />
-                  <p
-                    className={`fw-500 fs-400 w-8 lg:w-auto text-gray-500 relative -left-6`}
-                  >
-                    Shipping Order
-                  </p>
-                </div>
-                <div className="absolute -top-2 d-process">
-                  <IoMdCheckmarkCircle
-                    className={`text-2xl circle bg-white ${
-                      orderProgress[3].allowed.filter(
-                        (_allowed) => _allowed === status
-                      ).length > 0
-                        ? "text-secondary"
-                        : "text-gray-400"
-                    }`}
-                  />
-                  <p className="fw-500 fs-400 text-gray-500 relative -left-6">
-                    Delivered
-                  </p>
-                </div>
-              </div>
             </div>
             <div className="lg:grid-83">
               <div>
