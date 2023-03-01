@@ -125,6 +125,7 @@ const AddressInfoModal = ({
               value={addressInfo.delivery_time}
               onChange={e => setAddressInfo({...addressInfo, delivery_time: e.target.value})}
             />
+            e.g: 2 working days
           </div>
           <div className="mt-8 flex justify-end">
             <Button
