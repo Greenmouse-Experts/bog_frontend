@@ -18,11 +18,15 @@ import Swal from "sweetalert2";
 const orderProgress = [
   {
     status: "pending",
-    allowed: ["pending", "approved", "cancelled", "completed"],
-    percent: 10,
+    allowed: ["pending", "approved", "shipped", "completed"],
+    percent: 0,
   },
-  { status: "cancelled", allowed: ["approved", "completed"], percent: 30 },
-  { status: "approved", allowed: ["completed"], percent: 70 },
+  {
+    status: "cancelled",
+    allowed: ["cancelled"], percent: 0
+  },
+  { status: "approved", allowed: ["approved", "shipped", "completed"], percent: 35 },
+  { status: "shipped", allowed: ["shipped", "completed"], percent: 75 },
   { status: "completed", allowed: ["completed"], percent: 100 },
 ];
 
@@ -189,22 +193,6 @@ export default function OrderDetails() {
                   <div className="absolute -top-2 p-process">
                     <IoMdCheckmarkCircle
                       className={`text-2xl circle bg-white ${
-                        orderProgress[1].allowed.filter(
-                          (_allowed) => _allowed === status
-                        ).length > 0
-                          ? "text-secondary"
-                          : "text-gray-400"
-                      }`}
-                    />
-                    <p
-                      className={`fw-500 fs-400 w-8 lg:w-auto text-gray-500 relative -left-6`}
-                    >
-                      Processing Order
-                    </p>
-                  </div>
-                  <div className="absolute -top-2 s-process">
-                    <IoMdCheckmarkCircle
-                      className={`text-2xl circle bg-white ${
                         orderProgress[2].allowed.filter(
                           (_allowed) => _allowed === status
                         ).length > 0
@@ -215,13 +203,29 @@ export default function OrderDetails() {
                     <p
                       className={`fw-500 fs-400 w-8 lg:w-auto text-gray-500 relative -left-6`}
                     >
-                      Shipping Order
+                      Confirmed
+                    </p>
+                  </div>
+                  <div className="absolute -top-2 s-process">
+                    <IoMdCheckmarkCircle
+                      className={`text-2xl circle bg-white ${
+                        orderProgress[3].allowed.filter(
+                          (_allowed) => _allowed === status
+                        ).length > 0
+                          ? "text-secondary"
+                          : "text-gray-400"
+                      }`}
+                    />
+                    <p
+                      className={`fw-500 fs-400 w-8 lg:w-auto text-gray-500 relative -left-6`}
+                    >
+                      Shipped
                     </p>
                   </div>
                   <div className="absolute -top-2 d-process">
                     <IoMdCheckmarkCircle
                       className={`text-2xl circle bg-white ${
-                        orderProgress[3].allowed.filter(
+                        orderProgress[4].allowed.filter(
                           (_allowed) => _allowed === status
                         ).length > 0
                           ? "text-secondary"
@@ -250,7 +254,7 @@ export default function OrderDetails() {
                       <option selected value="">
                         Order Status
                       </option>
-                      {["pending", "approved", "cancelled", "completed"].map(
+                      {["pending", "approved", "cancelled", "shipped", "completed"].map(
                         (stat) => (
                           <option value={stat}>{capitalize(stat)}</option>
                         )

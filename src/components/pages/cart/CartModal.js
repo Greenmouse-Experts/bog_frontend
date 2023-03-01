@@ -1,7 +1,7 @@
 import { PaystackButton } from "react-paystack";
 import { useNavigate } from "react-router-dom";
 import { SuccessAlertWithRedirection } from "../../../services/endpoint";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import Spinner from "../../layouts/Spinner";
 import Axios from "../../../config/config";
 import React, { useState, useEffect } from "react";
@@ -145,11 +145,12 @@ export const CartModal = ({ CloseModal }) => {
           country: address_.country,
           postal_code: address_.zipcode,
           address: address_.address,
-          home_address: address_.home_address,
+          home_address: orderForm.home_address,
           // charge: address_.charge,
           contact_name: orderForm.contact_name,
           contact_email: orderForm.contact_email,
           contact_phone: orderForm.contact_phone,
+          delivery_time: address_.delivery_time
         },
         paymentInfo: {
           reference: payment.reference,
@@ -175,24 +176,18 @@ export const CartModal = ({ CloseModal }) => {
       CloseModal();
       setLoading(false);
       if (error?.response?.data?.message) {
-        toast.error(
-          error.response.data.message,
-          {
-            duration: 6000,
-            position: "top-center",
-            style: { background: '#BD362F', color: 'white' },
-          }
-        );
-        return;
-      }
-      toast.error(
-        error.message,
-        {
+        toast.error(error.response.data.message, {
           duration: 6000,
           position: "top-center",
-          style: { background: '#BD362F', color: 'white' },
-        }
-      );
+          style: { background: "#BD362F", color: "white" },
+        });
+        return;
+      }
+      toast.error(error.message, {
+        duration: 6000,
+        position: "top-center",
+        style: { background: "#BD362F", color: "white" },
+      });
     }
   };
   const handlePaystackSuccessAction = (reference) => {
@@ -295,9 +290,7 @@ export const CartModal = ({ CloseModal }) => {
               required
               id="state"
               value={orderForm.state}
-              onChange={(e) => 
-                getStatesAddress(e.target.value)
-              }
+              onChange={(e) => getStatesAddress(e.target.value)}
             />
             {orderForm.state === "" ? (
               <p className="text-red-500">{"State is required"}</p>
@@ -313,12 +306,14 @@ export const CartModal = ({ CloseModal }) => {
               required
               id="home_address"
               value={orderForm.home_address}
-              onChange={(e) => 
-                setOrderForm({...orderForm, home_address: e.target.value})
+              onChange={(e) =>
+                setOrderForm({ ...orderForm, home_address: e.target.value })
               }
             />
             {orderForm.home_address === "" ? (
-              <p className="text-red-500">{"Destination address is required"}</p>
+              <p className="text-red-500">
+                {"Destination address is required"}
+              </p>
             ) : null}
           </div>
         </div>
@@ -346,6 +341,12 @@ export const CartModal = ({ CloseModal }) => {
         </div>
 
         <div className="fw-600 my-4">
+          {Object.keys(address_).length > 0 && (
+            <div className="flex justify-between my-4">
+              <p>DELIVERY TIME</p>
+              <p>{address_.delivery_time}</p>
+            </div>
+          )}
           <div className="flex justify-between my-4">
             <p>SUB TOTAL</p>
             <p>NGN {formatNumber(totalAmount)}</p>

@@ -117,6 +117,15 @@ const AddressInfoModal = ({
               onChange={e => setAddressInfo({...addressInfo, charge: e.target.value})}
             />
           </div>
+          <div className="mt-5">
+            <label className="block">Delivery Time</label>
+            <input
+              type="text"
+              className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
+              value={addressInfo.delivery_time}
+              onChange={e => setAddressInfo({...addressInfo, delivery_time: e.target.value})}
+            />
+          </div>
           <div className="mt-8 flex justify-end">
             <Button
               type="button"
