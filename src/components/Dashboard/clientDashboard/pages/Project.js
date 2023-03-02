@@ -127,6 +127,22 @@ export function ClientProject({isLoading}) {
 export function ServiceProject({isLoading}) {
     const { projects } = useSelector((state) => state.projects);
 
+    const navigate = useNavigate();
+
+    const [displayModal, setModal] = useState(false);
+    const [targetItem, setTargetItem] = useState('');
+
+    const updateModal = (id) => {
+        setTargetItem(id);
+        setModal(true);
+    }
+
+    const CloseModal = () => {
+        setModal(false);
+    }
+
+    const submitData = () => { console.log(targetItem)}
+
     return (
         <div>
             <div className="min-h-screen fs-500 relative">
@@ -222,8 +238,8 @@ export function ServiceProject({isLoading}) {
                                                                         <Button>View</Button>
                                                                     </MenuHandler>
                                                                     <MenuList>
-                                                                        <MenuItem>View Details</MenuItem>
-                                                                        <MenuItem>Update Details</MenuItem>
+                                                                        <MenuItem onClick={() => (navigate(`/dashboard/myprojectdetails/?projectId=${item.id}`))}>View Details</MenuItem>
+                                                                        <MenuItem onClick={() => updateModal(item.id)}>Update Details</MenuItem>
                                                                     </MenuList>
                                                                 </Menu>
                                                             </div>
@@ -241,6 +257,29 @@ export function ServiceProject({isLoading}) {
                         </div>
                     </div>
                 </div>
+                {displayModal && (
+                    <div className="fixed font-primary left-0 top-0 w-full h-screen bg-op center-item z-40" onClick={CloseModal}>
+                        <div className="bg-white lg:w-5/12 rounded-md  overscroll-none  w-11/12 pt-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
+                            <div className="flex lg:px-6 px-5">
+                                <form>
+                                    <p className='fs-700'>Give update on the progress of the assigned project</p>
+                                    <div className='flex items-center mt-5'>
+                                        <p>Percentage Completion</p>
+                                        <div className='flex items-center border rounded ml-4 w-24'>
+                                            <input type='number' value={0} className='w-10/12 p-1' />
+                                            <p className='p-1 fw-600'>%</p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div className="bg-light rounded-b-md  py-4 mt-5 text-end px-5">
+                                <Button variant="outlined" ripple={true} onClick={CloseModal}>Cancel</Button>
+                                <Button className='bg-primary ml-4' onClick={submitData}>Submit</Button>
+
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )
