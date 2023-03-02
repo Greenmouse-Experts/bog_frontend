@@ -44,9 +44,10 @@ const DeliveryAddresses = () => {
       if (user) {
         fetchAddresses(stopLoading, setAddresses, user);
       }
+      setLoading(false);
     };
     handlefetch();
-  }, [user]);
+  }, [user, loading]);
 
   // const handleProjectChange = (val) => {
   //     const value = val.value;
@@ -128,7 +129,8 @@ const DeliveryAddresses = () => {
     },
     onSubmit: createDeliveryAddress,
   });
-  const { title, address, delivery_time, state, country, charge, zipcode } = formik.values;
+  const { title, address, delivery_time, state, country, charge, zipcode } =
+    formik.values;
 
   return (
     <div>
@@ -347,6 +349,7 @@ const DeliveryAddresses = () => {
                     className="w-full border border-gray-400 rounded mt-2 p-2"
                     required
                   />
+                  e.g: 2 working days
                 </div>
 
                 <div className="mt-5">
