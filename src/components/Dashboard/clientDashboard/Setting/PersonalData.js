@@ -63,7 +63,7 @@ const PersonalData = () => {
             if (result.success === true) {
                 dispatch(getMe())
                 setShow(true);
-                SuccessAlert("Account data update successfully!");
+                SuccessAlert("Account data updated successfully!");
             }
             setLoading(false)
         } catch (error) {

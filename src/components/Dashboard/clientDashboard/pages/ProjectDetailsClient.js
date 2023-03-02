@@ -1,4 +1,4 @@
-import { Avatar, Breadcrumbs } from "@material-tailwind/react";
+import { Breadcrumbs } from "@material-tailwind/react";
 import { Link, useLocation } from "react-router-dom";
 import Axios from "../../../../config/config";
 import { Loader } from "../../../layouts/Spinner";
@@ -90,14 +90,14 @@ export default function ProjectDetailsClient() {
                                                 <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667899753/BOG/sands_cy9q3x.png" alt="order" className="w-16 h-16 lg:h-20 lg:w-20 rounded-lg" />
                                             </div>
                                             <div className="grid content-between  pl-4 fw-500">
-                                                        <p><span className="text-gray-600 fs-400">Project Name:</span> { project?.projectTypes }</p>
-                                                        <p><span className="text-gray-600 fs-400">Service Required:</span> { project?.title }</p>
+                                                        <p><span className="text-gray-600 fs-400">Project Name:</span> {project?.title }</p>
+                                                        <p><span className="text-gray-600 fs-400">Service Required:</span> {project?.projectTypes}</p>
                                                         <p><span className="text-gray-600 fs-400">Start Date:</span> {dayjs(project?.createdAt).format('DD/MM/YYYY')}</p>
                                             </div>
                                         </div>
                                         <div className="fw-500 mt-2 lg:mt-0 lg:text-end">
-                                            <p><span className="text-gray-600 fs-400">Project Cost:</span> NGN 320,000</p>
-                                            <p><span className="text-gray-600 fs-400">Due Date:</span> 18-11-23</p>
+                                                    <p><span className="text-gray-600 fs-400">Project Cost:</span> NGN {project?.totalCost}</p>
+                                                    <p><span className="text-gray-600 fs-400">Due Date:</span> {dayjs(project?.endDate).format('DD/MM/YYYY')}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +108,6 @@ export default function ProjectDetailsClient() {
                                 </div>
                                 <div className="flex fw-500 justify-between pt-6">
                                     <p>
-                                        Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
                                     </p>
                                 </div>
                             </div>
@@ -125,7 +124,7 @@ export default function ProjectDetailsClient() {
                                     <p className="fw-600">Transaction</p>
                                 </div>
                                 <div className="lg:flex fw-500 justify-between pt-6">
-                                    <div>
+                                            {/*<div>
                                         <p>1st Installment Payment</p>
                                         <p className="text-gray-600">Via Paypal</p>
                                     </div>
@@ -134,7 +133,7 @@ export default function ProjectDetailsClient() {
                                     </div>
                                     <div className="mt-2 lg:mt-0">
                                         <p>NGN 1,320, 000</p>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -144,14 +143,14 @@ export default function ProjectDetailsClient() {
                                     <p className="fw-600">Project Address</p>
                                 </div>
                                 <div className="fs-400 fw-500 mt-4">
-                                    <p>No 3, Close road, Estate name, Lagos, Nigeria</p>
+                                    <p></p>
                                 </div>
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
-                                    <p className="fw-600">Project Activities</p>
+                                    <p className="fw-600">Project Completion Rate</p>
                                 </div>
-                                <div className="flex mt-6">
+                                {/*<div className="flex mt-6">
                                     <div>
                                         <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order" />
                                     </div>
@@ -170,26 +169,21 @@ export default function ProjectDetailsClient() {
                                         <p className="text-gray-600">updated the due date for land survey</p>
                                         <p className="text-gray-500 text-xs"> 9 hours ago</p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between pb-4">
                                     <p className="fw-600">Client Review</p>
                                 </div>
                                 <div className="fs-400 mt-4">
-                                    <form>
-                                        <textarea className="w-full px-2 py-2 border h-28 rounded border-gray-400"></textarea>
-                                        <div className="text-end">
-                                            <button className="btn-primary mt-4">Submit</button>
-                                        </div>
-                                    </form>
+                                   
                                 </div>
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">My Info</p>
                                 </div>
-                                <div className="flex mt-6">
+                               {/* <div className="flex mt-6">
                                     <div>
                                         <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order" />
                                     </div>
@@ -207,7 +201,7 @@ export default function ProjectDetailsClient() {
                                         <p className="text-gray-600">Email:</p>
                                         <p className="pl-3">email@test.com</p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

@@ -10,7 +10,7 @@ import { Loader } from "../../../layouts/Spinner";
 export default function ProjectDetails() {
     const { search } = useLocation();
     const projectId = new URLSearchParams(search).get("projectId");
-    const { loading, data: project} = useFetchHook(`/projects/v2/view-project/${projectId}`)
+    const { loading, data: project } = useFetchHook(`/projects/v2/view-project/${projectId}`);
     
     if (loading) {
         return (
@@ -81,7 +81,6 @@ export default function ProjectDetails() {
                                 </div>
                                 <div className="flex fw-500 justify-between pt-6">
                                     <p>
-                                    Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
                                     </p>
                                 </div>
                             </div>
@@ -97,7 +96,7 @@ export default function ProjectDetails() {
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Transaction</p>
                                 </div>
-                                <div className="lg:flex fw-500 justify-between pt-6">
+                                {/*<div className="lg:flex fw-500 justify-between pt-6">
                                     <div>
                                         <p>1st Installment Payment</p>
                                         <p className="text-gray-600">Via Paypal</p>
@@ -108,16 +107,16 @@ export default function ProjectDetails() {
                                     <div className="mt-2 lg:mt-0">
                                         <p>NGN 1,320, 000</p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         <div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
-                                    <p className="fw-600">Project Activities</p>
+                                    <p className="fw-600">Project Completion Rate</p>
                                     <p className="text-primary"><BiEdit/></p>
                                 </div>
-                                <div className="flex mt-6">
+                                {/*<div className="flex mt-6">
                                     <div>
                                         <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
                                     </div>
@@ -136,7 +135,7 @@ export default function ProjectDetails() {
                                         <p className="text-gray-600">updated the due date for land survey</p>
                                         <p className="text-gray-500 text-xs"> 9 hours ago</p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
@@ -178,7 +177,7 @@ export default function ProjectDetails() {
                                     <p className="text-primary"><BiEdit/></p>
                                 </div>
                                 <div className="fs-400 mt-4">
-                                    <p>Proident esse ipsum culpa anim adipisicing quis ea. Quis dolore aliquip eiusmod do nulla ex adipisicing ea pariatur. Labore voluptate anim fugiat aute adipisicing Lorem reprehenderit laborum laborum magna amet non ullamco adipisicing.</p>
+                                    <p></p>
                                 </div>
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">

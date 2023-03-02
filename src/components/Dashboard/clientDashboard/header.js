@@ -167,7 +167,7 @@ export default function Header() {
                             <Menu placement="bottom-end"
                             >
                                 <MenuHandler>
-                                    <Button className="p-0">
+                                    <Button className="p-0" style={{backgroundColor :'transparent'}}>
                                         {
                                             auth?.user?.photo ? <Avatar src={auth.user.photo} /> : <UserAvatar />
                                         }

@@ -1,9 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
 import { HiOutlineIdentification } from 'react-icons/hi'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import useFetchHook from '../../../../hooks/useFetchHook'
-import Spinner from '../../../layouts/Spinner'
+import { Loader } from '../../../layouts/Spinner'
 import AssignProject from './projects/Modal/AssignProject'
 import ViewQoute from './projects/Modal/ViewQoute'
 import RequestItem from './projects/RequestItem';
@@ -13,11 +13,13 @@ export const ServiceRequest = () => {
     const [qoute, setQoute] = useState(false)
     const [assign, setAssign] = useState(false)
     const [selected, setSelected] = useState(null);
-    const { loading, data } = useFetchHook(`/projects/bids/${projectId}`);
+    let { loading, data } = useFetchHook(`/projects/bids/${projectId}`);
+    const navigate = useNavigate();
 
     const CloseModal = () => {
         setQoute(false)
         setAssign(false)
+        navigate('/dashboard/projectsadmin')
     }
 
     const openQoute = (item) => {
@@ -31,7 +33,7 @@ export const ServiceRequest = () => {
 
     if (loading) {
         return <center>
-            <Spinner />
+            <Loader />
         </center>
     }
 
