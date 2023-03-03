@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@material-tailwind/react";
 import { Link, useLocation } from "react-router-dom";
 import Axios from "../../../../../config/config";
-import Spinner from "../../../../layouts/Spinner";
+import { Loader } from "../../../../layouts/Spinner";
 import React, { useState, useEffect } from "react";
 import { FormTypes } from "./FormTypes";
 
@@ -41,7 +41,7 @@ export default function ProjectFile() {
 
     if (loading || !project) {
         return <center>
-            <Spinner />
+            <Loader />
         </center>
     }
 

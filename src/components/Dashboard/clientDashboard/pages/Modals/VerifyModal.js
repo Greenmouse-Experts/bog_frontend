@@ -27,7 +27,6 @@ export const VerifyModal = ({setVerify, client, reload}) => {
             userId: client.id,
             kycPoint: point,
           };
-          console.log(payload);
           const config = {
             headers: {
               "Content-Type": "Application/json",
