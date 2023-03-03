@@ -310,7 +310,6 @@ export default function ProjectsTable({ status, loader }) {
                 </MenuItem>
               )}
               {(row.cell.row.original.status === "ongoing" ||
-                row.cell.row.original.status === "dispatched" ||
                 row.cell.row.original.status === "completed") && (
                 <MenuItem onClick={() => gotoDetailsPage(row.value)}>
                   View Details

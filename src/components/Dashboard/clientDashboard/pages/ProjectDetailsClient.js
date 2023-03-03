@@ -1,15 +1,22 @@
-import { Avatar, Breadcrumbs } from "@material-tailwind/react";
+import { Breadcrumbs, Progress } from "@material-tailwind/react";
 import { Link, useLocation } from "react-router-dom";
 import Axios from "../../../../config/config";
 import { Loader } from "../../../layouts/Spinner";
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
+import Avatar from "react-avatar";
+import { getUserType } from "../../../../services/helper";
+import { ClientReview } from "./projects/clientReview";
 
 export default function ProjectDetailsClient() {
     const { search } = useLocation();
     const projectId = new URLSearchParams(search).get("projectId");
     const [project, setProjects] = useState(null);
     const [loading, setLoading] = useState(false);
+    const auth = useSelector(state => state.auth.user);
+
+    console.log(auth);
 
     const getProjectDetail = async () => {
         try {
@@ -43,6 +50,29 @@ export default function ProjectDetailsClient() {
         return <center>
             <Loader />
         </center>
+    }
+
+    const returnColor = (value) => {
+        if((value >= 0) && (value < 30)) {
+            return 'red'
+        }
+        else if ((value >= 30) && (value < 70)) {
+            return 'yellow'
+        }
+        else if (value >= 70) {
+            return 'green'
+        }
+    }
+
+    const getUsersReview = (reviews) => {
+        let objData;
+        reviews.forEach(review => {
+            if (review.client.id === auth.id) {
+                objData = { review: review.review, star: review.star }
+            }
+        });
+
+        return objData || null
     }
 
     return (
@@ -90,26 +120,16 @@ export default function ProjectDetailsClient() {
                                                 <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667899753/BOG/sands_cy9q3x.png" alt="order" className="w-16 h-16 lg:h-20 lg:w-20 rounded-lg" />
                                             </div>
                                             <div className="grid content-between  pl-4 fw-500">
-                                                        <p><span className="text-gray-600 fs-400">Project Name:</span> { project?.projectTypes }</p>
-                                                        <p><span className="text-gray-600 fs-400">Service Required:</span> { project?.title }</p>
+                                                        <p><span className="text-gray-600 fs-400">Project Name:</span> {project?.title }</p>
+                                                        <p><span className="text-gray-600 fs-400">Service Required:</span> {project?.projectTypes}</p>
                                                         <p><span className="text-gray-600 fs-400">Start Date:</span> {dayjs(project?.createdAt).format('DD/MM/YYYY')}</p>
                                             </div>
                                         </div>
                                         <div className="fw-500 mt-2 lg:mt-0 lg:text-end">
-                                            <p><span className="text-gray-600 fs-400">Project Cost:</span> NGN 320,000</p>
-                                            <p><span className="text-gray-600 fs-400">Due Date:</span> 18-11-23</p>
+                                                    <p><span className="text-gray-600 fs-400">Project Cost:</span> NGN {project?.totalCost}</p>
+                                                    <p><span className="text-gray-600 fs-400">Due Date:</span> {dayjs(project?.endDate).format('DD/MM/YYYY')}</p>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
-                                <div className="flex justify-between border-b border-gray-300 pb-4">
-                                    <p className="fw-600">Project Description</p>
-                                </div>
-                                <div className="flex fw-500 justify-between pt-6">
-                                    <p>
-                                        Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-                                    </p>
                                 </div>
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
@@ -125,7 +145,7 @@ export default function ProjectDetailsClient() {
                                     <p className="fw-600">Transaction</p>
                                 </div>
                                 <div className="lg:flex fw-500 justify-between pt-6">
-                                    <div>
+                                            {/*<div>
                                         <p>1st Installment Payment</p>
                                         <p className="text-gray-600">Via Paypal</p>
                                     </div>
@@ -134,24 +154,22 @@ export default function ProjectDetailsClient() {
                                     </div>
                                     <div className="mt-2 lg:mt-0">
                                         <p>NGN 1,320, 000</p>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
                         <div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
-                                <div className="flex justify-between pb-4">
-                                    <p className="fw-600">Project Address</p>
-                                </div>
-                                <div className="fs-400 fw-500 mt-4">
-                                    <p>No 3, Close road, Estate name, Lagos, Nigeria</p>
-                                </div>
-                            </div>
-                            <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
-                                    <p className="fw-600">Project Activities</p>
-                                </div>
-                                <div className="flex mt-6">
+                                    <p className="fw-600">Project Completion Rate</p>
+                                        </div>
+                                        <div className="flex flex-col mt-6">
+                                            <Progress value={project?.progress ? project?.progress : 0} color={returnColor(project?.progress ? project?.progress : 0)} />
+                                            <div className="grid fs-400 content-between pl-4 fw-500 my-3">
+                                                <p>{project?.progress ? project?.progress : 0}% completed</p>
+                                                </div>
+                                            </div>
+                                {/*<div className="flex mt-6">
                                     <div>
                                         <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order" />
                                     </div>
@@ -170,42 +188,57 @@ export default function ProjectDetailsClient() {
                                         <p className="text-gray-600">updated the due date for land survey</p>
                                         <p className="text-gray-500 text-xs"> 9 hours ago</p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between pb-4">
                                     <p className="fw-600">Client Review</p>
                                 </div>
-                                <div className="fs-400 mt-4">
-                                    <form>
-                                        <textarea className="w-full px-2 py-2 border h-28 rounded border-gray-400"></textarea>
-                                        <div className="text-end">
-                                            <button className="btn-primary mt-4">Submit</button>
-                                        </div>
-                                    </form>
+                                        <div className="fs-400 mt-4">
+                                            {((auth.userType === 'private_client') || (auth.userType === 'corporate_client'))
+                                                ? 
+                                                <ClientReview review={getUsersReview(project?.reviews)} projectId={project?.id} />
+                                                :
+                                                (
+                                                    project?.reviews.length > 0 ? project.reviews.map((review, index) => (
+                                                        <div className="flex mt-6" key={index}>
+                                                            <div>
+                                                                <Avatar src={review.client.photo} variant="circular" alt="order" />
+                                                            </div>
+                                                            <div className="grid fs-400 content-between pl-4 fw-500">
+                                                                <p>{review.client.name}</p>
+                                                                <p className="text-gray-600">{review.review}</p>
+                                                                <p className="text-gray-500 text-xs"> 6 hours ago</p>
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                        :
+                                                        ''
+                                                )
+                                                }
                                 </div>
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
-                                    <p className="fw-600">My Info</p>
+                                            <p className="fw-600">{(auth.userType === 'private_client' || auth.userType === 'corporate_client') ? `My Info` : `Client Info` }</p>
                                 </div>
-                                <div className="flex mt-6">
+                               <div className="flex mt-6">
                                     <div>
-                                        <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order" />
+                                        <Avatar src={project?.client?.photo} variant="circular" alt="order" />
                                     </div>
                                     <div className="grid fs-400 content-between pl-4 fw-500">
-                                        <p>Chukka Uzo</p>
-                                        <p className="text-gray-600">Private Client</p>
+                                                <p>{project?.client?.fname} { project?.client?.lname }</p>
+                                                <p className="text-gray-600">{getUserType(project?.client?.userType)}</p>
                                     </div>
                                 </div>
                                 <div className="fs-400 fw-500 mt-4">
                                     <div className="flex">
                                         <p className="text-gray-600">Phone:</p>
-                                        <p className="pl-3">0800 000 0000</p>
+                                                <p className="pl-3">{ project?.client?.phone }</p>
                                     </div>
                                     <div className="flex">
                                         <p className="text-gray-600">Email:</p>
-                                        <p className="pl-3">email@test.com</p>
+                                                <p className="pl-3">{ project?.client?.email }</p>
                                     </div>
                                 </div>
                             </div>

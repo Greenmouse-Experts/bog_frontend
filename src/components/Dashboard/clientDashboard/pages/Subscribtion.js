@@ -5,7 +5,7 @@ import { BsInfoCircleFill } from 'react-icons/bs'
 import { useState } from 'react'
 import { getAllSubscriptionPlans } from '../../../../redux/actions/SubscriptionAction'
 import { useDispatch, useSelector } from 'react-redux'
-import Spinner from '../../../layouts/Spinner'
+import { Loader } from '../../../layouts/Spinner'
 import SubscriptionItem from './Subscription/SubscriptionItem'
 
 export function Subscription() {
@@ -31,7 +31,7 @@ export function Subscription() {
 
     if (isLoading) {
         return <center>
-            <Spinner />
+            <Loader />
         </center>
     }
     console.log({ plans, user });
