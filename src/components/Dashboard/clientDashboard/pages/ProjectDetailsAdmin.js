@@ -1,7 +1,8 @@
-import { Avatar, Breadcrumbs } from "@material-tailwind/react";
+import { Avatar, Breadcrumbs, Progress } from "@material-tailwind/react";
 import dayjs from "dayjs";
 import React from "react";
 import { BiEdit } from "react-icons/bi";
+import ReactStars from "react-rating-stars-component";
 import { Link, useLocation } from "react-router-dom";
 import useFetchHook from "../../../../hooks/useFetchHook";
 import { formatNumber, getProjectCategory, getUserType } from "../../../../services/helper";
@@ -17,7 +18,20 @@ export default function ProjectDetails() {
             <center><Loader /></center>
         )
     }
-    console.log({project});
+    
+
+    const returnColor = (value) => {
+        if ((value >= 0) && (value < 30)) {
+            return 'red'
+        }
+        else if ((value >= 30) && (value < 70)) {
+            return 'yellow'
+        }
+        else if (value >= 70) {
+            return 'green'
+        }
+    }
+
 
     return (
         <div>
@@ -77,15 +91,6 @@ export default function ProjectDetails() {
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
-                                    <p className="fw-600">Project Description</p>
-                                </div>
-                                <div className="flex fw-500 justify-between pt-6">
-                                    <p>
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
-                                <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Cost Summary</p>
                                 </div>
                                 <div className="flex fw-500 h-56 justify-between pt-6">
@@ -115,6 +120,12 @@ export default function ProjectDetails() {
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Project Completion Rate</p>
                                     <p className="text-primary"><BiEdit/></p>
+                                </div>
+                                <div className="flex flex-col mt-6">
+                                    <Progress value={project?.progress ? project?.progress : 0} color={returnColor(project?.progress ? project?.progress : 0)} />
+                                    <div className="grid fs-400 content-between pl-4 fw-500 my-3">
+                                        <p>{project?.progress ? project?.progress : 0}% completed</p>
+                                    </div>
                                 </div>
                                 {/*<div className="flex mt-6">
                                     <div>
@@ -147,7 +158,7 @@ export default function ProjectDetails() {
                                         <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
                                     </div>
                                     <div className="grid fs-400 content-between pl-4 fw-500">
-                                        <p>{project?.serviceProvider?.service_user?.name}</p>
+                                        <p>{project?.serviceProvider?.company_name}</p>
                                         <p className="text-gray-600">Service Partner</p>
                                     </div>
                                 </div>
@@ -162,22 +173,35 @@ export default function ProjectDetails() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
-                                <div className="flex justify-between pb-4">
-                                    <p className="fw-600">Project Address</p>
-                                    <p className="text-primary"><BiEdit/></p>
-                                </div>
-                                <div className="fs-400 fw-500 mt-4">
-                                    <p>{project?.projectData?.propertyLocation}</p>
-                                </div>
-                            </div>
+
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between pb-4">
                                     <p className="fw-600">Client Review</p>
                                     <p className="text-primary"><BiEdit/></p>
                                 </div>
                                 <div className="fs-400 mt-4">
-                                    <p></p>
+                                    {project?.reviews.length > 0 ? project.reviews.map((review, index) => (
+                                        <div className="flex mt-6" key={index}>
+                                            <div>
+                                                <Avatar src={review.client.photo} variant="circular" alt="order" />
+                                            </div>
+                                            <div className="grid fs-400 content-between pl-4 fw-500">
+                                                <p>{ review.client.name }</p>
+                                                <p className="text-gray-600">{ review.review }</p>
+                                                <p className="text-gray-500 text-xs">
+                                                    <ReactStars
+                                                        count={5}
+                                                        size={25}
+                                                        color2={'#ffd700'}
+                                                        value={review?.star}
+                                                    />
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))
+                                        :
+                                        ''
+                                    }
                                 </div>
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
@@ -190,18 +214,18 @@ export default function ProjectDetails() {
                                                 <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
                                             </div>
                                             <div className="grid fs-400 content-between pl-4 fw-500">
-                                                <p>{project?.projectOwner?.corporate_user?.name || project?.projectOwner?.private_user?.name}</p>
-                                                <p className="text-gray-600">{getUserType(project?.projectOwner?.userType)}</p>
+                                                <p>{project?.client?.name}</p>
+                                                <p className="text-gray-600">{getUserType(project?.client?.userType)}</p>
                                             </div>
                                         </div>
                                 <div className="fs-400 fw-500 mt-4">
                                     <div className="flex">
                                         <p className="text-gray-600">Phone:</p>
-                                        <p className="pl-3">{project?.projectOwner?.corporate_user?.phone || project?.projectOwner?.private_user?.phone}</p>
+                                        <p className="pl-3">{project?.client?.phone}</p>
                                     </div>
                                     <div className="flex">
                                         <p className="text-gray-600">Email:</p>
-                                        <p className="pl-3">{project?.projectOwner?.corporate_user?.email || project?.projectOwner?.private_user?.email}</p>
+                                        <p className="pl-3">{project?.client?.email}</p>
                                     </div>
                                 </div>
                             </div>

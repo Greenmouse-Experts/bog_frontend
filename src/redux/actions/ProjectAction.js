@@ -607,7 +607,7 @@ export const bidForProject = (payload, saveLoading) => {
                 dispatch(setError(errorMsg));
                 saveLoading()
                 toast.error(
-                    error.Msg,
+                    errorMsg,
                     {
                         duration: 6000,
                         position: "top-center",

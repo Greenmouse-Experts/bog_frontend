@@ -10,7 +10,10 @@ import { getMyProject } from '../../../../redux/actions/ProjectAction';
 import { useDispatch } from "react-redux";
 import { getProjectCategory } from "../../../../services/helper";
 import dayjs from "dayjs";
-import { Loader } from "../../../layouts/Spinner";
+import Spinner, { Loader } from "../../../layouts/Spinner";
+import Axios from "../../../../config/config";
+import Swal from "sweetalert2";
+import { toast } from "react-hot-toast";
 
 export default function Projects() {
     const auth = useSelector((state) => state.auth);
@@ -131,9 +134,13 @@ export function ServiceProject({isLoading}) {
 
     const [displayModal, setModal] = useState(false);
     const [targetItem, setTargetItem] = useState('');
+    const [provider, setProvider] = useState('');
+    const [percentage, setPercentageVal] = useState(projects.progress);
+    const [loading, setLoading] = useState(false);
 
-    const updateModal = (id) => {
+    const updateModal = (id, serviceProvider) => {
         setTargetItem(id);
+        setProvider(serviceProvider);
         setModal(true);
     }
 
@@ -141,7 +148,59 @@ export function ServiceProject({isLoading}) {
         setModal(false);
     }
 
-    const submitData = () => { console.log(targetItem)}
+    const setPercentage = (e) => {
+        setPercentageVal(e.target.value)
+    }
+
+    const submitData = async () => {
+        try {
+            setLoading(true);
+            const payload = {
+                percent: percentage,
+            };
+            const config = {
+                headers: {
+                    "Content-Type": "Application/json",
+                    authorization: localStorage.getItem("auth_token"),
+                },
+            };
+            const res = await Axios.put(`/projects/progress/${provider}/${targetItem}`, payload, config);
+            setLoading(false);
+            Swal.fire({
+                title: "Success",
+                imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
+                imageWidth: "75px",
+                text: `${res.message}`,
+                buttonsStyling: "false",
+                confirmButtonText: 'continue',
+                confirmButtonColor: "#3F79AD",
+            })
+            CloseModal()
+            return res
+        } catch (error) {
+            setLoading(false);
+            if (error.response.data.message) {
+                toast.error(
+                    error.response.data.message,
+                    {
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
+                    }
+                );
+                return;
+            }
+            toast.error(
+                error.message,
+                {
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
+                }
+            );
+        }
+    };
+
 
     return (
         <div>
@@ -239,7 +298,7 @@ export function ServiceProject({isLoading}) {
                                                                     </MenuHandler>
                                                                     <MenuList>
                                                                         <MenuItem onClick={() => (navigate(`/dashboard/myprojectdetails/?projectId=${item.id}`))}>View Details</MenuItem>
-                                                                        <MenuItem onClick={() => updateModal(item.id)}>Update Details</MenuItem>
+                                                                        <MenuItem onClick={() => updateModal(item.id, item.serviceProviderId)}>Update Details</MenuItem>
                                                                     </MenuList>
                                                                 </Menu>
                                                             </div>
@@ -266,17 +325,22 @@ export function ServiceProject({isLoading}) {
                                     <div className='flex items-center mt-5'>
                                         <p>Percentage Completion</p>
                                         <div className='flex items-center border rounded ml-4 w-24'>
-                                            <input type='number' value={0} className='w-10/12 p-1' />
+                                            <input type='number' value={percentage} onChange={setPercentage} className='w-10/12 p-1' />
                                             <p className='p-1 fw-600'>%</p>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div className="bg-light rounded-b-md  py-4 mt-5 text-end px-5">
-                                <Button variant="outlined" ripple={true} onClick={CloseModal}>Cancel</Button>
-                                <Button className='bg-primary ml-4' onClick={submitData}>Submit</Button>
+                            {loading ? (
+                                <Spinner />
+                            )
+                                :
+                                <div className="bg-light rounded-b-md  py-4 mt-5 text-end px-5">
+                                    <Button variant="outlined" ripple={true} onClick={CloseModal}>Cancel</Button>
+                                    <Button className='bg-primary ml-4' onClick={submitData}>Submit</Button>
 
-                            </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 )}
