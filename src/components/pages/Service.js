@@ -133,7 +133,7 @@ export default function Service() {
         setSelectedService(name);
     }
 
-    console.log(auth);
+    // console.log(auth);
 
     return (
         <div>
