@@ -108,7 +108,7 @@ const ProductSidebar = () => {
                                 <BsEnvelope className="text-lg" />
                                 <p className="pl-3" id="sideText">Messages</p>
                         </NavLink>
-                        <NavLink 
+                        {/* <NavLink 
                             to="meetings"
                             onClick={unShow}
                             className="w-full flex items-center pl-2 py-2 fw-600 my-4"
@@ -116,7 +116,7 @@ const ProductSidebar = () => {
                             >
                             <BsCameraVideo className="text-xl " />
                             <p className="pl-3" id="sideText">Meetings</p>
-                        </NavLink>
+                        </NavLink> */}
                         <NavLink 
                             to="notify"
                             onClick={unShow}

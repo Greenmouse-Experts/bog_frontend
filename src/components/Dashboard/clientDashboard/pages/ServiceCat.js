@@ -23,6 +23,8 @@ export default function ServiceCategory() {
     useEffect(() => {
         setLoading(true);
         dispatch(getAllServiceCategories(stopLoading))
+        setLoading(false);
+
     }, [dispatch]);
 
     const openEditModal = (item) => {
