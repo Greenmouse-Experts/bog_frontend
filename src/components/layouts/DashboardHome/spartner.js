@@ -1,30 +1,46 @@
 import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {  Breadcrumbs, CardBody } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import ProjectChart from "../../Dashboard/assets/ProjectChart";
 import { getDispatchedProjects, getServicePartnerProjects } from "../../../redux/actions/ProjectAction";
 import dayjs from "dayjs";
+import { Loader } from "../Spinner";
 // import ProjectChart from "../assets/ProjectChart";
 
 export default function ServiceDashboard() {
   const user = useSelector((state) => state.auth.user);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(false);
+
+  const stopLoading = () => setLoading(false);
 
   const dispatchedProjects = useSelector((state) => state.projects.dispatchedProjects)
   const assignedProjects = useSelector((state) => state.projects.assignedProjects)
 
   const ongoingProject = assignedProjects?.filter(where => where.status === "ongoing")
-  const completedProject = assignedProjects?.filter(where => where.status === "completed")
+  const completedProject = assignedProjects?.filter(where => where.status === "completed");
+
+  console.log(assignedProjects);
 
   useEffect(() => {
     if (user) {
-        dispatch(getDispatchedProjects(user.profile.id))
-        dispatch(getServicePartnerProjects(user.profile.id))
+      setLoading(true)
+      dispatch(getDispatchedProjects(user.profile.id, stopLoading))
+      dispatch(getServicePartnerProjects(user.profile.id, stopLoading))
     }
-  }, [dispatch, user])
+  }, [dispatch, user]);
+
+  if (loading) {
+    return (
+      <center>
+        <Loader />
+      </center>
+    )
+  }
   
   return (
     <div className="min-h-screen">
@@ -123,7 +139,7 @@ export default function ServiceDashboard() {
           <div className="bg-white mt-6 rounded-lg ">
             <p className="fw-600 fs-700 bg-primary rounded-t-lg text-white p-4">Overview</p>
             <div className="px-4 py-6">
-                <ProjectChart/>
+              <ProjectChart ongoing={ongoingProject} completed={completedProject} />
             </div>
           </div>
           {/* request analysis */}
@@ -195,13 +211,13 @@ export default function ServiceDashboard() {
                                                         {index + 1}                    
                                                     </td>
                                                     <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                        {item?.project?.projectSlug}
+                                                        {item?.projectSlug}
                                                     </td>
                                                     <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                        {item?.project?.title}
+                                                        {item?.projectTypes}
                                                     </td>
                                                     <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                        {item?.projectData?.projectLocation}
+                                                        {item?.projectLocation ? item.projectLocation : '---'}
                                                     </td>
                                                     <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
                                                         {dayjs(item?.createdAt).format('DD-MMM-YYYY')}

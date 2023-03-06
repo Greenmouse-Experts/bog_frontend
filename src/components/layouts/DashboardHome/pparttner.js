@@ -1,6 +1,6 @@
 import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {  Breadcrumbs, CardBody, Progress } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
@@ -11,14 +11,21 @@ import dayjs from "dayjs";
 import { formatNumber } from "../../../services/helper";
 import { ProductAnalysis } from "../assets/ProductAnalysis";
 import { OrderAnalysis } from "../assets/OrderAnalysis";
+import { Loader } from "../Spinner";
 // import ProjectChart from "../assets/ProjectChart";
 
 export default function ProductDashboard() {
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false);
+
+  const stopLoading = () => setLoading(false);
+
   useEffect(() => {
-    dispatch(getUserProducts())
-    dispatch(getProductOwnerOrders())
+    setLoading(true)
+    dispatch(getUserProducts(stopLoading))
+    dispatch(getProductOwnerOrders(stopLoading))
   }, [dispatch])
+
   const user = useSelector((state) => state.auth.user);
   const product = useSelector((state) => state.products.userProducts);
   const orders = useSelector((state) => state.orders.orderRequests);
@@ -31,7 +38,16 @@ export default function ProductDashboard() {
   const reviewProduct = product.filter(where => where.status === "in_review")
   const disapprovedProduct = product.filter(where => where.status === "disapproved")
 
-  const total = orders.reduce((sum, r) => sum + r.amount, 0)
+  const total = orders.reduce((sum, r) => sum + r.amount, 0);
+
+
+  if (loading) {
+    return (
+      <center>
+        <Loader />
+      </center>
+    )
+  }
   
   return (
     <div className="min-h-screen">
