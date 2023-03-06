@@ -1,13 +1,12 @@
 import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import React from "react";
 import { useSelector } from "react-redux";
 import { Breadcrumbs, CardBody } from "@material-tailwind/react";
 import ChartLine, { ProjectChart } from "../assets/UsersChart";
 import  { AdminChart } from "../assets/ProjectChart";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getAdminOrders } from '../../../redux/actions/OrderAction';
 // import { format } from 'date-fns';
 // import Moment from 'react-moment';
@@ -16,6 +15,7 @@ import { formatNumber } from "../../../services/helper";
 import { FaRegHandPointRight } from "react-icons/fa";
 import { getProjects } from "../../../redux/actions/ProjectAction";
 import { getUsers } from "../../../redux/actions/UserAction";
+import { Loader } from "../Spinner";
 // import Moment from 'react-moment';
 
 
@@ -38,8 +38,28 @@ export default function AdminDashboard(status) {
         }
 
     }
+
+    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
+
+    const stopLoading = () => setLoading(false);
+
+    useEffect(() => {
+        setLoading(true);
+        dispatch(getAdminOrders(stopLoading));
+        dispatch(getProjects(stopLoading));
+        dispatch(getUsers(stopLoading));
+        // dispatch(getCategories());
+    },[dispatch])
+  
+
+    const projects = useSelector((state) => state.projects.projects);
+    const pendingProjects = projects.filter(where => where.status === "pending")
+    const ongoingProjects = projects.filter(where => where.status === "ongoing")
+    const completedProjects = projects.filter(where => where.status === "completed")
+    const cancelledProjects = projects.filter(where => where.status === "cancelled")
+
     let adminOrders = useSelector((state) => state.orders.adminOrders);
-    let projects = useSelector((state) => state.allprojects.projects)
     // let products = useSelector((state) => state.projects.products)
     let orders = useSelector((state) => state.orders.adminOrders)
     let userDatas = useSelector((state) => state.users.users)
@@ -47,13 +67,9 @@ export default function AdminDashboard(status) {
     let users = userDatas?.map(data => data.user)
     const client = users.filter(user => {
         return (user.userType === "corporate_client" || user.userType === "private_client");
-    }); 
-    const service = users.filter(where  => where.userType === 'professional')
-    const vendor = users.filter(where  => where.userType === 'vendor')
-    const pendingProjects = projects.filter(where => where.status === "pending")
-    const ongoingProjects = projects.filter(where => where.status === "ongoing")
-    const completedProjects = projects.filter(where => where.status === "completed")
-    const cancelledProjects = projects.filter(where => where.status === "cancelled")
+    });
+    const service = users.filter(where => where.userType === 'professional')
+    const vendor = users.filter(where => where.userType === 'vendor')
 
     const pendingOrder = orders.filter(where => where.status === "pending")
     const ongoingOrder = orders.filter(where => where.status === "ongoing")
@@ -61,14 +77,15 @@ export default function AdminDashboard(status) {
     const cancelledOrder = orders.filter(where => where.status === "cancelled")
 
 
-  const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getAdminOrders());
-        dispatch(getProjects());
-        dispatch(getUsers());
-        // dispatch(getCategories());
-    }, [dispatch])
-  
+    if (loading) {
+        return (
+            <center>
+                <Loader />
+            </center>
+        )
+    }
+
+
   return (
     <div className="min-h-screen">
       <div className="w-full py-6 lg:px-8 bg-white px-4">
@@ -170,7 +187,7 @@ export default function AdminDashboard(status) {
                     </select>
                 </div>
                 <div className="mt-6">
-                    <AdminChart/>
+                          <AdminChart clientData={projects} />
                 </div>
             </div>
             <div className="bg-white mt-6 lg:mt-0 rounded py-6 px-4">

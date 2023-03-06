@@ -345,8 +345,7 @@ export const getProjects = (stopLoading) => {
                 }
             }
             dispatch(loading());
-            const response = await axios.get('/projects/all', config);
-            console.log(response);
+            const response = await axios.get('/projects/v2/all', config);
             stopLoading();
             dispatch(fetchProjects(response.data))
         } catch (error) {

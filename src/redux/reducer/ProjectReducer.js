@@ -27,6 +27,13 @@ const ProjectReducer = (state = initialState, action) => {
                 services: payload,
                 error: null,
             }
+        case ActionType.FETCH_ALL_PROJECTS:
+            return {
+                ...state,
+                isLoading: false,
+                projects: payload,
+                error: null,
+            }
         case ActionType.FETCH_DISPATCHED_PROJECTS:
             return {
                 ...state,

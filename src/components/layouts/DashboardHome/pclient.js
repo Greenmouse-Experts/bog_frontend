@@ -1,15 +1,16 @@
 import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Avatar, Breadcrumbs, CardBody, Progress } from "@material-tailwind/react";
+import { Breadcrumbs, CardBody, Progress } from "@material-tailwind/react";
 import ProjectChart from "../assets/ProjectChart";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { getUserOrders } from "../../../redux/actions/OrderAction";
 import dayjs from "dayjs";
 import { UserOrderAnal } from "../assets/UserOrderAnal";
-import { getMyProject } from "../../../redux/actions/ProjectAction";
+import { getProjects } from "../../../redux/actions/ProjectAction";
+import { Loader } from "../Spinner";
 
 export default function PclientDashboard() {
 
@@ -22,15 +23,46 @@ export default function PclientDashboard() {
   const pendingOrder = order.filter(where => where.status === "pending")
   const ongoingProject = project.filter(where => where.status === "ongoing")
 
+  const [loading, setLoading] = useState(false);
+
+  const stopLoading = () => setLoading(false);
+
   useEffect(() => {
-    dispatch(getUserOrders())
-  }, [dispatch])
+    setLoading(true)
+    dispatch(getUserOrders(stopLoading))
+  }, [dispatch]);
+
   useEffect(() => {
-    if (user) {
-        dispatch(getMyProject(user.userType, navigate));
-    }
-}, [dispatch, user, navigate])
+   /* if (user) {
+        dispatch(getMyProject(user.userType, navigate, stopLoading));
+    } */
+    dispatch(getProjects(stopLoading))
+  }, [dispatch, user, navigate])
   
+  const myProjects = project.filter(where => where.userId === user.id);
+  
+  const returnColor = (value) => {
+    if ((value >= 0) && (value < 30)) {
+      return 'red'
+    }
+    else if ((value >= 30) && (value < 70)) {
+      return 'yellow'
+    }
+    else if (value >= 70) {
+      return 'green'
+    }
+  }
+
+
+  if (loading) {
+    return (
+      <center>
+        <Loader />
+      </center>
+    )
+  }
+
+
   return (
     <div className="min-h-screen">
       <div className="w-full py-6 lg:px-8 bg-white px-4">
@@ -208,7 +240,7 @@ export default function PclientDashboard() {
               <p className="text-lg fw-600">Project Analysis</p>
             </div>
             <div className="mt-4 px-4 ">
-              <ProjectChart />
+              <ProjectChart data={myProjects} />
             </div>
           </div>
           {/* ongoing projects */}
@@ -219,15 +251,14 @@ export default function PclientDashboard() {
             </div>
             <div className="pt-5 text-sm fw-600 px-6">
               {
-                project.length > 0? project.slice(0, 5).map(item => (
+                myProjects.length > 0? myProjects.slice(0, 5).map(item => (
                   <div className="flex mt-5 justify-between items-center">
-                    <Avatar src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png' />
-                    <div className="lg:w-7/12 xl:w-8/12 w-6/12">
+                    <div className="w-full">
                       <p className="fs-500 pb-2">{item?.title}</p>
-                      <Progress color={item?.status === "pending"? "yellow" : "blue"} value={item?.status === "pending"? "2" : "20"} />
-                    </div>
-                    <div>
-                      <p className="text-yellow-600 mt-4">{item?.status === "pending"? <span>2% Done</span> : <span className="text-blue-600">20% Done</span>}</p>
+                      <Progress value={item?.progress ? item?.progress : 0} color={returnColor(item?.progress ? item?.progress : 0)} />
+                      <div className="grid fs-400 content-between pl-4 fw-500 my-3">
+                        <p>{item?.progress ? project?.progress : 0}% completed</p>
+                      </div>
                     </div>
                   </div>
                 ))
