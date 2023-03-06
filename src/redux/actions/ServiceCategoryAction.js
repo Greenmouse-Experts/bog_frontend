@@ -63,7 +63,7 @@ export const getAllServiceCategories = (stopLoading) => {
                 },
             }
             const response = await axios.get('/services/all', config);
-            stopLoading();
+            // stopLoading();
             dispatch(fetchCategory(response.data))
         } catch (error) {
             console.log(error.message);
@@ -71,7 +71,7 @@ export const getAllServiceCategories = (stopLoading) => {
                 window.location.href = '/';
             }
             else {
-                stopLoading();
+                // stopLoading();
                 dispatch(setError(error.message));
                 toast.error(
                     error.message,
