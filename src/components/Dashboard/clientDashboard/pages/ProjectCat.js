@@ -47,6 +47,7 @@ export default function ProjectCategory() {
         setLoading(true);
         dispatch(getAllServiceCategories(stopLoading))
         dispatch(fetchServiceCategories(stopLoading)); // eslint-disable-next-line 
+        setLoading(false)
     }, [dispatch]);
 
     return (

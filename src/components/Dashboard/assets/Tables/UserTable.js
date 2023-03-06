@@ -144,16 +144,6 @@ export function UsersTable({ status, userType, loader }) {
 
       },
       {
-        Header: "Provider",
-        accessor: "ServiceTypeId",
-        Cell: (props) => {
-          const { service_category } = props.cell.row.original.profile ? props.cell.row.original.profile :  'N/A';
-                    
-          return typeof service_category !== 'undefined' && service_category !== null ? service_category.title : 'N/A'
-        }
-        
-      },
-      {
         Header: "Status",
         accessor: "isActive",
         Cell: (props) => (props.cell.row.original.isActive && !props.cell.row.original.isSuspended) ?
