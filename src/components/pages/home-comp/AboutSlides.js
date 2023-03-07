@@ -255,7 +255,7 @@ export function  ReviewSlide({reviews}) {
             let tl = gsap.timeline();
 
            
-            tl.to(review.current, {xPercent: -50, duration: 32, repeat: 1, ease:"none"})
+            tl.to(review.current, {xPercent: -48, duration: 32, repeat: -1, ease:"none"})
         
             review.current.addEventListener("mouseenter", function () {
                 tl.pause();
@@ -271,7 +271,7 @@ export function  ReviewSlide({reviews}) {
     return (
         <div className="w-full overflow-hidden" >
             <div className="flex w-200 justify-between" ref={review}>
-                {reviews.length > 0 ? reviews.map(item => {
+                {reviews.length > 0 ? reviews.slice(0,6).map(item => {
                         return (
                             <div className="py-4 mr-10 w-96 hover:bg-primary hover:text-white border border-pri px-5 mx-auto bg-white rounded">
                                 <div className="flex items-center">
