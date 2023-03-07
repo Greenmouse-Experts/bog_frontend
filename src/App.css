@@ -261,7 +261,7 @@
     padding-top: 81px;
   }
   .w-200 {
-    width: 150%;
+    width: 200%;
   }
   .w-150 {
     width: 150%;
@@ -496,5 +496,105 @@
   }
   100% {
     transform: translateY(5px);
+  }
+}
+
+/* new addition */
+.sphere{
+  width: 400px;
+  height: 400px;
+  background: url(https://1.bp.blogspot.com/-UUXaK5GCj-k/UcsKJRMgkVI/AAAAAAAACfM/sePP_H08JTQ/s1600/1.jpg);
+  border-radius: 100%;
+  background-size: 980px;
+  animation: spin 20s infinite linear;
+  position: absolute;
+  top: 90px;
+  left:180px;
+}
+@keyframes spin{
+0%{
+  background-position-x: 0
+}
+100%{
+  background-position-x: 980px
+}
+}
+.dots{
+animation: spins 20s infinite linear;
+position: relative;
+top:55px;
+}
+.dots2{
+animation: spins 20s infinite 4s linear;
+position: relative;
+opacity: 0;
+}
+.dots3{
+animation: spins 20s infinite 6s linear;
+position: relative;
+opacity: 0;
+}
+.dots4{
+animation: spins 20s infinite 8s linear;
+position: relative;
+top:40px;
+opacity: 0;
+}
+.dots5{
+animation: spins 20s infinite 13s linear;
+position: relative;
+top:20px;
+opacity: 0;
+}
+.dots6{
+  animation: spins 20s infinite 12s linear;
+  position: relative;
+  top:50px;
+  opacity: 0;
+  }
+@keyframes spins{
+0%{
+  left: 100px;
+  scale: 1;
+  opacity: 1;
+}
+100%{
+  left: 980px;
+  opacity: 1;
+}
+}
+.dash1{
+  width: 580px;
+  height: 580px;
+stroke-dasharray: 900;
+stroke-dashoffset: 507;
+animation: draw 10s linear infinite alternate-reverse;
+}
+.moving-stripes{
+  left:60px;
+  top:-10px;
+}
+@keyframes draw {
+from{
+  stroke-dashoffset: 4000
+}
+to{
+  stroke-dashoffset: 0
+}
+}
+@media (max-width:1250px) {
+  .moving-stripes{
+    left:10px;
+    top:-10px;
+  }
+  .sphere{
+    top: 90px;
+    left:120px;
+    width: 350px;
+    height: 350px;
+  }
+  .dash1{
+    width: 530px;
+    height: 530px;
   }
 }
