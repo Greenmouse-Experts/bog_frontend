@@ -461,7 +461,7 @@ export const approveProjectToStart = (payload) => {
     }
 }
 
-export const getDispatchedProjects = (userId) => {
+export const getDispatchedProjects = (userId, stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -475,13 +475,15 @@ export const getDispatchedProjects = (userId) => {
             dispatch(loading());
             const response = await axios.get(`/projects/dispatched-projects/${userId}`, config);
             console.log(response);
-            dispatch(fetchDispatchedProjects(response.data))
+            dispatch(fetchDispatchedProjects(response.data));
+            stopLoading();
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
             else {
                 dispatch(setError(error.message));
+                stopLoading();
                 toast.error(
                     error.message,
                     {
@@ -496,7 +498,7 @@ export const getDispatchedProjects = (userId) => {
     }
 }
 
-export const getServicePartnerProjects = (userId) => {
+export const getServicePartnerProjects = (userId, stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -510,13 +512,15 @@ export const getServicePartnerProjects = (userId) => {
             dispatch(loading());
             const response = await axios.get(`/projects/assigned-projects/${userId}`, config);
             console.log(response);
-            dispatch(fetchAssignedProjects(response.data))
+            dispatch(fetchAssignedProjects(response.data));
+            stopLoading();
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
             else {
                 dispatch(setError(error.message));
+                stopLoading();
                 toast.error(
                     error.message,
                     {
