@@ -228,7 +228,7 @@ export const getSimilarProduct = (category) => {
     }
 }
 
-export const getUserProducts = (category) => {
+export const getUserProducts = (stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -244,7 +244,8 @@ export const getUserProducts = (category) => {
             console.log({ authToken });
             const response = await axios.get('/products', config);
             console.log(response);
-            dispatch(fetchUserProduct(response.data))
+            dispatch(fetchUserProduct(response.data));
+            stopLoading();
         } catch (error) {
             console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
@@ -252,6 +253,7 @@ export const getUserProducts = (category) => {
             }
             else {
                 dispatch(setError(error.message));
+                stopLoading();
                 toast.error(
                     error?.response?.data?.message || error.message,
                     {
