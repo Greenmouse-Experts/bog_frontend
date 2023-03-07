@@ -422,8 +422,8 @@ export default function Homepage() {
             {/* bringing community together */}
             <div className="section">
                 <div className="box">
-                    <div className="lg:flex flex-row-reverse bg-primary rounded-xl justify-center lg:p-10  items-center">
-                        <div className="lg:w-6/12 lg:py-10">
+                    <div className="lg:flex flex-row-reverse bg-primary rounded-xl justify-center lg:p-10 p-5 py-10  items-center">
+                        <div className="lg:w-6/12 lg:py-10 py-5">
                             <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678204435/BOG/mockuper-removebg-preview_n3gg9g.png' alt="build" className="w-full" />
                         </div>
                         <div className="lg:w-6/12 mt-6 text-white lg:mt-0 ">
