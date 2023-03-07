@@ -86,6 +86,13 @@ export const fetchAssignedProjects = (payload) => {
     }
 }
 
+export const fetchSelectedPartners = (payload) => {
+    return {
+        type: ActionType.FETCH_SELECTED_PARTNERS,
+        payload
+    }
+}
+
 export const assignProject = (payload) => {
     return {
         type: ActionType.ASSIGN_PROJECT,
@@ -535,7 +542,48 @@ export const getServicePartnerProjects = (userId, stopLoading) => {
     }
 }
 
-export const DispatchProject = ({projectId, score}) => {
+
+export const getSelectedPartners = (score, projectId, stopLoading) => {
+    return async (dispatch) => {
+        try {
+            const authToken = localStorage.getItem("auth_token");
+            const config = {
+                headers:
+                {
+                    'Content-Type': 'application/json',
+                    'Authorization': authToken
+                }
+            }
+            const body = {
+                score
+            };
+            const response = await axios.put('/projects/list-providers/' + projectId, body, config);
+            stopLoading();
+            dispatch(fetchSelectedPartners(response.data.providerData));
+        } catch (error) {
+            let errorMsg = error?.response?.data?.message || error.message
+            if (errorMsg === 'Request failed with status code 401') {
+                window.location.href = '/';
+            }
+            else {
+                stopLoading();
+                dispatch(setError(errorMsg));
+                toast.error(
+                    errorMsg,
+                    {
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
+                    }
+                );
+            }
+        }
+
+    }
+}
+
+
+export const DispatchProject = (projectId, partners) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -547,12 +595,7 @@ export const DispatchProject = ({projectId, score}) => {
                 }
             }
             // dispatch(loading());
-            const body = {
-                projectId,
-                status: "dispatched",
-                score
-            };
-            const response = await axios.patch('/projects/dispatch-project/'+projectId, body, config);
+            const response = await axios.put('/projects/v2/dispatch-project/'+projectId, partners, config);
             console.log(response);
             Swal.fire({
                 title: "Project Dispatched",

@@ -41,10 +41,11 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import Swal from "sweetalert2";
 import {
   approveProjectToStart,
-  DispatchProject,
+  getSelectedPartners,
 } from "../../../../redux/actions/ProjectAction";
 import DispatchProjectModal from "../../clientDashboard/pages/Modals/DispatchProject";
 import { Loader } from "../../../layouts/Spinner";
+import SuggestedPartners from "../../clientDashboard/pages/Modals/SuggestedPartners";
 
 // export table files
 
@@ -109,15 +110,23 @@ export default function ProjectsTable({ status, loader }) {
   // let   allProjects = useSelector((state) => state.orders.  allProjects);
   let allProjects = useSelector((state) => state.allprojects.projects);
   const [open, setOpen] = useState(false);
+  const [partnerOpen, setPartnersOpen] = useState(false);
+  const [loadingPartners, setLoadingPartners] = useState(false);
   const [projectId, setProjectId] = useState("");
 
   const openModal = (id) => {
     setProjectId(id);
     setOpen(true);
   };
+
   const closeModal = () => {
     setOpen(false);
   };
+
+  const closePartnerModal = () => {
+    setPartnersOpen(false);
+  };
+
 
   if (status) {
     // console.log(status)
@@ -258,13 +267,18 @@ export default function ProjectsTable({ status, loader }) {
     });
   };
 
-  const dispatchProjectToPartners = (score) => {
+  const stopLoading = () => setLoadingPartners(false);
+
+  const setProjectPartners = (score) => {
     const payload = {
       score,
-      projectId,
     };
-    dispatch(DispatchProject(payload));
+    setLoadingPartners(true);
+    dispatch(getSelectedPartners(payload, projectId, stopLoading));
+    setPartnersOpen(true);
   };
+
+  const partners = useSelector((state) => state.projects.servicePartners);
 
   const columns = useMemo(
     () => [
@@ -371,9 +385,14 @@ export default function ProjectsTable({ status, loader }) {
       {open && (
         <DispatchProjectModal
           closeModal={closeModal}
-          dispatchProject={dispatchProjectToPartners}
+          getProjectPartner={setProjectPartners}
         />
       )}
+
+      {partnerOpen && (
+        <SuggestedPartners data={partners} closeModal={closePartnerModal} prjId={projectId} loading={loadingPartners} />
+      )}
+
       <div className="overflow-hidden px-4 bg-white py-8 rounded-md">
         {loader ? <Loader size /> :
           <Table columns={columns} data={data} className="" />
