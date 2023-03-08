@@ -10,7 +10,7 @@ import { RiEqualizerLine } from 'react-icons/ri';
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCategories, getProducts } from '../../redux/actions/ProductAction';
-import CategoryList from "./shop/CategoryList";
+import CategoryList, { MobileCategory } from "./shop/CategoryList";
 import Spinner from '../layouts/Spinner';
 import { ProductItems } from "./shop/AllprodPag";
 
@@ -19,6 +19,7 @@ export default function Shop() {
     const [all, setAll] = useState(true)
     const [show, setShow] = useState(false);
     const [active, setActive] = useState(null);
+    const [filter,setFilter] = useState("Filter")
     const [productCategory, setProductCategory] = useState([]);
     const products = useSelector((state) => state.products.products);
     const categories = useSelector((state) => state.products.categories);
@@ -38,12 +39,89 @@ export default function Shop() {
     }
 
     const showCategories = (catId) => {
+
         const categorys = products.filter(where => where.category.id === catId);
         setProductCategory(categorys)
         setShow(true);
         setAll(false);
         setActive(catId)
     }
+
+    // filter functions
+    // function handleFilterChange(event) {
+    //     setFilter(event.target.value);
+    // }
+
+    const lowestPrice = (catId) => {
+            if(!show){
+                const lowestPrice = products.sort((a,b) => a.price.localeCompare(b.price, undefined, {numeric: true}));
+                setProductCategory(lowestPrice)
+                setShow(true);
+                setAll(false);
+                setFilter('Lowest Price')
+            }else{
+                const lowestPrice = productCategory.sort((a,b) => a.price.localeCompare(b.price, undefined, {numeric: true}));
+                setProductCategory(lowestPrice)
+                setShow(true);
+                setAll(false);
+                setActive(catId)
+                setFilter('Lowest Price')
+            }
+    }
+    const highestPrice = (catId) => {
+        if(!show){
+            const highestPrice = products.sort((a,b) => b.price.localeCompare(a.price, undefined, {numeric: true}));
+            setProductCategory(highestPrice)
+            setAll(true);
+            setFilter('Highest Price')
+        }else{
+            const highestPrice = productCategory.sort((a,b) => b.price.localeCompare(a.price, undefined, {numeric: true}));
+            setProductCategory(highestPrice)
+            setShow(true);
+            setAll(false);
+            setActive(catId)
+            setFilter('Highest Price')
+        }
+    }
+    const latestProd = (catId) => {
+        if(!show){
+            const highestPrice = products.sort((a,b) => b.createdAt.localeCompare(a.createdAt, undefined, {numeric: true}));
+            setProductCategory(highestPrice)
+            setAll(true);
+            setFilter('Latest Products')
+        }else{
+            const highestPrice = productCategory.sort((a,b) => b.createdAt.localeCompare(a.createdAt, undefined, {numeric: true}));
+            setProductCategory(highestPrice)
+            setShow(true);
+            setAll(false);
+            setActive(catId)
+            setFilter('Latest Products')
+        }
+    }
+    const ratingSet = (catId) => {
+        const highestPrice = productCategory.sort((a,b) => a.rating.localeCompare(b.rating, undefined, {numeric: true}));
+        setProductCategory(highestPrice)
+        setShow(true);
+        setAll(false);
+        setActive(catId)
+    }
+
+    // filter by price
+    const filterBySearch = ({event, catId}) => {
+        // Access input value
+        const query = event.target.value;
+        // Create copy of item list
+        var updatedList = [...productCategory];
+        // Include all elements which includes the search query
+        updatedList = updatedList.filter((item) => {
+        return item.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+        });
+        // Trigger render with updated values
+        setProductCategory(updatedList);
+        setShow(true);
+        setAll(false);
+        setActive(catId)
+    };
 
     useEffect(() => {
         dispatch(getCategories());
@@ -73,28 +151,38 @@ export default function Shop() {
                             <div className="lg:flex items-center justify-between">
                                 <div class=" relative border lg:w-4/12 border-gray-500 rounded  text-gray-600 hidden lg:block">
                                     <input class=" lg:w-11/12 bg-white h-10 px-2  rounded text-sm focus:outline-none"
-                                        type="search" name="search" placeholder="Search Blog Post" />
+                                        type="search" name="search" placeholder="Search Blog Post" onChange={filterBySearch} />
                                     <button type="submit" class="absolute bg-tertiary right-0 top-0 py-2 px-4 rounded-r">
                                         <FontAwesomeIcon icon={faSearch} className="text-white" />
                                     </button>
                                 </div>
-                                <div className="lg:w-4/12 flex lg:justify-end">
-                                    <div className="bg-gray-100 lg:w-5/12 lg:pr-4 pr-2 rounded-md ring-1">
-                                        <select className="py-2 lg:px-6 rounded-md  bg-gray-100 focus:outline-none lg:fw-600 fs-500 pl-2 " onClick={ShowAll}>
-                                            <option >All Products</option>
-                                            <option>New Arrivals</option>
-                                            <option>Top Picks</option>
+                                <div className="lg:w-4/12 lg:flex lg:justify-end">
+                                    <div className="bg-gray-100 mb-4 lg:hidden lg:w-5/12 lg:pr-4 pr-2 rounded-md ring-1">
+                                        <select  className="py-2 lg:px-6 rounded-md w-full  bg-light focus:outline-none lg:fw-600 fs-500 pl-2 " onChange={e => {e.target.value === "all" ? ShowAll() : showCategories(e.target.value)}}>
+                                            <option value="all">All Products</option>
+                                            {categories.filter(where => where.totalProducts !== 0).map(category => {
+                                                return (
+                                                    <MobileCategory
+                                                        key={category.id}
+                                                        category={category}
+                                                        // clickHandler={showCategories}
+                                                        active={active}
+                                                        activeState={activeState}
+                                                    />
+                                                )
+                                            })}
                                         </select>
                                     </div>
-                                    <div className="ml-6">
+                                    <div className="lg:ml-6">
                                         <Menu placement="bottom-end">
                                             <MenuHandler>
-                                                <Button variant="outlined" className="border-0 bg-light rounded text-black flex items-center">Filter <span className="pl-6"><RiEqualizerLine /></span> </Button>
+                                                <Button variant="outlined" className="border-0 bg-light rounded text-black flex items-center">{filter} <span className="pl-6"><RiEqualizerLine /></span> </Button>
                                             </MenuHandler>
                                             <MenuList>
-                                                <MenuItem>Newest Arrivals</MenuItem>
-                                                <MenuItem>Customer Rating</MenuItem>
-                                                <MenuItem>Popularity</MenuItem>
+                                                <MenuItem onClick={latestProd}>Latest Product</MenuItem>
+                                                <MenuItem onClick={lowestPrice}>Lowest Price</MenuItem>
+                                                <MenuItem onClick={highestPrice}>Higest Price</MenuItem>
+                                                <MenuItem onClick={ratingSet}>Rating</MenuItem>
                                             </MenuList>
                                         </Menu>
                                     </div>
@@ -105,8 +193,8 @@ export default function Shop() {
                 </div>
                 <div className="pb-36">
                     <div className="box">
-                        <div className="flex justify-between">
-                            <div className="bg-light lg:pl-12 pl-2  px-4 pt-6 pb-48 w-3/12 rounded">
+                        <div className="lg:flex justify-between">
+                            <div className="bg-light hidden lg:block lg:pl-12 pl-2  px-4 pt-6 pb-48 w-3/12 rounded">
                                 <p className="fw-600 lg:text-xl fs-300 md:fs-400 pt-4">Categories</p>
                                 <p className="border-2 border-black w-4/12 mb-4 bg-black"></p>
                                 <ul className="md:fs-400 fw-500 fs-300 lg:fs-600">
@@ -127,7 +215,7 @@ export default function Shop() {
 
                                 </ul>
                             </div>
-                            <div className="w-9/12 pl-3 lg:pl-0 lg:w-8/12">
+                            <div className="w-full lg:pl-3 lg:pl-0 lg:w-8/12">
 
                                   {
                                     loading ? <Spinner /> : 
@@ -135,9 +223,7 @@ export default function Shop() {
                                         {/* <AllProducts products={show ? productCategory : products} /> */}
                                         <ProductItems itemsPerPage={6} products={show ? productCategory : products}/>
                                     </div>
-                                  }      
-                                
-
+                                  }     
                             </div>
                         </div>
                     </div>
