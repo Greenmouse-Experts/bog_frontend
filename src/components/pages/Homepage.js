@@ -422,12 +422,12 @@ export default function Homepage() {
             {/* bringing community together */}
             <div className="section">
                 <div className="box">
-                    <div className="lg:flex flex-row-reverse bg-primary rounded-xl justify-center lg:p-10 p-5 py-10  items-center">
-                        <div className="lg:w-6/12 lg:py-10 py-5">
+                    <div className="lg:flex flex-row-reverse bg-primary rounded-xl justify-center  items-center">
+                        <div className="lg:w-7/12 lg:py-0 py-5 relative ">
                             <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678204435/BOG/mockuper-removebg-preview_n3gg9g.png' alt="build" className="w-full" />
                         </div>
-                        <div className="lg:w-6/12 mt-6 text-white lg:mt-0 ">
-                            <p className="text-xl fw-600 lg:text-4xl fw-500">
+                        <div className="lg:w-5/12 mt-6 text-white lg:mt-0 lg:p-10 p-5 py-10  ">
+                            <p className="text-xl fw-600 lg:text-3xl fw-500">
                                 Bringing together a community of service partners, product partners
                                 and clients.
                             </p>

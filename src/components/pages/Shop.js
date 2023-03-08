@@ -19,7 +19,7 @@ export default function Shop() {
     const [all, setAll] = useState(true)
     const [show, setShow] = useState(false);
     const [active, setActive] = useState(null);
-    // const [filter,setFilter] = useState("all")
+    const [filter,setFilter] = useState("Filter")
     const [productCategory, setProductCategory] = useState([]);
     const products = useSelector((state) => state.products.products);
     const categories = useSelector((state) => state.products.categories);
@@ -39,6 +39,7 @@ export default function Shop() {
     }
 
     const showCategories = (catId) => {
+
         const categorys = products.filter(where => where.category.id === catId);
         setProductCategory(categorys)
         setShow(true);
@@ -57,12 +58,14 @@ export default function Shop() {
                 setProductCategory(lowestPrice)
                 setShow(true);
                 setAll(false);
+                setFilter('Lowest Price')
             }else{
                 const lowestPrice = productCategory.sort((a,b) => a.price.localeCompare(b.price, undefined, {numeric: true}));
                 setProductCategory(lowestPrice)
                 setShow(true);
                 setAll(false);
                 setActive(catId)
+                setFilter('Lowest Price')
             }
     }
     const highestPrice = (catId) => {
@@ -70,12 +73,14 @@ export default function Shop() {
             const highestPrice = products.sort((a,b) => b.price.localeCompare(a.price, undefined, {numeric: true}));
             setProductCategory(highestPrice)
             setAll(true);
+            setFilter('Highest Price')
         }else{
             const highestPrice = productCategory.sort((a,b) => b.price.localeCompare(a.price, undefined, {numeric: true}));
             setProductCategory(highestPrice)
             setShow(true);
             setAll(false);
             setActive(catId)
+            setFilter('Highest Price')
         }
     }
     const latestProd = (catId) => {
@@ -83,12 +88,14 @@ export default function Shop() {
             const highestPrice = products.sort((a,b) => b.createdAt.localeCompare(a.createdAt, undefined, {numeric: true}));
             setProductCategory(highestPrice)
             setAll(true);
+            setFilter('Latest Products')
         }else{
             const highestPrice = productCategory.sort((a,b) => b.createdAt.localeCompare(a.createdAt, undefined, {numeric: true}));
             setProductCategory(highestPrice)
             setShow(true);
             setAll(false);
             setActive(catId)
+            setFilter('Latest Products')
         }
     }
     const ratingSet = (catId) => {
@@ -151,14 +158,14 @@ export default function Shop() {
                                 </div>
                                 <div className="lg:w-4/12 lg:flex lg:justify-end">
                                     <div className="bg-gray-100 mb-4 lg:hidden lg:w-5/12 lg:pr-4 pr-2 rounded-md ring-1">
-                                        <select  className="py-2 lg:px-6 rounded-md w-full  bg-light focus:outline-none lg:fw-600 fs-500 pl-2 " onChange={(e) => {}}>
-                                            <option >All Products</option>
+                                        <select  className="py-2 lg:px-6 rounded-md w-full  bg-light focus:outline-none lg:fw-600 fs-500 pl-2 " onChange={e => {e.target.value === "all" ? ShowAll() : showCategories(e.target.value)}}>
+                                            <option value="all">All Products</option>
                                             {categories.filter(where => where.totalProducts !== 0).map(category => {
                                                 return (
                                                     <MobileCategory
                                                         key={category.id}
                                                         category={category}
-                                                        clickHandler={showCategories}
+                                                        // clickHandler={showCategories}
                                                         active={active}
                                                         activeState={activeState}
                                                     />
@@ -169,7 +176,7 @@ export default function Shop() {
                                     <div className="lg:ml-6">
                                         <Menu placement="bottom-end">
                                             <MenuHandler>
-                                                <Button variant="outlined" className="border-0 bg-light rounded text-black flex items-center">Filter <span className="pl-6"><RiEqualizerLine /></span> </Button>
+                                                <Button variant="outlined" className="border-0 bg-light rounded text-black flex items-center">{filter} <span className="pl-6"><RiEqualizerLine /></span> </Button>
                                             </MenuHandler>
                                             <MenuList>
                                                 <MenuItem onClick={latestProd}>Latest Product</MenuItem>
