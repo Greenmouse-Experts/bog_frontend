@@ -582,6 +582,11 @@ to{
   stroke-dashoffset: 0
 }
 }
+@media (max-width: 1200px) and (min-width: 960px){
+  .extra3{
+    display: none;
+  }
+}
 @media (max-width: 1433px) and (min-width: 1017px){
   .moving-stripes{
     left:10px;
