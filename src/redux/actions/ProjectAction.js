@@ -86,6 +86,13 @@ export const fetchAssignedProjects = (payload) => {
     }
 }
 
+export const fetchCommitmentFee = (payload) => {
+    return {
+        type: ActionType.FETCH_COMMITMENT_FEE,
+        payload
+    }
+}
+
 export const fetchSelectedPartners = (payload) => {
     return {
         type: ActionType.FETCH_SELECTED_PARTNERS,
@@ -376,7 +383,7 @@ export const getProjects = (stopLoading) => {
     }
 }
 
-export const commenceProject = (projectId) => {
+export const commenceProject = (projectId, payload) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -387,16 +394,13 @@ export const commenceProject = (projectId) => {
                     'Authorization': authToken
                 }
             }
-            const body = {
-                approvalStatus: 'in_review'
-            }
             dispatch(loading());
-            const response = await axios.patch('/projects/request-for-approval/'+projectId, body, config);
+            const response = await axios.patch('/projects/request-for-approval/'+projectId, payload, config);
             console.log(response);
-            const payload = {
+            const editPayload = {
                 projectId
             }
-            dispatch(editProject(payload));
+            dispatch(editProject(editPayload));
             Swal.fire({
                 title: "Review Sent",
                 text: "Project sent for review",
@@ -622,6 +626,83 @@ export const DispatchProject = (projectId, partners) => {
 
     }
 }
+
+
+export const commitmentFee = (payload) => {
+    return async (dispatch) => {
+        try {
+            const authToken = localStorage.getItem("auth_token");
+            const config = {
+                headers:
+                {
+                    'Content-Type': 'application/json',
+                    'Authorization': authToken
+                }
+            }
+            const response = await axios.post('/fees/update-commitment', payload, config);
+            console.log(response);
+            Swal.fire({
+                title: "Commitment Fee Set",
+                text: `Commitment Fee set Successfully`,
+                icon: "success",
+                confirmButtonColor: '#3f79ad'
+            })
+        } catch (error) {
+            let errorMsg = error?.response?.data?.message || error.message
+            if (errorMsg === 'Request failed with status code 401') {
+                window.location.href = '/';
+            }
+            else {
+                dispatch(setError(errorMsg));
+                toast.error(
+                    errorMsg,
+                    {
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
+                    }
+                );
+            }
+        }
+
+    } 
+}
+
+
+export const getCommitmentFee = () => {
+    return async (dispatch) => {
+        try {
+            const authToken = localStorage.getItem("auth_token");
+            const config = {
+                headers:
+                {
+                    'Content-Type': 'application/json',
+                    'Authorization': authToken
+                }
+            }
+            dispatch(loading());
+            const response = await axios.get(`/fees/commitment`, config);
+            dispatch(fetchCommitmentFee(response.data));
+        } catch (error) {
+            if (error.message === 'Request failed with status code 401') {
+                window.location.href = '/';
+            }
+            else {
+                dispatch(setError(error.message));
+                toast.error(
+                    error.message,
+                    {
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
+                    }
+                );
+            }
+        }
+
+    }
+}
+
 
 export const bidForProject = (payload, saveLoading) => {
     return async (dispatch) => {
