@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function CreateEmail() {
-    
+
 
     return (
         <div>
@@ -16,12 +16,12 @@ export default function CreateEmail() {
                         <Breadcrumbs className="bg-white pl-0 mt-4">
                             <Link to="/" className="opacity-60">
                                 <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-4 w-4"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-4 w-4"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
                                 >
-                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                                 </svg>
                             </Link>
                             <Link to="/dashboard" className="opacity-60">
@@ -35,7 +35,7 @@ export default function CreateEmail() {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                </div> 
+                </div>
                 {/* content */}
                 <div className="lg:p-5 px-3 lg:mt-8 py-5">
                     <div className="mb-8 pb-6 rounded-md lg:w-11/12 mx-auto bg-white">
@@ -70,13 +70,13 @@ export default function CreateEmail() {
                                 </select>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                     <div className="border-t py-6 border-gray-400 text-end">
                         <button className="lg:px-8 px-4 fw-500 py-2 border-pri text-primary mr-6 rounded-lg">Save To Draft</button>
                         <button className="lg:px-8 px-4 fw-500 py-2 bg-primary text-white rounded-lg">Send Email</button>
-                    </div>                
+                    </div>
                 </div>
             </div>
         </div>
-        )
+    )
 }

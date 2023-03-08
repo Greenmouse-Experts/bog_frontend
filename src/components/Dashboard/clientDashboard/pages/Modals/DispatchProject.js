@@ -1,12 +1,23 @@
 import { Button } from '@material-tailwind/react'
 import React, { useState } from 'react'
 
-const DispatchProjectModal = ({closeModal, dispatchProject}) => {
+const DispatchProjectModal = ({closeModal, getProjectPartner}) => {
     const [score, setScore] = useState(0);
+    const [errorAlert, setError] = useState(true);
+
+    const setData = (number) => {
+        setScore(number);
+        if ((number === 0) || (isNaN(number))) {
+            setError(true)
+        }
+        else {
+            setError(false)
+        }
+    }
 
     const submitProjectToPartners = () => {
-        dispatchProject(score);
-        closeModal();
+            getProjectPartner(score);
+            closeModal();
     }
 
     return (
@@ -18,7 +29,7 @@ const DispatchProjectModal = ({closeModal, dispatchProject}) => {
                         <div className='flex items-center mt-5'>
                             <p>Enter score for selecting service partner</p>
                             <div className='flex items-center border rounded ml-4 w-24'>
-                                <input type='number' value={score} onChange={(e) => setScore(e.target.valueAsNumber)} className='w-10/12 p-1'/>
+                                <input type='number' value={score} onChange={(e) => setData(e.target.valueAsNumber)} className='w-10/12 p-1'/>
                                 <p className='p-1 fw-600'>%</p>
                             </div>
                         </div>
@@ -26,7 +37,7 @@ const DispatchProjectModal = ({closeModal, dispatchProject}) => {
                 </div>
                 <div className="bg-light rounded-b-md  py-4 mt-5 text-end px-5">
                     <Button variant="outlined" ripple={true} onClick={closeModal}>Close</Button>
-                    <Button className='bg-primary ml-4' onClick={submitProjectToPartners}>Dispatch Project</Button>
+                    <Button className='bg-primary ml-4' disabled={errorAlert} onClick={submitProjectToPartners}>Get Service Partners</Button>
     
                 </div>
             </div>

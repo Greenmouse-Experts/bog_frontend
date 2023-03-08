@@ -3,6 +3,7 @@ import * as ActionType from '../type';
 const initialState = {
     projects: [],
     services: [],
+    servicePartners: [],
     dispatchedProjects: [],
     assignedProjects: [],
     isLoading: false,
@@ -32,6 +33,13 @@ const ProjectReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 projects: payload,
+                error: null,
+            }
+        case ActionType.FETCH_SELECTED_PARTNERS:
+            return {
+                ...state,
+                isLoading: false,
+                servicePartners: payload,
                 error: null,
             }
         case ActionType.FETCH_DISPATCHED_PROJECTS:
