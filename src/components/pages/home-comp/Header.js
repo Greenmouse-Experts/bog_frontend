@@ -49,9 +49,9 @@ export default function Header() {
                             <li><BsList className="xl:text-3xl text-2xl cursor-pointer transition hover:scale-110" onClick={() => setHomeMenu(true)} /></li>
                             <li><Link to="/shop">Products</Link></li>
                             {((auth?.user?.userType !== 'professional') && (auth?.user?.userType !== 'admin')) ? (
-                                <li><Link to="/services">Request for Service Provider</Link></li>
+                                <li><Link to="/services"><span className="hidden xl:inline">Request for </span>Service Provider</Link></li>
                             )
-                                : (<li className='cursor-pointer' onClick={errorRequest}>Request for Service Provider</li>)
+                                : (<li className='cursor-pointer' onClick={errorRequest}><span className="hidden xl:inline">Request for </span>Service Provider</li>)
                             }
                         </ul>
                     </div>
