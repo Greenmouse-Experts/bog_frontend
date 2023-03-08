@@ -131,24 +131,24 @@ export default function Homepage() {
                             <img src={require("../assets/images/hero3.png")} alt="hero3" className="absolute lg:w-28 w-20 hero3" />
                             <img src={require("../assets/images/hero4.png")} alt="hero4" className="absolute lg:w-28 w-20 hero4" />
                         </div> */}
-                        <div className='lg:w-6/12 relative hidden lg:block overflow-hidden h-01'>
+                        <div className='lg:w-6/12 ipad-view relative mt-10 lg:mt-0 overflow-hidden lg:h-01 h-02'>
                             <div className='sphere overflow-hidden'>
-                                <div className='w-16 h-8 circle dots'>
+                                <div className='w-16 h-8 lg:w-20 lg:h-10 circle dots'>
                                     <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678109146/BOG/hero1_twfxri.png' alt='hero1' />
                                 </div>
-                                <div className='w-16 h-8 circle dots2'>
+                                <div className='w-16 h-8 lg:w-20 lg:h-10 circle dots2'>
                                     <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678109146/BOG/hero3_w2h66q.png' alt='hero1' />
                                 </div>
-                                <div className='w-16 h-8 circle dots3'>
+                                <div className='w-16 h-8 lg:w-20 lg:h-10 circle dots3'>
                                     <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678109146/BOG/hero1_twfxri.png' alt='hero1' />
                                 </div>
-                                <div className='w-16 h-8 circle dots4'>
+                                <div className='w-16 h-8 lg:w-20 lg:h-10 circle dots4'>
                                     <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678109146/BOG/hero4_ebkb4v.png' alt='hero1' />
                                 </div>
-                                <div className='w-16 h-8 circle dots5'>
+                                <div className='w-16 h-8 lg:w-20 lg:h-10 circle dots5'>
                                     <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678109146/BOG/hero2_gsfuqg.png' alt='hero1' />
                                 </div>
-                                <div className='w-16 h-8 circle dots6'>
+                                <div className='w-16 h-8 lg:w-20 lg:h-10 circle dots6'>
                                     <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678109146/BOG/hero3_w2h66q.png' alt='hero1' />
                                 </div>
                             </div>
@@ -165,7 +165,7 @@ export default function Homepage() {
                                 </svg>
                             </div>
                         </div>
-                        <div className="lg:w-6/12 py-24 text-white">
+                        <div className="lg:w-6/12 py-12 text-white">
                             <p className="lg:text-4xl relative lg:leading-snug text-2xl fw-600" ref={intro}>
                                 Providing products and services to intending structure owners across borders.
                             </p>

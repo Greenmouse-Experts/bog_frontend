@@ -81,9 +81,9 @@ export function ProductItems({ itemsPerPage, products }) {
         renderOnZeroPageCount={null}
         className="flex justify-end items-center mt-12 bg-light w-full fs-600 lg:py-2 lg:px-5 rounded-lg"
         pageClassName="w-5 lg:w-9 h-5 lg:h-9 grid place-content-center border border-gray-400 text-white mx-1 fw-600 circle bg-primary"
-        pageLinkClassName="w-5 lg:w-9 h-5 lg:h-9 grid place-content-center border border-gray-400 text-white fs-500 mx-1 fw-600 circle bg-primary"
-        activeClassName="bg-light text-black"
-        activeLinkClassName="bg-light text-black"
+        pageLinkClassName="w-5 lg:w-9 h-5 lg:h-9 grid place-content-center border border-gray-400  fs-500 mx-1 fw-600 circle bg-primary"
+        activeClassName="bg-light "
+        activeLinkClassName="bg-light text-primary"
       />
     </>
   );
