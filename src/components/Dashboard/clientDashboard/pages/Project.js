@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { Breadcrumbs, Button, Menu, MenuHandler, MenuItem, MenuList } from "@material-tailwind/react";
-import ProjectChart from "../../assets/ProjectChart";
+// import ProjectChart from "../../assets/ProjectChart";
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 import ProjectTable from "../../assets/Tables/ProjectTable";
