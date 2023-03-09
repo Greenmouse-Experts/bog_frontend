@@ -16,11 +16,13 @@ const RecentProducts = ({ item }) => {
             <div className="w-8/12 pl-6 grid content-between">
                 <div className="fs-500">
                     <p>{item.name}</p>
-                    <ReactStars
-                        edit={false}
-                        value={4}
-                        size={20}
-                    />
+                    {item.status !== "in_review" && (
+                        <ReactStars
+                            edit={false}
+                            value={4}
+                            size={20}
+                        />
+                    )}
                     <p className="mt-1 fw-600">NGN {formatNumber(item.price)}</p>
                 </div>
             </div>
