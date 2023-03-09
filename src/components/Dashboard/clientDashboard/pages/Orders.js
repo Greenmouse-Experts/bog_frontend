@@ -1,14 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { Breadcrumbs, CardBody } from "@material-tailwind/react";
+import { Breadcrumbs} from "@material-tailwind/react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
 import { getUserOrders } from "../../../../redux/actions/OrderAction";
-import OrderItem from "./Order/OrderItem";
-import OrderHeader from "./Order/OrderHeader";
-import SearchHeader from "./Order/SearchHeader";
 import { Loader } from "../../../layouts/Spinner";
+import UserOrderTable from "../../assets/Tables/userOrder";
 
 export default function Orders() {
   const dispatch = useDispatch();
@@ -64,10 +62,8 @@ export default function Orders() {
 
               {/* All Orders */}
               <TabPanel>
-                <SearchHeader />
-                <CardBody>
                   <div className="overflow-x-auto">
-                    <table className="items-center w-full bg-transparent border-collapse">
+                    {/* <table className="items-center w-full bg-transparent border-collapse">
                       <thead className="thead-light bg-light">
                         <OrderHeader />
                       </thead>
@@ -78,72 +74,32 @@ export default function Orders() {
                           )) : null
                         }
                       </tbody>
-                    </table>
+                    </table> */}
+                    {
+                      orders.length > 0 ? <UserOrderTable/> : "No Orders"
+                    }
                   </div>
-                </CardBody>
               </TabPanel>
 
               {/* Pending Orders */}
               <TabPanel>
-                <SearchHeader />
-                <CardBody>
-                  <div className="overflow-x-auto">
-                    <table className="items-center w-full bg-transparent border-collapse">
-                      <thead className="thead-light bg-light">
-                        <OrderHeader />
-                      </thead>
-                      <tbody>
-                        {
-                          orders.length > 0 ? orders.filter(order => order.status === "pending").map((item, index) => (
-                            <OrderItem key={item.id} item={item} index={index} />
-                          )) : null
-                        }
-                      </tbody>
-                    </table>
-                  </div>
-                </CardBody>
+                  {
+                      orders.length > 0 ? <UserOrderTable status="pending"/> : "No Orders"
+                    }
               </TabPanel>
 
               {/* Delivered Orders */}
               <TabPanel>
-                <SearchHeader />
-                <CardBody>
-                  <div className="overflow-x-auto">
-                    <table className="items-center w-full bg-transparent border-collapse">
-                      <thead className="thead-light bg-light">
-                        <OrderHeader />
-                      </thead>
-                      <tbody>
-                        {
-                          orders.length > 0 ? orders.filter(order => order.status === "completed").map((item, index) => (
-                            <OrderItem key={item.id} item={item} index={index} />
-                          )) : null
-                        }
-                      </tbody>
-                    </table>
-                  </div>
-                </CardBody>
+                {
+                      orders.length > 0 ? <UserOrderTable status="completed"/> : "No Orders"
+                    }
               </TabPanel>
 
               {/* Cancelled Orders */}
               <TabPanel>
-                <SearchHeader />
-                <CardBody>
-                  <div className="overflow-x-auto">
-                    <table className="items-center w-full bg-transparent border-collapse">
-                      <thead className="thead-light bg-light">
-                        <OrderHeader />
-                      </thead>
-                      <tbody>
-                        {
-                          orders.length > 0 ? orders.filter(order => order.status === "cancelled").map((item, index) => (
-                            <OrderItem key={item.id} item={item} index={index} />
-                          )) : null
-                        }
-                      </tbody>
-                    </table>
-                  </div>
-                </CardBody>
+                {
+                      orders.length > 0 ? <UserOrderTable status="cancelled"/> : "No Orders"
+                    }
               </TabPanel>
             </Tabs>
             }
