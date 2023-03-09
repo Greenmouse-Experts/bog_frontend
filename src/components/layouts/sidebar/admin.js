@@ -105,7 +105,7 @@ const AdminSidebar = () => {
       </div>
       {showSideBar && (
         <div
-          className="fixed lg:pb-24 overflow-y-scroll z-20 bg-white fs-400 top-20 w-6/12 h-full lg:sidebar-w shadow pt-2 px-2"
+          className="fixed lg:pb-24 overflow-y-scroll z-20 bg-white fs-400 top-20 w-6/12 h-full lg:sidebar-w shadow lg:pl-4 pt-2 px-2"
           onClick={CloseAll}
         >
           <div className="">

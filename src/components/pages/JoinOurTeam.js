@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Footer from "./home-comp/Footer";
 import Header from "./home-comp/Header";
 
@@ -32,7 +33,7 @@ export default function JoinTeam(){
                     <div className="box">
                         <div className="lg:flex items-center justify-between">
                             <p className="text-lg fw-600">Explore our jobs and oppurtunity</p>
-                            <button className="btn-primary mt-6 lg:mt-0">Click here to explore jobs and apply  </button>
+                            <Link to='/become-partner'><button className="btn-primary mt-6 lg:mt-0">Click here to explore jobs and apply  </button></Link>
                         </div>
                     </div>
                 </div>
@@ -57,7 +58,7 @@ export default function JoinTeam(){
                             <div className="lg:w-6/12 mx-auto text-center">
                                 <p className="lg:text-3xl text-xl fw-600">Why you’ll love working here</p>
                                 <p className="my-5">We value our team members, and we offer a full range of benefits and perks designed to support both your personal and professional goals:</p>
-                                <button className="btn-primary">Join Our Team</button>
+                                <Link to='/signup' className="bg-primary"><button className="btn-primary">Join Our Team</button></Link>
                             </div>
                             <div className="lg:flex lg:mt-20 mt-16">
                                 <div className="lg:w-4/12 lg:grid items content-between">

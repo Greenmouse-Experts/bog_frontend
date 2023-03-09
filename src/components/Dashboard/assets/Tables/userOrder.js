@@ -83,19 +83,19 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export default function OrderTable({status, loader}){
+export default function UserOrderTable({status, loader}){
   // let adminOrders = useSelector((state) => state.orders.adminOrders);
-      let adminOrders = useSelector((state) => state.orders.adminOrders);
+      let userOrders = useSelector((state) => state.orders.userOrders);
 
     if (status) {
-        adminOrders = adminOrders.filter(where => where.status === status)
+        userOrders = userOrders.filter(where => where.status === status)
     }
     const formatNumber = (number) => {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   const navigate = useNavigate()
     const gotoDetailsPage = (id) => {
-        navigate(`/dashboard/orderadmindetail?productId=${id}`)
+        navigate(`/dashboard/order-detail/${id}`)
     }
     const formatStatus = (status) => {
       switch (status) {
@@ -166,7 +166,7 @@ export default function OrderTable({status, loader}){
       );
 
     
-      const data = useMemo(() => adminOrders, [adminOrders]);
+      const data = useMemo(() => userOrders, [userOrders]);
     
       return (
         <>

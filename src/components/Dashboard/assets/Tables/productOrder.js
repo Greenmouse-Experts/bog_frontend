@@ -4,8 +4,6 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight, FaFileDownload } from "react-icons/fa";
 import { useTable, useGlobalFilter, useAsyncDebounce, useFilters, usePagination } from "react-table";
-import { useNavigate } from "react-router-dom";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { useMemo } from "react";
 import * as moment from 'moment'
 import {
@@ -83,20 +81,16 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export default function OrderTable({status, loader}){
+export default function ProductOrderTable({status, loader}){
   // let adminOrders = useSelector((state) => state.orders.adminOrders);
-      let adminOrders = useSelector((state) => state.orders.adminOrders);
+      let productOrders = useSelector((state) => state.orders.orderRequests);
 
     if (status) {
-        adminOrders = adminOrders.filter(where => where.status === status)
+        productOrders = productOrders.filter(where => where.order.status === status)
     }
     const formatNumber = (number) => {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-  const navigate = useNavigate()
-    const gotoDetailsPage = (id) => {
-        navigate(`/dashboard/orderadmindetail?productId=${id}`)
-    }
     const formatStatus = (status) => {
       switch (status) {
           case "in_review":
@@ -124,13 +118,17 @@ export default function OrderTable({status, loader}){
             accessor: ( row, index) => index + 1  //RDT provides index by default
           },
           {
-            Header: "Order ID	",
-            accessor: "orderSlug",
+            Header: "Product Name",
+            accessor: "product.name",
           },
           {
-            Header: "Product Name",
-            accessor: "order_items[0].product.name",
-            
+            Header: "Product Amount",
+            accessor: "amount",
+            Cell: (props) => `NGN ${formatNumber(props.value)}`
+          },
+          {
+            Header: "Quantity",
+            accessor:  'quantity',
           },
           {
             Header: "Date",
@@ -140,33 +138,16 @@ export default function OrderTable({status, loader}){
             // filter: 'includes',
           },
           {
-            Header: "Price",
-            accessor:  'totalAmount',
-            Cell: (props) => `NGN ${formatNumber(props.value)}`
-          },
-          {
             Header: "Status",
-            accessor: "status",
+            accessor: "order.status",
             Cell: (props) => formatStatus(props.value)
-          },
-          {
-            Header: 'Action',
-            accessor: 'id',
-            Cell: (row) => <Menu placement="left-start" className="w-16">
-                            <MenuHandler>
-                              <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><button className="lg:text-xl"><BsThreeDotsVertical /></button></Button>
-                            </MenuHandler>
-                            <MenuList className="w-16 bg-gray-100 fw-600 text-black">
-                              <MenuItem onClick={() => gotoDetailsPage(row.value)}>View Details</MenuItem>
-                            </MenuList>
-                          </Menu> ,
           },
         ],
         [] // eslint-disable-line react-hooks/exhaustive-deps
       );
 
     
-      const data = useMemo(() => adminOrders, [adminOrders]);
+      const data = useMemo(() => productOrders, [productOrders]);
     
       return (
         <>

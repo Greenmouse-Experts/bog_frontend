@@ -17,6 +17,8 @@ import { getProducts } from '../../redux/actions/ProductAction';
 import Axios from "../../config/config";
 import { formatNumber } from "../../services/helper";
 import { BsFillInfoCircleFill } from "react-icons/bs";
+import 'react-toastify/dist/ReactToastify.css';
+import { Alert } from "@material-tailwind/react";
 
 
 export default function ProductDetail() {
@@ -50,11 +52,14 @@ export default function ProductDetail() {
     const navigate = useNavigate()
     const [itemAdded, setItemAdded] = useState(false)
     const [similarProducts, setSimilarProducts] = useState([]);
+    const user =useSelector((state) => state.auth.user)
+    const [show, setShow] = useState(false);
 
     const addItemToCart = (item, cartNum) => {
         dispatch(addToCart(item, cartNum));
         setItemAdded(true);
     }
+
 
     useEffect(() => {
         fetchProduct();
@@ -73,8 +78,13 @@ export default function ProductDetail() {
             setTimeout(function () {
                 setItemAdded(false);
             }, 4000);
+        } 
+        if (show) {
+            setTimeout(function () {
+                setShow(false);
+            }, 4000);
         } // eslint-disable-next-line
-    }, [addItemToCart]);
+    }, [addItemToCart, show]);
 
     if (loading || !item) {
         return <center>
@@ -130,7 +140,20 @@ export default function ProductDetail() {
                                                 <input type="number" min={0} max={10} value={cartNum} onChange={(e) => setCartNum(e.target.value)} className="w-16 px-1 lg:px-2 rounded py-1 lg:py-2 border border-black" />
                                             </div>
                                             <div className="">
-                                                <button className="btn-primary ml-7 px-4 lg:px-8 " onClick={() => addItemToCart(item, cartNum)}>Add To Cart</button>
+                                                {
+                                                    user?.profile?.userType === "professional" || user?.profile?.userType === "vendor"?
+                                                    <button className="btn-primary ml-7 px-4 lg:px-8 " onClick={() => setShow(true)} >Add To Cart</button>
+                                                    :
+                                                    <button className="btn-primary ml-7 px-4 lg:px-8 " onClick={() => addItemToCart(item, cartNum)}>Add To Cart</button>
+                                                }
+                                                {show && (
+                                                    <Alert 
+                                                        dismissible={{
+                                                            onClose: () => setShow(false),
+                                                        }}
+                                                        color="red" className="absolute w-72 fs-400 fw-500"
+                                                    >Please sign up / switch to client to access</Alert>
+                                                )}
                                                 {itemAdded && (
                                                     <div className="absolute lg:fs-400 fs-300 fw-600 px-2 text-center w-40 border lg:right-0 xl:right-1/4 lg:bottom-0 -bottom-3/4 py-1 bg-secondary rounded text-gray-100 scale-ani">
                                                         <p>Added to Cart</p>

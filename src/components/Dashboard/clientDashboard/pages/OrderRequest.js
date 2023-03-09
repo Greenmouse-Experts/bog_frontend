@@ -16,9 +16,7 @@ import {
 } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { getProductOwnerOrders } from "../../../../redux/actions/OrderAction";
-import RequestHeader from "./Order/RequestHeader";
-import SearchHeader from "./Order/SearchHeader";
-import RequestItem from "./Order/RequestItem";
+import ProductOrderTable from "../../assets/Tables/productOrder";
 
 
 function OrderReqest() {
@@ -68,81 +66,25 @@ function OrderReqest() {
                 <Tab>Cancelled</Tab>
               </TabList>
               <TabPanel>
-                <SearchHeader />
-                <CardBody>
-                  <div className="overflow-x-auto">
-                    <table className="items-center w-full bg-transparent border-collapse">
-                      <thead className="thead-light bg-light">
-                        <RequestHeader />
-                      </thead>
-                      <tbody>
-                        {
-                          orders?.length > 0 ? orders.map((item, index) => (
-                            <RequestItem key={item.id} item={item} index={index} />
-                          )) : null
-                        }
-                      </tbody>
-                    </table>
-                  </div>
-                </CardBody>
+                {
+                  orders.length > 0 ? <ProductOrderTable/> : 'No Orders'
+                }
               </TabPanel>
 
               <TabPanel>
-                <SearchHeader />
-                <CardBody>
-                  <div className="overflow-x-auto">
-                    <table className="items-center w-full bg-transparent border-collapse">
-                      <thead className="thead-light bg-light">
-                        <RequestHeader />
-                      </thead>
-                      <tbody>
-                        {
-                          orders?.length > 0 ? orders.filter(order => order.status === "awaiting_shipment").map((item, index) => (
-                            <RequestItem key={item.id} item={item} index={index} />
-                          )) : null
-                        }
-                      </tbody>
-                    </table>
-                  </div>
-                </CardBody>
+                {
+                  orders.length > 0 ? <ProductOrderTable status="awaiting_shipment"/> : 'No Orders'
+                }
               </TabPanel>
               <TabPanel>
-                <SearchHeader />
-                <CardBody>
-                  <div className="overflow-x-auto">
-                    <table className="items-center w-full bg-transparent border-collapse">
-                      <thead className="thead-light bg-light">
-                        <RequestHeader />
-                      </thead>
-                      <tbody>
-                        {
-                          orders.length > 0 ? orders.filter(order => order.status === "delivered").map((item, index) => (
-                            <RequestItem key={item.id} item={item} index={index} />
-                          )) : null
-                        }
-                      </tbody>
-                    </table>
-                  </div>
-                </CardBody>
+                {
+                  orders.length > 0 ? <ProductOrderTable status="completed"/> : 'No Orders'
+                }
               </TabPanel>
               <TabPanel>
-                <SearchHeader />
-                <CardBody>
-                  <div className="overflow-x-auto">
-                    <table className="items-center w-full bg-transparent border-collapse">
-                      <thead className="thead-light bg-light">
-                        <RequestHeader />
-                      </thead>
-                      <tbody>
-                        {
-                          orders?.length > 0 ? orders.filter(order => order.status === "cancelled").map((item, index) => (
-                            <RequestItem key={item.id} item={item} index={index} />
-                          )) : null
-                        }
-                      </tbody>
-                    </table>
-                  </div>
-                </CardBody>
+                {
+                  orders.length > 0 ? <ProductOrderTable status="cancelled"/> : 'No Orders'
+                }
               </TabPanel>
             </Tabs>
           </div>

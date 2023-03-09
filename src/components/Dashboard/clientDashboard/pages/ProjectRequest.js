@@ -1,27 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { Breadcrumbs } from "@material-tailwind/react";
+import { Breadcrumbs, Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import ProjectsTable from "../../assets/Tables/ProjectAdminTable";
 import { useDispatch } from "react-redux";
 import { getProjects } from "../../../../redux/actions/ProjectAction";
+import { CommencementModal } from "./Modals/CommencementModal";
 
 export default function ProjectRequest() {
 
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
+    const [modal, setModal] = useState(false);
     const stopLoading = () => setLoading(false);
 
     useEffect(() => {
         setLoading(true);
         dispatch(getProjects(stopLoading));
-    }, [dispatch])
+    }, [dispatch]);
+
+    const setCommencementModal = () => {
+        setModal(true);
+    }
+
+    const closeCommencementModal = () => {
+        setModal(false)
+    }
 
     return (
         <div className="">
             <div className="min-h-screen fs-500 relative">
                 <div className="w-full py-8 bg-white px-4 lg:flex justify-between items-center">
-                    <div>
+                    <div className="flex-grow">
                         <p className="text-2xl fw-600">Project Requests</p>
                         <p className="fs-400 text-gray-600 mt-2">View and manage all project requests.</p>
                         <Breadcrumbs className="bg-white pl-0 mt-4">
@@ -43,6 +53,9 @@ export default function ProjectRequest() {
                             </Link>
                         </Breadcrumbs>
                     </div>
+                    <div className="flex">
+                        <Button className='bg-primary ml-4' onClick={setCommencementModal}>Set Commencement Fee</Button>
+                    </div>
                 </div>
                 {/* service contents */}
                 <div className="lg:p-5 px-2 py-4">
@@ -58,6 +71,9 @@ export default function ProjectRequest() {
                     </div>
                 </div>
             </div>
+            {modal && (
+                <CommencementModal setCommencement={closeCommencementModal} />
+            )}
         </div>
     )
 }

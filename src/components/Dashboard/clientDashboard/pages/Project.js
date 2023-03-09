@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { Breadcrumbs, Button, Menu, MenuHandler, MenuItem, MenuList } from "@material-tailwind/react";
-import ProjectChart from "../../assets/ProjectChart";
+// import ProjectChart from "../../assets/ProjectChart";
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 import ProjectTable from "../../assets/Tables/ProjectTable";
@@ -111,7 +111,7 @@ export function ClientProject({isLoading}) {
                             <div className="mb-5">
                                 <p className="text-lg fw-600">Project Analysis</p>
                             </div>
-                            <ProjectChart />
+                                {/*<ProjectChart />*/}
                         </div>
 
                         <div className="bg-white rounded-md mt-6 lg:mt-0">

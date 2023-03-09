@@ -1,7 +1,7 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import React from 'react'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight, FaFileDownload, FaRegEye } from "react-icons/fa";
 import { useTable, useGlobalFilter, useAsyncDebounce, useFilters, usePagination } from "react-table";
@@ -21,10 +21,10 @@ import "jspdf-autotable";
 import { useExportData } from "react-table-plugins";
 import Papa from "papaparse";
 import * as XLSX from 'xlsx'
-import { commenceProject, deleteUserProject } from '../../../../redux/actions/ProjectAction';
-import Swal from "sweetalert2";
+import { commenceProject, deleteUserProject, getCommitmentFee } from '../../../../redux/actions/ProjectAction';
 import Spinner, { Loader } from "../../../layouts/Spinner";
 import { BsExclamationCircleFill } from "react-icons/bs";
+import { usePaystackPayment } from "react-paystack";
 
 
 // export table files
@@ -89,17 +89,30 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
 export default function ProjectTable({ status, isLoader }) {
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getCommitmentFee())
+  }, [dispatch])
+
   // let  myProjects = useSelector((state) => state.orders. myProjects);
   let myProjects = useSelector((state) => state.projects.projects);
   // console.log(myProjects);
   if (status) {
     myProjects = myProjects.filter(where => where.approvalStatus === status)
-    console.log(myProjects)
   }
+
+ // console.log(myProjects);
+
+  const commitment = useSelector((state) => state.projects.fees);
+
 
   const [deleteModal, setModalDelete] = useState(false);
   const [deleteItem, setDeleteItem] = useState('');
   const [loading, setLoading] = useState(false);
+  const [commenceModal, setModal] = useState(false);
+  const [projectId, setProjectId] = useState('')
+  const user = useSelector((state) => state.auth.user);
+
+
   const stopLoading = () => {
     setLoading(false);
     setModalDelete(false);
@@ -165,24 +178,51 @@ export default function ProjectTable({ status, isLoader }) {
   }
 
   const requestForCommencement = (id) => {
-    console.log(id);
-    Swal.fire({
-      title: "Commence Project",
-      text: 'Are you sure you want to commence Project?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#4BB543',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes Commence',
-      cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.value) {
-
-        dispatch(commenceProject(id))
-      }
-    });
+    setProjectId(id);
+    setModal(true)
   }
 
+  const config = {
+    reference: "TR-" + new Date().getTime().toString(),
+    email: `${user.email}`,
+    amount: (commitment.amount * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+    publicKey: 'pk_test_0c79398dba746ce329d163885dd3fe5bc7e1f243',
+  };
+
+  const initializePayment = () => { setModal(false); initializePaystack(onSuccess, onClose) }
+
+  const initializePaystack = usePaystackPayment(config);
+
+
+  const processCommencement = () => {
+    const payload = {
+      amount : commitment.amount
+    }
+    dispatch(commenceProject(projectId, payload))
+  }
+
+  // you can call this function anything
+  const onSuccess = (reference) => {
+    try {
+      // Implementation for whatever you want to do with reference and after success call.
+      console.log(reference);
+      processCommencement();
+    } catch (error) {
+      console.log(error)
+    }
+
+
+  };
+
+  // you can call this function anything
+  const onClose = () => {
+    // implementation for  whatever you want to do when the Paystack dialog closed.
+    console.log('closed')
+  }
+
+
+
+  
   const columns = useMemo(
     () => [
       {
@@ -203,7 +243,6 @@ export default function ProjectTable({ status, isLoader }) {
         Header: "Project Status	",
         accessor: "status",
         Cell: (props) => {
-          console.log(props)
           const {approvalStatus} = props.cell.row.original;
           // console.log(approvalStatus)
           return formatStatus(approvalStatus)
@@ -289,6 +328,26 @@ export default function ProjectTable({ status, isLoader }) {
         </div>
       )
       }
+
+      {commenceModal && (
+        <div className="fixed font-primary left-0 top-0 w-full h-screen bg-op center-item z-40" onClick={CloseDelete}>
+          <div className="bg-white lg:w-5/12 rounded-md  overscroll-none  w-11/12 pt-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
+            <div className="flex lg:px-6 px-5">
+              <div>
+                <p className="fs-700 fw-600 mb-4">Commence Project</p>
+                <p>To proceed, a commitment fee of &#8358; {(commitment.amount).toLocaleString()} must be paid. This will be deducted from total cost of
+                  this project if approved.</p>
+                <p> You will be refunded if this project is declined by the service partner </p>
+                <p className="mt-5 font-bold"> Do you wish to Proceed? </p>
+              </div>
+            </div>
+            <div className="bg-light rounded-b-md  py-4 mt-5 text-end px-5">
+              <Button color="black" variant="outlined" ripple={true} onClick={CloseDelete}>Cancel</Button>
+              <Button onClick={initializePayment} className="ml-4 bg-primary" ripple={true}>Make Payment</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 

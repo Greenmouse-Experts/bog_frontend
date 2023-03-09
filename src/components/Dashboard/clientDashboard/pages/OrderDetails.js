@@ -342,8 +342,11 @@ export default function OrderDetails() {
                       />
                     </div>
                     <div className="grid fs-400 content-between pl-4 fw-500">
-                      <p>{order.client.name}</p>
-                      {/* <p className="text-gray-600">Private Client</p> */}
+                      <p className="mt-3">
+                      {order?.client?.fname
+                          ? order.client.fname + " " + order.client.lname
+                          : "No Phone number"}
+                      </p>
                     </div>
                   </div>
                   <div className="fs-400 fw-500 mt-4">
@@ -391,6 +394,43 @@ export default function OrderDetails() {
                     )}
                   </div>
                   <div className="fs-400 mt-4"></div>
+                </div>
+                <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
+                  <div className="flex justify-between border-b border-gray-300 pb-4">
+                    <p className="fw-600">Partner Info</p>
+                    {/* <p className="text-primary"><BiEdit /></p> */}
+                  </div>
+                  <div className="flex mt-6">
+                    <div>
+                      <Avatar
+                        src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png"
+                        variant="circular"
+                        alt="order"
+                      />
+                    </div>
+                    <div className="grid fs-400 content-between pl-4 fw-500">
+                      <p>{order.client.name}</p>
+                      <p className="text-gray-600">{order?.order_items[0]?.product_owner?.fname
+                          ? order.order_items[0].product_owner.fname
+                          : "No name"}</p>
+                    </div>
+                  </div>
+                  <div className="fs-400 fw-500 mt-4">
+                    <div className="flex">
+                      <p className="text-gray-600">Phone:</p>
+                      <p className="pl-3">
+                        {order?.order_items[0]?.product_owner?.phone
+                          ? order.order_items[0].product_owner.phone
+                          : "No Phone number"}
+                      </p>
+                    </div>
+                    <div className="flex">
+                      <p className="text-gray-600">Email:</p>
+                      <p className="pl-3">{order?.order_items[0]?.product_owner?.email
+                          ? order.order_items[0].product_owner.email
+                          : "No Email"}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

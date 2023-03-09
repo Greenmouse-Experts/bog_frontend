@@ -1,6 +1,6 @@
 import { faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BsCameraVideo, BsFillGrid1X2Fill, BsBell, BsGear, BsReceiptCutoff, BsBoxArrowRight, BsEnvelope } from "react-icons/bs";
+import {  BsFillGrid1X2Fill, BsBell, BsGear, BsReceiptCutoff, BsBoxArrowRight, BsEnvelope } from "react-icons/bs";
 import { VscHistory } from "react-icons/vsc";
 import { RiUserAddLine } from "react-icons/ri"
 import React, { useState, useEffect } from "react";
@@ -70,7 +70,7 @@ const ProductSidebar = () => {
             {showSideBar && (
                 <div 
                     id="sidebar"
-                    className="fixed z-20 bg-white fs-500 top-20 grid items-between w-6/12 lg:sidebar-w shadow min-h-screen pt-2 px-2">
+                    className="fixed z-20 bg-white fs-500 top-20 grid items-between w-6/12 lg:sidebar-w shadow min-h-screen pt-2 lg:pl-4 px-2">
                     <div>
                         <NavLink
                             to=""
