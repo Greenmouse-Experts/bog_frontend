@@ -19,6 +19,7 @@ export default function Shop() {
     const [all, setAll] = useState(true)
     const [show, setShow] = useState(false);
     const [active, setActive] = useState(null);
+    const [searchProd, setSearchProd] = useState("");
     const [filter,setFilter] = useState("Filter")
     const [productCategory, setProductCategory] = useState([]);
     const products = useSelector((state) => state.products.products);
@@ -107,15 +108,18 @@ export default function Shop() {
     }
 
     // filter by price
-    const filterBySearch = ({event, catId}) => {
+    const filterBySearch = (event, catId) => {
         // Access input value
-        const query = event.target.value;
+        // const query = event.target.value;
+        setSearchProd(event.target.value)
+        console.log(searchProd);
         // Create copy of item list
-        var updatedList = [...productCategory];
+        let updatedList = [...productCategory];
         // Include all elements which includes the search query
         updatedList = updatedList.filter((item) => {
-        return item.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+        return item.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1;
         });
+        console.log(updatedList);
         // Trigger render with updated values
         setProductCategory(updatedList);
         setShow(true);
@@ -150,8 +154,8 @@ export default function Shop() {
                             <p className="text-2xl fw-600 mb-5">Search Products</p>
                             <div className="lg:flex items-center justify-between">
                                 <div class=" relative border lg:w-4/12 border-gray-500 rounded  text-gray-600 hidden lg:block">
-                                    <input class=" lg:w-11/12 bg-white h-10 px-2  rounded text-sm focus:outline-none"
-                                        type="search" name="search" placeholder="Search Blog Post" onChange={filterBySearch} />
+                                    <input type='text' value={searchProd} class=" lg:w-11/12 bg-white h-10 px-2  rounded text-sm focus:outline-none"
+                                       id="search-box" placeholder="Search Blog Post" onChange={filterBySearch} />
                                     <button type="submit" class="absolute bg-tertiary right-0 top-0 py-2 px-4 rounded-r">
                                         <FontAwesomeIcon icon={faSearch} className="text-white" />
                                     </button>
