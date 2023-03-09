@@ -111,7 +111,7 @@ export function ClientProject({isLoading}) {
                             <div className="mb-5">
                                 <p className="text-lg fw-600">Project Analysis</p>
                             </div>
-                            <ProjectChart />
+                                {/*<ProjectChart />*/}
                         </div>
 
                         <div className="bg-white rounded-md mt-6 lg:mt-0">
