@@ -40,6 +40,7 @@ export default function PclientDashboard() {
   }, [dispatch, user, navigate])
   
   const myProjects = project.filter(where => where.userId === user.id);
+  console.log(myProjects)
   
   const returnColor = (value) => {
     if ((value >= 0) && (value < 30)) {
