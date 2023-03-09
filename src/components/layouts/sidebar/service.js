@@ -71,7 +71,7 @@ const ServiceSidebar = () => {
                 }} />
             </div>
             {showSideBar && (
-                <div className="fixed z-20 bg-white fs-500 top-20 grid items-between w-6/12 lg:sidebar-w shadow min-h-screen pt-2 px-2" onClick={() => setProductDrop(false)}>
+                <div className="fixed z-20 bg-white fs-500 top-20 grid items-between w-6/12 lg:sidebar-w shadow min-h-screen pt-2 lg:pl-4 px-2" onClick={() => setProductDrop(false)}>
                     <div>
                         <NavLink
                             to=""

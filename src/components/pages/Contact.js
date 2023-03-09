@@ -3,10 +3,24 @@ import Footer from "./home-comp/Footer";
 import Header from "./home-comp/Header";
 import ReCAPTCHA from "react-google-recaptcha";
 import SimpleMap from "./home-comp/Map";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+
+
 
 export default function Contact(){
 
     const captchaRef = useRef(null)
+
+    const numStyle = {
+        width: "100%",
+        padding: "10px",
+        paddingLeft: "45px",
+        border: "1px solid rgba(122, 122, 122, 0.8)"
+    }
+    const btnStyle = {
+        border: "1px solid rgba(122, 122, 122, 0.8)"
+    }
 
     return(
         <div>
@@ -59,8 +73,12 @@ export default function Contact(){
                                             </div>
                                         </div>
                                         <div className="mt-6">
-                                            <label>Phone Number</label>
-                                            <input type="text" className="w-full border rounded border-gray-500 py-1 px-2 mt-2" />
+                                            <label className="block mb-2">Phone Number</label>
+                                            <PhoneInput
+                                                country={'us'}
+                                                buttonStyle={btnStyle}
+                                                inputStyle={numStyle}
+                                                />
                                         </div>
                                         <div className="mt-6">
                                             <label>Email Address</label>
@@ -91,7 +109,7 @@ export default function Contact(){
                         </div>
                     </div>
                 </div>
-                <div className="mt-60">
+                <div className="mt-32">
                     <Footer/>
                 </div>
             </div>

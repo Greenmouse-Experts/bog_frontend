@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-import { BsArrowRight, BsSearch } from "react-icons/bs";
+import { BsArrowRight} from "react-icons/bs";
+import { Link } from "react-router-dom";
 import { Faq, Faq2, Faq3, Faq4, Faq5, Faq6, Faq7 } from "./home-comp/Faqs";
 import Footer from "./home-comp/Footer";
 import Header from "./home-comp/Header";
@@ -54,11 +55,7 @@ export default function Faqs() {
                     <div className="box">
                         <div>
                             <p className="lg:text-4xl text-2xl fw-700 mb-2">How can we help ? </p>
-                            <div className="flex my-6 items-center text-black px-3 bg-white lg:w-6/12 rounded ">
-                                <BsSearch className="text-black lg:w-1/12"/>
-                                <input type="search" placeholder="Type keyword to find answer" className="py-2 px-2 lg:w-11/12 outline-0" />
-                            </div>
-                            <p className="flex items-center">Do you need more help, Contact Us <span className="pl-3"><BsArrowRight className="text-secondary text-xl"/></span></p>
+                            <p className="flex mt-3 fs-600 items-center">Do you need more help, Contact Us <span className="pl-3"><Link to='/contact'><BsArrowRight className="text-secondary text-3xl"/></Link></span></p>
                         </div>
                     </div>
                 </div>

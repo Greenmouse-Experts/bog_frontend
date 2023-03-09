@@ -95,7 +95,8 @@ export default function ProjectTable({ status, isLoader }) {
 
   // let  myProjects = useSelector((state) => state.orders. myProjects);
   let myProjects = useSelector((state) => state.projects.projects);
-  // console.log(myProjects);
+  console.log(myProjects);
+  
   if (status) {
     myProjects = myProjects.filter(where => where.status === status)
   }
