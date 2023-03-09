@@ -17,7 +17,7 @@ import { toast } from "react-hot-toast";
 
 export default function Projects() {
     const auth = useSelector((state) => state.auth);
-    let myProjects = useSelector((state) => state.projects.projects);
+    // let myProjects = useSelector((state) => state.projects.projects);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
