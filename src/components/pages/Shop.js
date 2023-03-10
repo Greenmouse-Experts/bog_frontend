@@ -19,8 +19,9 @@ export default function Shop() {
     const [all, setAll] = useState(true)
     const [show, setShow] = useState(false);
     const [active, setActive] = useState(null);
-    const [filter,setFilter] = useState("Filter")
+    const [filter, setFilter] = useState("Filter")
     const [productCategory, setProductCategory] = useState([]);
+    const [searchCategory, setSearchCategory] = useState([]);
     const products = useSelector((state) => state.products.products);
     const categories = useSelector((state) => state.products.categories);
     const loading = useSelector((state) => state.products.isLoading);
@@ -53,29 +54,29 @@ export default function Shop() {
     // }
 
     const lowestPrice = (catId) => {
-            if(!show){
-                const lowestPrice = products.sort((a,b) => a.price.localeCompare(b.price, undefined, {numeric: true}));
-                setProductCategory(lowestPrice)
-                setShow(true);
-                setAll(false);
-                setFilter('Lowest Price')
-            }else{
-                const lowestPrice = productCategory.sort((a,b) => a.price.localeCompare(b.price, undefined, {numeric: true}));
-                setProductCategory(lowestPrice)
-                setShow(true);
-                setAll(false);
-                setActive(catId)
-                setFilter('Lowest Price')
-            }
+        if (!show) {
+            const lowestPrice = products.sort((a, b) => a.price.localeCompare(b.price, undefined, { numeric: true }));
+            setProductCategory(lowestPrice)
+            setShow(true);
+            setAll(false);
+            setFilter('Lowest Price')
+        } else {
+            const lowestPrice = productCategory.sort((a, b) => a.price.localeCompare(b.price, undefined, { numeric: true }));
+            setProductCategory(lowestPrice)
+            setShow(true);
+            setAll(false);
+            setActive(catId)
+            setFilter('Lowest Price')
+        }
     }
     const highestPrice = (catId) => {
-        if(!show){
-            const highestPrice = products.sort((a,b) => b.price.localeCompare(a.price, undefined, {numeric: true}));
+        if (!show) {
+            const highestPrice = products.sort((a, b) => b.price.localeCompare(a.price, undefined, { numeric: true }));
             setProductCategory(highestPrice)
             setAll(true);
             setFilter('Highest Price')
-        }else{
-            const highestPrice = productCategory.sort((a,b) => b.price.localeCompare(a.price, undefined, {numeric: true}));
+        } else {
+            const highestPrice = productCategory.sort((a, b) => b.price.localeCompare(a.price, undefined, { numeric: true }));
             setProductCategory(highestPrice)
             setShow(true);
             setAll(false);
@@ -84,13 +85,13 @@ export default function Shop() {
         }
     }
     const latestProd = (catId) => {
-        if(!show){
-            const highestPrice = products.sort((a,b) => b.createdAt.localeCompare(a.createdAt, undefined, {numeric: true}));
+        if (!show) {
+            const highestPrice = products.sort((a, b) => b.createdAt.localeCompare(a.createdAt, undefined, { numeric: true }));
             setProductCategory(highestPrice)
             setAll(true);
             setFilter('Latest Products')
-        }else{
-            const highestPrice = productCategory.sort((a,b) => b.createdAt.localeCompare(a.createdAt, undefined, {numeric: true}));
+        } else {
+            const highestPrice = productCategory.sort((a, b) => b.createdAt.localeCompare(a.createdAt, undefined, { numeric: true }));
             setProductCategory(highestPrice)
             setShow(true);
             setAll(false);
@@ -99,7 +100,7 @@ export default function Shop() {
         }
     }
     const ratingSet = (catId) => {
-        const highestPrice = productCategory.sort((a,b) => a.rating.localeCompare(b.rating, undefined, {numeric: true}));
+        const highestPrice = productCategory.sort((a, b) => a.rating.localeCompare(b.rating, undefined, { numeric: true }));
         setProductCategory(highestPrice)
         setShow(true);
         setAll(false);
@@ -108,34 +109,39 @@ export default function Shop() {
 
     // filter by price
     const filterBySearch = (event) => {
-        if(!show){
-            const results = products.filter(products => {
-                if (!event.target.value === ""){
-                    return products.name.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1
-                }else {
+        console.log(show)
+        console.log(all);
+        if (all) {
+            const results = products.filter(product => {
+                if (event.target.value !== "") {
+                    return product.name.toLowerCase().includes(event.target.value.toLowerCase())
+                } else {
                     return products
                 }
             })
             setProductCategory(results);
             setShow(true);
-            setAll(false);
-        }else{
-            const results = productCategory.filter(products => {
-                if (event.target.value === "") return products
-                return products.name.toLowerCase().includes(event.target.value.toLowerCase())
+        } else {
+            
+            if(searchCategory.length === 0){
+                setSearchCategory(productCategory)
+                setActive(productCategory.id)
+            }
+
+            const results = searchCategory.filter(product => {
+                if (event.target.value !== "") {
+                    // console.log(results)
+                    return product.name.toLowerCase().includes(event.target.value.toLowerCase())
+                } else {
+                    return searchCategory
+                }
             })
+            console.log(results)
             setProductCategory(results)
-            setShow(true);
-            setAll(false);
+            
             // setActive(catId)
         }
-        // console.log(event.target.value);
-        //     const results = products.filter(products => {
-        //         if (event.target.value === "") return products
-        //         return products.name.toLowerCase().includes(event.target.value.toLowerCase())
-        //     })
-        // setProductCategory(results)
-      };
+    };
 
     useEffect(() => {
         dispatch(getCategories());
@@ -171,7 +177,7 @@ export default function Shop() {
                                 </div>
                                 <div className="lg:w-4/12 lg:flex lg:justify-end">
                                     <div className="bg-gray-100 mb-4 lg:hidden lg:w-5/12 lg:pr-4 pr-2 rounded-md ring-1">
-                                        <select  className="py-2 lg:px-6 rounded-md w-full  bg-light focus:outline-none lg:fw-600 fs-500 pl-2 " onChange={e => {e.target.value === "all" ? ShowAll() : showCategories(e.target.value)}}>
+                                        <select className="py-2 lg:px-6 rounded-md w-full  bg-light focus:outline-none lg:fw-600 fs-500 pl-2 " onChange={e => { e.target.value === "all" ? ShowAll() : showCategories(e.target.value) }}>
                                             <option value="all">All Products</option>
                                             {categories.filter(where => where.totalProducts !== 0).map(category => {
                                                 return (
@@ -230,13 +236,13 @@ export default function Shop() {
                             </div>
                             <div className="w-full lg:pl-3 lg:pl-0 lg:w-8/12">
 
-                                  {
-                                    loading ? <Spinner /> : 
-                                    <div>
-                                        {/* <AllProducts products={show ? productCategory : products} /> */}
-                                        <ProductItems itemsPerPage={6} products={show ? productCategory : products}/>
-                                    </div>
-                                  }     
+                                {
+                                    loading ? <Spinner /> :
+                                        <div>
+                                            {/* <AllProducts products={show ? productCategory : products} /> */}
+                                            <ProductItems itemsPerPage={6} products={show ? productCategory : products} />
+                                        </div>
+                                }
                             </div>
                         </div>
                     </div>

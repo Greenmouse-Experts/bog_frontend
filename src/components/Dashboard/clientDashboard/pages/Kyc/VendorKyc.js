@@ -90,7 +90,7 @@ export const VendorKyc = () => {
         ..._kycTotal,
       });
     }
-  };
+  };// eslint-disable-next-line
 
   useEffect(() => {
     window.scrollTo({
@@ -98,7 +98,7 @@ export const VendorKyc = () => {
       left: 0,
       behavior: "smooth",
     });
-    loadKycScoreAndTotal();
+    loadKycScoreAndTotal();// eslint-disable-next-line 
   }, []);
   const activeStyle = {
     borderBottom: "4px solid #EC8B20",

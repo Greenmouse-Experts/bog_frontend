@@ -110,7 +110,7 @@ export function AdminTransactTable({item}) {
           },
           {
             Header: "Date",
-            accessor:  'item.createdAt',
+            accessor:  'createdAt',
             Cell: (props) => dayjs(props.value).format('DD-MMM-YYYY')
           },
           {
