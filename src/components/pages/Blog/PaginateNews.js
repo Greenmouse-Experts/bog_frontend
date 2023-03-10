@@ -5,6 +5,7 @@ import { IoArrowBackCircleSharp, IoArrowForwardCircleSharp } from 'react-icons/i
 import { Link } from 'react-router-dom'
 import { cutText, stripHtml } from '../../../services/helper'
 import {  useSelector } from "react-redux";
+import { Loader } from '../../layouts/Spinner';
 
 
 
@@ -38,10 +39,27 @@ function News({ currentItems }) {
   );
 }
 
-export function BlogItems({ itemsPerPage }) {
+export function BlogItems({ itemsPerPage, activeCat, loading }) {
 
     const post = useSelector((state) => state.blog.posts);
-    const posts =  post.filter(where => where.isPublished)
+  const posts = post.filter(where => where.isPublished);
+
+  let setBlog = [];
+
+  if (activeCat === '') {
+    setBlog = posts;
+  }
+  else {
+    posts.forEach((postItem) => {
+      // eslint-disable-next-line array-callback-return
+       postItem.category.filter((data) => {
+         if (data.name === activeCat) {
+           setBlog.push(postItem);
+        }
+      })
+    })
+  }
+
   // Here we use item offsets; we could also use page offsets
   // following the API or data you're working with.
   const [itemOffset, setItemOffset] = useState(0);
@@ -51,7 +69,7 @@ export function BlogItems({ itemsPerPage }) {
   // from an API endpoint with useEffect and useState)
   const endOffset = itemOffset + itemsPerPage;
   // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-  const currentItems = posts.slice(itemOffset, endOffset);
+  const currentItems = setBlog.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(posts.length / itemsPerPage);
 
   // Invoke when user click to request another page.
@@ -65,7 +83,15 @@ export function BlogItems({ itemsPerPage }) {
 
   return (
     <>
-      <News currentItems={currentItems} />
+      {loading ? (
+        <div className='flex justify-center'>
+          <Loader size />
+        </div>
+      )
+        : (
+          <News currentItems={currentItems} />
+        )
+      }
       <ReactPaginate
         breakLabel={<p>break</p>}
         nextLabel={<p className='ml-2'><IoArrowForwardCircleSharp className='text-3xl text-secondary'/></p>}
