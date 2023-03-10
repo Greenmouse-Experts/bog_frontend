@@ -1,10 +1,11 @@
-import React,  {useRef } from "react";
+import React,  {useRef, useState } from "react";
 import Footer from "./home-comp/Footer";
 import Header from "./home-comp/Header";
 import ReCAPTCHA from "react-google-recaptcha";
 import SimpleMap from "./home-comp/Map";
-import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
+import axios from "axios";
+import { useFormik } from "formik";
 
 
 
@@ -12,15 +13,35 @@ export default function Contact(){
 
     const captchaRef = useRef(null)
 
-    const numStyle = {
-        width: "100%",
-        padding: "10px",
-        paddingLeft: "45px",
-        border: "1px solid rgba(122, 122, 122, 0.8)"
+    // const [successful, setSuccessful] = useState(false);
+    const [disableBtn, setDisableBtn] = useState(false);
+
+    const handleSubmit = async (values) => {
+        try{
+            console.log(values);
+            const paylaod = {
+                ...values,
+                captcha: captchaRef.current.getValue(),
+            }
+            const response = await axios.post(`${process.env.REACT_APP_URL }/user/contact-admin`, paylaod )
+            setDisableBtn(true)
+            return response
+        }catch(error){
+            console.log(error)
+        }
     }
-    const btnStyle = {
-        border: "1px solid rgba(122, 122, 122, 0.8)"
-    }
+
+    const formik = useFormik({
+        initialValues: {
+            first_name: "",
+            last_name: "",
+            email: "",
+            phone: "",
+            message: "",
+        },
+        onSubmit: handleSubmit,
+    });
+    const { first_name, last_name, email, phone, message } = formik.values;
 
     return(
         <div>
@@ -61,32 +82,28 @@ export default function Contact(){
                             <div className="lg:w-6/12">
                                 <p className="mb-8 fs-800 fw-600">Leave Us A Message</p>
                                 <div className="shadow-lg lg:py-16 py-8 px-8 rounded">
-                                    <form>
+                                    <form onSubmit={handleSubmit}>
                                         <div className="lg:flex">
                                             <div className="lg:mr-3">
                                                 <label>First Name</label>
-                                                <input type="text" className="w-full border rounded border-gray-500 py-1 px-2 mt-2 " />
+                                                <input type="text" name="first_name" value={first_name} onChange={formik.handleChange}  className="w-full border rounded border-gray-500 py-1 px-2 mt-2 " />
                                             </div>
                                             <div className="lg:ml-3 mt-6 lg:mt-0">
                                                 <label>Last Name</label>
-                                                <input type="text" className="w-full border rounded border-gray-500 py-1 px-2 mt-2" />
+                                                <input type="text" name="last_name" value={last_name} onChange={formik.handleChange} className="w-full border rounded border-gray-500 py-1 px-2 mt-2" />
                                             </div>
                                         </div>
                                         <div className="mt-6">
                                             <label className="block mb-2">Phone Number</label>
-                                            <PhoneInput
-                                                country={'us'}
-                                                buttonStyle={btnStyle}
-                                                inputStyle={numStyle}
-                                                />
+                                            <input type="tel" name="phone" value={phone} onChange={formik.handleChange} className="w-full border rounded border-gray-500 py-1 px-2 mt-2" />
                                         </div>
                                         <div className="mt-6">
                                             <label>Email Address</label>
-                                            <input type="email" className="w-full border rounded border-gray-500 py-1 px-2 mt-2" />
+                                            <input type="email" name="email" value={email} onChange={formik.handleChange}  className="w-full border rounded border-gray-500 py-1 px-2 mt-2" />
                                         </div>
                                         <div className="mt-6">
                                             <label>Message</label>
-                                            <textarea className="w-full border rounded border-gray-500 mt-2 px-2 py-2" rows={5}/>
+                                            <textarea name="message" value={message} onChange={formik.handleChange} className="w-full border rounded border-gray-500 mt-2 px-2 py-2" rows={5}/>
                                         </div>
                                         <div className="mt-8 w-full overflow-hidden">
                                             <ReCAPTCHA
@@ -95,7 +112,7 @@ export default function Contact(){
                                             />
                                         </div>
                                         <div className="mt-10">
-                                            <button className="btn-primary w-full">Submit</button>
+                                            <button onClick={formik.handleSubmit} className="btn-primary w-full" disabled={disableBtn}>Submit</button>
                                         </div>
                                     </form>
                                 </div>

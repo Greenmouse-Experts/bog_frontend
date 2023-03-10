@@ -167,9 +167,9 @@ export default function Service() {
                             <div className="text-center py-4">
                                 <p className="text-xl lg:text-3xl fw-600">What service do you need a service provider for  ?</p>
                             </div>
-                            <div className="lg:grid-3 justify-between lg:mt-24 mt-12 mb-12 lg:mb-24">
+                            <div className="lg:grid-3 justify-between lg:mt-24 lg:mb-24">
                                 {categories.map((category, index) => (
-                                    <div className="shadow-md h-48 center-item" key={index}>
+                                    <div className="shadow-md h-48  mt-12 mb-12 center-item" key={index}>
                                         <div className="cursor-pointer" onClick={() => {
                                             // eslint-disable-next-line
                                             {

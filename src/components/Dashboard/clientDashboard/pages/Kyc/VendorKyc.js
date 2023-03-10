@@ -65,12 +65,11 @@ export const VendorKyc = () => {
         Authorization: authToken,
       },
     })
-    
 
     if (response.user.kycScore !== "" && response.user.kycScore !== null) {
-      console.log(user);
       const _kycScore = JSON.parse(response.user.kycScore);
 
+      
       if (user.userType === "professional") {
         setKycScore({
           ...kycScore,
@@ -91,7 +90,7 @@ export const VendorKyc = () => {
         ..._kycTotal,
       });
     }
-  };
+  };// eslint-disable-next-line
 
   useEffect(() => {
     window.scrollTo({
@@ -99,7 +98,7 @@ export const VendorKyc = () => {
       left: 0,
       behavior: "smooth",
     });
-    loadKycScoreAndTotal();
+    loadKycScoreAndTotal();// eslint-disable-next-line 
   }, []);
   const activeStyle = {
     borderBottom: "4px solid #EC8B20",
@@ -108,15 +107,16 @@ export const VendorKyc = () => {
 
   return (
     <div className="w-full">
+     
       <div
         className="fixed text-center"
         style={{
           width: 100,
           height: 100,
           zIndex: 1,
-          right: 7,
+          right: 9,
           padding: 10,
-          top: "10%",
+          top: "7em",
         }}
       >
         <CircularProgressbar value={percentage()} text={`${percentage()}%`} />
