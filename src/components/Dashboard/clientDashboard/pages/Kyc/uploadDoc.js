@@ -6,7 +6,6 @@ import ActionFeedBack from "../Modals/ActionFeedBack";
 import { fetcherForFiles, hasFileDelete, saveData } from "./DataHandler";
 import Axios from "../../../../../config/config";
 
-
 export const UploadDoc = ({
   handleOpen,
   tab,
@@ -48,16 +47,8 @@ export const UploadDoc = ({
   // console.log(formData)
 
   const DataSaver = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const url = "/kyc-documents/create";
-
-    const authToken = localStorage.getItem("auth_token");
-    await Axios.patch(`/user/update-account`, {kycScore: JSON.stringify(kycScore), kycTotal: JSON.stringify(kycTotal)}, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authToken,
-      },
-    });
 
     const fd = new FormData();
     const allDocValues = Object.values(formData);
@@ -76,6 +67,25 @@ export const UploadDoc = ({
         setFeetback,
         hasFile: true,
       });
+
+      const authToken = localStorage.getItem("auth_token");
+      const kycScore_ = {...kycScore, uploadDocument: kycScore.uploadDocument + 1}
+      await Axios.patch(
+        `/user/update-account`,
+        {
+          kycScore: JSON.stringify(kycScore_),
+          kycTotal: JSON.stringify(kycTotal),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authToken,
+          },
+        }
+      );
+
+      setFormData({})
+
     }
   };
   let newValue = {};
@@ -207,32 +217,32 @@ export const UploadDoc = ({
     let index = 0;
 
     let __formScore = {};
-    if(allDocuments.length > 0){
-        Object.keys(formScore).forEach((_data) => {
-          let score_ = 0;
+    if (allDocuments.length > 0) {
+      Object.keys(formScore).forEach((_data) => {
+        let score_ = 0;
 
-          if (allDocuments[index] !== undefined) {
-            score_ = 1;
-          } else {
-            score_ = 0;
-          }
+        if (allDocuments[index] !== undefined) {
+          score_ = 1;
+        } else {
+          score_ = 0;
+        }
 
-          __formScore = {
-            ...__formScore,
-            [_data]: {
-              score: score_,
-              total: 1,
-            },
-          };
-          index += 1;
+        __formScore = {
+          ...__formScore,
+          [_data]: {
+            score: score_,
+            total: 1,
+          },
+        };
+        index += 1;
 
-          setFormScore(__formScore);
-        });
+        setFormScore(__formScore);
+      });
 
-        Object.keys(__formScore).forEach((_data) => {
-          score += __formScore[_data].score;
-          total += __formScore[_data].total;
-        });
+      Object.keys(__formScore).forEach((_data) => {
+        score += __formScore[_data].score;
+        total += __formScore[_data].total;
+      });
     }
     return { total, score };
   };
@@ -253,7 +263,6 @@ export const UploadDoc = ({
     setIsLoading(false);
     loadData__();
     setDataLoaded(true);
-    
   }, [allDocuments]);
 
   return (
