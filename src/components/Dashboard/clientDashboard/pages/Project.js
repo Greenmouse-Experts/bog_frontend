@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { Breadcrumbs, Button, Menu, MenuHandler, MenuItem, MenuList } from "@material-tailwind/react";
-// import ProjectChart from "../../assets/ProjectChart";
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 import ProjectTable from "../../assets/Tables/ProjectTable";
@@ -14,6 +13,7 @@ import Spinner, { Loader } from "../../../layouts/Spinner";
 import Axios from "../../../../config/config";
 import Swal from "sweetalert2";
 import { toast } from "react-hot-toast";
+import MyProjectChart from "../../assets/myProjectChart";
 
 export default function Projects() {
     const auth = useSelector((state) => state.auth);
@@ -28,7 +28,8 @@ export default function Projects() {
             setLoading(true);
             dispatch(getMyProject(auth.user.userType, navigate, stopLoading));
         }
-    }, [dispatch, auth, navigate])
+    }, [dispatch, auth, navigate]);
+
     let projects = null;
 
     if (auth?.user?.userType === "private_client") {
@@ -46,6 +47,13 @@ export default function Projects() {
 export function ClientProject({isLoading}) {
 
     // const navigate = useNavigate();
+    let myProjects = useSelector((state) => state.projects.projects);
+
+    const ongoingProjects = myProjects.filter((project) => project.status === 'ongoing');
+
+    const completedProjects = myProjects.filter((project) => project.status === 'approved');
+
+    const pendingProjects = myProjects.filter((project) => project.status === 'pending');
 
     return (
         <div>
@@ -97,7 +105,7 @@ export function ClientProject({isLoading}) {
                                         <ProjectTable status={"pending"} isLoader={isLoading} />
                                     </TabPanel>
                                     <TabPanel>
-                                        <ProjectTable status={"approved"} isLoader={isLoading} />
+                                        <ProjectTable status={"ongoing"} isLoader={isLoading} />
                                     </TabPanel>
                                     <TabPanel>
                                         <ProjectTable status={"completed"} isLoader={isLoading} />
@@ -106,19 +114,19 @@ export function ClientProject({isLoading}) {
                             </div>
                         </div>
                     </div>
-                    <div className="lg:grid-74 mt-6 lg:mt-10">
-                        <div className="bg-white lg:p-6 p-3 rounded-md">
+                    <div className="mt-6 lg:mt-10">
+                        <div className="bg-white lg:p-6 p-3 rounded-md w-full">
                             <div className="mb-5">
                                 <p className="text-lg fw-600">Project Analysis</p>
                             </div>
-                                {/*<ProjectChart />*/}
+                                {<MyProjectChart ongoing={ongoingProjects} completed={completedProjects} pending={pendingProjects} />}
                         </div>
 
-                        <div className="bg-white rounded-md mt-6 lg:mt-0">
+                            {/*<div className="bg-white rounded-md mt-6 lg:mt-0">
                             <div className="bg-primary text-white rounded-t-md">
                                 <p className="py-6 fw-600 ml-7 lg:text-lg">Calender</p>
                             </div>
-                        </div>
+                        </div>*/}
                     </div>
                 </div>
                 }

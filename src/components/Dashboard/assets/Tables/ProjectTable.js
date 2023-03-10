@@ -95,12 +95,13 @@ export default function ProjectTable({ status, isLoader }) {
 
   // let  myProjects = useSelector((state) => state.orders. myProjects);
   let myProjects = useSelector((state) => state.projects.projects);
-  // console.log(myProjects);
+  console.log(myProjects);
+  
   if (status) {
-    myProjects = myProjects.filter(where => where.approvalStatus === status)
+    myProjects = myProjects.filter(where => where.status === status)
   }
 
- // console.log(myProjects);
+  console.log(myProjects);
 
   const commitment = useSelector((state) => state.projects.fees);
 
@@ -274,7 +275,7 @@ export default function ProjectTable({ status, isLoader }) {
               View Form
             </MenuItem>
             {
-              row.cell.row.original.approvalStatus !== "in_review" &&
+              row.cell.row.original.status === "pending" &&
               <MenuItem onClick={() => requestForCommencement(row.value)}>
                 Commence Project
               </MenuItem>
