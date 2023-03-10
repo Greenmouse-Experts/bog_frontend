@@ -90,7 +90,7 @@ export const VendorKyc = () => {
         ..._kycTotal,
       });
     }
-  };
+  };// eslint-disable-next-line
 
   useEffect(() => {
     window.scrollTo({
