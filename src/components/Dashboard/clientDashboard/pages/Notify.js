@@ -19,6 +19,10 @@ export default function Notify() {
         dispatch(fetchAllAdminNotifications(stopLoading()))
     }, [dispatch]);
 
+    const setReload = () => {
+        dispatch(fetchAllAdminNotifications(stopLoading()))
+    }
+
     return (
         <div>
             <div className="min-h-screen fs-500 relative">
@@ -70,7 +74,7 @@ export default function Notify() {
                                         {
                                             notifications &&
                                             notifications.map(item => (
-                                                <NotificationItem key={item.id} item={item} isAdmin />
+                                                <NotificationItem key={item.id} item={item} reload={setReload} isAdmin />
                                             ))
                                         }
                                     </div>

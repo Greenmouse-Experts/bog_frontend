@@ -10,10 +10,12 @@ import Spinner from '../../../../layouts/Spinner';
 import { useState } from 'react';
 
 
-const NotificationItem = ({ item, isAdmin }) => {
+const NotificationItem = ({ item, reload, isAdmin }) => {
     const dispatch = useDispatch();
     const [modal, setModalDelete] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const stopLoading = () => setLoading(false);
 
     const [deleteItem, setDeleteItem] = useState('');
 
@@ -29,9 +31,15 @@ const NotificationItem = ({ item, isAdmin }) => {
     const deleteNotification = async () => {
         setLoading(true);
         if (isAdmin) {
-            dispatch(deleteAdminNotification(deleteItem))
+            dispatch(deleteAdminNotification(deleteItem, stopLoading))
+            if (!loading) {
+                reload();
+            }
         }else{
-            deleteUserNotification(deleteItem)
+            dispatch(deleteUserNotification(deleteItem, stopLoading))
+            if (!loading) {
+                reload();
+            }
         }
     }
 
