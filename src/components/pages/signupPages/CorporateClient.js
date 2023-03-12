@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 import Spinner from '../../layouts/Spinner';
 import { useDispatch } from 'react-redux';
 import { register } from "../../../redux/actions/authAction";
@@ -101,6 +103,20 @@ const CorporateClient = () => {
                         </div>
                         <div className="w-full mt-6">
                             <label className="block">Phone Number</label>
+                            <PhoneInput
+                                country={'us'}
+                                value={phone}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className="mt-1 w-full"
+                                inputStyle={{ width: '100%'}}
+                                id="phone"
+                                name="phone"
+                            />
+                            {
+                                formik.touched.phone && formik.errors.phone ? <p className='text-red-500'>{formik.errors.phone}</p> : null
+                            }
+                            {/*
                             <input
                                 type="text"
                                 placeholder="Enter your phone number"
@@ -113,7 +129,7 @@ const CorporateClient = () => {
                             />
                             {
                                 formik.touched.phone && formik.errors.phone ? <p className='text-red-500'>{formik.errors.phone}</p> : null
-                            }
+                            } */}
                         </div>
                         <div className="w-full mt-6">
                             <label className="block">Password</label>

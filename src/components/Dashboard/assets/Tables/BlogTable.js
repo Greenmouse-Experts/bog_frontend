@@ -137,9 +137,14 @@ export function BlogTable({status}) {
             Header: "Category",
             accessor: "category",
             Cell: (props) => {
+              if (props.value) {
                 props.value.map(item => {
-                    return item.name
+                  return item.name;
                 })
+              }
+              else {
+                return [];
+              }
             }
           },
           {

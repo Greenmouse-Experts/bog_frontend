@@ -2,8 +2,8 @@
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import { FaFacebook, FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
+import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon, TelegramShareButton, TelegramIcon } from 'react-share';
 import Axios from "../../config/config";
 import { Loader } from "../layouts/Spinner";
 import RelatedNews from "./Blog/RelatedNews";
@@ -36,6 +36,9 @@ export default function BlogPage() {
   const [posts, setPosts] = useState([]);
   const [blog, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState([]);
+
+  const currentURL = window.location.href;
+
 
   const fetchRelatedBlog = async () => {
     console.log(blog)
@@ -156,10 +159,44 @@ export default function BlogPage() {
                 <div>
                   <p className="fw-600">Socials</p>
                   <ul className="mt-6 fw-500 fs-500">
-                    <li className="flex items-center"><span className="text-xl pr-2 text-blue-500"><FaFacebook/></span> Facebook</li>
-                    <li className="flex items-center mt-3"><span className="text-xl pr-2 text-blue-800"><FaTwitter/></span> Twitter</li>
-                    <li className="flex items-center mt-3"><span className="text-xl pr-2 text-orange-800"><FaInstagram/></span> Instagram</li>
-                    <li className="flex items-center mt-3"><span className="text-xl pr-2"><FaTiktok/></span> Tiktok</li>
+                    <li className="flex items-center cursor-pointer"><span className="text-xl pr-2 text-blue-500">
+                      <FacebookShareButton
+                        url={`${currentURL}`}
+                        className='flex'
+                      >
+                        <FacebookIcon size={32} round /> <span className="font-primary text-sm my-1 ml-2" style={{color: '#000'}}>Facebook</span>
+                      </FacebookShareButton>
+                    </span></li>
+                    <li className="flex items-center mt-3"><span className="text-xl pr-2 text-blue-800">
+                      <TwitterShareButton
+                        url={`${currentURL}`}
+                        className='flex'
+                      >
+                        <TwitterIcon size={32} round />
+                        <span className="font-primary text-sm my-1 ml-2" style={{ color: '#000' }}>Twitter</span>
+                      </TwitterShareButton>
+                    </span>
+                    </li>
+                    <li className="flex items-center mt-3"><span className="text-xl pr-2 text-orange-800">
+                      <WhatsappShareButton
+                        url={`${currentURL}`}
+                        className='flex'
+                      >
+                        <WhatsappIcon size={32} round />
+                        <span className="font-primary text-sm my-1 ml-2" style={{ color: '#000' }}>Whatsapp</span>
+                      </WhatsappShareButton>
+                    </span>
+                    </li>
+                    <li className="flex items-center mt-3"><span className="text-xl pr-2 text-orange-800">
+                      <TelegramShareButton
+                        url={`${currentURL}`}
+                        className='flex'
+                      >
+                        <TelegramIcon size={32} round />
+                        <span className="font-primary text-sm my-1 ml-2" style={{ color: '#000' }}>Telegram</span>
+                      </TelegramShareButton>
+                    </span>
+                    </li>
                   </ul>
                 </div>
               </div>
