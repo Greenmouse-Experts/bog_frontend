@@ -370,7 +370,7 @@ export default function OrderDetails() {
                     {/* <p className="text-primary"><BiEdit /></p> */}
                   </div>
                   <div className="fs-400 fw-500 mt-4">
-                    <p>{`${order.order_items[0].shippingAddress.city}, ${order.order_items[0].shippingAddress.state}`}</p>
+                    <p>{`${order.order_items[0].shippingAddress.address}, ${order.order_items[0].shippingAddress.state}`}</p>
                   </div>
                 </div>
                 <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">

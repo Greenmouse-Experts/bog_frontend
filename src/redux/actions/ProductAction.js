@@ -565,7 +565,7 @@ export const updateProduct = (payload, productId, saveLoading) => {
     }
 }
 
-export const addProductToStore = (productId, saveLoading) => {
+export const addProductToStore = (productId, saveLoading, navigate) => {
     return async (dispatch) => {
         try {
             dispatch(loading());
@@ -586,6 +586,10 @@ export const addProductToStore = (productId, saveLoading) => {
                 buttonsStyling: "false",
                 confirmButtonText: "Continue",
                 confirmButtonColor: "#3F79AD",
+            }).then((result) => {
+                if (result.value) {
+                    navigate('/dashboard/products');
+                }
             });
         } catch (error) {
             saveLoading();
@@ -607,14 +611,13 @@ export const addProductToStore = (productId, saveLoading) => {
     }
 }
 
-export const ApproveProduct = (payload, saveLoading) => {
+export const ApproveProduct = (payload, stopLoading, navigate) => {
     return async (dispatch) => {
         try {
             dispatch(loading());
             const url = `product/admin/approve-product`;
             const response = await axios.post(url, payload);
-            console.log(response);
-            saveLoading();
+            stopLoading();
             dispatch(UpdateAdminProductStatus(payload));
             Swal.fire({
                 title: "Success",
@@ -624,9 +627,13 @@ export const ApproveProduct = (payload, saveLoading) => {
                 buttonsStyling: "false",
                 confirmButtonText: "Continue",
                 confirmButtonColor: "#3F79AD",
+            }).then((result) => {
+                if (result.value) {
+                    navigate('/dashboard/productsadmin');
+                }
             });
         } catch (error) {
-            saveLoading();
+            stopLoading();
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }

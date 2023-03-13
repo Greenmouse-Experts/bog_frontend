@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Breadcrumbs } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Axios from "../../../../config/config";
 import { Loader } from "../../../layouts/Spinner";
 import dayjs from 'dayjs';
@@ -18,7 +18,9 @@ export default function ProductDetailsAdmin() {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
-    const stopLoading = () => setLoading(false)
+    const stopLoading = () => setLoading(false);
+
+    const navigate = useNavigate();
 
     const fetchProduct = async () => {
         try {
@@ -61,7 +63,7 @@ export default function ProductDetailsAdmin() {
                     productId,
                     status: "approved"
                 }
-                dispatch(ApproveProduct(payload, stopLoading))
+                dispatch(ApproveProduct(payload, stopLoading, navigate))
             }
         });
     }
@@ -162,18 +164,18 @@ export default function ProductDetailsAdmin() {
                         <div className="border-t border-gray-400 mt-6 lg:mt-8">
                             <div className="flex justify-between my-6">
                                 {
-                                    product?.status !== "disapproved" ?
+                                        product?.status === "in_review" ?
+                                            <>
                                         <button
                                             onClick={disapproveProduct}
                                             className="w-5/12 py-2 border border-red-500 text-red-500 bg-white rounded-lg"
-                                        >Disapprove</button> : null
-                                }
-                                {
-                                    product?.status !== "approved" ?
+                                        >Disapprove</button>
                                         <button
                                             onClick={approveProduct}
                                             className="w-5/12 py-2 text-white bg-primary rounded-lg"
-                                        >Approve Product</button> : null
+                                                >Approve Product</button>
+                                            </>
+                                            : null
                                 }
 
                             </div>

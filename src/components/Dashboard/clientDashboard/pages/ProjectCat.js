@@ -32,7 +32,9 @@ export default function ProjectCategory() {
     }
 
     const [adminAdd, setAdminAdd] = useState(false);
-    const categories = useSelector((state) => state.projects.services);
+    const [search, setSearch] = useState('');
+    let categoryArr = useSelector((state) => state.projects.services);
+    const [categories, setCategories] = useState([]);
 
     function CloseModal() {
         setAdminAdd(false)
@@ -45,10 +47,25 @@ export default function ProjectCategory() {
 
     useEffect(() => {
         setLoading(true);
+        setCategories(categoryArr);
         dispatch(getAllServiceCategories(stopLoading))
         dispatch(fetchServiceCategories(stopLoading)); // eslint-disable-next-line 
         setLoading(false)
-    }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const changeValue = (e) => {
+        setSearch(e.target.value);
+        if (e.target.value.length === 0) {
+            setCategories(categoryArr)
+        }
+    }
+
+    const searchCategories = () => {
+        const result = categoryArr.filter(res => (res.title.includes(search)) || (res.slug.includes(search) || (res.service.name.includes(search))));
+        setCategories(result);
+    }
+
 
     return (
         <div className="">
@@ -97,9 +114,12 @@ export default function ProjectCategory() {
                                                     type="search"
                                                     name="search order by name"
                                                     placeholder="Search"
+                                                    value={search}
+                                                    onChange={(e) => changeValue(e)}
                                                 />
                                                 <button
                                                     type="submit"
+                                                    onClick={() => searchCategories()}
                                                     className=" bg-primary right-0 top-0 py-2 px-4 rounded-r-lg"
                                                 >
                                                     <FontAwesomeIcon icon={faSearch} className="text-white" />

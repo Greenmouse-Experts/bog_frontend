@@ -8,6 +8,7 @@ import Spinner from '../../../../layouts/Spinner';
 import { useDispatch } from 'react-redux';
 import { addProductToStore } from '../../../../../redux/actions/ProductAction';
 import { BiEdit } from "react-icons/bi";
+import { useNavigate } from 'react-router-dom';
 
 // const baseURL = process.env.REACT_APP_IMAGE_URL;
 
@@ -19,6 +20,8 @@ const DraftProduct = ({ item, setProductDelete, setProductEdit }) => {
     }
 
     const saveLoading = () => setLoading(false);
+
+    const navigate = useNavigate();
 
     // const addProductToStore = async () => {
     //     try {
@@ -49,7 +52,7 @@ const DraftProduct = ({ item, setProductDelete, setProductEdit }) => {
     // }
      const addProductToStoreV2 = () => {
         setLoading(true);
-        dispatch(addProductToStore(item.id, saveLoading));
+        dispatch(addProductToStore(item.id, saveLoading, navigate));
      }
 
     return (

@@ -117,7 +117,7 @@ export const fetchAllAdminNotifications = (stopLoading) => {
     }
 }
 
-export const deleteAdminNotification = (id) => {
+export const deleteAdminNotification = (id, stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -129,14 +129,15 @@ export const deleteAdminNotification = (id) => {
                 }
             }
             dispatch(loading());
-            const response = await axios.delete(`/notifications/delete/${id}`, config);
-            console.log(response);
+            await axios.delete(`/notifications/delete/${id}`, config);
+            stopLoading();
             dispatch(removeAdminNotifications(id))
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
             else {
+                stopLoading();
                 dispatch(setError(error.message));
                 toast.error(
                     error.message,

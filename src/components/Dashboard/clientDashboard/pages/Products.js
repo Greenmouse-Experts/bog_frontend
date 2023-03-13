@@ -59,7 +59,6 @@ export default function Products() {
         return <center><Loader /></center>
     }
 
-    console.log(categories);
 
     return (
         <div className="">

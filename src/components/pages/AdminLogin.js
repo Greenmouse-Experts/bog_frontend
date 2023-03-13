@@ -6,6 +6,7 @@ import { loginAdmin } from '../../redux/actions/authAction'
 import { useFormik } from 'formik';
 import { loginValidation } from '../../services/validation'
 import Spinner from "../layouts/Spinner";
+import { Alert } from "@material-tailwind/react";
 
 
 export default function AdminLogin() {
@@ -13,11 +14,16 @@ export default function AdminLogin() {
     const navigate = useNavigate();
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const [loading, setLoading] = useState(false);
+    const [errorShow, setError] = useState(false);
+    let errorCatch = useSelector((state) => state.auth.error);
+
     const stopLoading = () => setLoading(false);
+    const displayError = () => setError(true);
+
     const handleSubmit = (values) => {
         setLoading(true)
         console.log(values);
-        dispatch(loginAdmin(values, navigate, stopLoading));
+        dispatch(loginAdmin(values, navigate, stopLoading, displayError));
     }
     const formik = useFormik({
         initialValues: {
@@ -53,6 +59,14 @@ export default function AdminLogin() {
                         <div className="text-center">
                             <p className="text-lg fw-600">ADMIN LOGIN</p>
                         </div>
+
+                        <Alert show={errorShow}
+                            dismissible={{
+                                onClose: () => setError(false),
+                            }}
+                            color="red" className="mt-5"
+                        >{errorCatch}</Alert>
+
                         <div>
                             <form onSubmit={formik.handleSubmit}>
                                 <div className="w-full mt-8">

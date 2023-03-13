@@ -8,6 +8,7 @@ const RecentProducts = ({ item }) => {
     const formatNumber = (number) => {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
     return (
         <div className="mt-12 flex border-b pb-4">
             <div className="w-4/12">
@@ -16,10 +17,10 @@ const RecentProducts = ({ item }) => {
             <div className="w-8/12 pl-6 grid content-between">
                 <div className="fs-500">
                     <p>{item.name}</p>
-                    {item.status !== "in_review" && (
+                    {item.status === "approved" && (
                         <ReactStars
                             edit={false}
-                            value={4}
+                            value={0}
                             size={20}
                         />
                     )}
