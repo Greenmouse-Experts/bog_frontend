@@ -179,7 +179,7 @@ export default function Service() {
                                                     AuhtCheck()
                                             }
                                         }}>
-                                            <img src={require("../assets/images/survey.png")} alt="survey" className="lg:w-16 mx-auto mb-5" />
+                                            <img src={category.icon} alt="survey" className="lg:w-16 mx-auto mb-5" />
                                             <p className="fw-500">{category.name}</p>
                                         </div>
                                     </div>

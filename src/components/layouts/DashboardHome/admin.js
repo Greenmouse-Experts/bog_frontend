@@ -14,7 +14,7 @@ import * as moment from 'moment'
 import { formatNumber } from "../../../services/helper";
 import { FaRegHandPointRight } from "react-icons/fa";
 import { getProjects } from "../../../redux/actions/ProjectAction";
-import { getUsers } from "../../../redux/actions/UserAction";
+import { getUsers, getUsersAnalyze } from "../../../redux/actions/UserAction";
 import { Loader } from "../Spinner";
 // import Moment from 'react-moment';
 
@@ -43,15 +43,25 @@ export default function AdminDashboard(status) {
     const [loading, setLoading] = useState(false);
 
     const stopLoading = () => setLoading(false);
+    const currentYear = new Date().getFullYear();
+    const [clientYear] = useState(currentYear);
 
     useEffect(() => {
         setLoading(true);
         dispatch(getAdminOrders(stopLoading));
         dispatch(getProjects(stopLoading));
+        dispatch(getUsersAnalyze(clientYear, stopLoading));
         dispatch(getUsers(stopLoading));
         // dispatch(getCategories());
-    },[dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
   
+
+    const allYears = []
+
+    for (var i = 0; i <= 2; i++) {
+        allYears.push(currentYear - i);
+    }
 
     const projects = useSelector((state) => state.projects.projects);
     const pendingProjects = projects.filter(where => where.status === "pending")
@@ -75,6 +85,24 @@ export default function AdminDashboard(status) {
     const ongoingOrder = orders.filter(where => where.status === "ongoing")
     const completedOrder = orders.filter(where => where.status === "completed")
     const cancelledOrder = orders.filter(where => where.status === "cancelled")
+
+    const changeSelect = (e) => {
+        dispatch(getUsersAnalyze(Number(e.target.value), stopLoading));
+    }
+
+    const userChart = useSelector((state) => state.users.usersData);
+
+    const clientChart = userChart.filter(user => {
+        return (user.userType === "corporate_client" || user.userType === "private_client");
+    });
+
+    const serviceChart = userChart.filter(user => {
+        return (user.userType === "professional");
+    });
+
+    const vendorChart = userChart.filter(user => {
+        return (user.userType === "vendor");
+    });
 
 
     if (loading) {
@@ -182,12 +210,14 @@ export default function AdminDashboard(status) {
             <div className=" fw-600 fs-500 bg-white py-6 rounded">
                 <div className="flex justify-between px-6">
                     <p className="fw-600 text-lg">Activity Chart</p>
-                    <select disabled className="bg-gray-100 text-sm px-2">
-                        <option>weekly</option>
+                          <select className="bg-gray-100 text-sm px-2" onChange={(e) => changeSelect(e)}>
+                              {allYears.map((year, index) => (
+                                  <option key={index} value={year}>{year}</option>
+                              ))}
                     </select>
                 </div>
                 <div className="mt-6">
-                          <AdminChart clientData={projects} />
+                          <AdminChart clientData={clientChart} serviceData={serviceChart} productPartnerData={vendorChart} />
                 </div>
             </div>
             <div className="bg-white mt-6 lg:mt-0 rounded py-6 px-4">

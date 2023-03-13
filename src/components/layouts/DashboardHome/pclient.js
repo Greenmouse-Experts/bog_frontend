@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { getUserOrders } from "../../../redux/actions/OrderAction";
 import dayjs from "dayjs";
 import { UserOrderAnal } from "../assets/UserOrderAnal";
-import { getProjects } from "../../../redux/actions/ProjectAction";
+import { getMyProject, getProjects } from "../../../redux/actions/ProjectAction";
 import { Loader } from "../Spinner";
 
 export default function PclientDashboard() {
@@ -33,14 +33,14 @@ export default function PclientDashboard() {
   }, [dispatch]);
 
   useEffect(() => {
-   /* if (user) {
+   if (user) {
         dispatch(getMyProject(user.userType, navigate, stopLoading));
-    } */
-    dispatch(getProjects(stopLoading))
+    }
+    //dispatch(getProjects(stopLoading))
   }, [dispatch, user, navigate])
   
-  const myProjects = project.filter(where => where.userId === user.id);
-  console.log(myProjects)
+  const myProjects = useSelector((state) => state.projects.projects);
+
   
   const returnColor = (value) => {
     if ((value >= 0) && (value < 30)) {

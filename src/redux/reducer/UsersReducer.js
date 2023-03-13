@@ -2,6 +2,7 @@ import * as ActionType from '../type';
 
 const initialState = {
     users: [],
+    usersData: [],
     admins: [],
     isLoading: false,
     error: null,
@@ -15,6 +16,13 @@ const UserReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 users: payload,
+                error: null,
+            }
+        case ActionType.FETCH_ANALYZE_USERS:
+            return {
+                ...state,
+                isLoading: false,
+                usersData: payload,
                 error: null,
             }
         case ActionType.FETCH_ADMIN:
