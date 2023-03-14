@@ -1,9 +1,9 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-  
+
 export default function ProjectChart({ data }) {
-  
+
   let jan = 0, feb = 0, mar = 0, apr = 0, may = 0, jun = 0, jul = 0, aug = 0, sep = 0, oct = 0, nov = 0, dec = 0;
 
   if (data.length > 0) {
@@ -47,26 +47,26 @@ export default function ProjectChart({ data }) {
     })
   }
 
-    const series = [
-        {
-          name: "Project",
-          data: [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
-        }
-      ];
-    
-    const guestOption = {
-        stroke: {
-            curve: "smooth",
-        },
-        xaxis: {
-            categories: ["Jan", "Feb", "Mar", "Apr","May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
-          }
-      };
-      return (
-        <div>
-          <ReactApexChart type="area" series={series} options={guestOption} width="100%" />
-        </div>
-      );
+  const series = [
+    {
+      name: "Project",
+      data: [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+    }
+  ];
+
+  const guestOption = {
+    stroke: {
+      curve: "smooth",
+    },
+    xaxis: {
+      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
+    }
+  };
+  return (
+    <div>
+      <ReactApexChart type="area" series={series} options={guestOption} width="100%" />
+    </div>
+  );
 }
 
 export function AdminChart({ clientData, serviceData, productPartnerData }) {
@@ -207,17 +207,17 @@ export function AdminChart({ clientData, serviceData, productPartnerData }) {
 
   const series = [{
     name: 'Clients',
-    data: [jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec]
+    data: [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
   }, {
     name: 'Service Partners',
     data: [janService, febService, marService, aprService, mayService, junService, julService, augService, sepService,
-    octService, novService,  decService]
+      octService, novService, decService]
   }, {
     name: 'Product Partners',
     data: [janPartner, febPartner, marPartner, aprPartner, mayPartner, junPartner, julPartner, augPartner, sepPartner,
-    octPartner, novPartner, decPartner]
-    }];
-  
+      octPartner, novPartner, decPartner]
+  }];
+
   const options = {
     chart: {
       height: 250,
@@ -233,12 +233,12 @@ export function AdminChart({ clientData, serviceData, productPartnerData }) {
     xaxis: {
       categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     },
-    
+
   };
 
-  return(
+  return (
     <div>
       <ReactApexChart type="area" series={series} options={options} width="100%" />
-  </div>
+    </div>
   )
 }
