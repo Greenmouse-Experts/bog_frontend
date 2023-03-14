@@ -26,8 +26,7 @@ export default function ServiceDashboard() {
   const ongoingProject = assignedProjects?.filter(where => where.status === "ongoing")
   const completedProject = assignedProjects?.filter(where => where.status === "completed");
 
-  console.log(assignedProjects);
-
+  
   const currentYear = new Date().getFullYear();
   const [clientYear] = useState(currentYear);
   const allYears = []
@@ -51,7 +50,6 @@ export default function ServiceDashboard() {
       setLoading(true)
       dispatch(getDispatchedProjects(user.profile.id, stopLoading))
       dispatch(getServicePartnerProjects(user.profile.id, stopLoading))
-
       axios.get(`${process.env.REACT_APP_URL}/projects/service-partner-analyze?y=${clientYear}`, config).then((res) => {
         setFilterProjects(res.data.projects);
       })
@@ -68,7 +66,6 @@ export default function ServiceDashboard() {
 
   const ongoingFilterProject = filteredProjects?.filter(where => where.status === "ongoing")
   const completedFilterProject = filteredProjects?.filter(where => where.status === "completed");
-
 
 
   if (loading) {
