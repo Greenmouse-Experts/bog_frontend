@@ -150,6 +150,45 @@ export const getDeliveryAddresses = () => {
     }
 }
 
+
+export const getProjectAnalyze = (year) => {
+    return async (dispatch) => {
+        try {
+            dispatch(loading());
+            const authToken = localStorage.getItem("auth_token");
+            const config = {
+                headers:
+                {
+                    'Content-Type': 'application/json',
+                    'Authorization': authToken
+                }
+            }
+            const url = `projects/analyze?y=${year}`
+            const response = await axios.get(url, config);
+            console.log(response);
+            dispatch(fetchMyProject(response.data))
+        } catch (error) {
+            console.log(error.message);
+            if (error.message === 'Request failed with status code 401') {
+                window.location.href = '/';
+            }
+            else {
+                dispatch(setError(error.message));
+                toast.error(
+                    error.message,
+                    {
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
+                    }
+                );
+            }
+        }
+
+    }
+}
+
+
 export const getMyProject = (userType, navigate, stopLoading) => {
     return async (dispatch) => {
         try {

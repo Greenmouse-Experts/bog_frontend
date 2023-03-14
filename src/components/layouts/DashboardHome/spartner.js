@@ -8,6 +8,7 @@ import ProjectChart from "../../Dashboard/assets/ProjectChart";
 import { getDispatchedProjects, getServicePartnerProjects } from "../../../redux/actions/ProjectAction";
 import dayjs from "dayjs";
 import { Loader } from "../Spinner";
+import axios from "axios";
 // import ProjectChart from "../assets/ProjectChart";
 
 export default function ServiceDashboard() {
@@ -15,6 +16,7 @@ export default function ServiceDashboard() {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
+  const [filteredProjects, setFilterProjects] = useState([]);
 
   const stopLoading = () => setLoading(false);
 
@@ -24,15 +26,46 @@ export default function ServiceDashboard() {
   const ongoingProject = assignedProjects?.filter(where => where.status === "ongoing")
   const completedProject = assignedProjects?.filter(where => where.status === "completed");
 
-  console.log(assignedProjects);
+  const currentYear = new Date().getFullYear();
+  const [clientYear] = useState(currentYear);
+  const allYears = []
+
+  for (var i = 0; i <= 2; i++) {
+    allYears.push(currentYear - i);
+  }
+
+  const authToken = localStorage.getItem("auth_token");
+  const config = {
+    headers:
+    {
+      'Content-Type': 'application/json',
+      'Authorization': authToken
+    }
+  }
 
   useEffect(() => {
     if (user) {
       setLoading(true)
       dispatch(getDispatchedProjects(user.profile.id, stopLoading))
       dispatch(getServicePartnerProjects(user.profile.id, stopLoading))
+    
+      axios.get(`${process.env.REACT_APP_URL}/projects/service-partner-analyze?y=${clientYear}`, config).then((res) => {
+        setFilterProjects(res.data.projects);
+      })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, user]);
+
+
+  const changeSelect = (e) => {
+    axios.get(`${process.env.REACT_APP_URL}/projects/service-partner-analyze?y=${e.target.value}`, config).then((res) => {
+      setFilterProjects(res.data.projects);
+    })
+  }
+
+  const ongoingFilterProject = filteredProjects?.filter(where => where.status === "ongoing")
+  const completedFilterProject = filteredProjects?.filter(where => where.status === "completed");
+
 
   if (loading) {
     return (
@@ -137,9 +170,16 @@ export default function ServiceDashboard() {
         <div className="lg:grid-83 justify-between">
           {/* overview */}
           <div className="bg-white mt-6 rounded-lg ">
-            <p className="fw-600 fs-700 bg-primary rounded-t-lg text-white p-4">Overview</p>
+            <div className="flex w-full bg-primary rounded-t-lg">
+            <p className="fw-600 fs-700 flex flex-grow text-white p-4">Overview</p>
+            <select className="bg-gray-100 text-sm px-2 h-8 mr-4 mt-3" onChange={(e) => changeSelect(e)}>
+              {allYears.map((year, index) => (
+                <option key={index} value={year}>{year}</option>
+              ))}
+              </select>
+              </div>
             <div className="px-4 py-6">
-              <ProjectChart ongoing={ongoingProject} completed={completedProject} />
+              <ProjectChart ongoing={ongoingFilterProject} completed={completedFilterProject} />
             </div>
           </div>
           {/* request analysis */}

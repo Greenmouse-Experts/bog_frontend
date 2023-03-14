@@ -113,7 +113,7 @@ export default function ProjectChart({ ongoing, completed }) {
             categories: ["Jan", "Feb", "Mar", "Apr","May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
       },
       yaxis: {
-        tickAmount: 3,
+        tickAmount: 1,
         labels: {
           formatter: function (val) {
             return val.toFixed(0)
