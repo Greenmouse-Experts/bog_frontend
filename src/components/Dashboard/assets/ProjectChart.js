@@ -117,7 +117,7 @@ export default function ProjectChart({ ongoing, completed }) {
         labels: {
           formatter: function (val) {
             return val.toFixed(0)
-          }
+           }
         },
       }
       };
