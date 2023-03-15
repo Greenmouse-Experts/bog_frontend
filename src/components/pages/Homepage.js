@@ -15,8 +15,7 @@ import toast from 'react-hot-toast';
 import Axios from "../../config/config";
 import Spinner from "../layouts/Spinner";
 import { HomepageBlog } from "./Blog/HomepageBlog";
-import { MdKeyboardDoubleArrowRight } from "react-icons/md";
-// import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+import { BiArrowToRight } from "react-icons/bi";
 
 // const Text = ({children}) => {
 //     return <div className="text">{children}</div>;
@@ -442,7 +441,7 @@ export default function Homepage() {
                 <div className="lg:flex lg:h-full">
                     <div className="lg:w-6/12 lg:h-full for-product relative">
                         <div className="w-11/12 lg:w-10/12  h-03 md:h-103 lg:h-full relative mx-auto pt-5 lg:mt-20">
-                            <p className="flex items-center text-primary fw-700 lg:text-3xl text-2xl lg:strokes">Products In Shop <Link to='/shop' className="pl-3"><MdKeyboardDoubleArrowRight className="text-4xl hover:scale-110"/></Link></p>
+                            <p className="flex items-center text-primary fw-700 lg:text-3xl text-2xl lg:strokes">Products In Shop <Link to='/shop' className="pl-3"><BiArrowToRight className="text-4xl hover:scale-110"/></Link></p>
                             <p className="xl:text-3xl fs-500 lg:fs-600 lg:mt-12 mt-6 w-10/12">Building materials are readily available at the shop for purchase.</p>
                             {/* <button className="btn-primary lg:px-8 mt-4 fw-500"><Link to='/shop'>Goto Shop</Link></button> */}
                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678873129/BOG/prods_z1jgjb.png" alt="products" className="lg:w-9/12 w-80 product-imgs absolute"/>
@@ -450,7 +449,7 @@ export default function Homepage() {
                     </div>
                     <div className="lg:w-6/12 h-full for-service">
                         <div className="w-11/12 lg:w-10/12  h-03 md:h-103 lg:h-full relative mx-auto lg:text-end lg:mt-20 pt-6 lg:pt-0">
-                            <p className=" text-secondary fw-700 lg:text-3xl text-2xl lg:strokeme flex lg:justify-end items-center">Service Providers<Link to='/services' className="pl-3"><MdKeyboardDoubleArrowRight className="text-4xl hover:scale-110"/></Link></p>
+                            <p className=" text-secondary fw-700 lg:text-3xl text-2xl lg:strokeme flex lg:justify-end items-center">Service Providers<Link to='/services' className="pl-3"><BiArrowToRight className="text-4xl hover:scale-110"/></Link></p>
                             <p className="xl:text-3xl fs-500 lg:fs-600 lg:mt-12 mt-6 w-10/12 lg:float-right">Wide range of professionals are available to handle your projects.</p>
                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678884317/BOG/Group_47675_2_1_rtgggo.png" alt="products" className="lg:w-8/12 w-72 service-imgs absolute"/>
                         </div>
