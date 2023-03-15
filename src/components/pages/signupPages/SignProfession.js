@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 import Spinner from '../../layouts/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from "../../../redux/actions/authAction";
@@ -183,14 +185,13 @@ export default function SignProfession() {
                 </div>
                 <div className="w-full mt-6">
                   <label className="block">Phone Number</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Enter your phone number"
-                    className="mt-1 w-full py-2 px-2 border-gray-400 rounded border"
+                  <PhoneInput
+                    country={'us'}
                     value={phone}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    className="mt-1 w-full"
+                    inputStyle={{ width: '100%' }}
                     id="phone"
                     name="phone"
                   />

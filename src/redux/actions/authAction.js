@@ -91,12 +91,11 @@ export const loginUser = (apiData, navigate, stopLoading, displayError) => {
     }
 }
 
-export const loginAdmin = (apiData, navigate, stopLoading) => {
+export const loginAdmin = (apiData, navigate, stopLoading, displayError) => {
     return async (dispatch) => {
         try {
             const url = `/admin/login`;
             const response = await axios.post(url, apiData);
-            console.log(response);
             dispatch(login(response));
             stopLoading();
             localStorage.removeItem("userType")
@@ -113,19 +112,11 @@ export const loginAdmin = (apiData, navigate, stopLoading) => {
             // })
             navigate("/dashboard");
         } catch (error) {
-            console.log(error.message);
             const errors = error.response.data.message;
             stopLoading();
+            displayError();
             dispatch(setError(errors));
             dispatch(setAlert(errors, "danger"))
-            toast.error(
-                errors,
-                {
-                    duration: 6000,
-                    position: "top-center",
-                    style: { background: '#BD362F', color : 'white'},
-                }
-            );
         }
     }
 }

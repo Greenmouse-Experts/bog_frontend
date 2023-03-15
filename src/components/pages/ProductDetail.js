@@ -92,6 +92,7 @@ export default function ProductDetail() {
         </center>
     }
 
+    console.log(item)
 
     return (
         <div>

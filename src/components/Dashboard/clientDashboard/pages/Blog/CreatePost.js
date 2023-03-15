@@ -38,7 +38,7 @@ export default function BlogPost() {
             fd.append(`photos[]`, photos[i]);
         }
         for (let i = 0; i < category.length; i++) {
-            fd.append(`categoryIds`, category[i]);
+            fd.append(`categoryIds[]`, category[i]);
         }
         fd.append("title", value.title);
         fd.append("body", value.description);
@@ -161,7 +161,6 @@ export default function BlogPost() {
                                 <p className="fw-600 lg:text-lg pb-3 border-b border-gray-300">Add Category</p>
                                 <div className="mt-4">
                                     <MultiSelectableItem options={options} handleChange={handleCategoryChange} />
-                                   
                                 </div>
                             </div>
                             {/* blog post category*/}

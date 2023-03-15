@@ -7,7 +7,6 @@ export default function ProjectChart({ ongoing, completed }) {
   let janOngoing = 0, febOngoing = 0, marOngoing = 0, aprOngoing = 0, mayOngoing = 0,
     junOngoing = 0, julOngoing = 0, augOngoing = 0, sepOngoing = 0, octOngoing = 0, novOngoing = 0, decOngoing = 0;
 
-    console.log(ongoing)
   if (ongoing.length > 0) {
     ongoing.forEach((item) => {
       if ((new Date(item.createdAt).getMonth() + 1) === 1) {
@@ -112,7 +111,15 @@ export default function ProjectChart({ ongoing, completed }) {
         },
         xaxis: {
             categories: ["Jan", "Feb", "Mar", "Apr","May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
-          }
+      },
+      yaxis: {
+        tickAmount: 1,
+        labels: {
+          formatter: function (val) {
+            return val.toFixed(0)
+           }
+        },
+      }
       };
       return (
         <div>
