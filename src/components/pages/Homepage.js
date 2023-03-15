@@ -15,6 +15,7 @@ import toast from 'react-hot-toast';
 import Axios from "../../config/config";
 import Spinner from "../layouts/Spinner";
 import { HomepageBlog } from "./Blog/HomepageBlog";
+import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 // import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
 // const Text = ({children}) => {
@@ -262,8 +263,8 @@ export default function Homepage() {
                 <div className="box">
                     <div className="section">
                         <div className="text-center">
-                            <p className="lg:text-4xl fw-600">Who can benefit from BOG</p>
-                            <p className="mt-2 fw-500">Pick a profile and sign up to start </p>
+                            <p className="lg:text-4xl text-2xl fw-600">Who can benefit from BOG</p>
+                            <p className="mt-2 fs-500 lg:fs-600 fw-500">Pick a profile and sign up to get started </p>
                         </div>
                         <div className="lg:flex relative lg:py-24">
                             <div className="lg:w-4/12  mt-7 lg:mt-0 flex justify-center">
@@ -325,9 +326,9 @@ export default function Homepage() {
                 </div>
             </div>
             {/* video section */}
-            <div className="section">
+            <div className="section pb-6 lg:pb-12">
                 <div className="box">
-                    <div className="text-center mb-6">
+                    <div className="text-center lg:mb-6">
                         <p className="text-2xl lg:text-4xl fw-600">How It Works</p>
                     </div>
                     <div className="lg:w-10/12 m-auto relative h-video lg:my-16 xl:mb-16">
@@ -357,7 +358,7 @@ export default function Homepage() {
             </div>
             {/* start and monitor */}
             <div className="box">
-                <div className="section lg:pt-0">
+                <div className="section pt-0">
                     <div>
                         <p className="lg:w-6/12 m-auto text-center lg:text-3xl text-2xl fw-600">Start, monitor and complete your project hazzle free in one app</p>
                     </div>
@@ -437,22 +438,21 @@ export default function Homepage() {
                 </div>
             </div>
             {/* producs & services */}
-            <div className="xl:h-04 h-03 md:h-103 lg:h-103">
-                <div className="flex h-full">
-                    <div className="w-6/12 h-full for-product relative">
-                        <div className="w-11/12 lg:w-10/12 h-full relative mx-auto mt-8 lg:mt-20">
-                            <p className="flex items-center text-primary fw-700 lg:text-3xl lg:strokes">Products In Shop <Link to='/shop' className="pl-3">m</Link></p>
+            <div className="xl:h-04 lg:h-103">
+                <div className="lg:flex lg:h-full">
+                    <div className="lg:w-6/12 lg:h-full for-product relative">
+                        <div className="w-11/12 lg:w-10/12  h-03 md:h-103 lg:h-full relative mx-auto pt-5 lg:mt-20">
+                            <p className="flex items-center text-primary fw-700 lg:text-3xl text-2xl lg:strokes">Products In Shop <Link to='/shop' className="pl-3"><MdKeyboardDoubleArrowRight className="text-4xl hover:scale-110"/></Link></p>
                             <p className="xl:text-3xl fs-500 lg:fs-600 lg:mt-12 mt-6 w-10/12">Building materials are readily available at the shop for purchase.</p>
                             {/* <button className="btn-primary lg:px-8 mt-4 fw-500"><Link to='/shop'>Goto Shop</Link></button> */}
-                            {/* <MdKeyboardDoubleArrowRight className="text-4xl hover:scale-110"/> */}
-                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678873129/BOG/prods_z1jgjb.png" alt="products" className="lg:w-9/12 w-11/12 product-imgs absolute"/>
+                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678873129/BOG/prods_z1jgjb.png" alt="products" className="lg:w-9/12 w-80 product-imgs absolute"/>
                         </div>
                     </div>
-                    <div className="w-6/12 h-full for-service">
-                        <div className="w-11/12 lg:w-10/12 h-full relative mx-auto lg:text-end lg:mt-20 mt-10">
-                            <p className=" text-secondary fw-700 lg:text-3xl lg:strokeme flex justify-end items-center">BOG SERVICES <Link to='/services' className="pl-3">m</Link></p>
+                    <div className="lg:w-6/12 h-full for-service">
+                        <div className="w-11/12 lg:w-10/12  h-03 md:h-103 lg:h-full relative mx-auto lg:text-end lg:mt-20 pt-6 lg:pt-0">
+                            <p className=" text-secondary fw-700 lg:text-3xl text-2xl lg:strokeme flex lg:justify-end items-center">Service Providers<Link to='/services' className="pl-3"><MdKeyboardDoubleArrowRight className="text-4xl hover:scale-110"/></Link></p>
                             <p className="xl:text-3xl fs-500 lg:fs-600 lg:mt-12 mt-6 w-10/12 lg:float-right">Wide range of professionals are available to handle your projects.</p>
-                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678884317/BOG/Group_47675_2_1_rtgggo.png" alt="products" className="lg:w-8/12 w-10/12 service-imgs absolute"/>
+                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678884317/BOG/Group_47675_2_1_rtgggo.png" alt="products" className="lg:w-8/12 w-72 service-imgs absolute"/>
                         </div>
                     </div>
                 </div>
@@ -539,7 +539,7 @@ export default function Homepage() {
             </div> */}
             {/* what our client says */}
             <div className="section bg-light">
-                <div className="box">
+                <div className="box pb-6 lg:pb-12">
                     <div>
                         <div className="lg:text-2xl text-xl fw-600 lg:w-4/12">
                             <p>See what our Clients and Patners have to say about us </p>
@@ -559,7 +559,7 @@ export default function Homepage() {
                 </div>
             </div>
             {/* bringing community together */}
-            <div className="section">
+            <div>
                 {/* <div className="box">
                     <div className="lg:flex flex-row-reverse bg-primary rounded-xl justify-center  items-center">
                         <div className="lg:w-7/12 lg:py-0 py-5 relative ">
@@ -575,17 +575,15 @@ export default function Homepage() {
                         </div>
                     </div>
                 </div> */}
-                <div className="h-90 p-6 flex items-center bg-primary">
-                    <div className="lg:w-4/12 mt-6 text-white lg:mt-0 lg:p-10 p-5 py-10  ">
-                        <p className="text-xl fw-600 lg:text-3xl fw-500">
+                <div className="lg:h-90 lg:p-6 py-6 grid items-center bg-primary">
+                    <div className="text-white">
+                        <p className="text-xl text-center lg:pt-10 fw-600 lg:text-4xl fw-500">
                             Bringing together a community of service partners, product partners
                             and clients.
                         </p>
-                        <p className="my-3">An online marketplace which intends to provide a platform for individuals interested in owning structures in Nigeria/Africa achieve their aim.</p>
-                        <Link to="/login"><button className="btn bg-white hover:scale-110 duration-200 text-primary fw-600 px-6 mt-6">Become A Partner</button></Link>
                     </div>
-                    <div className="w-8/12 mx-auto h-full">
-                        <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678815373/BOG/Group_47685_rvrw5l.png' alt='dasboard' className="w-full h-full"/>
+                    <div className="lg:h-5/6 mx-auto mt-4 lg:mt-0">
+                        <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678895841/BOG/Frame_1_1_pd7jxm.png' alt='dasboard' className="w-full h-full"/>
                     </div>
                 </div>
             </div>
