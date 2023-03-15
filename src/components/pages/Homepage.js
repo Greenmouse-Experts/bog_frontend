@@ -404,7 +404,7 @@ export default function Homepage() {
                             <p className="mt-12 lg:fs-700">With BOG smart calculator, Get the estimated cost of building your dream project by uploading a few documents and get the results.</p>
                         </div>
                         <div className="w-6/12">
-                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678189046/BOG/operatrice_eolrlg.jpg" alt="products" className="w-full"/>
+                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678888637/BOG/Group_47708_1_cpnkd5.png" alt="products" className="w-full"/>
                         </div>
                     </div>
                     <div className="absolute z-20 w-full h-full flex items-center justify-between text-center px-16 bg-light" ref={feature2}>
