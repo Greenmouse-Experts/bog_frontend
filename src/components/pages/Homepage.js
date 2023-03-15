@@ -2,8 +2,7 @@ import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Header from "./home-comp/Header";
-import { ImQuotesLeft, ImQuotesRight } from "react-icons/im"
-import { BsArrowRight, BsBag } from "react-icons/bs";
+import { BsArrowRight } from "react-icons/bs";
 import Faqs from "./home-comp/Faqs";
 import Footer from "./home-comp/Footer";
 import ProfSlides, { ProfSlidesSm } from "./home-comp/ProfSlides";
@@ -16,6 +15,7 @@ import toast from 'react-hot-toast';
 import Axios from "../../config/config";
 import Spinner from "../layouts/Spinner";
 import { HomepageBlog } from "./Blog/HomepageBlog";
+import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
 // const Text = ({children}) => {
 //     return <div className="text">{children}</div>;
@@ -28,32 +28,22 @@ export default function Homepage() {
     gsap.registerPlugin(ScrollTrigger);
     const intro = useRef();
     const intro1 = useRef();
-    const hero = useRef();
     const hazzle = useRef();
     const blog = useRef();
     const news = useRef();
+    const serdiv = useRef();
+    const clidiv = useRef();
+    const prodiv = useRef();
+    const feature1 = useRef();
+    const feature2 = useRef();
+    const feature3 = useRef();
+    const feature4 = useRef();
+    const features = useRef();
     // const into = useRef();
     // const into = gsap.utils.selector(intro);
-
+    
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            let tl = gsap.timeline();
-            // tl.from(into("text"), { y:10, opacity:0, duration:0.7, delay: .5, ease:"" ,stagger: 0.2,});
-            tl.from(intro1.current, { opacity: 0, scale: 0, ease: "back", duration: 0.5, delay: 1, })
-
-
-        },);
-
-
-        return () => ctx.revert();
-    }, []);
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-            // gsap.from(hero.current, {
-            //     y: -520, ease: "bounce", duration: 2, delay: 1.5, opacity: 0, onComplete() {
-            //         ScrollTrigger.refresh(true);
-            //     }
-            // })
 
             gsap.from(hazzle.current, {
                 scale: .6,
@@ -65,6 +55,84 @@ export default function Homepage() {
                     toggleActions: "restart none none none"
                 }
             },);
+            gsap.from(
+                clidiv.current, {
+                    opacity:0,
+                    duration: 0.9,
+                    left: "300px",
+                    // zIndex: 0,
+                    scrollTrigger:{
+                        trigger:clidiv.current,
+                        toggleActions: "restart none none none"
+                    }          
+                }
+            )
+            gsap.from(
+                serdiv.current, {
+                    opacity:0,
+                    duration: 0.9,
+                    right: "300px",
+                    // zIndex: 0,
+                    scrollTrigger:{
+                        trigger:serdiv.current,
+                        toggleActions: "restart none none none"
+                    }          
+                }
+            )
+            gsap.from(
+                prodiv.current, {
+                    scale:0,
+                    duration: 0.9,
+                    right: "300px",
+                    // zIndex: 0,
+                    scrollTrigger:{
+                        trigger:prodiv.current,
+                        toggleActions: "restart none none none"
+                    }          
+                }
+            )
+        }, serdiv);
+            ScrollTrigger.refresh(true)
+            return () => ctx.revert();
+        }, []);
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            let tl = gsap.timeline();
+            // tl.from(into("text"), { y:10, opacity:0, duration:0.7, delay: .5, ease:"" ,stagger: 0.2,});
+            tl.from(intro1.current, { opacity: 0, scale: 0, ease: "back", duration: 0.5, delay: 1, })
+        },);
+
+
+        return () => ctx.revert(); // eslint-disable-next-line
+        ScrollTrigger.refresh(true)
+    }, []);
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+
+            const tl = gsap.timeline();
+            tl.from(feature1.current, {yPercent: 100})
+                .from(feature2.current, {yPercent: 100})
+                .from(feature3.current, {yPercent: 100})
+                .from(feature4.current, {yPercent: 100});
+
+            ScrollTrigger.create({
+                animation: tl,
+                trigger: features.current,
+                pin: true,
+                pinSpacing: true,
+                start: "top top",
+                // toggleActions: "restart none none none",
+                scrub: true,
+                // invalidateOnRefresh: true,
+
+            })
+        }, intro1);
+            ScrollTrigger.refresh(true)
+            return () => ctx.revert();
+    }, [])
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+
             const bl = gsap.timeline();
             bl.to(news.current, { yPercent: -52, });
 
@@ -76,13 +144,13 @@ export default function Homepage() {
                 toggleActions: "restart none none none",
                 start: "center center",
                 scrub: true,
-                invalidateOnRefresh: true,
+                // invalidateOnRefresh: true,
 
             })
-        }, hero);
-        ScrollTrigger.refresh(true)
-        return () => ctx.revert();
-    }, []);
+        }, feature4);
+            ScrollTrigger.refresh(true)
+            return () => ctx.revert();
+    }, [])
 
     const [loading, setLoading] = useState(false);
     const [reviews, setReviews] = useState([]);
@@ -173,12 +241,12 @@ export default function Homepage() {
                                 <p className="my-7" >A platform where people can monitor and manage their projects without being encumbered by time and distance.</p>
                                 <div>
                                     <Link to="/">
-                                        <button className="rounded-xl bg-secondary">
+                                        <button className="rounded-xl">
                                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670504238/BOG/appstore_dvsria.png" alt="appstore" className="w-24 lg:w-32" />
                                         </button>
                                     </Link>
                                     <Link to="/">
-                                        <button className="rounded-xl bg-secondary ml-6">
+                                        <button className="rounded-xl ml-6">
                                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670504241/BOG/playstore_twyw75.png" alt="appstore" className="w-24 lg:w-32" />
                                         </button>
                                     </Link>
@@ -189,51 +257,68 @@ export default function Homepage() {
                     </div>
                 </div>
             </div>
-            {/* start and monitor */}
-            <div className="box">
-                <div className="section">
-                    <div>
-                        <p className="lg:w-6/12 m-auto text-center lg:text-3xl text-2xl fw-600">Start, monitor and complete your project hazzle free in one app</p>
-                    </div>
-                    <div className="lg:flex justify-between mt-16" id="hassle" ref={hazzle}>
-                        <div className="text-center lg:w-2/12 px-4">
-                            <img src={require("../assets/images/calculator.png")} alt="calculator" className="lg:w-20 w-16 m-auto mb-6" />
-                            <p>Price/Cost calculator</p>
-                        </div>
-                        <div className="text-center mt-6 lg:mt-0 lg:w-2/12 px-4">
-                            <img src={require("../assets/images/tv.png")} alt="tv" className="lg:w-20 w-16 m-auto mb-6" />
-                            <p className="w-8/12 lg:w-full m-auto">In app meetings and reviews</p>
-                        </div>
-                        <div className="text-center mt-6 lg:mt-0 lg:w-2/12 px-4">
-                            <img src={require("../assets/images/prof.png")} alt="providers" className="lg:w-20 w-16 m-auto mb-6" />
-                            <p className="w-8/12 lg:w-full m-auto">Find expert construction workers</p>
-                        </div>
-                        <div className="text-center mt-6 lg:mt-0 lg:w-2/12 px-4">
-                            <img src={require("../assets/images/tractor.png")} alt="tractor" className="lg:w-20 w-16 m-auto mb-6" />
-                            <p className="w-8/12 lg:w-full m-auto">Shop for construction materials</p>
-                        </div>
-                        <div className="text-center mt-6 lg:mt-0 lg:w-2/12 px-4">
-                            <img src={require("../assets/images/call.png")} alt="call" className="lg:w-20 w-16 m-auto mb-6" />
-                            <p>Quality customer care</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             {/* online market place */}
             <div className="bg-ash">
                 <div className="box">
                     <div className="section">
-                        <div className="flex">
-                            <div className="lg:w-2/12 w-1/12 flex justify-center">
-                                <ImQuotesLeft className="text-primary lg:text-6xl text-3xl" />
+                        <div className="text-center">
+                            <p className="lg:text-4xl fw-600">Who can benefit from BOG</p>
+                            <p className="mt-2 fw-500">Pick a profile and sign up to start </p>
+                        </div>
+                        <div className="lg:flex relative lg:py-24">
+                            <div className="lg:w-4/12  mt-7 lg:mt-0 flex justify-center">
+                                <div className="shades flex items-center justify-between p-4 w-11/12 mx-auto bg-white hover:scale-105 duration-100 relative" ref={clidiv}>
+                                    <div className="w-3/13 ">
+                                        <div className="w-20 h-20 circle bg-client p-2">
+                                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678699104/BOG/icons8-couple-icloud-100_f1smfd.png" alt="clients" className="w-24"/>
+                                        </div>
+                                    </div>
+                                    <div className="w-7/12">
+                                        <p className="fw-600 lg:text-lg">For Clients</p>
+                                        <p className="fs-300 mt-1">Gain access to buy variety of building materials and employ services.</p>
+                                    </div>
+                                    <div className="w-1/12">
+                                        <Link to='/signup/client' className="hover:scale-105">
+                                            <BsArrowRight className="fw-700 text-xl hover:scale-110 hover:text-primary"/>
+                                        </Link>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="lg:w-8/12 w-10/12 ">
-                                <p className="lg:text-3xl text-lg fw-400 py-8 text-center">
-                                    BOG is an online marketplace which intends to provide a platform for individuals interested in owning structures in Nigeria/Africa achieve their aim.
-                                </p>
+                            <div className="lg:w-4/12 mt-7 lg:mt-0 flex justify-center">
+                                <div className="shades flex items-center justify-between p-4 w-11/12 mx-auto bg-white hover:scale-105 duration-100" ref={prodiv}>
+                                    <div className="w-3/13 ">
+                                        <div className="w-20 h-20 circle bg-product p-2">
+                                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678699104/BOG/icons8-sales-64_skscul.png" alt="products" className="w-14"/>
+                                        </div>
+                                    </div>
+                                    <div className="w-7/12">
+                                        <p className="fw-600 lg:text-lg">For Product Partners</p>
+                                        <p className="fs-300 mt-1">Sell your products to prospective buyers worldwide.</p>
+                                    </div>
+                                    <div className="w-1/12">
+                                        <Link to='/signup/supply' className="hover:scale-105">
+                                            <BsArrowRight className="fw-700 text-xl hover:scale-110 hover:text-primary"/>
+                                        </Link>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="lg:w-2/12 w-1/12 flex justify-center self-end">
-                                <ImQuotesRight className="text-primary lg:text-6xl text-3xl" />
+                            <div className="lg:w-4/12  mt-7 lg:mt-0 flex justify-center">
+                                <div className="shades flex items-center justify-between p-4 w-11/12 mx-auto bg-white hover:scale-105 duration-100 relative" ref={serdiv}>
+                                    <div className="w-3/13 ">
+                                        <div className="w-20 h-20 circle bg-service p-2">
+                                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678699104/BOG/icons8-worker-beard-94_rcuorl.png" alt="service" className=""/>
+                                        </div>
+                                    </div>
+                                    <div className="w-7/12">
+                                        <p className="fw-600 lg:text-lg">For Servive Partners</p>
+                                        <p className="fs-400 mt-1">Render your services to thousands of client.</p>
+                                    </div>
+                                    <div className="w-1/12">
+                                        <Link to='/signup/profession' className="hover:scale-105">
+                                            <BsArrowRight className="fw-700 text-xl hover:scale-110 hover:text-primary"/>
+                                        </Link>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -245,7 +330,7 @@ export default function Homepage() {
                     <div className="text-center mb-6">
                         <p className="text-2xl lg:text-4xl fw-600">How It Works</p>
                     </div>
-                    <div className="lg:w-10/12 m-auto relative h-video lg:my-16 xl:mb-24">
+                    <div className="lg:w-10/12 m-auto relative h-video lg:my-16 xl:mb-16">
                         <video loop playsInline muted className="absolute z-0 w-full h-full left-0 top-0 rounded-lg">
                             <source src="https://res.cloudinary.com/greenmouse-tech/video/upload/v1668779475/BOG/BOGVideo_nmtany.mp4" />
 
@@ -270,8 +355,109 @@ export default function Homepage() {
                     )}
                 </div>
             </div>
+            {/* start and monitor */}
+            <div className="box">
+                <div className="section lg:pt-0">
+                    <div>
+                        <p className="lg:w-6/12 m-auto text-center lg:text-3xl text-2xl fw-600">Start, monitor and complete your project hazzle free in one app</p>
+                    </div>
+                    <div className="lg:flex justify-between my-16" id="hassle" ref={hazzle}>
+                        <div className="text-center lg:w-2/12 px-4">
+                            <img src={require("../assets/images/calculator.png")} alt="calculator" className="lg:w-20 w-16 m-auto mb-6" />
+                            <p>Price/Cost calculator</p>
+                        </div>
+                        <div className="text-center mt-6 lg:mt-0 lg:w-2/12 px-4">
+                            <img src={require("../assets/images/tv.png")} alt="tv" className="lg:w-20 w-16 m-auto mb-6" />
+                            <p className="w-8/12 lg:w-full m-auto">In app meetings and reviews</p>
+                        </div>
+                        <div className="text-center mt-6 lg:mt-0 lg:w-2/12 px-4">
+                            <img src={require("../assets/images/prof.png")} alt="providers" className="lg:w-20 w-16 m-auto mb-6" />
+                            <p className="w-8/12 lg:w-full m-auto">Find expert construction workers</p>
+                        </div>
+                        <div className="text-center mt-6 lg:mt-0 lg:w-2/12 px-4">
+                            <img src={require("../assets/images/tractor.png")} alt="tractor" className="lg:w-20 w-16 m-auto mb-6" />
+                            <p className="w-8/12 lg:w-full m-auto">Shop for construction materials</p>
+                        </div>
+                        <div className="text-center mt-6 lg:mt-0 lg:w-2/12 px-4">
+                            <img src={require("../assets/images/call.png")} alt="call" className="lg:w-20 w-16 m-auto mb-6" />
+                            <p>Quality customer care</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* feautures */}
+            <div className="hidden lg:block bg-light relative h-auto w-full">
+                <div className="h-screen relative overflow-hidden bg-light" ref={features}>
+                    {/* <p className="text-center text-5xl w-10/12 mx-auto fw-600 relative z-30">Features</p> */}
+                    <div className="absolute z-10  w-full h-full flex justify-between items-center px-16">
+                        <div className="w-4/12 pr-6 text-center">
+                            <p className="text-5xl fw-600">Products available in Store</p>
+                            <p className="mt-12">Duis suscipit dui non elit elementum, nec fermentum lectus posuere. Pellentesque lobortis ac felis eu luctus. Donec pharetra sollicitudin odio, at feugiat ligula rutrum ut. Maecenas augue tortor, luctus at est non, rutrum pretium nulla.</p>
+                        </div>
+                        <div className="w-6/12">
+                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678817725/BOG/Group_47677_1_pfzbpz.png" alt="products" className="w-full"/>
+                        </div>
+                    </div>
+                    <div className="absolute z-20 w-full h-full flex text-center justify-between items-center px-16 bg-light" ref={feature1}>
+                        <div className="w-4/12 pr-6">
+                            <p className="text-5xl fw-600">Smart Calculator</p>
+                            <p className="mt-12 lg:fs-700">With BOG smart calculator, Get the estimated cost of building your dream project by uploading a few documents and get the results.</p>
+                        </div>
+                        <div className="w-6/12">
+                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678189046/BOG/operatrice_eolrlg.jpg" alt="products" className="w-full"/>
+                        </div>
+                    </div>
+                    <div className="absolute z-20 w-full h-full flex items-center justify-between text-center px-16 bg-light" ref={feature2}>
+                        <div className="w-4/12 pr-6">
+                            <p className="text-5xl fw-600">In-App Meetings</p>
+                            <p className="mt-12 lg:fs-700">You can now create/schedule a meeting in real-time to get valuable updates about your ongoing projects for efficient project delivery.</p>
+                        </div>
+                        <div className="w-6/12">
+                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678815373/BOG/Group_47676_kmqr4r.png" alt="products" className="w-full"/>
+                        </div>
+                    </div>
+                    <div className="absolute z-20 w-full h-full flex items-center justify-between text-center px-16 bg-light" ref={feature3}>
+                        <div className="w-4/12 pr-6">
+                            <p className="text-5xl fw-600">Escrow Payment</p>
+                            <p className="mt-12 lg:fs-700">BOG offers escrow payment method for shielding your transaction and ensuring that your services are upto expectation.We also make sure the service and product partners provides tracking information, when applicable, for the transaction.</p>
+                        </div>
+                        <div className="w-6/12">
+                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678815373/BOG/Group_47685_rvrw5l.png" alt="products" className="w-full"/>
+                        </div>
+                    </div>
+                    <div className="absolute z-20 w-full h-full flex items-center justify-between text-center px-16 bg-light" ref={feature4}>
+                        <div className="w-4/12 pr-6">
+                            <p className="text-5xl fw-600">Get Verified with Points</p>
+                            <p className="mt-12 lg:fs-700">BOG automatically rates partners with high level of experience and technical know-how, to get awarded and handle tasking projects from clients.</p>
+                        </div>
+                        <div className="w-6/12">
+                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678884983/BOG/Group_47701_1_ez5h65.png" alt="products" className="w-full"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* producs & services */}
+            <div className="xl:h-04 h-03 md:h-103 lg:h-103">
+                <div className="flex h-full">
+                    <div className="w-6/12 h-full for-product relative">
+                        <div className="w-11/12 lg:w-10/12 h-full relative mx-auto mt-8 lg:mt-20">
+                            <p className="flex items-center text-primary fw-700 lg:text-3xl lg:strokes">Products In Shop <span><Link to='/shop' className="pl-3"><MdKeyboardDoubleArrowRight className="text-4xl hover:scale-110"/></Link></span></p>
+                            <p className="xl:text-3xl fs-500 lg:fs-600 lg:mt-12 mt-6 w-10/12">Building materials are readily available at the store for purchase.</p>
+                            {/* <button className="btn-primary lg:px-8 mt-4 fw-500"><Link to='/shop'>Goto Shop</Link></button> */}
+                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678873129/BOG/prods_z1jgjb.png" alt="products" className="lg:w-9/12 w-11/12 product-imgs absolute"/>
+                        </div>
+                    </div>
+                    <div className="w-6/12 h-full for-service">
+                        <div className="w-11/12 lg:w-10/12 h-full relative mx-auto lg:text-end lg:mt-20 mt-10">
+                            <p className=" text-secondary fw-700 lg:text-3xl lg:strokeme flex justify-end items-center">BOG SERVICES <Link to='/services' className="pl-3"><MdKeyboardDoubleArrowRight className="text-4xl hover:scale-110"/></Link></p>
+                            <p className="xl:text-3xl fs-500 lg:fs-600 lg:mt-12 mt-6 w-10/12 lg:float-right">Wide range of professionals are available to handle your projects.</p>
+                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678884317/BOG/Group_47675_2_1_rtgggo.png" alt="products" className="lg:w-8/12 w-10/12 service-imgs absolute"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {/* shop on bog */}
-            <div className="section bg-primary">
+            {/* <div className="section bg-primary">
                 <div className="box">
                     <div>
                         <div className="text-white">
@@ -309,10 +495,10 @@ export default function Homepage() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
             {/* hire experts */}
             <div className="section">
-                <div className="box">
+                <div className="box lg:section">
                     <div>
                         <div>
                             <p className="text-xl lg:text-3xl m-auto text-center lg:w-6/12 fw-500 mb-4 ">Hire Expert Construction workers to get the work done.</p>
@@ -328,7 +514,7 @@ export default function Homepage() {
                 </div>
             </div>
             {/* provide service */}
-            <div className="section bg-light">
+            {/* <div className="section bg-light">
                 <div className="box">
                     <div>
                         <div>
@@ -349,9 +535,89 @@ export default function Homepage() {
                         </div>
                     </div>
                 </div>
+            </div> */}
+            {/* what our client says */}
+            <div className="section bg-light">
+                <div className="box">
+                    <div>
+                        <div className="lg:text-2xl text-xl fw-600 lg:w-4/12">
+                            <p>See what our Clients and Patners have to say about us </p>
+                        </div>
+                        <div className="mt-12 hidden lg:block">
+                            {
+                                loading ? <Spinner /> :
+                                    <ReviewSlide reviews={reviews} />
+                            }
+                        </div>
+                        <div className="mt-12 lg:hidden">
+                            {
+                                loading? <Spinner/> : <ReviewSlideSm reviews={reviews} />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* bringing community together */}
+            <div className="section">
+                {/* <div className="box">
+                    <div className="lg:flex flex-row-reverse bg-primary rounded-xl justify-center  items-center">
+                        <div className="lg:w-7/12 lg:py-0 py-5 relative ">
+                            <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678204435/BOG/mockuper-removebg-preview_n3gg9g.png' alt="build" className="w-full" />
+                        </div>
+                        <div className="lg:w-5/12 mt-6 text-white lg:mt-0 lg:p-10 p-5 py-10  ">
+                            <p className="text-xl fw-600 lg:text-3xl fw-500">
+                                Bringing together a community of service partners, product partners
+                                and clients.
+                            </p>
+                            <p className="my-3">An online marketplace which intends to provide a platform for individuals interested in owning structures in Nigeria/Africa achieve their aim.</p>
+                            <Link to="/login"><button className="btn bg-white hover:scale-110 duration-200 text-primary fw-600 px-6 mt-6">Become A Partner</button></Link>
+                        </div>
+                    </div>
+                </div> */}
+                <div className="h-90 p-6 flex items-center bg-primary">
+                    <div className="lg:w-4/12 mt-6 text-white lg:mt-0 lg:p-10 p-5 py-10  ">
+                        <p className="text-xl fw-600 lg:text-3xl fw-500">
+                            Bringing together a community of service partners, product partners
+                            and clients.
+                        </p>
+                        <p className="my-3">An online marketplace which intends to provide a platform for individuals interested in owning structures in Nigeria/Africa achieve their aim.</p>
+                        <Link to="/login"><button className="btn bg-white hover:scale-110 duration-200 text-primary fw-600 px-6 mt-6">Become A Partner</button></Link>
+                    </div>
+                    <div className="w-8/12 mx-auto h-full">
+                        <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678815373/BOG/Group_47685_rvrw5l.png' alt='dasboard' className="w-full h-full"/>
+                    </div>
+                </div>
+            </div>
+            {/* why bog */}
+            <div className="section">
+                <div className="box">
+                    <div>
+                        <div className="text-center">
+                            <p className="lg:text-2xl text-xl fw-700">Why BOG? Because we deliver the best.</p>
+                            <p className="mt-2 lg:w-10/12 mx-auto">No more compromising or missed opportunities with BOG by your side. With our hassle-free application, this time tomorrow you could have access to the products and services you need. It’s just what we do.</p>
+                        </div>
+                        <div className="lg:grid-3 justify-between mt-12">
+                            <div className="text-center">
+                                <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670510807/BOG/development-plan_1_fyoa8d.png" alt="support" className="w-36 mx-auto mb-4" />
+                                <p className="fw-700 text-xl">Flexibility</p>
+                                <p>Fast application and navigation, and delivery is possible within 24 hours of order.</p>
+                            </div>
+                            <div className="text-center lg:mt-0 mt-7">
+                                <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670510807/BOG/it-department_1_1_km7eu8.png" alt="support" className="w-36 mx-auto mb-4" />
+                                <p className="fw-700 text-xl">Support</p>
+                                <p>A dedicated Customer Care Service will get to know you and your service need and provide a personalised solution.</p>
+                            </div>
+                            <div className="text-center mt-7 lg:mt-0">
+                                <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670515982/BOG/flexibility_1_1_ivqqdd.png" alt="support" className="w-36 mx-auto mb-4" />
+                                <p className="fw-700 text-xl">Confidence</p>
+                                <p>Join thousands of individuals who patronizes BOG and experience smooth and standard services.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             {/* updated with blogs */}
-            <div className="section bg-tertiary " ref={blog} >
+            <div className="section bg-tertiary lg:my-20" ref={blog} >
                 <div className="box">
                     <div className="hidden lg:block h-blog overflow-hidden w-full"  >
                         <div className="flex"   >
@@ -398,81 +664,14 @@ export default function Homepage() {
                     </div>
                 </div>
             </div>
-            {/* what our client says */}
-            <div className="section bg-light">
-                <div className="box">
-                    <div>
-                        <div className="lg:text-2xl text-xl fw-600 lg:w-4/12">
-                            <p>See what our Clients and Patners have to say about us </p>
-                        </div>
-                        <div className="mt-12 hidden lg:block">
-                            {
-                                loading ? <Spinner /> :
-                                    <ReviewSlide reviews={reviews} />
-                            }
-                        </div>
-                        <div className="mt-12 lg:hidden">
-                            {
-                                loading? <Spinner/> : <ReviewSlideSm reviews={reviews} />
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* bringing community together */}
-            <div className="section">
-                <div className="box">
-                    <div className="lg:flex flex-row-reverse bg-primary rounded-xl justify-center  items-center">
-                        <div className="lg:w-7/12 lg:py-0 py-5 relative ">
-                            <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678204435/BOG/mockuper-removebg-preview_n3gg9g.png' alt="build" className="w-full" />
-                        </div>
-                        <div className="lg:w-5/12 mt-6 text-white lg:mt-0 lg:p-10 p-5 py-10  ">
-                            <p className="text-xl fw-600 lg:text-3xl fw-500">
-                                Bringing together a community of service partners, product partners
-                                and clients.
-                            </p>
-                            <p className="my-3">An online marketplace which intends to provide a platform for individuals interested in owning structures in Nigeria/Africa achieve their aim.</p>
-                            <Link to="/login"><button className="btn bg-white hover:scale-110 duration-200 text-primary fw-600 px-6 mt-6">Become A Partner</button></Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* why bog */}
-            <div className="section bg-light">
-                <div className="box">
-                    <div>
-                        <div className="text-center">
-                            <p className="lg:text-2xl text-xl fw-700">Why BOG? Because we deliver the best.</p>
-                            <p className="mt-2 lg:w-10/12 mx-auto">No more compromising or missed opportunities with BOG by your side. With our hassle-free application, this time tomorrow you could have access to the products and services you need. It’s just what we do.</p>
-                        </div>
-                        <div className="lg:grid-3 justify-between mt-12">
-                            <div className="text-center">
-                                <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670510807/BOG/development-plan_1_fyoa8d.png" alt="support" className="w-36 mx-auto mb-4" />
-                                <p className="fw-700 text-xl">Flexibility</p>
-                                <p>Fast application and navigation, and delivery is possible within 24 hours of order.</p>
-                            </div>
-                            <div className="text-center lg:mt-0 mt-7">
-                                <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670510807/BOG/it-department_1_1_km7eu8.png" alt="support" className="w-36 mx-auto mb-4" />
-                                <p className="fw-700 text-xl">Support</p>
-                                <p>A dedicated Customer Care Service will get to know you and your service need and provide a personalised solution.</p>
-                            </div>
-                            <div className="text-center mt-7 lg:mt-0">
-                                <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670515982/BOG/flexibility_1_1_ivqqdd.png" alt="support" className="w-36 mx-auto mb-4" />
-                                <p className="fw-700 text-xl">Confidence</p>
-                                <p>Join thousands of individuals who patronizes BOG and experience smooth and standard services.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             {/* faqs */}
             <div className="section" >
                 <div className="box">
                     <div>
                         <div>
-                            <p className="text-xl lg:text-3xl fw-600 text-center">Frequently Asked Questions</p>
+                            <p className="text-xl lg:text-4xl fw-600 text-center">Frequently Asked Questions</p>
                         </div>
-                        <div className="lg:w-8/12 mt-12 m-auto">
+                        <div className="mt-12 m-auto">
                             <Faqs />
                         </div>
                         <div className="text-center lg:w-8/12 mt-12 mx-auto ">

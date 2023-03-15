@@ -365,8 +365,8 @@ export function ReviewSlide({ reviews }) {
                         {getUserType(item.user.userType)}
                       </p>
                     </div>
-                    <p className="mt-4 fs-500">{item.message}</p>
                   </div>
+                  <p className="mt-4 fs-500">{item.message}</p>
                 </div>
               );
             })
