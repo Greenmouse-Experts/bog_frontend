@@ -419,7 +419,7 @@ export default function Homepage() {
                     <div className="absolute z-20 w-full h-full flex items-center justify-between text-center px-16 bg-light" ref={feature3}>
                         <div className="w-4/12 pr-6">
                             <p className="text-5xl fw-600">Escrow Payment</p>
-                            <p className="mt-12 lg:fs-700">BOG offers escrow payment method for shielding your transaction and ensuring that your services are upto expectation.We also make sure the service and product partners provides tracking information, when applicable, for the transaction.</p>
+                            <p className="mt-12 lg:fs-700">BOG offers escrow payment method for shielding your transactions and ensuring that your services are upto expectation.We also make sure the service and product partners provides tracking information, when applicable, for the transaction.</p>
                         </div>
                         <div className="w-6/12">
                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678815373/BOG/Group_47685_rvrw5l.png" alt="products" className="w-full"/>
