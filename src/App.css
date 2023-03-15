@@ -717,11 +717,11 @@ to{
 }
 @media (max-width: 500px) {
   .product-imgs{
-    left: 5%;
-    bottom: 6%;
+    left: 2%;
+    bottom: -5px;
   }
   .service-imgs{
-    bottom: 7.5%;
-    left: 15%;
+    bottom: -6px;
+    left: 8%;
   }
 }
