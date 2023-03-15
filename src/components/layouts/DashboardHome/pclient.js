@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { getUserOrders } from "../../../redux/actions/OrderAction";
 import dayjs from "dayjs";
 import { UserOrderAnal } from "../assets/UserOrderAnal";
-import { getMyProject, getProjects } from "../../../redux/actions/ProjectAction";
+import { getMyProject } from "../../../redux/actions/ProjectAction";
 import { Loader } from "../Spinner";
 
 export default function PclientDashboard() {

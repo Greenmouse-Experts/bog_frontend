@@ -6,6 +6,7 @@ import SimpleMap from "./home-comp/Map";
 import 'react-phone-input-2/lib/style.css'
 import axios from "axios";
 import { useFormik } from "formik";
+import { Spinner2 } from "../layouts/Spinner";
 
 
 
@@ -15,9 +16,11 @@ export default function Contact(){
 
     // const [successful, setSuccessful] = useState(false);
     const [disableBtn, setDisableBtn] = useState(false);
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (values) => {
         try{
+            setLoading(true)
             console.log(values);
             const paylaod = {
                 ...values,
@@ -25,9 +28,13 @@ export default function Contact(){
             }
             const response = await axios.post(`${process.env.REACT_APP_URL }/user/contact-admin`, paylaod )
             setDisableBtn(true)
+            alert(response.message)
+            setLoading(false)
             return response
         }catch(error){
             console.log(error)
+            setLoading(false)
+            alert(error.response.data.message)
         }
     }
 
@@ -112,7 +119,7 @@ export default function Contact(){
                                             />
                                         </div>
                                         <div className="mt-10">
-                                            <button onClick={formik.handleSubmit} className="btn-primary w-full" disabled={disableBtn}>Submit</button>
+                                            <button onClick={formik.handleSubmit} className="btn-primary w-full" disabled={disableBtn}> {loading? <Spinner2/> : "Submit"}</button>
                                         </div>
                                     </form>
                                 </div>
