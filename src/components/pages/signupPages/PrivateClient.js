@@ -76,12 +76,12 @@ const PrivateClient = () => {
     const stringifiedParams = queryString.stringify({
         client_id: 183448377762282,
         redirect_uri: 'https://bog-project-new.netlify.app/authenticate/facebook/',
-        scope: ['email', 'user_friends'].join(','), // comma seperated string
+        scope: ['email', 'public_profile'].join(','), // comma seperated string
         response_type: 'code',
         auth_type: 'rerequest',
         display: 'popup',
       });
-      const facebookLoginUrl = `https://www.facebook.com/v4.0/dialog/oauth?${stringifiedParams}`;
+      const facebookLoginUrl = `www.facebook.com/v16.0/dialog/oauth?${stringifiedParams}`;
 
     return (
         <div className="mt-8">
@@ -288,14 +288,14 @@ const PrivateClient = () => {
                     <p className='w-12 text-center mx-auto bg-white relative z-10 text-lg'>OR</p>
                     <p className='border border-gray-500 relative -top-3'></p>
                 </div>
-                <div className='flex mt-8 justify-around'>
-                    <a href={facebookLoginUrl}  rel="noreferrer" target="_blank" className="w-5/12 ">
+                <div className='lg:flex px-8 lg:px-0 mt-8 justify-around'>
+                    <a href={facebookLoginUrl}  rel="noreferrer" target="_blank" className="lg:w-5/12 ">
                         <div className='bg-blue-600 text-white p-4 hover:scale-105 durarion-100 rounded-lg shadow flex items-center'>
                             <FaFacebook className='text-2xl text-white'/><span className='pl-2'>Sign Up with faceebook</span>
                         </div>
                     </a>
-                    <div className='w-5/12 p-4 bg-red-500 text-white hover:scale-105 durarion-100 rounded-lg shadow flex items-center'>
-                        <FaGoogle className='text-xl'/><span className='pl-2'>Sign Up with Google</span>
+                    <div className='lg:w-5/12 mt-4 lg:mt-0 p-4 bg-red-500 text-white hover:scale-105 durarion-100 rounded-lg shadow flex items-center'>
+                        <FaGoogle className='text-2xl'/><span className='pl-2'>Sign Up with Google</span>
                     </div>
                 </div>
             </div>
