@@ -33,6 +33,7 @@ import { OrderSuccess } from './components/pages/OrderSuccess';
 import { BAP } from './components/pages/BAP';
 import Refund from './components/pages/Refund';
 import { Protected } from './components/Routes/ProtectedRoute';
+import { FacebookAuth } from './components/pages/signupPages/FacebookAuth';
 
 if (localStorage.auth_token) {
   setAuthToken(localStorage.auth_token);
@@ -72,6 +73,7 @@ function App() {
         <Route path='/forget' element={<Forget />} />
         <Route path='/verifyemail' element={<Userauth />} />
         <Route path='/resetpassword' element={<ResetPassword />} />
+        <Route path='/authenticate/facebook/' element={<FacebookAuth/>} />
         {/* <Route path='/dashboard/*' element={<Dashboard />} /> */}
 
         <Route path='/dashboard/*' element={<Protected><ClientDashboard /></Protected>} />

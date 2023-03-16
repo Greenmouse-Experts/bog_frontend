@@ -1,41 +1,37 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
-// import ProductTable from "../../assets/Tables/ProductTable";
-// import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { Breadcrumbs, CardBody } from "@material-tailwind/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { Breadcrumbs } from "@material-tailwind/react";
 import { useState } from "react";
-import { FaFileDownload, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import {
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Button,
-} from "@material-tailwind/react";
 import Axios from "../../../../config/config";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import Spinner, { Loader } from "../../../layouts/Spinner";
-import AddressListItem from "./AddressListItem";
 import ActionFeedBack from "./Modals/ActionFeedBack";
 import { BsCheck } from "react-icons/bs";
 import { fetchAddresses } from "../../../../redux/actions/addressAction";
 import { AddressTable } from "../../assets/Tables/AddressTable";
+import AddressDeleteModal from "./Modals/AddressDeleteModal";
+import AddressInfoModal from "./Modals/AddressInfoModal";
 
 const DeliveryAddresses = () => {
   const [deliveryAddress, setDeliveryAddress] = useState(false);
   const [loading, setLoading] = useState(true);
   const [feedback, setFeetback] = useState(false);
   const [addresses, setAddresses] = useState([]);
+  const [action, setAction] = useState(false)
+  const [selectedAddress, setSelectedAddress] = useState();
   const user = useSelector((state) => state.auth.user);
 
   function CloseDelete() {
     setDeliveryAddress(false);
   }
+  const openViewModal = (actType, val) => {
+    setAction(actType);
+    setSelectedAddress(val);
+  };
 
   const stopLoading = () => setLoading(false);
 
@@ -181,86 +177,7 @@ const DeliveryAddresses = () => {
               <Loader size />
             ) : (
               <>
-                <div className="mt-10 flex justify-between">
-                  <div class="flex text-gray-600">
-                    <input
-                      class="border-2 border-gray-300 bg-white h-10 px-5 pr-4 rounded-l-lg text-sm focus:outline-none"
-                      type="search"
-                      name="search order by name"
-                      placeholder="Search"
-                    />
-                    <button
-                      type="submit"
-                      class=" bg-primary right-0 top-0 py-2 px-4 rounded-r-lg"
-                    >
-                      <FontAwesomeIcon icon={faSearch} className="text-white" />
-                    </button>
-                  </div>
-                  <Menu>
-                    <MenuHandler>
-                      <Button className="p-0 m-0 bg-transparent shadow-none text-blue-800 hover:shadow-none flex items-center">
-                        {" "}
-                        Export <FaFileDownload className="text-2xl" />
-                      </Button>
-                    </MenuHandler>
-                    <MenuList>
-                      <MenuItem>Export as CSV</MenuItem>
-                      <MenuItem>Export as Excel</MenuItem>
-                      <MenuItem>Export as PDF</MenuItem>
-                    </MenuList>
-                  </Menu>
-                </div>
-                <CardBody>
-                  <div className="overflow-x-auto">
-                    <table className="items-center w-full bg-transparent border-collapse">
-                      <thead className="thead-light bg-light">
-                        <tr>
-                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                            S/N
-                          </th>
-                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                            Title
-                          </th>
-                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                            Address
-                          </th>
-                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                            State
-                          </th>
-                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                            Country
-                          </th>
-                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                            Status
-                          </th>
-                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                            Charge
-                          </th>
-                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                            Delivery Time
-                          </th>
-                          <th className="px-2 fw-600 text-primary align-middle text-center border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap w-56">
-                            Action
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {
-                          <AddressListItem
-                            filterBy={true}
-                            addresses={addresses}
-                            removeAddress={removeFromAddress}
-                            updateAddressStatus={updateAddressStatus}
-                            // activateAddress={activateAddress}
-                            // deactivateAddress={deactivateAddress}
-                          />
-                        }
-                      </tbody>
-                    </table>
-                    {/* {meetings.length > 0? <MeetingTable filterBy="attended" status={'attended'} meet={meetings} removeMeet={removeFromMeeting} /> : ''} */}
-                  </div>
-                </CardBody>
-                <AddressTable addresses={addresses} removeAddress={removeFromAddress} updateAddressStatus={updateAddressStatus}/>
+                <AddressTable addresses={addresses} openViewModal={openViewModal} updateAddressStatus={updateAddressStatus}/>
               </>
             )}
           </div>
@@ -413,6 +330,23 @@ const DeliveryAddresses = () => {
           icon={feedback.icon}
           info={feedback.info}
           status={feedback.status}
+        />
+      )}
+      {action === "view" && (
+        <AddressInfoModal
+          CloseModal={() => setAction("")}
+          setFeetback={setFeetback}
+          address={selectedAddress}
+          updateAddressStatus={updateAddressStatus}
+        />
+      )}
+      {action === "decline" && (
+        <AddressDeleteModal
+          addressId={selectedAddress}
+          CloseDelete={() => setAction("")}
+          setFeetback={setFeetback}
+          removeAddress={removeFromAddress}
+          updateAddressStatus={updateAddressStatus}
         />
       )}
     </div>

@@ -79,7 +79,7 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export function AddressTable({addresses, removeAddress, updateAddressStatus}) {
+export function AddressTable({addresses, openViewModal}) {
 
 
     const columns = useMemo(
@@ -127,8 +127,8 @@ export function AddressTable({addresses, removeAddress, updateAddressStatus}) {
                       <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><button className="lg:text-xl"><BsThreeDotsVertical /></button></Button>
                     </MenuHandler>
                     <MenuList className="w-16 bg-gray-100 fw-600 text-black">
-                      <MenuItem onClick={() => updateAddressStatus(row.value)}>View</MenuItem>
-                      <MenuItem onClick={() => removeAddress(row.value)}>Delete Blog</MenuItem>
+                      <MenuItem onClick={() => openViewModal("view", row.row.original)}>View</MenuItem>
+                      <MenuItem onClick={() => openViewModal("decline", row.value)}>Delete Blog</MenuItem>
                     </MenuList>
                   </Menu>,
           },
