@@ -8,8 +8,9 @@ import Spinner from '../../layouts/Spinner';
 import { useDispatch } from 'react-redux';
 import { register } from "../../../redux/actions/authAction";
 import { privateClientSchema } from '../../../services/validation';
-import { FaRegEyeSlash, FaRegEye } from 'react-icons/fa';
+import { FaRegEyeSlash, FaRegEye, FaFacebook, FaGoogle } from 'react-icons/fa';
 import {AiOutlineInfoCircle}  from 'react-icons/ai';
+import queryString from 'query-string';
 
 
 const PrivateClient = () => {
@@ -70,6 +71,18 @@ const PrivateClient = () => {
         onSubmit: handleSubmit,
     });
     const { fname, lname, email, password, phone, terms, reference, aboutUs,password2 } = formik.values;
+
+    // facebook signup
+    const stringifiedParams = queryString.stringify({
+        client_id: process.env.REACT_FACEBOOK_ID,
+        redirect_uri: 'https://bog-project-new.netlify.app/authenticate/facebook/',
+        scope: ['email', 'user_friends'].join(','), // comma seperated string
+        response_type: 'code',
+        auth_type: 'rerequest',
+        display: 'popup',
+      });
+      console.log(stringifiedParams)
+      const facebookLoginUrl = `https://www.facebook.com/v4.0/dialog/oauth?${stringifiedParams}`;
 
     return (
         <div className="mt-8">
@@ -271,6 +284,22 @@ const PrivateClient = () => {
                         </div>
                     </form>
             }
+            <div className='w-full mt-12'>
+                <div className='relative'>
+                    <p className='w-12 text-center mx-auto bg-white relative z-10 text-lg'>OR</p>
+                    <p className='border border-gray-500 relative -top-3'></p>
+                </div>
+                <div className='flex mt-8 justify-around'>
+                    <a href={facebookLoginUrl}  rel="noreferrer" target="_blank" className="w-5/12 ">
+                        <div className='bg-blue-600 text-white p-4 hover:scale-105 durarion-100 rounded-lg shadow flex items-center'>
+                            <FaFacebook className='text-2xl text-white'/><span className='pl-2'>Sign Up with faceebook</span>
+                        </div>
+                    </a>
+                    <div className='w-5/12 p-4 bg-red-500 text-white hover:scale-105 durarion-100 rounded-lg shadow flex items-center'>
+                        <FaGoogle className='text-xl'/><span className='pl-2'>Sign Up with Google</span>
+                    </div>
+                </div>
+            </div>
             <div className="mt-10">
                 Already have an account?{" "}
                 <Link to="/login"><span className="text-primary fw-600 fs-500 pl-2">Login</span></Link>
