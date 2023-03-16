@@ -74,14 +74,13 @@ const PrivateClient = () => {
 
     // facebook signup
     const stringifiedParams = queryString.stringify({
-        client_id: process.env.REACT_FACEBOOK_ID,
+        client_id: 183448377762282,
         redirect_uri: 'https://bog-project-new.netlify.app/authenticate/facebook/',
         scope: ['email', 'user_friends'].join(','), // comma seperated string
         response_type: 'code',
         auth_type: 'rerequest',
         display: 'popup',
       });
-      console.log(stringifiedParams)
       const facebookLoginUrl = `https://www.facebook.com/v4.0/dialog/oauth?${stringifiedParams}`;
 
     return (
