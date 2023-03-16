@@ -24,6 +24,7 @@ import AddressListItem from "./AddressListItem";
 import ActionFeedBack from "./Modals/ActionFeedBack";
 import { BsCheck } from "react-icons/bs";
 import { fetchAddresses } from "../../../../redux/actions/addressAction";
+import { AddressTable } from "../../assets/Tables/AddressTable";
 
 const DeliveryAddresses = () => {
   const [deliveryAddress, setDeliveryAddress] = useState(false);
@@ -259,6 +260,7 @@ const DeliveryAddresses = () => {
                     {/* {meetings.length > 0? <MeetingTable filterBy="attended" status={'attended'} meet={meetings} removeMeet={removeFromMeeting} /> : ''} */}
                   </div>
                 </CardBody>
+                <AddressTable addresses={addresses} removeAddress={removeFromAddress} updateAddressStatus={updateAddressStatus}/>
               </>
             )}
           </div>
