@@ -386,51 +386,51 @@ export default function Homepage() {
                 </div>
             </div>
             {/* feautures */}
-            <div className="hidden lg:block bg-light relative h-auto w-full">
-                <div className="h-screen relative overflow-hidden bg-light" ref={features}>
+            <div className="lg:block bg-light relative h-auto w-full">
+                <div className="h-screen relative overflow-hidden bg-light py-16 lg:py-0" ref={features}>
                     {/* <p className="text-center text-5xl w-10/12 mx-auto fw-600 relative z-30">Features</p> */}
-                    <div className="absolute z-10  w-full h-full flex justify-between items-center px-16">
-                        <div className="w-4/12 pr-6 text-center">
-                            <p className="text-5xl fw-600">Products available in Store</p>
+                    <div className="absolute z-10  w-full h-full lg:flex justify-between lg:items-center  lg:px-16">
+                        <div className="lg:w-4/12 pr-6 text-center">
+                            <p className="text-2xl lg:text-5xl fw-600">Products available in Store</p>
                             <p className="mt-12">Duis suscipit dui non elit elementum, nec fermentum lectus posuere. Pellentesque lobortis ac felis eu luctus. Donec pharetra sollicitudin odio, at feugiat ligula rutrum ut. Maecenas augue tortor, luctus at est non, rutrum pretium nulla.</p>
                         </div>
-                        <div className="w-6/12">
+                        <div className="w-full lg:w-6/12 mt-4 lg:mt-0">
                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678817725/BOG/Group_47677_1_pfzbpz.png" alt="products" className="w-full"/>
                         </div>
                     </div>
-                    <div className="absolute z-20 w-full h-full flex text-center justify-between items-center px-16 bg-light" ref={feature1}>
-                        <div className="w-4/12 pr-6">
-                            <p className="text-5xl fw-600">Smart Calculator</p>
+                    <div className="absolute z-20 w-full h-full lg:flex lg:text-center justify-between items-center lg:px-16 pt-16 lg:pt-0 bg-light" ref={feature1}>
+                        <div className="lg:w-4/12 px-4 lg:px-0 lg:pr-6">
+                            <p className="lg:text-5xl text-2xl fw-600">Smart Calculator</p>
                             <p className="mt-12 lg:fs-700">With BOG smart calculator, Get the estimated cost of building your dream project by uploading a few documents and get the results.</p>
                         </div>
-                        <div className="w-6/12">
+                        <div className="lg:w-6/12 mt-6 lg:mt-0">
                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678888637/BOG/Group_47708_1_cpnkd5.png" alt="products" className="w-full"/>
                         </div>
                     </div>
-                    <div className="absolute z-20 w-full h-full flex items-center justify-between text-center px-16 bg-light" ref={feature2}>
-                        <div className="w-4/12 pr-6">
-                            <p className="text-5xl fw-600">In-App Meetings</p>
-                            <p className="mt-12 lg:fs-700">You can now create/schedule a meeting in real-time to get valuable updates about your ongoing projects for efficient project delivery.</p>
+                    <div className="absolute z-20 w-full h-full lg:flex lg:items-center lg:justify-between text-center lg:px-16 pt-16 lg:pt-0 bg-light" ref={feature2}>
+                        <div className="lg:w-4/12 px-4 lg:px-0 lg:pr-6">
+                            <p className="lg:text-5xl text-2xl fw-600">In-App Meetings</p>
+                            <p className="lg:mt-12 lg:fs-700">You can now create/schedule a meeting in real-time to get valuable updates about your ongoing projects for efficient project delivery.</p>
                         </div>
-                        <div className="w-6/12">
+                        <div className="lg:w-6/12 mt-6 lg:mt-0">
                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678815373/BOG/Group_47676_kmqr4r.png" alt="products" className="w-full"/>
                         </div>
                     </div>
-                    <div className="absolute z-20 w-full h-full flex items-center justify-between text-center px-16 bg-light" ref={feature3}>
-                        <div className="w-4/12 pr-6">
-                            <p className="text-5xl fw-600">Escrow Payment</p>
-                            <p className="mt-12 lg:fs-700">BOG offers escrow payment method for shielding your transactions and ensuring that your services are upto expectation.We also make sure the service and product partners provides tracking information, when applicable, for the transaction.</p>
+                    <div className="absolute z-20 w-full h-full lg:flex lg:items-center lg:justify-between text-center lg:px-16 pt-16 lg:pt-0 bg-light" ref={feature3}>
+                        <div className="lg:w-4/12 px-4 lg:px-0 lg:pr-6">
+                            <p className="text-2xl lg:text-5xl fw-600">Escrow Payment</p>
+                            <p className="lg:mt-12 lg:fs-700">BOG offers escrow payment method for shielding your transactions and ensuring that your services are upto expectation.We also make sure the service and product partners provides tracking information, when applicable, for the transaction.</p>
                         </div>
-                        <div className="w-6/12">
+                        <div className="lg:w-6/12 mt-6 lg:mt-0">
                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678815373/BOG/Group_47685_rvrw5l.png" alt="products" className="w-full"/>
                         </div>
                     </div>
-                    <div className="absolute z-20 w-full h-full flex items-center justify-between text-center px-16 bg-light" ref={feature4}>
-                        <div className="w-4/12 pr-6">
-                            <p className="text-5xl fw-600">Get Verified with Points</p>
-                            <p className="mt-12 lg:fs-700">BOG automatically rates partners with high level of experience and technical know-how, to get awarded and handle tasking projects from clients.</p>
+                    <div className="absolute z-20 w-full h-full lg:flex lg:items-center lg:justify-between text-center lg:px-16 pt-16 lg:pt-0 bg-light" ref={feature4}>
+                        <div className="lg:w-4/12 px-4 lg:px-0 lg:pr-6">
+                            <p className="lg:text-5xl text-2xl fw-600">Get Verified with Points</p>
+                            <p className="lg:mt-12 lg:fs-700">BOG automatically rates partners with high level of experience and technical know-how, to get awarded and handle tasking projects from clients.</p>
                         </div>
-                        <div className="w-6/12">
+                        <div className="lg:w-6/12 mt-6 lg:mt-0">
                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678884983/BOG/Group_47701_1_ez5h65.png" alt="products" className="w-full"/>
                         </div>
                     </div>
@@ -574,9 +574,9 @@ export default function Homepage() {
                         </div>
                     </div>
                 </div> */}
-                <div className="lg:h-90 lg:p-6 py-6 grid items-center bg-primary">
-                    <div className="text-white">
-                        <p className="text-xl text-center lg:pt-10 fw-600 lg:text-4xl fw-500">
+                <div className="lg:h-90  pt-12 lg:pt-0 grid items-center bg-primary">
+                    <div className="text-white h-1/6">
+                        <p className="text-xl text-center lg:w-10/12 mx-auto lg:pt-10 lg:fw-600 lg:text-4xl fw-500">
                             Bringing together a community of service partners, product partners
                             and clients.
                         </p>
