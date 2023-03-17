@@ -17,6 +17,7 @@ import Spinner from "../layouts/Spinner";
 import { HomepageBlog } from "./Blog/HomepageBlog";
 import { BiArrowToRight } from "react-icons/bi";
 
+
 // const Text = ({children}) => {
 //     return <div className="text">{children}</div>;
 // }
@@ -576,13 +577,13 @@ export default function Homepage() {
                 </div> */}
                 <div className="lg:h-90  pt-12 lg:pt-0 grid items-center bg-primary">
                     <div className="text-white h-1/6">
-                        <p className="text-xl text-center lg:w-10/12 mx-auto lg:pt-10 lg:fw-600 lg:text-4xl fw-500">
+                        <p className="text-xl text-center lg:w-8/12 mx-auto lg:pt-10 lg:fw-600 lg:text-4xl fw-500">
                             Bringing together a community of service partners, product partners
                             and clients.
                         </p>
                     </div>
                     <div className="lg:h-5/6 mx-auto mt-4 lg:mt-0">
-                        <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678895841/BOG/Frame_1_1_pd7jxm.png' alt='dasboard' className="w-full h-full"/>
+                        <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1679068752/BOG/Frame_1_2_1_z6qoaf.png' alt='dasboard' className="lg:mt-12 w-full h-full"/>
                     </div>
                 </div>
             </div>
