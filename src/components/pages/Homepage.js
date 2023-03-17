@@ -575,9 +575,9 @@ export default function Homepage() {
                         </div>
                     </div>
                 </div> */}
-                <div className="lg:h-90  pt-12 lg:pt-0 grid items-center bg-primary">
-                    <div className="text-white h-1/6">
-                        <p className="text-xl text-center lg:w-8/12 mx-auto lg:pt-10 lg:fw-600 lg:text-4xl fw-500">
+                <div className="lg:h-90 overflow-hidden  lg:pt-12 pt-6 lg:pt-0 grid items-center bg-primary">
+                    <div className="text-white lg:h-1/6">
+                        <p className="text-center lg:w-8/12 mx-auto lg:pt-10 lg:fw-600 lg:text-4xl fw-500">
                             Bringing together a community of service partners, product partners
                             and clients.
                         </p>

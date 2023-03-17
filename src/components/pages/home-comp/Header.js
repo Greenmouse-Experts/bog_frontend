@@ -104,8 +104,8 @@ export default function Header() {
                             <ul className="list-none">
                                 <li className="py-4"><Link to="/">Home</Link></li>
                                 <li className="py-4"><Link to="/about">About</Link></li>
-                                <li className="py-4"><Link to="/shop">Products</Link></li>
-                                <li className="py-4"><Link to="/services">Service Partners</Link></li>
+                                <li className="py-4"><Link to="/shop">Shop for Products</Link></li>
+                                <li className="py-4"><Link to="/services">Request for Service Provider</Link></li>
                                 <li className="py-4"><Link to="/blog">Our Blog</Link></li>
                                 <li className="py-4"><Link to="/become-partner">Become a Partner</Link></li>
                                 <li className="py-4"><Link to="/jointeam">Join Our Team</Link></li>
