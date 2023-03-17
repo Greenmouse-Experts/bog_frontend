@@ -339,7 +339,7 @@ const PrivateClient = () => {
                     <p className='border border-gray-500 relative -top-3'></p>
                 </div>
                 <div className='lg:flex px-8 lg:px-0 mt-8 '>
-                       <div className='mt-4 flex text-xl w-full cursor-pointer items-center justify-evenly border py-2 rounded-lg shadow' onClick={() => login()}>
+                       <div className='mt-4 flex lg:text-lg w-full xl:w-7/12 mx-auto cursor-pointer items-center justify-evenly border py-2 rounded-lg shadow' onClick={() => login()}>
                             <FcGoogle className='text-2xl'/><button className=''>Sign Up with Google</button>
                         </div>
                 </div>
