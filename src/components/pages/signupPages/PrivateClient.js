@@ -1,16 +1,19 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef} from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import ReCAPTCHA from "react-google-recaptcha";
 import Spinner from '../../layouts/Spinner';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { register } from "../../../redux/actions/authAction";
 import { privateClientSchema } from '../../../services/validation';
-import { FaRegEyeSlash, FaRegEye, FaFacebook, FaGoogle } from 'react-icons/fa';
+import { FaRegEyeSlash, FaRegEye } from 'react-icons/fa';
 import {AiOutlineInfoCircle}  from 'react-icons/ai';
-import queryString from 'query-string';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+import { FcGoogle } from 'react-icons/fc';
+import toast from 'react-hot-toast';
 
 
 const PrivateClient = () => {
@@ -72,16 +75,63 @@ const PrivateClient = () => {
     });
     const { fname, lname, email, password, phone, terms, reference, aboutUs,password2 } = formik.values;
 
-    // facebook signup
-    const stringifiedParams = queryString.stringify({
-        client_id: 183448377762282,
-        redirect_uri: 'https://bog-project-new.netlify.app/authenticate/facebook/',
-        scope: ['email', 'public_profile'].join(','), // comma seperated string
-        response_type: 'code',
-        auth_type: 'rerequest',
-        display: 'popup',
-      });
-      const facebookLoginUrl = `www.facebook.com/v16.0/dialog/oauth?${stringifiedParams}`;
+    // google signup
+    const [ isLoggedIn, setIsLoggedIn ] = useState(false);
+    // const [ googleProfile, setGoogleProfile ] = useState([])
+
+    // const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+
+    const login = useGoogleLogin({
+        onSuccess: (codeResponse) => {
+            const fetchData = async (_googleUser) => {
+                const payload = {
+                  access_token: _googleUser.access_token,
+                  user_type: "private_client",
+                };
+                const response = await axios.post(
+                  `${process.env.REACT_APP_URL}/users/auth/google`,
+                  payload
+                );
+            
+                if (response.data.token !== undefined) {
+                  console.log(response.data);
+                  localStorage.setItem('auth_token', response.data.token)
+                //   dispatch(login(response));
+                  toast.success(
+                    response.data.message,
+                    {
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: 'green', color: 'white' },
+                    }
+                );
+                 setIsLoggedIn(true)
+                } else {
+                  const response01 = await axios.post(
+                    `${process.env.REACT_APP_URL}/users/auth/google`,
+                    payload
+                  );
+                  localStorage.setItem('auth_token', response01.data.token)
+                //   dispatch(login(response01));
+                toast.success(
+                    response.data.message,
+                    {
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: 'green', color: 'white' },
+                    }
+                );
+                 setIsLoggedIn(true)
+                }
+              };
+            fetchData(codeResponse)
+        },
+        onError: (error) => console.log('Login Failed:', error)
+    });
+
+    if(isLoggedIn){
+        window.location.href = window.location.protocol + "//" + window.location.host + '/dashboard'
+    }
 
     return (
         <div className="mt-8">
@@ -288,15 +338,10 @@ const PrivateClient = () => {
                     <p className='w-12 text-center mx-auto bg-white relative z-10 text-lg'>OR</p>
                     <p className='border border-gray-500 relative -top-3'></p>
                 </div>
-                <div className='lg:flex px-8 lg:px-0 mt-8 justify-around'>
-                    <a href={facebookLoginUrl}  rel="noreferrer" target="_blank" className="lg:w-5/12 ">
-                        <div className='bg-blue-600 text-white p-4 hover:scale-105 durarion-100 rounded-lg shadow flex items-center'>
-                            <FaFacebook className='text-2xl text-white'/><span className='pl-2'>Sign Up with faceebook</span>
+                <div className='lg:flex px-8 lg:px-0 mt-8 '>
+                       <div className='mt-4 flex text-xl w-full cursor-pointer items-center justify-evenly border py-2 rounded-lg shadow' onClick={() => login()}>
+                            <FcGoogle className='text-2xl'/><button className=''>Sign Up with Google</button>
                         </div>
-                    </a>
-                    <div className='lg:w-5/12 mt-4 lg:mt-0 p-4 bg-red-500 text-white hover:scale-105 durarion-100 rounded-lg shadow flex items-center'>
-                        <FaGoogle className='text-2xl'/><span className='pl-2'>Sign Up with Google</span>
-                    </div>
                 </div>
             </div>
             <div className="mt-10">

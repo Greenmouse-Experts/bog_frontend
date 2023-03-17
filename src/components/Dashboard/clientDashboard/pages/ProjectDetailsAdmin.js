@@ -1,18 +1,86 @@
 import { Avatar, Breadcrumbs, Progress } from "@material-tailwind/react";
+import axios from "axios";
 import dayjs from "dayjs";
-import React from "react";
+import { useFormik } from "formik";
+import React, { useEffect, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import ReactStars from "react-rating-stars-component";
 import { Link, useLocation } from "react-router-dom";
 import useFetchHook from "../../../../hooks/useFetchHook";
 import { formatNumber, getProjectCategory, getUserType } from "../../../../services/helper";
 import { Loader } from "../../../layouts/Spinner";
+import toast from 'react-hot-toast';
+import { FaTimes } from "react-icons/fa";
+// import PostImageItem from "./Blog/PostImageItem";
 
 export default function ProjectDetails() {
     const { search } = useLocation();
     const projectId = new URLSearchParams(search).get("projectId");
     const { loading, data: project } = useFetchHook(`/projects/v2/view-project/${projectId}`);
-    
+    const [cost, setCost] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [sum, setSum] = useState(false)
+
+    const CloseModal = () => {
+        setCost(false)
+    }
+    const getCostSummary = async () => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                'authorization': localStorage.getItem("auth_token")
+            },
+        }
+        const res = await axios.get(`${process.env.REACT_APP_URL }/projects/installments/${project.id}/view`, config)
+        setSum(res.data.data)
+    }
+    useEffect(() => {
+        if(project){
+            getCostSummary()
+        }// eslint-disable-next-line 
+    },[project])
+    const handleSubmit = async (values) => {
+        try{
+            setIsLoading(true)
+            console.log(values);
+            const paylaod = {
+                ...values,
+                project_slug: project.projectSlug
+
+            }
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    'authorization': localStorage.getItem("auth_token")
+                },
+            }
+            const response = await axios.post(`${process.env.REACT_APP_URL }/projects/installments/create`, paylaod, config )
+            setIsLoading(false)
+            CloseModal()
+            getCostSummary()
+            toast.success(
+                response.data.message,
+                {
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: 'green', color: 'white' },
+                }
+            );
+            return response
+        }catch(error){
+            console.log(error)
+            setIsLoading(false)
+            alert(error.response.data.message)
+        }
+    }
+    const formik = useFormik({
+        initialValues: {
+          title: "",
+          amount: "",
+        },
+        onSubmit: handleSubmit,
+      });
+      const { title, amount} = formik.values;
     if (loading) {
         return (
             <center><Loader /></center>
@@ -92,9 +160,18 @@ export default function ProjectDetails() {
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Cost Summary</p>
+                                    <p className="text-primary"><BiEdit onClick={() => setCost(true)}/></p>
                                 </div>
-                                <div className="flex fw-500 h-56 justify-between pt-6">
-                                    
+                                <div className="fw-500 min-h-56 justify-between pt-6">
+                                    {
+                                        sum.length > 0? sum.map((item, index) => (
+                                            <div className="flex justify-between border-b py-2" key={index}>
+                                                <p>{item?.title}</p>
+                                                <p>{item.amount? "NGN" + formatNumber(item?.amount) : ""}</p>
+                                            </div>
+                                        )):
+                                        <p>No costing yet</p>
+                                    }
                                 </div>
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
@@ -233,6 +310,47 @@ export default function ProjectDetails() {
                     </div>
                 </div>
             </div>
+            {
+                cost && (
+                    <div className="fixed font-primary left-0 top-0 w-full h-screen bg-op center-item z-40" onClick={CloseModal}>
+                        <div className="bg-white lg:w-5/12 relative rounded-md  overscroll-none  w-11/12 p-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
+                            <p className="fw-600 text-lg mb-6">Update Cost Summary</p>
+                            <form onSubmit={handleSubmit}>
+                                <div>
+                                    <label>Title</label>
+                                    <input
+                                        type="text"
+                                        className="w-full mt-2 rounded border border-gray-400 p-2"
+                                        id="name"
+                                        name="title"
+                                        value={title}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        />
+                                </div>
+                                <div className="mt-3">
+                                    <label>Amount</label>
+                                    <input
+                                        type="number"
+                                        className="w-full mt-2 rounded border border-gray-400 p-2"
+                                        id="name"
+                                        name="amount"
+                                        value={amount}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        />
+                                </div>
+                                <div className="text-end mt-6">
+                                    <button className="btn-primary" onClick={formik.handleSubmit}>
+                                       {isLoading? "Updating..." : "Submit"}
+                                    </button>
+                                </div>
+                            </form>
+                            <FaTimes className="absolute top-5 right-5" onClick={CloseModal}/>
+                        </div>
+                    </div>
+                )
+            }
         </div>
         )
 }
