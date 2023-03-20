@@ -1,14 +1,11 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import React from 'react'
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight, FaFileDownload, FaRegEye } from "react-icons/fa";
+import React from "react";
+import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight, FaFileDownload } from "react-icons/fa";
 import { useTable, useGlobalFilter, useAsyncDebounce, useFilters, usePagination } from "react-table";
-import { useNavigate } from "react-router-dom";
-// import { BsThreeDotsVertical } from "react-icons/bs";
+import { Link } from "react-router-dom";
 import { useMemo } from "react";
-import * as moment from 'moment';
 import {
   Menu,
   MenuHandler,
@@ -21,10 +18,7 @@ import "jspdf-autotable";
 import { useExportData } from "react-table-plugins";
 import Papa from "papaparse";
 import * as XLSX from 'xlsx'
-import { commenceProject, deleteUserProject, getCommitmentFee } from '../../../../redux/actions/ProjectAction';
-import Spinner, { Loader } from "../../../layouts/Spinner";
-import { BsExclamationCircleFill } from "react-icons/bs";
-import { usePaystackPayment } from "react-paystack";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 
 // export table files
@@ -86,145 +80,7 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export default function ProjectTable({ status, isLoader }) {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getCommitmentFee())
-  }, [dispatch])
-
-  // let  myProjects = useSelector((state) => state.orders. myProjects);
-  let myProjects = useSelector((state) => state.projects.projects);
-  console.log(myProjects);
-  
-  if (status) {
-    myProjects = myProjects.filter(where => where.status === status)
-  }
-
-  console.log(myProjects);
-
-  const commitment = useSelector((state) => state.projects.fees);
-
-
-  const [deleteModal, setModalDelete] = useState(false);
-  const [deleteItem, setDeleteItem] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [commenceModal, setModal] = useState(false);
-  const [projectId, setProjectId] = useState('')
-  const user = useSelector((state) => state.auth.user);
-
-
-  const stopLoading = () => {
-    setLoading(false);
-    setModalDelete(false);
-  }
-
-  const navigate = useNavigate()
-  const gotoDetailsPage = (id) => {
-    navigate(`/dashboard/myprojectdetails?projectId=${id}`)
-  }
-
-  const gotoProjectFile = (id) => {
-    navigate(`/dashboard/projectfile?projectId=${id}`)
-  }
-
-  const deleteModalProject = async (id) => {
-    setModalDelete(true);
-    setDeleteItem(id);
-  }
-
-  const deleteProject = async () => {
-    setLoading(true);
-    dispatch(deleteUserProject(deleteItem,stopLoading))
-  }
-
-  const CloseDelete = () => {
-    setModalDelete(false);
-    setModal(false)
-  }
-
-  const formatStatus = (status) => {
-    switch (status) {
-      case "in_review":
-        return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-24 rounded-md fw-600">In review</p>
-      case "approved":
-        return <p className="px-2 py-1 text-green-700 bg-green-100 w-24 rounded-md fw-600">Approved</p>
-      case "disapproved":
-        return <p className="px-2 py-1 text-red-700 bg-red-100 w-28 rounded-md fw-600">Cancelled</p>
-      case "pending":
-        return <p className="px-2 py-1 w-24 rounded-md fw-600">Pending</p>
-      case "completed":
-        return <p className="px-2 py-1 w-24 rounded-md fw-600">Completed</p>
-      case "ongoing":
-        return <p className="px-2 py-1 w-24 text-blue-700 rounded-md fw-600">Ongoing</p>
-      case "draft":
-        return "Draft"
-      default: return status
-    }
-
-  }
-
-  const formatProductType = (projectTypes) => {
-    switch (projectTypes) {
-      case "land_survey":
-        return <p className="">Land Survey</p>
-      case "building_approval":
-        return <p className="">Building Approval</p>
-      case "contractor":
-        return <p className="">Contractor</p>
-      case "construction_drawing":
-        return <p className="">Construction Drawing</p>
-      case "geotechnical_investigation":
-        return <p className="">Geotechnical Investigation</p>
-      default: return status
-    }
-
-  }
-
-  const requestForCommencement = (id) => {
-    setProjectId(id);
-    setModal(true)
-  }
-
-  const config = {
-    reference: "TR-" + new Date().getTime().toString(),
-    email: `${user.email}`,
-    amount: (commitment.amount * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
-    publicKey: 'pk_test_0c79398dba746ce329d163885dd3fe5bc7e1f243',
-  };
-
-  const initializePayment = () => { setModal(false); initializePaystack(onSuccess, onClose) }
-
-  const initializePaystack = usePaystackPayment(config);
-
-
-  const processCommencement = () => {
-    const payload = {
-      amount : commitment.amount
-    }
-    dispatch(commenceProject(projectId, payload))
-  }
-
-  // you can call this function anything
-  const onSuccess = (reference) => {
-    try {
-      // Implementation for whatever you want to do with reference and after success call.
-      console.log(reference);
-      processCommencement();
-    } catch (error) {
-      console.log(error)
-    }
-
-
-  };
-
-  // you can call this function anything
-  const onClose = () => {
-    // implementation for  whatever you want to do when the Paystack dialog closed.
-    console.log('closed')
-  }
-
-
+export default function ServiceProvider({ item, handleViewOpen, deleteService, openEdit }) {
 
   
   const columns = useMemo(
@@ -234,59 +90,31 @@ export default function ProjectTable({ status, isLoader }) {
         accessor: (row, index) => index + 1  //RDT provides index by default
       },
       {
-        Header: "Project ID		",
-        accessor: "projectSlug",
+        Header: "Title",
+        accessor: "title",
       },
       {
         Header: "Project Type",
-        accessor: "projectTypes",
-        Cell: (props) => formatProductType(props.value)
+        accessor: "service",
+        Cell: (row) => row.value ? row.value.name : ''
 
       },
       {
         Header: "Project Status	",
-        accessor: "status",
-        Cell: (props) => {
-          const {approvalStatus} = props.cell.row.original;
-          // console.log(approvalStatus)
-          return formatStatus(approvalStatus)
-        }
-      },
-      {
-        Header: "Due Date",
-        accessor: "createdAt",
-        Cell: (props) => moment(props.value).format("MM /D /YYYY "),
-        // Filter: SelectColumnFilter, 
-        // filter: 'includes',
+        accessor: "slug"
       },
       {
         Header: 'Action',
         accessor: 'id',
         Cell: (row) => <Menu placement="left-start" className="w-16">
           <MenuHandler>
-            <Button className="p-0 m-0 bg-transparent shadow-none text-blue-800 hover:shadow-none"><FaRegEye className="text-2xl" /></Button>
+            <Button className="p-0 m-0 bg-transparent shadow-none text-blue-800 hover:shadow-none"><BsThreeDotsVertical className="text-2xl" /></Button>
           </MenuHandler>
-
-          <MenuList>
-            {
-              row.cell.row.original.approvalStatus !== "in_review" &&
-              <MenuItem onClick={() => gotoDetailsPage(row.value)}>
-                View Details
-              </MenuItem>
-            }
-            <MenuItem onClick={() => gotoProjectFile(row.value)}>
-              View Form
-            </MenuItem>
-            {
-              row.cell.row.original.status === "pending" &&
-              <MenuItem onClick={() => requestForCommencement(row.value)}>
-                Commence Project
-              </MenuItem>
-            }
-
-            <MenuItem className="bg-red-600 text-white" onClick={() => deleteModalProject(row.value)}>
-              Delete
-            </MenuItem>
+          <MenuList className="w-16 bg-gray-100 fw-600 text-black">
+            <MenuItem onClick={() => handleViewOpen(row.row.original)}>View</MenuItem>
+            <MenuItem onClick={() => openEdit(row.row.original)}>Edit</MenuItem>
+            <MenuItem><Link to={`buildForm/${row.value}/${row.row.original.title}`}>Create Form</Link></MenuItem>
+            <MenuItem onClick={() => deleteService(row.value)}>Delete</MenuItem>
           </MenuList>
         </Menu>,
       },
@@ -295,63 +123,13 @@ export default function ProjectTable({ status, isLoader }) {
   );
 
 
-  const data = useMemo(() => myProjects, [myProjects]);
-  if (isLoader) {
-    return (
-      <center>
-        <Loader size />
-      </center>
-    );
-  }
+  const data = useMemo(() => item, [item]);
+
   return (
     <>
       <div className="overflow-hidden px-4 bg-white py-8 rounded-md">
         <Table columns={columns} data={data} className="" />
       </div>
-
-      {deleteModal && (
-        <div className="fixed font-primary left-0 top-0 w-full h-screen bg-op center-item z-40" onClick={CloseDelete}>
-          <div className="bg-white lg:w-5/12 rounded-md  overscroll-none  w-11/12 pt-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
-            <div className="flex lg:px-6 px-5">
-              <div className="text-2xl pr-3 text-yellow-600">
-                <BsExclamationCircleFill />
-              </div>
-              <div>
-                <p className="fs-700 fw-600 mb-4">Decline Meeting</p>
-                <p>Are you sure you want to delete this project? This action cannot be undone</p>
-              </div>
-            </div>
-            <div className="bg-light rounded-b-md  py-4 mt-5 text-end px-5">
-              <Button color="black" variant="outlined" ripple={true} onClick={CloseDelete}>Cancel</Button>
-              {
-                loading ? <Spinner /> :
-                  <Button color="red" onClick={deleteProject} className="ml-4" ripple={true}>Delete</Button>
-              }
-            </div>
-          </div>
-        </div>
-      )
-      }
-
-      {commenceModal && (
-        <div className="fixed font-primary left-0 top-0 w-full h-screen bg-op center-item z-40" onClick={CloseDelete}>
-          <div className="bg-white lg:w-5/12 rounded-md  overscroll-none  w-11/12 pt-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
-            <div className="flex lg:px-6 px-5">
-              <div>
-                <p className="fs-700 fw-600 mb-4">Commence Project</p>
-                <p>To proceed, a commitment fee of &#8358; {(commitment.amount).toLocaleString()} must be paid. This will be deducted from total cost of
-                  this project if approved.</p>
-                <p> You will be refunded if this project is declined by the service partner </p>
-                <p className="mt-5 font-bold"> Do you wish to Proceed? </p>
-              </div>
-            </div>
-            <div className="bg-light rounded-b-md  py-4 mt-5 text-end px-5">
-              <Button color="black" variant="outlined" ripple={true} onClick={CloseDelete}>Cancel</Button>
-              <Button onClick={initializePayment} className="ml-4 bg-primary" ripple={true}>Make Payment</Button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 

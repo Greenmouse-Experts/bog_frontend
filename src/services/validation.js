@@ -6,7 +6,7 @@ export const privateClientSchema = Yup.object({
     lname: Yup.string().required("Last name is required"),
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     phone: Yup.string()
-        .phone("NGN", "Please enter a valid phone number, start with country code (+234)")
+        .phone("NG", "Please enter a valid phone number, start with country code (+234)")
         .required("A phone number is required"),
     password: Yup.string().required('Password is required').matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
@@ -63,7 +63,7 @@ export const supplierValidationSchema = Yup.object({
     company_name: Yup.string().required("Company name is required"),
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     phone: Yup.string()
-        .phone("NGN", "Please enter a valid phone number, start with country code (+234)")
+        .phone("NG", "Please enter a valid phone number, start with country code (+234)")
         .required("A phone number is required"),
     password: Yup.string().required('Password is required').matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
@@ -81,7 +81,7 @@ export const servicePartnerValidationSchema = Yup.object({
     company_name: Yup.string().required("Company name is required"),
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     phone: Yup.string()
-        .phone("NGN", "Please enter a valid phone number, start with country code (+234)")
+        .phone("NG", "Please enter a valid phone number, start with country code (+234)")
         .required("A phone number is required"),
     password: Yup.string().required('Password is required').matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
@@ -98,7 +98,7 @@ export const corporateClientSchema = Yup.object({
     name: Yup.string().required("Company name is required"),
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     phone: Yup.string()
-        .phone("NGN", "Please enter a valid phone number, start with country code (+234)")
+        .phone("NG", "Please enter a valid phone number, start with country code (+234)")
         .required("A phone number is required"),
 
     password: Yup.string().required('Password is required').matches(

@@ -29,13 +29,11 @@ export default function SignMain() {
           <div className=" shades mt-6 lg:mt-0  text-center py-6 ">
             <Link to="profession" className="center-item px-4">
               <div>
-                <Link to="/">
                   <img
                     src={require("./images/sign3.png")}
                     alt="client"
                     className="w-16"
                   />
-                </Link>
               </div>
               <div className="text-left pl-4">
                 <p className=" fs-500 ">Sign Up as <span className="fw-600">Service Partner</span></p>
