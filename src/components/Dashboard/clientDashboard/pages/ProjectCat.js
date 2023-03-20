@@ -1,22 +1,18 @@
-import React, { useRef, useState, useEffect } from "react";
-import { DownloadTableExcel } from "react-export-table-to-excel";
+import React, { useState, useEffect } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Breadcrumbs } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchServiceCategories } from "../../../../redux/actions/ProjectAction";
+import { deleteServiceCategory, fetchServiceCategories } from "../../../../redux/actions/ProjectAction";
 import CreateCategoryProject from "./projects/Modal/CreateCategory";
-import CategoryItem from "./projects/CategoryItem";
 import ViewService from "./projects/Modal/ViewService";
 import { getAllServiceCategories } from "../../../../redux/actions/ServiceCategoryAction";
 import { Loader } from "../../../layouts/Spinner";
+import ServiceProvider from "../../assets/Tables/ServiceProvider";
+import Swal from "sweetalert2";
 
 export default function ProjectCategory() {
     const dispatch = useDispatch();
-    const products = useRef(null);
     const [openViewModal, setOpenViewModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -32,9 +28,7 @@ export default function ProjectCategory() {
     }
 
     const [adminAdd, setAdminAdd] = useState(false);
-    const [search, setSearch] = useState('');
     let categoryArr = useSelector((state) => state.projects.services);
-    const [categories, setCategories] = useState([]);
 
     function CloseModal() {
         setAdminAdd(false)
@@ -47,24 +41,30 @@ export default function ProjectCategory() {
 
     useEffect(() => {
         setLoading(true);
-        setCategories(categoryArr);
         dispatch(getAllServiceCategories(stopLoading))
         dispatch(fetchServiceCategories(stopLoading)); // eslint-disable-next-line 
         setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const changeValue = (e) => {
-        setSearch(e.target.value);
-        if (e.target.value.length === 0) {
-            setCategories(categoryArr)
-        }
-    }
 
-    const searchCategories = () => {
-        const result = categoryArr.filter(res => (res.title.includes(search)) || (res.slug.includes(search) || (res.service.name.includes(search))));
-        setCategories(result);
-    }
+    const deleteService = (id) => {
+        Swal.fire({
+            title: "Delete Service",
+            text: 'Do you want to delete this Service?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#4BB543',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Delete Service',
+            cancelButtonText: "Cancel",
+        }).then((result) => {
+            if (result.value) {
+                
+                dispatch(deleteServiceCategory(id))
+            }
+        });
+  }
 
 
     return (
@@ -106,68 +106,12 @@ export default function ProjectCategory() {
                                     <Tab>Service Category</Tab>
                                 </TabList>
                                 <TabPanel>
-                                    <div className="mt-10">
-                                        <div className="flex items-center">
-                                            <div class="flex text-gray-600">
-                                                <input
-                                                    className="border-2 border-gray-300 bg-white h-10 px-5 lg:pr-5 rounded-l-lg text-sm focus:outline-none"
-                                                    type="search"
-                                                    name="search order by name"
-                                                    placeholder="Search"
-                                                    value={search}
-                                                    onChange={(e) => changeValue(e)}
-                                                />
-                                                <button
-                                                    type="submit"
-                                                    onClick={() => searchCategories()}
-                                                    className=" bg-primary right-0 top-0 py-2 px-4 rounded-r-lg"
-                                                >
-                                                    <FontAwesomeIcon icon={faSearch} className="text-white" />
-                                                </button>
-                                            </div>
-                                            <DownloadTableExcel
-                                                filename="All product partners"
-                                                sheet="users"
-                                                currentTableRef={products.current}
-                                            >
-                                                <button className="bg-light mx-4 p-2 text-2xl text-primary"><HiOutlineDocumentDownload className="text-primary" /> </button>
-                                            </DownloadTableExcel>
-                                        </div>
-                                    </div>
-                                    <div className="overflow-x-auto mt-6">
-                                        <table className="items-center w-full bg-transparent border-collapse" ref={products}>
-                                            <tbody>
-                                                <tr className="thead-light bg-light">
-                                                    <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                                                        S/N
-                                                    </th>
-                                                    <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                                                        Service Provider
-                                                    </th>
-                                                    <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                                                        Service Name
-                                                    </th>
-                                                    <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                                                        Project Slug
-                                                    </th>
-
-                                                    <th className="px-2 fw-600 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                                                        Action
-                                                    </th>
-                                                </tr>
-                                                {
-                                                    categories.length > 0 ? categories.map((category, index) => (
-                                                        <CategoryItem
-                                                            item={category}
-                                                            key={category.id}
-                                                            sn={index + 1}
-                                                            handleViewOpen={handleViewOpen}
-                                                            openEdit={openEdit}
-                                                        />
-                                                    )) : <center><h5>No Service Type added. Add new ones</h5></center>
-                                                }
-                                            </tbody>
-                                        </table>
+                                    <div className="mt-5">
+                                        {categoryArr.length > 0 ? 
+                                            <ServiceProvider item={categoryArr} handleViewOpen={handleViewOpen} openEdit={openEdit} deleteService={deleteService}/>
+                                            :
+                                            <p className="py-6 text-center">No categories yet</p>
+                                        }
                                     </div>
                                 </TabPanel>
                             </Tabs>

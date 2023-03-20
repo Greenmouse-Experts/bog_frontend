@@ -176,9 +176,9 @@ const SignSupply = () => {
                   <div className="w-full mt-6">
                     <label className="block">Phone Number</label>
                     <PhoneInput
-                      country={'us'}
+                      country={'ng'}
                       value={phone}
-                      onChange={formik.handleChange}
+                      onChange={formik.handleChange('phone')}
                       onBlur={formik.handleBlur}
                       className="mt-1 w-full"
                       inputStyle={{ width: '100%' }}
