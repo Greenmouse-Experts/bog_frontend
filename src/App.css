@@ -105,6 +105,18 @@
     box-shadow: rgba(224, 224, 224, 0.4) 0px 11px 38px,
       rgba(0, 0, 0, 0.22) 0px 11px 12px;
   }
+  .bg-client{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+  }
+  .bg-service{
+    background: rgb(34,193,195);
+    background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+  }
+  .bg-product{
+    background: rgb(195,34,156);
+    background: linear-gradient(0deg, rgba(195,34,156,1) 0%, rgba(149,45,253,1) 100%);
+  }
   .logo-fix {
     position: fixed;
     top: 30px;
@@ -671,5 +683,45 @@ to{
   .dash1{
     width: 280px;
     height: 280px;
+  }
+}
+.for-product{
+  background-color: rgba(63, 121, 173, .2);
+}
+.for-service{
+  background-color:rgba(236, 139, 32,.2)
+}
+.strokes{
+    text-shadow: 2px 2px 0px #ec8b20; /* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
+}
+.strokeme{
+  text-shadow: 2px 2px 0px rgba(63, 121, 173); /* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */ 
+}
+.product-imgs{
+  left: 10%;
+  bottom: 7.7%;
+}
+.service-imgs{
+  bottom: 7.5%;
+  left: 20%;
+}
+@media (max-width: 960px) {
+  .product-imgs{
+    left: 10%;
+    bottom: 4.5%;
+  }
+  .service-imgs{
+    bottom: 5.7%;
+    left: 20%;
+  }
+}
+@media (max-width: 500px) {
+  .product-imgs{
+    left: 2%;
+    bottom: -5px;
+  }
+  .service-imgs{
+    bottom: -6px;
+    left: 8%;
   }
 }

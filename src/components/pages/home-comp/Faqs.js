@@ -20,7 +20,7 @@ export default function Faqs() {
             <p className="lg:text-xl fs-600 font-primary fw-600 lg:py-2">What is BOG for ?</p>
         </AccordionHeader>
         <AccordionBody>
-          <p className="fw-500 fs-500">BOG is a project management platform that
+          <p className="fw-500 fs-600">BOG is a project management platform that
             helps you carry out your project digitally and live tracking mode from wherever you are.</p>
         </AccordionBody>
       </Accordion>
@@ -29,7 +29,7 @@ export default function Faqs() {
           <p className="lg:text-xl fs-600 font-primary fw-600 lg:py-2">Who are the service partners?</p>
         </AccordionHeader>
         <AccordionBody>
-          <p className="fw-500 fs-500">These are the personnel’s that provide construction services for your project (Architect, Structural Engineers etc).</p>
+          <p className="fw-500 fs-600">These are the personnel’s that provide construction services for your project (Architect, Structural Engineers etc).</p>
         </AccordionBody>
       </Accordion>
       <Accordion open={open === 3}>
@@ -37,7 +37,7 @@ export default function Faqs() {
          <p className="lg:text-xl fs-600 font-primary fw-600 lg:py-2"> What product can I buy on BOG ?</p>
         </AccordionHeader>
         <AccordionBody>
-          <p className="fw-500 fs-500">All building materials are available on BOG, check the shop to purchase a product.</p>
+          <p className="fw-500 fs-600">All building materials are available on BOG, check the shop to purchase a product.</p>
         </AccordionBody>
       </Accordion>
       <Accordion open={open === 4}>
@@ -45,7 +45,39 @@ export default function Faqs() {
             <p className="lg:text-xl fs-600 font-primary fw-600 lg:py-2"> What is your return policy ?</p>
         </AccordionHeader>
         <AccordionBody>
-          <p className="fw-500 fs-500">Click <Link to="/return" className="text-primary cursor-pointer"> here</Link> to learn more about our return policy.</p>
+          <p className="fw-500 fs-600">Click <Link to="/return" className="text-primary cursor-pointer"> here</Link> to learn more about our return policy.</p>
+        </AccordionBody>
+      </Accordion>
+      <Accordion open={open === 5}>
+        <AccordionHeader onClick={() => handleOpen(5)}>
+            <p className="lg:text-xl text-left fs-600 font-primary fw-600 lg:py-2">How soon will my building approvals be ready?</p>
+        </AccordionHeader>
+        <AccordionBody>
+          <p className="fw-500 fs-600">It typically takes 3 months or more.</p>
+        </AccordionBody>
+      </Accordion>
+      <Accordion open={open === 6}>
+        <AccordionHeader onClick={() => handleOpen(6)}>
+            <p className="lg:text-xl text-left fs-600 font-primary fw-600 lg:py-2">How soon do I get my building drawings?</p>
+        </AccordionHeader>
+        <AccordionBody>
+          <p className="fw-500 fs-600">You will start getting feedbacks on your drawings 14days after agreeing on a design..</p>
+        </AccordionBody>
+      </Accordion>
+      <Accordion open={open === 7}>
+        <AccordionHeader onClick={() => handleOpen(7)}>
+            <p className="lg:text-xl fs-600 font-primary fw-600 lg:py-2">What is the cost of shipping?</p>
+        </AccordionHeader>
+        <AccordionBody>
+          <p className="fw-500 fs-600">This will be determined by the product category and the prevailing logistics rate.</p>
+        </AccordionBody>
+      </Accordion>
+      <Accordion open={open === 8}>
+        <AccordionHeader onClick={() => handleOpen(8)}>
+            <p className="lg:text-xl fs-600 font-primary fw-600 lg:py-2">How do I schedule a meeting?</p>
+        </AccordionHeader>
+        <AccordionBody>
+          <p className="fw-500 fs-600">Click on the meeting link on your dashboard and navigate to create a new meeting with your preffered time.</p>
         </AccordionBody>
       </Accordion>
     </Fragment>

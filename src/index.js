@@ -13,6 +13,7 @@ import FetchMeIfAuthenticated from './hooks/useFetchMe';
 import FetchAdminNotification from './hooks/useFetchAdminNotification';
 import FetchUserNotification from './hooks/useFetchUserNotification';
 import { Toaster } from 'react-hot-toast';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import en from 'javascript-time-ago/locale/en.json'
 import ru from 'javascript-time-ago/locale/ru.json'
@@ -20,6 +21,7 @@ import ru from 'javascript-time-ago/locale/ru.json'
 TimeAgo.addDefaultLocale(en)
 TimeAgo.addLocale(ru)
 
+const googleId = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
 
 const app = (
@@ -29,14 +31,16 @@ const app = (
     <FetchUserNotification />
     <CookieSheet />
     <BrowserRouter>
+      <GoogleOAuthProvider clientId={googleId}>
       {/* <React.StrictMode> */}
-      <ThemeProvider>
-        <ErrorBoundary>
-          <App />
-          <Toaster />
-        </ErrorBoundary>
-      </ThemeProvider>
-      {/* </React.StrictMode> */}
+        <ThemeProvider>
+          <ErrorBoundary>
+            <App />
+            <Toaster />
+          </ErrorBoundary>
+        </ThemeProvider>
+        {/* </React.StrictMode> */}
+      </GoogleOAuthProvider>
     </BrowserRouter>
   </Provider>
 )
