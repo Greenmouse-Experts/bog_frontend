@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import React from 'react'
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight, FaFileDownload, FaRegEye } from "react-icons/fa";
+import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight, FaFileDownload } from "react-icons/fa";
 import { useTable, useGlobalFilter, useAsyncDebounce, useFilters, usePagination } from "react-table";
 import { useNavigate } from "react-router-dom";
-// import { BsThreeDotsVertical } from "react-icons/bs";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { useMemo } from "react";
 import * as moment from 'moment';
 import {
@@ -264,7 +264,7 @@ export default function ProjectTable({ status, isLoader }) {
         accessor: 'id',
         Cell: (row) => <Menu placement="left-start" className="w-16">
           <MenuHandler>
-            <Button className="p-0 m-0 bg-transparent shadow-none text-blue-800 hover:shadow-none"><FaRegEye className="text-2xl" /></Button>
+            <Button className="p-0 m-0 bg-transparent shadow-none text-blue-800 hover:shadow-none"><BsThreeDotsVertical className="text-2xl" /></Button>
           </MenuHandler>
 
           <MenuList>

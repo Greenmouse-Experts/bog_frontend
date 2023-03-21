@@ -74,7 +74,7 @@ function App() {
         <Route path='/resetpassword' element={<ResetPassword />} />
         {/* <Route path='/dashboard/*' element={<Dashboard />} /> */}
 
-        <Route path='/dashboard/*' element={<Protected><ClientDashboard /></Protected>} />
+        <Route path='/dashboard/*' element={<ClientDashboard />} />
         <Route path='/admin' element={<AdminLogin />} />
       </Routes>
     </div>

@@ -6,14 +6,20 @@ import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import Avatar from "react-avatar";
-import { getUserType } from "../../../../services/helper";
+import { formatNumber, getUserType } from "../../../../services/helper";
 import { ClientReview } from "./projects/clientReview";
+import Projects from "./Project";
+import axios from "axios";
+import { usePaystackPayment } from "react-paystack";
+import { InstallPayment } from "./projects/InstallPayment";
 
 export default function ProjectDetailsClient() {
     const { search } = useLocation();
     const projectId = new URLSearchParams(search).get("projectId");
     const [project, setProjects] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [sum, setSum] = useState(false)
+    const [install, setInstall] = useState([])
     const auth = useSelector(state => state.auth.user);
 
     console.log(auth);
@@ -37,12 +43,39 @@ export default function ProjectDetailsClient() {
             setLoading(false);
         }
     }
-    //  const formatNumber = (number) => {
-    //     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    // }
+    const getCostSummary = async () => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                'authorization': localStorage.getItem("auth_token")
+            },
+        }
+        const res = await axios.get(`${process.env.REACT_APP_URL }/projects/installments/${project.id}/view?type=cost`, config)
+        setSum(res.data.data)
+    }
+    const getInstallSummary = async () => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                'authorization': localStorage.getItem("auth_token")
+            },
+        }
+        const res = await axios.get(`${process.env.REACT_APP_URL }/projects/installments/${project.id}/view?type=installment`, config)
+        setInstall(res.data.data)
+    }
+    
+    useEffect(() => {
+        if(project){
+            getCostSummary()
+            getInstallSummary()
+        }// eslint-disable-next-line 
+    },[project])
 
     useEffect(() => {
         getProjectDetail();
+        if(Projects){
+            getCostSummary()
+            getInstallSummary()}
         // eslint-disable-next-line 
     }, [])
 
@@ -136,25 +169,30 @@ export default function ProjectDetailsClient() {
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Cost Summary</p>
                                 </div>
-                                <div className="flex fw-500 h-56 justify-between pt-6">
-                                    
+                                <div className="fw-500 min-h-56 justify-between pt-6">
+                                    {
+                                        sum.length > 0? sum.map((item, index) => (
+                                            <div className="flex justify-between border-b py-2" key={index}>
+                                                <p>{item?.title}</p>
+                                                <p>{item.amount? "NGN" + formatNumber(item?.amount) : ""}</p>
+                                            </div>
+                                        )):
+                                        <p>No costing yet</p>
+                                    }
                                 </div>
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Transaction</p>
                                 </div>
-                                <div className="lg:flex fw-500 justify-between pt-6">
-                                            {/*<div>
-                                        <p>1st Installment Payment</p>
-                                        <p className="text-gray-600">Via Paypal</p>
-                                    </div>
-                                    <div>
-                                        <p>20-11-2022</p>
-                                    </div>
-                                    <div className="mt-2 lg:mt-0">
-                                        <p>NGN 1,320, 000</p>
-                                    </div> */}
+                                <div className="">
+                                    {
+                                        install.length > 0? install.map((item, index) => (
+                                            <InstallPayment item={item} index={index} id={project.id}/>
+                                        ))
+                                        :
+                                        <p className="text-center py-4">No Installment yet</p>
+                                    }
                                 </div>
                             </div>
                         </div>
