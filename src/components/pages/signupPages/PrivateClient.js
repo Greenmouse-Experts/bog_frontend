@@ -75,6 +75,7 @@ const PrivateClient = () => {
     });
     const { fname, lname, email, password, phone, terms, reference, aboutUs,password2 } = formik.values;
 
+
     // google signup
     const [ isLoggedIn, setIsLoggedIn ] = useState(false);
     // const [ googleProfile, setGoogleProfile ] = useState([])
@@ -190,9 +191,9 @@ const PrivateClient = () => {
                         <div className="w-full mt-6">
                             <label className="block">Phone Number</label>
                             <PhoneInput
-                                country={'us'}
+                                country={'ng'}
                                 value={phone}
-                                onChange={formik.handleChange}
+                                onChange={formik.handleChange('phone')}
                                 onBlur={formik.handleBlur}
                                 className="mt-1 w-full"
                                 inputStyle={{ width: '100%' }}
