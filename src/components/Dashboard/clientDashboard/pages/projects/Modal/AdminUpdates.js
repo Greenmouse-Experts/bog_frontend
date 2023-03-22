@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 export const AdminUpdates = ({CloseModal,project}) => {
 
     const [isLoading, setIsLoading] = useState(false)
+     const [photo, setPhoto] = useState('');
     // const [photos, setPhotos] = useState([]);
 
     // const handlePhotoChange = (e) => {
@@ -19,21 +20,26 @@ export const AdminUpdates = ({CloseModal,project}) => {
             console.log(project)
             const paylaod = {
                 body: body,
+                image: photo,
                 project_slug: project.projectSlug,
             }
             let data = new FormData();
             values.image.forEach((image, index) => {
             data.append(`image`, values.image[index]);
             });
+            console.log(values.image);
             const config = {
                 headers: {
                     "Content-Type": "application/json",
                     'authorization': localStorage.getItem("auth_token")
                 },
             }
-            const response = await axios.post(`${process.env.REACT_APP_URL }/projects/notification/create`, paylaod, config )
-            // const response =   await axios.post(`${process.env.REACT_APP_IMAGE_URL}/upload`, data, config)
+
+            const response =   await axios.post(`${process.env.REACT_APP_IMAGE_URL}/upload`, data)
+                await axios.post(`${process.env.REACT_APP_URL }/projects/notification/create`, paylaod, config )
+            
             setIsLoading(false)
+            setPhoto(response[0])
             CloseModal()
             toast.success(
                 response.data.message,
@@ -55,7 +61,7 @@ export const AdminUpdates = ({CloseModal,project}) => {
     const formik = useFormik({
         initialValues: {
           body: "",
-          image: [],
+          image: '',
         },
         onSubmit: handleSubmit,
       });
