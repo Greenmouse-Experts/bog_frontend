@@ -267,16 +267,6 @@ export default function ProjectDetails() {
                                     :
                                     <p className="py-2 text-center">No Updates Yet</p>
                                 }
-                                <div className="flex mt-3">
-                                    <div>
-                                        <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
-                                    </div>
-                                    <div className="grid fs-400 content-between pl-4 fw-500">
-                                        <p>BOG Surveyor</p>
-                                        <p className="text-gray-600">updated the due date for land survey</p>
-                                        <p className="text-gray-500 text-xs"> 9 hours ago</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div>
