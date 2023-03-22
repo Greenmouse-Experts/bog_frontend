@@ -12,7 +12,8 @@ import { Loader } from "../../../layouts/Spinner";
 import toast from 'react-hot-toast';
 import { FaTimes } from "react-icons/fa";
 import { AdminProgress } from "./projects/Modal/AdminProgress";
-// import PostImageItem from "./Blog/PostImageItem";
+import { AdminUpdates } from "./projects/Modal/AdminUpdates";
+import * as moment from 'moment'
 
 export default function ProjectDetails() {
     const { search } = useLocation();
@@ -23,13 +24,16 @@ export default function ProjectDetails() {
     const [isLoading, setIsLoading] = useState(false)
     const [sum, setSum] = useState(false)
     const [install, setInstall] = useState([])
+    const [update, setUpdate] = useState([])
     const [progressModal, setProgressModal] = useState(false)
+    const [updateModal, setUpdateModal] = useState(false)
     const [total, setTotal] = useState(0)
 
     const CloseModal = () => {
         setCost(false)
         setInstallment(false)
         setProgressModal(false)
+        setUpdateModal(false)
     }
 
     // get the cost summary
@@ -53,14 +57,26 @@ export default function ProjectDetails() {
         const res = await axios.get(`${process.env.REACT_APP_URL }/projects/installments/${project.id}/view?type=installment`, config)
         setInstall(res.data.data)
     }
+    const getUpdates = async () => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                'authorization': localStorage.getItem("auth_token")
+            },
+        }
+        const res = await axios.get(`${process.env.REACT_APP_URL }/projects/notification/${project.id}/view`, config)
+        setUpdate(res.data.data)
+    }
+    // https://bog.greenmouseproperties.com/api/projects/notification/:projectId/view
     useEffect(() => {
         if(project){
             getCostSummary()
             getInstallSummary()
-        }// eslint-disable-next-line 
+            getUpdates()
+        }
         if(sum){
            return setTotal(sum.reduce((sum, r) => sum + r.amount, 0))
-        }
+        }// eslint-disable-next-line 
     },[project])
 
     
@@ -163,7 +179,7 @@ export default function ProjectDetails() {
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Project Details</p>
-                                    <p className="text-primary"><BiEdit/></p>
+                                    {/* <p className="text-primary"><BiEdit/></p> */}
                                 </div>
                                 <div className="py-6 border-gray-300 border-dashed">
                                     <div className="lg:flex justify-between items-center">
@@ -232,18 +248,25 @@ export default function ProjectDetails() {
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Project Progress Update</p>
-                                    <p className="text-primary"><BiEdit className="cursor-pointer" onClick={() => setInstallment(true)}/></p>
+                                    <p className="text-primary"><BiEdit className="cursor-pointer" onClick={() => setUpdateModal(true)}/></p>
                                 </div>
-                                <div className="flex mt-4">
-                                    <div>
-                                        <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
-                                    </div>
-                                    <div className="grid fs-400 content-between pl-4 fw-500">
-                                        <p>BOG Surveyor</p>
-                                        <p className="text-gray-600">updated the due date for land survey</p>
-                                        <p className="text-gray-500 text-xs"> 6 hours ago</p>
-                                    </div>
-                                </div>
+                                {
+                                    update.length > 0 ?
+                                    update.map((item,index) => (
+                                        <div className="flex mt-4">
+                                            <div>
+                                                <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
+                                            </div>
+                                            <div className="grid fs-400 content-between pl-4 fw-500">
+                                                <p>{item.by === "admin"? "BOG ADMIN" : "BOG Service Partner"}</p>
+                                                <p className="text-gray-600">{item.body}</p>
+                                                <p className="text-gray-500 text-xs">{moment(item.createdAt).fromNow()}</p>
+                                            </div>
+                                        </div>
+                                    ))
+                                    :
+                                    <p className="py-2 text-center">No Updates Yet</p>
+                                }
                                 <div className="flex mt-3">
                                     <div>
                                         <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
@@ -451,6 +474,11 @@ export default function ProjectDetails() {
             {
                 progressModal && (
                     <AdminProgress CloseModal={CloseModal} id={project.id}/>
+                )
+            }
+            {
+                updateModal && (
+                    <AdminUpdates CloseModal={CloseModal} project={project}/>
                 )
             }
         </div>

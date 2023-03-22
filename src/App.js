@@ -32,7 +32,7 @@ import { useDispatch } from 'react-redux';
 import { OrderSuccess } from './components/pages/OrderSuccess';
 import { BAP } from './components/pages/BAP';
 import Refund from './components/pages/Refund';
-import { Protected } from './components/Routes/ProtectedRoute';
+// import { Protected } from './components/Routes/ProtectedRoute';
 
 if (localStorage.auth_token) {
   setAuthToken(localStorage.auth_token);

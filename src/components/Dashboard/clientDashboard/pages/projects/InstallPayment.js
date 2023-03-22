@@ -37,7 +37,7 @@ export const InstallPayment = ({item, index, id}) => {
             // console.log(response);
             // setSubscribed(true);
             setLoading(false);
-            
+            return response
         } catch (error) {
             setLoading(false);
             console.log(error);

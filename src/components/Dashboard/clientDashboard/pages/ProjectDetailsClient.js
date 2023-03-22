@@ -10,7 +10,6 @@ import { formatNumber, getUserType } from "../../../../services/helper";
 import { ClientReview } from "./projects/clientReview";
 import Projects from "./Project";
 import axios from "axios";
-import { usePaystackPayment } from "react-paystack";
 import { InstallPayment } from "./projects/InstallPayment";
 
 export default function ProjectDetailsClient() {
