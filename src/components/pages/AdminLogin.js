@@ -7,6 +7,8 @@ import { useFormik } from 'formik';
 import { loginValidation } from '../../services/validation'
 import Spinner from "../layouts/Spinner";
 import { Alert } from "@material-tailwind/react";
+import { BiUserCircle } from "react-icons/bi";
+import { BsFileLock } from 'react-icons/bs'
 
 
 export default function AdminLogin() {
@@ -73,31 +75,37 @@ export default function AdminLogin() {
                                     <label className="block fw-600">
                                         Username
                                     </label>
-                                    <input
-                                        type="text"
-                                        placeholder="enter your username"
-                                        className="w-full mt-2 py-2 px-2 border-gray-400 rounded border"
-                                        name="email"
-                                        id="email"
-                                        value={email}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                    />
+                                    <div className="flex items-center w-full mt-2 py-1 px-2 border-gray-400 rounded border">
+                                        <BiUserCircle className="text-3xl text-gray-600"/>
+                                        <input
+                                            type="text"
+                                            placeholder="enter your username"
+                                            className="w-full py-2 px-2 outline-none"
+                                            name="email"
+                                            id="email"
+                                            value={email}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                        />
+                                    </div>
                                 </div>
                                 <div className="mt-6 w-full">
                                     <label className="block fw-600">
                                         Password
                                     </label>
-                                    <input
-                                        type="password"
-                                        placeholder="enter your password"
-                                        className="w-full mt-2 py-2 px-2 border-gray-400 rounded border"
-                                        name="password"
-                                        value={password}
-                                        id="password"
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                    />
+                                    <div className="flex items-center w-full mt-2 py-1 px-2 border-gray-400 rounded border">
+                                        <BsFileLock className='text-3xl text-gray-600'/>
+                                        <input
+                                            type="password"
+                                            placeholder="enter your password"
+                                            className="w-full py-2 px-2 outline-none"
+                                            name="password"
+                                            value={password}
+                                            id="password"
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                        />
+                                    </div>
                                 </div>
                                 
                                 <div className="mt-8 w-full text-center">

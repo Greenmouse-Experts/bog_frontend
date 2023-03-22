@@ -81,11 +81,15 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export function AdminTransactTable({item}) {
+export function AdminTransactTable({item, type}) {
   
   const navigate = useNavigate()
     const gotoDetailsPage = (id) => {
         navigate(`/dashboard/transact-details?transactId=${id}`)
+    }
+
+    if (type) {
+      item = item.filter(where => where.type === type)
     }
 
 

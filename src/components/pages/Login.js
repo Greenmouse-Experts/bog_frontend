@@ -8,6 +8,8 @@ import { loginValidation } from '../../services/validation'
 import Spinner from "../layouts/Spinner";
 import { FaRegEyeSlash, FaRegEye } from 'react-icons/fa';
 import { Alert } from "@material-tailwind/react";
+import { BiUserCircle } from "react-icons/bi";
+import { BsFileLock } from "react-icons/bs";
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -82,16 +84,19 @@ export default function Login() {
                                     <label className="block">
                                         Email
                                     </label>
-                                    <input
-                                        type="email"
-                                        placeholder="enter your email"
-                                        className="w-full mt-2 py-2 px-2 border-gray-400 rounded border"
-                                        name="email"
-                                        id="email"
-                                        value={email}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                    />
+                                    <div className="flex items-center w-full mt-2 py-1 px-2 border-gray-400 rounded border">
+                                        <BiUserCircle className="text-2xl text-gray-500"/>
+                                        <input
+                                            type="text"
+                                            placeholder="enter your username"
+                                            className="w-full py-2 px-2 outline-none"
+                                            name="email"
+                                            id="email"
+                                            value={email}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                        />
+                                    </div>
                                     {
                                         formik.touched.email && formik.errors.email ? <p className='text-red-500'>{formik.errors.email}</p> : null
                                     }
@@ -103,17 +108,20 @@ export default function Login() {
                                         </label>
                                         <Link to="/forget"><p className="text-primary">Forgot Password?</p></Link>
                                     </div>
-                                    <div className="flex items-center bg-input border border-gray-400 mt-2 rounded">
-                                        <input
-                                            type={passwordType}
-                                            placeholder="enter your password"
-                                            className="w-full border-0 py-2 px-2 rounded"
-                                            name="password"
-                                            value={password}
-                                            id="password"
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                        />
+                                    <div className="flex items-center border border-gray-400 mt-2 rounded">
+                                        <div className="flex items-center w-full">
+                                            <BsFileLock className='text-3xl text-gray-600 w-10 h-5'/>
+                                            <input
+                                                type="password"
+                                                placeholder="enter your password"
+                                                className="w-full py-2 px-2 outline-none"
+                                                name="password"
+                                                value={password}
+                                                id="password"
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                            />
+                                        </div>
                                         {
                                             formik.touched.password && formik.errors.password ? <p className='text-red-500'>{formik.errors.password}</p> : null
                                         }
