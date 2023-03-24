@@ -11,19 +11,32 @@ import { formatNumber, getProjectCategory, getUserType } from "../../../../servi
 import { Loader } from "../../../layouts/Spinner";
 import toast from 'react-hot-toast';
 import { FaTimes } from "react-icons/fa";
-// import PostImageItem from "./Blog/PostImageItem";
+import { AdminProgress } from "./projects/Modal/AdminProgress";
+import { AdminUpdates } from "./projects/Modal/AdminUpdates";
+import * as moment from 'moment'
 
 export default function ProjectDetails() {
     const { search } = useLocation();
     const projectId = new URLSearchParams(search).get("projectId");
     const { loading, data: project } = useFetchHook(`/projects/v2/view-project/${projectId}`);
     const [cost, setCost] = useState(false)
+    const [installment, setInstallment] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [sum, setSum] = useState(false)
+    const [install, setInstall] = useState([])
+    const [update, setUpdate] = useState([])
+    const [progressModal, setProgressModal] = useState(false)
+    const [updateModal, setUpdateModal] = useState(false)
+    const [total, setTotal] = useState(0)
 
     const CloseModal = () => {
         setCost(false)
+        setInstallment(false)
+        setProgressModal(false)
+        setUpdateModal(false)
     }
+
+    // get the cost summary
     const getCostSummary = async () => {
         const config = {
             headers: {
@@ -31,22 +44,52 @@ export default function ProjectDetails() {
                 'authorization': localStorage.getItem("auth_token")
             },
         }
-        const res = await axios.get(`${process.env.REACT_APP_URL }/projects/installments/${project.id}/view`, config)
+        const res = await axios.get(`${process.env.REACT_APP_URL }/projects/installments/${project.id}/view?type=cost`, config)
         setSum(res.data.data)
     }
+    const getInstallSummary = async () => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                'authorization': localStorage.getItem("auth_token")
+            },
+        }
+        const res = await axios.get(`${process.env.REACT_APP_URL }/projects/installments/${project.id}/view?type=installment`, config)
+        setInstall(res.data.data)
+    }
+    const getUpdates = async () => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                'authorization': localStorage.getItem("auth_token")
+            },
+        }
+        const res = await axios.get(`${process.env.REACT_APP_URL }/projects/notification/${project.id}/view`, config)
+        setUpdate(res.data.data)
+    }
+    // https://bog.greenmouseproperties.com/api/projects/notification/:projectId/view
     useEffect(() => {
         if(project){
             getCostSummary()
+            getInstallSummary()
+            getUpdates()
+        }
+        if(sum){
+           return setTotal(sum.reduce((sum, r) => sum + r.amount, 0))
         }// eslint-disable-next-line 
     },[project])
+
+    
+
+    // cost summary post request
     const handleSubmit = async (values) => {
         try{
             setIsLoading(true)
             console.log(values);
             const paylaod = {
                 ...values,
-                project_slug: project.projectSlug
-
+                project_slug: project.projectSlug,
+                type: title.includes('Installment') === true? "installment" : "cost"
             }
             const config = {
                 headers: {
@@ -136,7 +179,7 @@ export default function ProjectDetails() {
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Project Details</p>
-                                    <p className="text-primary"><BiEdit/></p>
+                                    {/* <p className="text-primary"><BiEdit/></p> */}
                                 </div>
                                 <div className="py-6 border-gray-300 border-dashed">
                                     <div className="lg:flex justify-between items-center">
@@ -160,7 +203,7 @@ export default function ProjectDetails() {
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Cost Summary</p>
-                                    <p className="text-primary"><BiEdit onClick={() => setCost(true)}/></p>
+                                    <p className="text-primary"><BiEdit className="cursor-pointer" onClick={() => setCost(true)}/></p>
                                 </div>
                                 <div className="fw-500 min-h-56 justify-between pt-6">
                                     {
@@ -172,31 +215,76 @@ export default function ProjectDetails() {
                                         )):
                                         <p>No costing yet</p>
                                     }
+                                    <p className="border-t text-end fw-500 text-lg">{total}</p>
                                 </div>
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Transaction</p>
+                                    <p className="text-primary"><BiEdit className="cursor-pointer" onClick={() => setInstallment(true)}/></p>
                                 </div>
-                                {/*<div className="lg:flex fw-500 justify-between pt-6">
-                                    <div>
-                                        <p>1st Installment Payment</p>
-                                        <p className="text-gray-600">Via Paypal</p>
-                                    </div>
-                                    <div>
-                                        <p>20-11-2022</p>
-                                    </div>
-                                    <div className="mt-2 lg:mt-0">
-                                        <p>NGN 1,320, 000</p>
-                                    </div>
-                                </div> */}
+                                <div className="">
+                                    {
+                                        install.length > 0?
+                                        install.map((item, index) => (
+                                            <div className="lg:flex fw-500 justify-between pt-6" key={index}>
+                                                <div>
+                                                    <p>{item.title}</p>
+                                                    <p className="text-gray-600">Via Paystack</p>
+                                                </div>
+                                                <div>
+                                                    <p>NGN{formatNumber(item.amount)}</p>
+                                                </div>
+                                                <div className="mt-2 lg:mt-0">
+                                                    <p>{item.paid? "Paid" : "Not Paid" }</p>
+                                                </div>
+                                            </div>
+                                        ))
+                                        :
+                                        <p className="text-center py-4">No Installment yet</p>
+                                    }
+                                </div>
+                            </div>
+                            <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
+                                <div className="flex justify-between border-b border-gray-300 pb-4">
+                                    <p className="fw-600">Project Progress Update</p>
+                                    <p className="text-primary"><BiEdit className="cursor-pointer" onClick={() => setUpdateModal(true)}/></p>
+                                </div>
+                                {
+                                    update.length > 0 ?
+                                    update.map((item,index) => (
+                                        <div className="flex mt-4">
+                                            <div>
+                                                <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
+                                            </div>
+                                            <div className="grid fs-400 content-between pl-4 fw-500">
+                                                <p>{item.by === "admin"? "BOG ADMIN" : "BOG Service Partner"}</p>
+                                                <p className="text-gray-600">{item.body}</p>
+                                                <p className="text-gray-500 text-xs">{moment(item.createdAt).fromNow()}</p>
+                                            </div>
+                                        </div>
+                                    ))
+                                    :
+                                    <p className="py-2 text-center">No Updates Yet</p>
+                                }
                             </div>
                         </div>
                         <div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
-                                    <p className="fw-600">Project Completion Rate</p>
-                                    <p className="text-primary"><BiEdit/></p>
+                                    <p className="fw-600">Partner Completion Rate</p>
+                                </div>
+                                <div className="flex flex-col mt-6">
+                                    <Progress value={project?.service_partner_progress? project?.service_partner_progress : 0} color={returnColor(project?.progress ? project?.progress : 0)} />
+                                    <div className="grid fs-400 content-between pl-4 fw-500 my-3">
+                                        <p>{project?.service_partner_progress ? project?.service_partner_progress : 0}% completed</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
+                                <div className="flex justify-between border-b border-gray-300 pb-4">
+                                    <p className="fw-600">Admin Completion Rate</p>
+                                    <p className="text-primary cursor-pointer"><BiEdit onClick={() => setProgressModal(true)}/></p>
                                 </div>
                                 <div className="flex flex-col mt-6">
                                     <Progress value={project?.progress ? project?.progress : 0} color={returnColor(project?.progress ? project?.progress : 0)} />
@@ -204,31 +292,10 @@ export default function ProjectDetails() {
                                         <p>{project?.progress ? project?.progress : 0}% completed</p>
                                     </div>
                                 </div>
-                                {/*<div className="flex mt-6">
-                                    <div>
-                                        <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
-                                    </div>
-                                    <div className="grid fs-400 content-between pl-4 fw-500">
-                                        <p>BOG Surveyor</p>
-                                        <p className="text-gray-600">updated the due date for land survey</p>
-                                        <p className="text-gray-500 text-xs"> 6 hours ago</p>
-                                    </div>
-                                </div>
-                                <div className="flex mt-3">
-                                    <div>
-                                        <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
-                                    </div>
-                                    <div className="grid fs-400 content-between pl-4 fw-500">
-                                        <p>BOG Surveyor</p>
-                                        <p className="text-gray-600">updated the due date for land survey</p>
-                                        <p className="text-gray-500 text-xs"> 9 hours ago</p>
-                                    </div>
-                                </div> */}
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Service Partner Info</p>
-                                    <p className="text-primary"><BiEdit/></p>
                                 </div>
                                 <div className="flex mt-6">
                                     <div>
@@ -250,11 +317,9 @@ export default function ProjectDetails() {
                                     </div>
                                 </div>
                             </div>
-
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between pb-4">
                                     <p className="fw-600">Client Review</p>
-                                    <p className="text-primary"><BiEdit/></p>
                                 </div>
                                 <div className="fs-400 mt-4">
                                     {project?.reviews.length > 0 ? project.reviews.map((review, index) => (
@@ -284,7 +349,6 @@ export default function ProjectDetails() {
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Client Info</p>
-                                    <p className="text-primary"><BiEdit/></p>
                                 </div>
                                 <div className="flex mt-6">
                                             <div>
@@ -349,6 +413,62 @@ export default function ProjectDetails() {
                             <FaTimes className="absolute top-5 right-5" onClick={CloseModal}/>
                         </div>
                     </div>
+                )
+            }
+            {
+                installment && (
+                    <div className="fixed font-primary left-0 top-0 w-full h-screen bg-op center-item z-40" onClick={CloseModal}>
+                        <div className="bg-white lg:w-5/12 relative rounded-md  overscroll-none  w-11/12 p-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
+                            <p className="fw-600 text-lg mb-6">Set Installmental Cost</p>
+                            <form onSubmit={handleSubmit}>
+                                <div>
+                                    <label>Installment</label>
+                                    <select
+                                        className="w-full mt-2 rounded border border-gray-400 p-2"
+                                        id="name"
+                                        name="title"
+                                        value={title}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        >
+                                            <option disabled>Select Installment</option>
+                                            <option value='First Installment'>First Installment</option>
+                                            <option value='Second Installment'>Second Installment</option>
+                                            <option value='Third Installment'>Third Installment</option>
+                                            <option value='Fourth Installment'>Fourth Installment</option>
+                                    </select>
+                                </div>
+                                <div className="mt-3">
+                                    <label>Amount</label>
+                                    <input
+                                        type="number"
+                                        className="w-full mt-2 rounded border border-gray-400 p-2"
+                                        id="name"
+                                        name="amount"
+                                        value={amount}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        />
+                                </div>
+                                <div className="text-end mt-6">
+                                    <button className="btn-primary" onClick={formik.handleSubmit}>
+                                       {isLoading? "Updating..." : "Submit"}
+                                    </button>
+                                </div>
+                            </form>
+                            <FaTimes className="absolute top-5 right-5" onClick={CloseModal}/>
+                        </div>
+                    </div>
+                )
+            }
+            {
+                progressModal && (
+                    <AdminProgress CloseModal={CloseModal} id={project.id}/>
+                )
+            }
+            {
+                updateModal && (
+                    <AdminUpdates CloseModal={CloseModal} project={project}/>
                 )
             }
         </div>

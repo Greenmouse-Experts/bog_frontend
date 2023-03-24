@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import useFetchHook from "../../../../hooks/useFetchHook";
 import { AdminTransactTable } from "../../assets/Tables/AdminTransaction";
 import { Loader, Spinner2 } from "../../../layouts/Spinner";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 
 export default function AdminTransactions() {
     const { loading, data: transactions } = useFetchHook("/transactions");    
@@ -43,10 +44,39 @@ export default function AdminTransactions() {
                 <div className="lg:p-5 px-3 py-5">
                     {/* transaction table */}
                     <div className="bg-white lg:p-5 lg:mt-6 mt-6 rounded-lg">
-                        {
-                            !loading && transactions !== null ? 
-                            <AdminTransactTable item={transactions} /> : <Spinner2/>
-                        }
+                        <Tabs className="px-2 lg:px-0 py-5 lg:py-0">
+                            <TabList className="">
+                                <Tab>All Transactions</Tab>
+                                <Tab>Products</Tab>
+                                <Tab>Projects</Tab>
+                                <Tab>Subscription</Tab>
+                            </TabList>
+                            <TabPanel>
+                                {
+                                    !loading && transactions !== null ? 
+                                    <AdminTransactTable item={transactions} /> : <Spinner2/>
+                                }
+                            </TabPanel>
+                             <TabPanel>
+                                {
+                                    !loading && transactions !== null ? 
+                                    <AdminTransactTable item={transactions} type={"Products"}/> : <Spinner2/>
+                                }
+                            </TabPanel>
+                            <TabPanel>
+                                {
+                                    !loading && transactions !== null ? 
+                                    <AdminTransactTable item={transactions} type={"Projects"}/> : <Spinner2/>
+                                }
+                            </TabPanel>
+                            <TabPanel>
+                                {
+                                    !loading && transactions !== null ? 
+                                    <AdminTransactTable item={transactions} type={"Subscription"}/> : <Spinner2/>
+                                }
+                            </TabPanel>
+                            
+                        </Tabs>
                     </div>
                 </div>
             </div>
