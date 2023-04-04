@@ -112,7 +112,7 @@ export default function Login() {
                                         <div className="flex items-center w-full">
                                             <BsFileLock className='text-3xl text-gray-600 w-10 h-5'/>
                                             <input
-                                                type="password"
+                                                type={passwordType}
                                                 placeholder="enter your password"
                                                 className="w-full py-2 px-2 outline-none"
                                                 name="password"

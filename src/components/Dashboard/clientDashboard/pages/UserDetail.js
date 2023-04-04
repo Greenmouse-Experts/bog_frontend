@@ -19,6 +19,7 @@ import Axios from "../../../../config/config";
 import { formatNumber } from "../../../../services/helper";
 import Spinner, { Loader } from "../../../layouts/Spinner";
 import { VerifyModal } from "./Modals/VerifyModal";
+import { CircularProgressbar } from "react-circular-progressbar";
 
 // const baseURL = process.env.REACT_APP_IMAGE_URL;
 
@@ -36,6 +37,7 @@ export default function UserDetails() {
     const [verify, setVerify] = useState(false);
     const [disable, setDisable] = useState(false);
     const [kyc, setKyc] = useState(null);
+    const [average, setAverage] = useState()
 
 
     const fetchUserDetails = async (userId, userType) => {
@@ -72,7 +74,7 @@ export default function UserDetails() {
             setKyc(kycs)
             console.log(kycs)
         } catch (error) {
-            console(error)
+            console.log(error)
         }
     }
 
@@ -106,6 +108,24 @@ export default function UserDetails() {
         }
     }, [kyc])
 
+    useEffect(() => {
+        if(client?.kycScore){
+            let score = JSON.parse(client.kycScore)
+            let total = JSON.parse(client.kycTotal)
+    
+            const values = Object.values(score);
+            const vale = Object.values(total)
+             const totals = vale.reduce((element, value) => {
+                return element + value
+              }, 0);
+            const scores = values.reduce((element, value) => {
+            return element + value
+            }, 0);
+            const average = Math.ceil((scores / totals) * 100)
+            setAverage(average)
+        }
+    }, [client])
+    
 
     if (loading) {
         return <center><Loader /></center>
@@ -259,6 +279,8 @@ export default function UserDetails() {
             }
         });
     }
+    
+    
 
 
     return (
@@ -511,7 +533,10 @@ export default function UserDetails() {
                             </div>
                             {
                                 client?.profile?.userType === "vendor" || client?.profile?.userType === "professional" ?
-                                    <div className="bg-white lg:p-8 px-3 py-4 rounded mt-8 shadow-lg">
+                                    <div className="bg-white relative lg:p-8 px-3 py-4 rounded mt-8 shadow-lg">
+                                        <div className="w-24 absolute right-4">
+                                            <CircularProgressbar   value={average} text={average? `${average}%` : "0%"} />
+                                        </div>
                                         <Tabs>
                                             <TabList className='flex lg:overflow-hidden overflow-scroll w-full'>
                                                 <Tab>General Information</Tab>

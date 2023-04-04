@@ -14,6 +14,7 @@ import { FaTimes } from "react-icons/fa";
 import { AdminProgress } from "./projects/Modal/AdminProgress";
 import { AdminUpdates } from "./projects/Modal/AdminUpdates";
 import * as moment from 'moment'
+import { ProjectMain } from "./projects/Modal/AdminDate";
 
 export default function ProjectDetails() {
     const { search } = useLocation();
@@ -27,6 +28,7 @@ export default function ProjectDetails() {
     const [update, setUpdate] = useState([])
     const [progressModal, setProgressModal] = useState(false)
     const [updateModal, setUpdateModal] = useState(false)
+    const [projectMain, setProjectMain] = useState(false)
     const [total, setTotal] = useState(0)
 
     const CloseModal = () => {
@@ -34,6 +36,7 @@ export default function ProjectDetails() {
         setInstallment(false)
         setProgressModal(false)
         setUpdateModal(false)
+        setProjectMain(false)
     }
 
     // get the cost summary
@@ -67,7 +70,6 @@ export default function ProjectDetails() {
         const res = await axios.get(`${process.env.REACT_APP_URL }/projects/notification/${project.id}/view`, config)
         setUpdate(res.data.data)
     }
-    // https://bog.greenmouseproperties.com/api/projects/notification/:projectId/view
     useEffect(() => {
         if(project){
             getCostSummary()
@@ -75,7 +77,7 @@ export default function ProjectDetails() {
             getUpdates()
         }
         if(sum){
-           return setTotal(sum.reduce((sum, r) => sum + r.amount, 0))
+           setTotal(sum.reduce((sum, r) => sum + r.amount, 0))
         }// eslint-disable-next-line 
     },[project])
 
@@ -179,7 +181,7 @@ export default function ProjectDetails() {
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Project Details</p>
-                                    {/* <p className="text-primary"><BiEdit/></p> */}
+                                    <p className="text-primary"><BiEdit onClick={() => setProjectMain(true)} className='cursor-pointer'/></p>
                                 </div>
                                 <div className="py-6 border-gray-300 border-dashed">
                                     <div className="lg:flex justify-between items-center">
@@ -190,12 +192,25 @@ export default function ProjectDetails() {
                                             <div className="grid content-between  pl-4 fw-500">
                                                 <p><span className="text-gray-600 fs-400">Project Name:</span> {project?.title}</p>
                                                 <p><span className="text-gray-600 fs-400">Service Required:</span>  {getProjectCategory(project?.projectTypes)} </p>
-                                                <p><span className="text-gray-600 fs-400">Start Date:</span> {dayjs(project?.createdAt).format("YYYY-MM-DD")} </p>
+                                                <p><span className="text-gray-600 fs-400">Request Date:</span> {dayjs(project?.createdAt).format("YYYY-MM-DD")} </p>
                                             </div>
                                         </div>
-                                        <div className="fw-500 mt-2 lg:mt-0 lg:text-end">
-                                            <p><span className="text-gray-600 fs-400">Project Cost:</span> &#8358;{formatNumber(project?.totalCost || 10000)} </p>
-                                            <p><span className="text-gray-600 fs-400">Due Date:</span> {dayjs(project?.endDate).format("YYYY-MM-DD")}</p>
+                                        <div className="fw-500 flex mt-2 lg:mt-0 lg:text-end">
+                                            <div>
+                                                <p className="block opacity-0">l</p>
+                                                <p><span className="text-gray-600 fs-400">Total Cost</span> </p>
+                                                <p><span className="text-gray-600 fs-400">Due Date</span></p>
+                                            </div>
+                                            <div className="ml-4 text-primary">
+                                                <p>Service Partner</p>
+                                                <p><span className="text-gray-600 fs-400"></span> &#8358;{formatNumber(project?.estimatedCost || "No Price")} </p>
+                                                <p><span className="text-gray-600 fs-400"></span> {project?.endDate? dayjs(project?.endDate).format("YYYY-MM-DD") : "No date"}</p>
+                                            </div>
+                                            <div className="ml-4 text-start">
+                                                <p className="text-start">BOG</p>
+                                                <p><span className="text-gray-600 fs-400"></span> &#8358;{formatNumber(project?.totalCost || "No Price")} </p>
+                                                <p><span className="text-gray-600 fs-400"></span> {project?.totalEndDate? dayjs(project?.totalEndDate).format("YYYY-MM-DD") : "No date"}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -253,15 +268,25 @@ export default function ProjectDetails() {
                                 {
                                     update.length > 0 ?
                                     update.map((item,index) => (
-                                        <div className="flex mt-4">
-                                            <div>
-                                                <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
-                                            </div>
-                                            <div className="grid fs-400 content-between pl-4 fw-500">
-                                                <p>{item.by === "admin"? "BOG ADMIN" : "BOG Service Partner"}</p>
-                                                <p className="text-gray-600">{item.body}</p>
-                                                <p className="text-gray-500 text-xs">{moment(item.createdAt).fromNow()}</p>
-                                            </div>
+                                        <div className="flex justify-between mt-4">
+                                           <div className="flex w-10/12">
+                                                <div className="w-12">
+                                                    <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
+                                                </div>
+                                                <div className="grid w-full fs-400 content-between pl-4 fw-500">
+                                                    <p>{item.by === "admin"? "BOG ADMIN" : "BOG Service Partner"}</p>
+                                                    <p className="text-gray-600">{item.body}</p>
+                                                    <p className="text-gray-500 text-xs">{moment(item.createdAt).fromNow()}</p>
+                                                </div>
+                                           </div>
+                                           <div className="w-2/12 flex justify-end">
+                                                {
+                                                    item?.image?
+                                                    <a href={item.image} target="_blank" rel="noreferrer"><Avatar src={item.image} variant="" alt="order"  /></a>
+                                                    :
+                                                    ''
+                                                }
+                                           </div>
                                         </div>
                                     ))
                                     :
@@ -309,11 +334,11 @@ export default function ProjectDetails() {
                                 <div className="fs-400 fw-500 mt-4">
                                     <div className="flex">
                                         <p className="text-gray-600">Phone:</p>
-                                        <p className="pl-3">{project?.serviceProvider?.service_user?.phone}</p>
+                                        <p className="pl-3">+{project?.serviceProvider?.details?.phone}</p>
                                     </div>
                                     <div className="flex">
                                         <p className="text-gray-600">Email:</p>
-                                        <p className="pl-3">{project?.serviceProvider?.service_user?.email}</p>
+                                        <p className="pl-3">{project?.serviceProvider?.details?.email}</p>
                                     </div>
                                 </div>
                             </div>
@@ -431,7 +456,7 @@ export default function ProjectDetails() {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         >
-                                            <option disabled>Select Installment</option>
+                                            <option value="">Select Installment</option>
                                             <option value='First Installment'>First Installment</option>
                                             <option value='Second Installment'>Second Installment</option>
                                             <option value='Third Installment'>Third Installment</option>
@@ -468,7 +493,12 @@ export default function ProjectDetails() {
             }
             {
                 updateModal && (
-                    <AdminUpdates CloseModal={CloseModal} project={project}/>
+                    <AdminUpdates CloseModal={CloseModal} getUpdates={getUpdates} project={project}/>
+                )
+            }
+            {
+                projectMain && (
+                    <ProjectMain CloseModal={CloseModal} getUpdates={getUpdates} id={project.id}/>
                 )
             }
         </div>
