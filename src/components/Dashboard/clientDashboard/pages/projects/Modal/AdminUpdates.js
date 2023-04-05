@@ -7,8 +7,6 @@ import toast from 'react-hot-toast';
 export const AdminUpdates = ({CloseModal,project, getUpdates}) => {
 
     const [isLoading, setIsLoading] = useState(false)
-     const [photo, setPhoto] = useState("");
-     const [request, setRequest] = useState('first')
 
     const handleSubmit = async (values) => {
         try{
@@ -19,15 +17,12 @@ export const AdminUpdates = ({CloseModal,project, getUpdates}) => {
             data.append(`image`, values.image[index]);
             });
             
-            if(request === 'first'){
                 const response =   await axios.post(`${process.env.REACT_APP_IMAGE_URL}/upload`, data);
                 const datas = await response.data[0]
-                setPhoto(datas)
-                setRequest('second')
-            } else if(request === "second"){
+
                 const paylaod = {
                     body: body,
-                    image: photo,
+                    image: datas,
                     project_slug: project.projectSlug,
                 }
                 const config = {
@@ -36,19 +31,19 @@ export const AdminUpdates = ({CloseModal,project, getUpdates}) => {
                         'authorization': localStorage.getItem("auth_token")
                     },
                 }
-                const response =     await axios.post(`${process.env.REACT_APP_URL }/projects/notification/create`, paylaod, config )
+                const responses = await axios.post(`${process.env.REACT_APP_URL }/projects/notification/create`, paylaod, config )
                 setIsLoading(false)
                 CloseModal()
                 getUpdates()
                 toast.success(
-                    response.data.message,
+                    responses.data.message,
                     {
                         duration: 4000,
                         position: "top-center",
                         style: { background: 'green', color: 'white' },
                     }
                 );
-            }
+            // }
         }catch(error){
             console.log(error)
             setIsLoading(false)

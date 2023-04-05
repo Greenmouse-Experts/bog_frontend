@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { FaTimes } from 'react-icons/fa';
 
-export const ProjectMain = ({CloseModal, id}) => {
+export const ProjectMain = ({CloseModal, id, project}) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -41,12 +41,13 @@ export const ProjectMain = ({CloseModal, id}) => {
 
     const formik = useFormik({
         initialValues: {
-          totalCost: "",
-          totalEndDate: ""
+          totalCost: project.totalCost,
+          totalEndDate: project.totalEndDate,
+          status: project.status,
         },
         onSubmit: handleSubmit,
       });
-      const { totalCost, totalEndDate} = formik.values;
+      const { totalCost, totalEndDate, status} = formik.values;
 
   return (
     <div className="fixed font-primary left-0 top-0 w-full h-screen bg-op center-item z-40" onClick={CloseModal}>
@@ -76,6 +77,22 @@ export const ProjectMain = ({CloseModal, id}) => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         />
+                </div>
+                <div className="mt-5">
+                    <label>Project Status</label>
+                    <select
+                        className="w-36 lg:w-60 mt-2 ml-4 rounded border border-gray-400 p-2"
+                        id="status"
+                        name="status"
+                        value={status}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        >
+                        <option value="Approved">Approved</option>
+                        <option value="Ongoing">Ongoing</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Overdue">Overdue</option>
+                    </select>
                 </div>
                 <div className="text-end mt-6">
                     <button className="btn-primary" onClick={formik.handleSubmit}>

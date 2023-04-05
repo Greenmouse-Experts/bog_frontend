@@ -498,7 +498,7 @@ export default function ProjectDetails() {
             }
             {
                 projectMain && (
-                    <ProjectMain CloseModal={CloseModal} getUpdates={getUpdates} id={project.id}/>
+                    <ProjectMain CloseModal={CloseModal} project={project} id={project.id}/>
                 )
             }
         </div>
