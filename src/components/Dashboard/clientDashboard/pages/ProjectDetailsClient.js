@@ -1,14 +1,13 @@
-import { Breadcrumbs, Progress } from "@material-tailwind/react";
+import { Breadcrumbs,Avatar, Progress } from "@material-tailwind/react";
 import { Link, useLocation } from "react-router-dom";
 import Axios from "../../../../config/config";
 import { Loader } from "../../../layouts/Spinner";
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
-import Avatar from "react-avatar";
 import { formatNumber, getUserType } from "../../../../services/helper";
 import { ClientReview } from "./projects/clientReview";
-import Projects from "./Project";
+import * as moment from 'moment'
 import axios from "axios";
 import { InstallPayment } from "./projects/InstallPayment";
 
@@ -19,6 +18,8 @@ export default function ProjectDetailsClient() {
     const [loading, setLoading] = useState(false);
     const [sum, setSum] = useState(false)
     const [install, setInstall] = useState([])
+    const [update, setUpdate] = useState([])
+    const [total, setTotal] = useState(0)
     const auth = useSelector(state => state.auth.user);
 
     console.log(auth);
@@ -62,19 +63,37 @@ export default function ProjectDetailsClient() {
         const res = await axios.get(`${process.env.REACT_APP_URL }/projects/installments/${project.id}/view?type=installment`, config)
         setInstall(res.data.data)
     }
-    
+    const getUpdates = async () => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                'authorization': localStorage.getItem("auth_token")
+            },
+        }
+        const res = await axios.get(`${process.env.REACT_APP_URL }/projects/notification/${project.id}/view`, config)
+        setUpdate(res.data.data)
+    }
+    const adminUpdate = update.filter(where => where.by === "admin")
+    const getTotal = () => {
+        if(total === 0){
+            setTotal(sum.reduce((sum, r) => sum + r.amount, 0))
+            console.log(total);
+        }
+    }
+
     useEffect(() => {
         if(project){
             getCostSummary()
             getInstallSummary()
+            getUpdates()
+        }
+        if(sum){
+            getTotal()
         }// eslint-disable-next-line 
-    },[project])
+    },[project,sum])
 
     useEffect(() => {
         getProjectDetail();
-        if(Projects){
-            getCostSummary()
-            getInstallSummary()}
         // eslint-disable-next-line 
     }, [])
 
@@ -158,8 +177,8 @@ export default function ProjectDetailsClient() {
                                             </div>
                                         </div>
                                         <div className="fw-500 mt-2 lg:mt-0 lg:text-end">
-                                                    <p><span className="text-gray-600 fs-400">Project Cost:</span> NGN {project?.totalCost}</p>
-                                                    <p><span className="text-gray-600 fs-400">Due Date:</span> {dayjs(project?.endDate).format('DD/MM/YYYY')}</p>
+                                                    <p><span className="text-gray-600 fs-400">Project Cost:</span> NGN {project?.totalCost? formatNumber(project?.totalCost) : "0"}</p>
+                                                    <p><span className="text-gray-600 fs-400">Due Date:</span> {dayjs(project?.totalEndDate).format('DD/MM/YYYY')}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -178,6 +197,7 @@ export default function ProjectDetailsClient() {
                                         )):
                                         <p>No costing yet</p>
                                     }
+                                    <p className="border-t text-end fw-500 text-lg">NGN{total === 0? "" : formatNumber(total)}</p>
                                 </div>
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
@@ -194,38 +214,53 @@ export default function ProjectDetailsClient() {
                                     }
                                 </div>
                             </div>
+                            <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
+                                <div className="flex justify-between border-b border-gray-300 pb-4">
+                                    <p className="fw-600">Admin Progress Updates</p>
+                                </div>
+                                <div className="">
+                                    {
+                                       adminUpdate.length > 0 ?
+                                           adminUpdate.map((item,index) => (
+                                                <div className="lg:flex justify-between mt-4">
+                                                    <div className="flex lg:w-10/12">
+                                                            <div className="w-12">
+                                                                {/* <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" alt="order" className="w-16 h-16 lg:h-20 lg:w-20 rounded-lg" /> */}
+                                                                <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
+                                                            </div>
+                                                            <div className="grid w-full fs-400 content-between pl-4 fw-500">
+                                                                <p>{item.by === "admin"? "BOG ADMIN" : "BOG Service Partner"}</p>
+                                                                <p className="text-gray-600">{item.body}</p>
+                                                                <p className="text-gray-500 text-xs">{moment(item.createdAt).fromNow()}</p>
+                                                            </div>
+                                                    </div>
+                                                    <div className="lg:w-2/12 mt-3 lg:mt-0 flex justify-end">
+                                                            {
+                                                                item?.image?
+                                                                <a href={item.image} target="_blank" rel="noreferrer"><Avatar src={item.image} variant="rounded" alt="order"  /></a>
+                                                                :
+                                                                ''
+                                                            }
+                                                    </div>
+                                                </div>
+                                            ))
+                                            :
+                                            <p className="py-2 text-center">No Updates Yet</p>
+                                        }
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Project Completion Rate</p>
-                                        </div>
-                                        <div className="flex flex-col mt-6">
-                                            <Progress value={project?.progress ? project?.progress : 0} color={returnColor(project?.progress ? project?.progress : 0)} />
-                                            <div className="grid fs-400 content-between pl-4 fw-500 my-3">
-                                                <p>{project?.progress ? project?.progress : 0}% completed</p>
-                                                </div>
-                                            </div>
-                                {/*<div className="flex mt-6">
-                                    <div>
-                                        <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order" />
-                                    </div>
-                                    <div className="grid fs-400 content-between pl-4 fw-500">
-                                        <p>BOG Surveyor</p>
-                                        <p className="text-gray-600">updated the due date for land survey</p>
-                                        <p className="text-gray-500 text-xs"> 6 hours ago</p>
+                                </div>
+                                <div className="flex flex-col mt-6">
+                                    <Progress value={project?.progress ? project?.progress : 0} color={returnColor(project?.progress ? project?.progress : 0)} />
+                                    <div className="grid fs-400 content-between pl-4 fw-500 my-3">
+                                        <p>{project?.progress ? project?.progress : 0}% completed</p>
                                     </div>
                                 </div>
-                                <div className="flex mt-3">
-                                    <div>
-                                        <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order" />
-                                    </div>
-                                    <div className="grid fs-400 content-between pl-4 fw-500">
-                                        <p>BOG Surveyor</p>
-                                        <p className="text-gray-600">updated the due date for land survey</p>
-                                        <p className="text-gray-500 text-xs"> 9 hours ago</p>
-                                    </div>
-                                </div> */}
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between pb-4">

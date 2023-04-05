@@ -7,8 +7,7 @@ import { Loader, Spinner2 } from "../../../layouts/Spinner";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 
 export default function AdminTransactions() {
-    const { loading, data: transactions } = useFetchHook("/transactions");    
-    console.log(transactions)
+    const { loading, data: transactions } = useFetchHook("/transactions");   
 
     if (loading){
         return <center><Loader /></center>

@@ -1,7 +1,7 @@
 // import React from "react";
 import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { Breadcrumbs, Button, Menu, MenuHandler, MenuItem, MenuList } from "@material-tailwind/react";
+import { Breadcrumbs, Button } from "@material-tailwind/react";
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 import ProjectTable from "../../assets/Tables/ProjectTable";
@@ -9,10 +9,7 @@ import { getMyProject } from '../../../../redux/actions/ProjectAction';
 import { useDispatch } from "react-redux";
 import { getProjectCategory } from "../../../../services/helper";
 import dayjs from "dayjs";
-import Spinner, { Loader } from "../../../layouts/Spinner";
-import Axios from "../../../../config/config";
-import Swal from "sweetalert2";
-import { toast } from "react-hot-toast";
+import { Loader } from "../../../layouts/Spinner";
 import MyProjectChart from "../../assets/myProjectChart";
 
 export default function Projects() {
@@ -121,12 +118,6 @@ export function ClientProject({isLoading}) {
                             </div>
                                 {<MyProjectChart ongoing={ongoingProjects} completed={completedProjects} pending={pendingProjects} />}
                         </div>
-
-                            {/*<div className="bg-white rounded-md mt-6 lg:mt-0">
-                            <div className="bg-primary text-white rounded-t-md">
-                                <p className="py-6 fw-600 ml-7 lg:text-lg">Calender</p>
-                            </div>
-                        </div>*/}
                     </div>
                 </div>
                 }
@@ -140,74 +131,7 @@ export function ServiceProject({isLoading}) {
 
     const navigate = useNavigate();
 
-    const [displayModal, setModal] = useState(false);
-    const [targetItem, setTargetItem] = useState('');
-    const [provider, setProvider] = useState('');
-    const [percentage, setPercentageVal] = useState(projects.progress);
-    const [loading, setLoading] = useState(false);
 
-    const updateModal = (id, serviceProvider) => {
-        setTargetItem(id);
-        setProvider(serviceProvider);
-        setModal(true);
-    }
-
-    const CloseModal = () => {
-        setModal(false);
-    }
-
-    const setPercentage = (e) => {
-        setPercentageVal(e.target.value)
-    }
-
-    const submitData = async () => {
-        try {
-            setLoading(true);
-            const payload = {
-                percent: percentage,
-            };
-            const config = {
-                headers: {
-                    "Content-Type": "Application/json",
-                    authorization: localStorage.getItem("auth_token"),
-                },
-            };
-            const res = await Axios.put(`/projects/progress/${provider}/${targetItem}`, payload, config);
-            setLoading(false);
-            Swal.fire({
-                title: "Success",
-                imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
-                imageWidth: "75px",
-                text: `${res.message}`,
-                buttonsStyling: "false",
-                confirmButtonText: 'continue',
-                confirmButtonColor: "#3F79AD",
-            })
-            CloseModal()
-            return res
-        } catch (error) {
-            setLoading(false);
-            if (error.response.data.message) {
-                toast.error(
-                    error.response.data.message,
-                    {
-                        duration: 6000,
-                        position: "top-center",
-                        style: { background: '#BD362F', color: 'white' },
-                    }
-                );
-                return;
-            }
-            toast.error(
-                error.message,
-                {
-                    duration: 6000,
-                    position: "top-center",
-                    style: { background: '#BD362F', color: 'white' },
-                }
-            );
-        }
-    };
 
 
     return (
@@ -300,15 +224,8 @@ export function ServiceProject({isLoading}) {
                                                         </td>
                                                         <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
                                                             <div className="flex text-xl">
-                                                                <Menu>
-                                                                    <MenuHandler>
-                                                                        <Button>View</Button>
-                                                                    </MenuHandler>
-                                                                    <MenuList>
-                                                                        <MenuItem onClick={() => (navigate(`/dashboard/myprojectdetails/?projectId=${item.id}`))}>View Details</MenuItem>
-                                                                        <MenuItem onClick={() => updateModal(item.id, item.serviceProviderId)}>Update Details</MenuItem>
-                                                                    </MenuList>
-                                                                </Menu>
+                                                                <Button onClick={() => (navigate(`/dashboard/projectpartnerdetails/?projectId=${item.id}`))}>View</Button>
+                                                                
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -324,34 +241,7 @@ export function ServiceProject({isLoading}) {
                         </div>
                     </div>
                 </div>
-                {displayModal && (
-                    <div className="fixed font-primary left-0 top-0 w-full h-screen bg-op center-item z-40" onClick={CloseModal}>
-                        <div className="bg-white lg:w-5/12 rounded-md  overscroll-none  w-11/12 pt-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
-                            <div className="flex lg:px-6 px-5">
-                                <form>
-                                    <p className='fs-700'>Give update on the progress of the assigned project</p>
-                                    <div className='flex items-center mt-5'>
-                                        <p>Percentage Completion</p>
-                                        <div className='flex items-center border rounded ml-4 w-24'>
-                                            <input type='number' value={percentage} onChange={setPercentage} className='w-10/12 p-1' />
-                                            <p className='p-1 fw-600'>%</p>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            {loading ? (
-                                <Spinner />
-                            )
-                                :
-                                <div className="bg-light rounded-b-md  py-4 mt-5 text-end px-5">
-                                    <Button variant="outlined" ripple={true} onClick={CloseModal}>Cancel</Button>
-                                    <Button className='bg-primary ml-4' onClick={submitData}>Submit</Button>
-
-                                </div>
-                            }
-                        </div>
-                    </div>
-                )}
+                
             </div>
         </div>
     )

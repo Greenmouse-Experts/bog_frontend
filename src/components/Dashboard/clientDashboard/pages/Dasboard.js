@@ -11,6 +11,7 @@ import PclientDashboard from "../../../layouts/DashboardHome/pclient";
 import AdminDashboard from "../../../layouts/DashboardHome/admin";
 import ProductDashboard from "../../../layouts/DashboardHome/pparttner";
 import ServiceDashboard from "../../../layouts/DashboardHome/spartner";
+import { FinanceAdmin } from "../../../layouts/DashboardHome/finAdmin";
 
 export default function Dashboard() {
 
@@ -26,8 +27,10 @@ export default function Dashboard() {
     dashboard = <ProductDashboard />
   }else if(auth?.user?.userType === "professional"){
     dashboard = <ServiceDashboard />
-  }else if(auth?.user?.userType === "admin"){
+  }else if(auth?.user?.userType === "admin" && auth?.user?.level === 1 ){
     dashboard = <AdminDashboard />
+  }else if(auth?.user?.userType === "admin" && auth?.user?.level === 3 ){
+    dashboard = <FinanceAdmin />
   }
   return dashboard;
 }

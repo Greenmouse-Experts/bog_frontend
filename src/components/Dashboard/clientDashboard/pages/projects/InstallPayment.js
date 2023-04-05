@@ -99,9 +99,9 @@ export const InstallPayment = ({item, index, id}) => {
             <div>
                 <p>NGN{formatNumber(item?.amount)}</p>
             </div>
-            <div className="mt-2 lg:mt-0">
+            <div className="mt-6 lg:mt-0 text-center">
                 {
-                    item.paid? "" : <button className="btn-primary mb-2 py-1" onClick={() => {
+                    item.paid? "" : <button className="btn-primary mb-2 px-6  py-1" onClick={() => {
                         initializePayment(onSuccess, onClose)}}>Pay Now</button>
                 }
                 <p className="text-center">{item?.paid? "Paid" : "Not Paid" }</p>

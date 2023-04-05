@@ -61,6 +61,7 @@ import ServiceCategoryForm from "./pages/ServiceCatForm";
 import { ServiceRequest } from "./pages/ServiceRequest";
 import AdminSub from "./pages/AdminSub";
 import ServicePartnerMeeting from "./pages/ServicePartnerMeeting";
+import ProjectDetailsPartner from "./pages/ProjectDetailsPartner";
 
 export default function ClientDashboard() {
 
@@ -110,6 +111,7 @@ export default function ClientDashboard() {
                         <Route path="order-detail/:orderId" element={<UserOrderDetail />} />
                         <Route path="projectsadmin" element={<ProjectsAdmin />} />
                         <Route path="projectadmindetails" element={<ProjectDetails />} />
+                        <Route path="projectpartnerdetails" element={<ProjectDetailsPartner />} />
                         <Route path="myprojectdetails" element={<ProjectDetailsClient />} />
                         <Route path="projectrequest" element={<ProjectRequest />} />
                         <Route path="service-request/:projectId" element={<ServiceRequest />} />

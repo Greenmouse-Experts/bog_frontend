@@ -31,7 +31,7 @@ export const HomepageBlog = () => {
     <div className='grid-2 w-full gap-4'>
         {
            posts.length > 0 ? posts.filter(where => where.isPublished).slice(0,4).map(item => (
-                <div className="mx-4 bg-white  text-black relative">
+                <div className="mx-4 bg-white  text-black relative" key={item.id}>
                     <div className=' bg-tertiary'>
                         <img src={item?.images[0].image} alt="blog1" className="w-full h-60" />
                     </div>

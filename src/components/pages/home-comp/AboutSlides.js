@@ -347,9 +347,9 @@ export function ReviewSlide({ reviews }) {
     <div className="w-full overflow-hidden">
       <div className="flex w-200 justify-between" ref={review}>
         {reviews.length > 0
-          ? reviews.slice(0, 6).map((item) => {
+          ? reviews.slice(0, 6).map((item, index) => {
               return (
-                <div className="py-4 mr-10 w-96 hover:bg-primary hover:text-white border border-pri px-5 mx-auto bg-white rounded">
+                <div className="py-4 mr-10 w-96 hover:bg-primary hover:text-white border border-pri px-5 mx-auto bg-white rounded" key={index}>
                   <div className="flex items-center">
                     <Avatar
                       round
@@ -390,7 +390,7 @@ export function ReviewSlideSm({ reviews }) {
     >
       {reviews.length > 0
         ? reviews.map((item, index) => (
-            <SwiperSlide virtualIndex={index}>
+            <SwiperSlide virtualIndex={index} key={index}>
               <div className="py-4 mb-8 hover:bg-primary hover:text-white border border-pri px-5 mx-auto bg-white rounded">
                 <div className="flex items-center">
                   <Avatar

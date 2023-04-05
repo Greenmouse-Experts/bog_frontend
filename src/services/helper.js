@@ -54,9 +54,11 @@ export const getUserType = (type) => {
 export const getStatus = (type) => {
     switch (type) {
         case "pending":
-            return <p className="px-2 py-1 text-orange-700 bg-orange-100 w-24 rounded-md fw-600">Pending</p>
+            return <p className="px-2 py-1 text-yellow-700 bg-yellow-100 w-24 rounded-md fw-600">Pending</p>
         case "approved":
             return <p className="px-2 py-1 text-green-700 bg-green-100 w-24 rounded-md fw-600">Approved</p>
+        case "ongoing":
+            return <p className="px-2 py-1 text-orange-700 bg-orange-100 w-24 rounded-md fw-600">Ongoing</p>
         case "declined":
             return <p className="px-2 py-1 text-red-700 bg-red-100 w-24 rounded-md fw-600">Declined</p>
         case "completed":

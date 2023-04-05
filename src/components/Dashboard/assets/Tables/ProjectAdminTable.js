@@ -152,10 +152,6 @@ export default function ProjectsTable({ status, loader }) {
     // console.log(allProjects)
   }
 
-  //   const formatNumber = (number) => {
-  //     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  // }
-  // const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -180,18 +176,18 @@ export default function ProjectsTable({ status, loader }) {
         );
       case "dispatched":
         return (
-          <p className="px-2 py-1 text-blue-700 bg-blue-100 w-24 rounded-md fw-600">
+          <p className="px-2 py-1 text-blue-700 bg-blue-100 w-28 rounded-md fw-600">
             Dispatched
           </p>
         );
       case "approved":
         return (
-          <p className="px-2 py-1 text-green-700 bg-green-100 w-24 rounded-md fw-600">
+          <p className="px-2 py-1 text-green-500 bg-green-50 w-24 rounded-md fw-600">
             Approved
           </p>
         );
       case "disapproved":
-      case "cancel":
+      case "closed":
         return (
           <p className="px-2 py-1 text-red-700 bg-red-100 w-28 rounded-md fw-600">
             Cancelled
@@ -209,7 +205,7 @@ export default function ProjectsTable({ status, loader }) {
             Pending
           </p>
         );
-      case "completed":
+      case "Completed":
         return (
           <p className="px-2 py-1 text-green-700 bg-green-100 w-24 rounded-md fw-600">
             Completed
@@ -217,7 +213,7 @@ export default function ProjectsTable({ status, loader }) {
         );
       case "ongoing":
         return (
-          <p className="px-2 py-1 text-blue-700 bg-blue-100 w-24 rounded-md fw-600">
+          <p className="px-2 py-1 text-orange-700 bg-orange-100 w-24 rounded-md fw-600">
             Ongoing
           </p>
         );

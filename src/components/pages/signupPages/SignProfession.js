@@ -308,7 +308,12 @@ export default function SignProfession() {
                     <option value="whatsapp">WhatsApp</option>
                   </select>
                 </div>
-                <div className="mt-8 w-11/12 flex">
+                <div className='mt-8 '>
+                {
+                    formik.touched.terms && formik.errors.terms ? <p className='text-red-500'>{formik.errors.terms}</p> : null
+                  }
+                </div>
+                <div className="w-11/12 flex">
                   <input
                     type="checkbox"
                     className="p-4 border-gray-400"
@@ -318,9 +323,6 @@ export default function SignProfession() {
                     name="terms"
                     required
                   />
-                  {
-                    formik.touched.terms && formik.errors.terms ? <p className='text-red-500'>{formik.errors.terms}</p> : null
-                  }
                   <p className="px-2">
                     I agree to the
                     <Link to="/terms"><span className=" pl-2 text-primary hover:text-red-600 cursor-pointer  ">

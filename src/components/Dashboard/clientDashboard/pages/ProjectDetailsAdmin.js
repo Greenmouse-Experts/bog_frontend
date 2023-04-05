@@ -70,6 +70,13 @@ export default function ProjectDetails() {
         const res = await axios.get(`${process.env.REACT_APP_URL }/projects/notification/${project.id}/view`, config)
         setUpdate(res.data.data)
     }
+    const getTotal = () => {
+        if(total === 0){
+            setTotal(sum.reduce((sum, r) => sum + r.amount, 0))
+            console.log(total);
+        }
+    }
+    
     useEffect(() => {
         if(project){
             getCostSummary()
@@ -77,9 +84,11 @@ export default function ProjectDetails() {
             getUpdates()
         }
         if(sum){
-           setTotal(sum.reduce((sum, r) => sum + r.amount, 0))
+            getTotal()
         }// eslint-disable-next-line 
-    },[project])
+    },[project, sum])
+
+    
 
     
 
@@ -230,7 +239,7 @@ export default function ProjectDetails() {
                                         )):
                                         <p>No costing yet</p>
                                     }
-                                    <p className="border-t text-end fw-500 text-lg">{total}</p>
+                                    <p className="border-t text-end fw-500 text-lg">NGN{total === 0? "" : formatNumber(total)}</p>
                                 </div>
                             </div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
@@ -282,7 +291,7 @@ export default function ProjectDetails() {
                                            <div className="w-2/12 flex justify-end">
                                                 {
                                                     item?.image?
-                                                    <a href={item.image} target="_blank" rel="noreferrer"><Avatar src={item.image} variant="" alt="order"  /></a>
+                                                    <a href={item.image} target="_blank" rel="noreferrer"><Avatar src={item.image} variant="rounded" alt="order"  /></a>
                                                     :
                                                     ''
                                                 }
