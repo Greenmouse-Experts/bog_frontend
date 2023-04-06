@@ -82,8 +82,8 @@ export default function ClientDashboard() {
                 <KycModals/>
                 <div
                     style={{
-                        width: sidebarReduce ? "calc(100% - 45px)" : "",
-                        zIndex: sidebarReduce ? "45" : ""
+                        width: sidebarReduce ? "calc(100% - 49px)" : "",
+                        zIndex: sidebarReduce ? "49" : ""
                     }}
                     className="lg:main-p pt-21 home-bg pb-10 relative">
                     <KycAlert />
@@ -151,8 +151,8 @@ export default function ClientDashboard() {
                 </div>
                 <div
                     style={{
-                        width: sidebarReduce ? "calc(100% - 45px)" : "",
-                        zIndex: sidebarReduce ? "45" : ""
+                        width: sidebarReduce ? "calc(100% - 49px)" : "",
+                        zIndex: sidebarReduce ? "49" : ""
                     }}
                     className="lg:flex relative bg-white text-center lg:main-p px-5 py-5 text-primary fw-500 justify-between fs-400">
                     <div className="flex mb-5 lg:mb-0">

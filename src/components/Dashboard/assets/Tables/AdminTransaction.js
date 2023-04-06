@@ -129,7 +129,7 @@ export function AdminTransactTable({item, type}) {
             id: "main",
             Cell: (row) => <Menu placement="left-start" className="w-16">
                     <MenuHandler>
-                      <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><button className="lg:text-xl"><BsThreeDotsVertical /></button></Button>
+                      <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><p className="lg:text-xl"><BsThreeDotsVertical /></p></Button>
                     </MenuHandler>
                     <MenuList className="w-16 bg-gray-100 fw-600 text-black">
                       <MenuItem onClick={() => gotoDetailsPage(row.value)}>View Details</MenuItem>
@@ -237,7 +237,7 @@ const Table = ({columns, data}) => {
                       headerGroup.headers.map((column) =>
                       column.Filter ? (
                           <div className="fs-500 px-3 py-2 rounded-md bg-light" key={column.id}>
-                              <label for={column.id} className="fw-600 ">{column.render("Header")}: </label>
+                              <label htmlFor={column.id} className="fw-600 ">{column.render("Header")}: </label>
                               {column.render("Filter")}
                           </div>
                       ) : null

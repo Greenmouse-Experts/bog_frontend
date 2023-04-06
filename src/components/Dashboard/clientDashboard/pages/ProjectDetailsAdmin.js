@@ -15,6 +15,7 @@ import { AdminProgress } from "./projects/Modal/AdminProgress";
 import { AdminUpdates } from "./projects/Modal/AdminUpdates";
 import * as moment from 'moment'
 import { ProjectMain } from "./projects/Modal/AdminDate";
+import { PartnerPayment } from "./projects/Modal/PartnerPayment";
 
 export default function ProjectDetails() {
     const { search } = useLocation();
@@ -29,6 +30,7 @@ export default function ProjectDetails() {
     const [progressModal, setProgressModal] = useState(false)
     const [updateModal, setUpdateModal] = useState(false)
     const [projectMain, setProjectMain] = useState(false)
+    const [partnerPaymentModal, setPartnerPaymentModal] = useState(false)
     const [total, setTotal] = useState(0)
 
     const CloseModal = () => {
@@ -37,6 +39,7 @@ export default function ProjectDetails() {
         setProgressModal(false)
         setUpdateModal(false)
         setProjectMain(false)
+        setPartnerPaymentModal(false)
     }
 
     // get the cost summary
@@ -70,23 +73,23 @@ export default function ProjectDetails() {
         const res = await axios.get(`${process.env.REACT_APP_URL }/projects/notification/${project.id}/view`, config)
         setUpdate(res.data.data)
     }
-    const getTotal = () => {
+    const getTotal = async () => {
         if(total === 0){
-            setTotal(sum.reduce((sum, r) => sum + r.amount, 0))
+           await setTotal(sum.reduce((sum, r) => sum + r.amount, 0))
             console.log(total);
         }
     }
     
     useEffect(() => {
-        if(project){
             getCostSummary()
             getInstallSummary()
             getUpdates()
-        }
-        if(sum){
-            getTotal()
-        }// eslint-disable-next-line 
-    },[project, sum])
+        // eslint-disable-next-line 
+    },[project])
+
+    useEffect(() => {
+        getTotal()// eslint-disable-next-line
+    }, [sum])
 
     
 
@@ -306,6 +309,17 @@ export default function ProjectDetails() {
                         <div>
                             <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
+                                    <p className="fw-600">Project Partner Payment</p>
+                                </div>
+                                <div className="flex flex-col mt-6">
+                                    <p>No Payment made yet</p>
+                                </div>
+                                <div className="text-center mt-10">
+                                    <button className="btn-primary py-2 px-16" onClick={() => setPartnerPaymentModal(true)}>Initalize Payment</button>
+                                </div>
+                            </div>
+                            <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
+                                <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Partner Completion Rate</p>
                                 </div>
                                 <div className="flex flex-col mt-6">
@@ -508,6 +522,11 @@ export default function ProjectDetails() {
             {
                 projectMain && (
                     <ProjectMain CloseModal={CloseModal} project={project} id={project.id}/>
+                )
+            }
+            {
+                partnerPaymentModal && (
+                    <PartnerPayment CloseModal={CloseModal} project={project} id={project.id}/>
                 )
             }
         </div>

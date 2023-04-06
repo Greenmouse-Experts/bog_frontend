@@ -147,7 +147,7 @@ export default function BlogPage() {
                   </div>
                 </div>
               </div>
-              <div className="w-2/12 bg-light px-4 py-12">
+              <div className="hidden lg:block w-2/12 bg-light px-4 py-12">
                 <div className=" bg-white w-24 py-3 text-center shadow-lg rounded-lg mx-auto mb-12">
                     <p className="fw-600 text-primary">{dayName}</p>
                     <p className="text-3xl fw-600 text-secondary">{new Date().getDate()}</p>

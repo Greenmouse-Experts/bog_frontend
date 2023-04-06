@@ -57,6 +57,8 @@ export const getStatus = (type) => {
             return <p className="px-2 py-1 text-yellow-700 bg-yellow-100 w-24 rounded-md fw-600">Pending</p>
         case "approved":
             return <p className="px-2 py-1 text-green-700 bg-green-100 w-24 rounded-md fw-600">Approved</p>
+        case "dispatched":
+            return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-24 rounded-md fw-600">Dispatched</p>
         case "ongoing":
             return <p className="px-2 py-1 text-orange-700 bg-orange-100 w-24 rounded-md fw-600">Ongoing</p>
         case "declined":

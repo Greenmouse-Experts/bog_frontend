@@ -431,6 +431,12 @@ const AdminSidebar = () => {
                   <VscHistory className="text-xl" />
                   <p className="pl-3">Transactions</p>
                 </NavLink>
+              </>
+            ) : (
+              ""
+            )}
+            {user?.level === 1 || user?.level === 4 ? (
+              <>
                 <NavLink
                   to="delivery"
                   onClick={unShow}

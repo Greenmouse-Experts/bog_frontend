@@ -1,29 +1,31 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import { Breadcrumbs } from "@material-tailwind/react";
-import { useSelector } from 'react-redux';
-import useFetchHook from '../../../hooks/useFetchHook';
+import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from '../Spinner';
+import { getAllBlogPosts } from '../../../redux/actions/PostAction';
 
-export const FinanceAdmin = () => {
+export const ArticleAdminDashboard = () => {
 
-    const { loading, data: transactions } = useFetchHook("/transactions");
+    const dispatch = useDispatch();
+
+    const blogs = useSelector((state) => state.blog.posts);
+    const [loading, setLoading] = useState(false);
+    const stopLoading = () => setLoading(false);
+    useEffect(() => {
+        setLoading(true)
+        dispatch(getAllBlogPosts(stopLoading));
+    }, [dispatch]);
 
     
     const user = useSelector((state) => state.auth.user);
    
-    // if(transactions){
-    //     const ProjectTran = transactions.filter(where => where.type === "Projects")
-    //     const ProductTran = transactions.filter(where => where.type === "Products")
-    //     const SubTran = transactions.filter(where => where.type === "Subscription") 
-    //     console.log(ProjectTran); 
-    // }
     if (loading){
         return <center><Loader /></center>
       } 
-      const ProjectTran = transactions?.filter(where => where.type === "Projects")
-      const ProductTran = transactions?.filter(where => where.type === "Products")
-      const SubTran = transactions?.filter(where => where.type === "Subscription") 
+      const drafts = blogs?.filter(where => where.status === "draft")
+      const Published = blogs?.filter(where => where.status === "published")
+    //   const SubTran = transactions?.filter(where => where.type === "Subscription") 
     
        
 
@@ -56,12 +58,12 @@ export const FinanceAdmin = () => {
         <div className='p-5'>
             <div className="mt-3">
             <div className="lg:grid-2 gap-x-16 gap-y-12 justify-between fs-500 fw-600">
-                <div className="bg-[#e0e7ff] px-4 py-3 rounded flex justify-between items-center shades">
+                <div className="bg-[#e0e7ff] px-4 py-6 rounded flex justify-between items-center shades">
                 <Link to="transactions" className="flex justify-between items-center w-full">
                     <div>
                     {/* {transactions? transactions.length : 0} */}
-                        <p className="text-xxl fw-600 pb-2 text-xl">{transactions? transactions.length : 0}</p>
-                        <p className="text-gray-600">Total Transactions</p>
+                        <p className="text-xxl fw-600 pb-2 text-xl">{blogs? blogs.length : 0}</p>
+                        <p className="text-gray-600">Total Posts</p>
                     </div>
                     <div className="">
                         <img
@@ -72,11 +74,11 @@ export const FinanceAdmin = () => {
                     </div>
                 </Link>
                 </div>
-                <div className="bg-orange-100 mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
+                <div className="bg-orange-100 mt-4 lg:mt-0 px-6 py-3 rounded flex justify-between items-center shades">
                 <Link to="transactions" className="flex justify-between items-center w-full">
                     <div>
-                        <p className="text-xxl pb-2 fw-600">{ProductTran? ProductTran.length : 0}</p>
-                        <p className="text-gray-600">Product Transaction</p>
+                        <p className="text-xxl pb-2 fw-600">{drafts? drafts.length : 0}</p>
+                        <p className="text-gray-600">Posts in Drafts</p>
                     </div>
                     <div className="">
                         <img
@@ -87,11 +89,11 @@ export const FinanceAdmin = () => {
                     </div>
                 </Link>
                 </div>
-                <div className="bg-blue-100  mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
+                <div className="bg-blue-100  mt-4 lg:mt-0 px-4 py-6 rounded flex justify-between items-center shades">
                 <Link to="transactions" className="flex justify-between items-center w-full">
                     <div>
-                        <p className="fw-600 text-xxl pb-2">{ProjectTran? ProjectTran.length : 0}</p>
-                        <p className="text-gray-600">Project Transaction</p>
+                        <p className="fw-600 text-xxl pb-2">{Published? Published.length : 0}</p>
+                        <p className="text-gray-600">Published Posts</p>
                     </div>
                     <div className="relative">
                         <img
@@ -102,11 +104,11 @@ export const FinanceAdmin = () => {
                     </div>
                 </Link>
                 </div>
-                <div className="bg-green-100  mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
+                <div className="bg-green-100  mt-4 lg:mt-0 px-4 py-6 rounded flex justify-between items-center shades">
                 <Link to="transactions" className="flex justify-between items-center w-full">
                     <div>
-                        <p className="text-xxl fw-600 pb-2">{SubTran? SubTran.length : 0}</p>
-                        <p className="text-gray-600">Subscriptions</p>
+                        <p className="text-xxl fw-600 pb-2">0</p>
+                        <p className="text-gray-600">Total Shares</p>
                     </div>
                     <div className="">
                         <img
