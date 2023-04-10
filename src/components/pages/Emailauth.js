@@ -16,6 +16,7 @@ export default function Userauth() {
   console.log({ email, token });
   const [loading, setLoading] = useState(false)
 
+  console.log(email)
   useEffect(() => {
     setLoading(true);
     const url = `/user/verifyemail?email=${encodeURIComponent(email)}&token=${token}`;
@@ -55,7 +56,7 @@ export default function Userauth() {
               <div className="w-full">
                 <p className="text-xl fw-600">Account Activated</p>
                 <div className="text-primary my-6"><FontAwesomeIcon icon={faEnvelopeCircleCheck} size="3x" /> </div>
-                <p className="fw-600 mb-6">Hello <span className="text-secondary">Greenmouse</span></p>
+                <p className="fw-600 mb-6">Hello <span className="text-secondary">user</span></p>
               </div>
               <div>
                 <p>Thank you, your e-mail has been verified. Your account is now active. Please use the link below to login to your account.</p>
