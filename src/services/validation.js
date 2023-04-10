@@ -12,7 +12,7 @@ export const privateClientSchema = Yup.object({
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
-    terms: Yup.boolean().required("Please accept terms and conditions"),
+    terms: Yup.boolean().oneOf([true],'Please accept terms and conditions'),
     password2: Yup.string()
         .required('Please retype your password.')
         .oneOf([Yup.ref('password')], 'Your passwords do not match.'),
@@ -69,7 +69,7 @@ export const supplierValidationSchema = Yup.object({
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
-    terms: Yup.boolean().required("Please accept terms and conditions"),
+    terms: Yup.boolean().oneOf([true],'Please accept terms and conditions'),
     password2: Yup.string()
         .required('Please retype your password.')
         .oneOf([Yup.ref('password')], 'Your passwords do not match.'),
@@ -87,7 +87,7 @@ export const servicePartnerValidationSchema = Yup.object({
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
-    terms: Yup.boolean().required("Please accept terms and conditions"),
+    terms: Yup.boolean().oneOf([true],'Please accept terms and conditions'),
     serviceTypeId: Yup.string().required("Please select the type of service you render"),
     password2: Yup.string()
         .required('Please retype your password.')
@@ -105,7 +105,7 @@ export const corporateClientSchema = Yup.object({
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
-    terms: Yup.boolean().required("Please accept terms and conditions"),
+    terms: Yup.boolean().oneOf([true],'Please accept terms and conditions'),
     password2: Yup.string()
         .required('Please retype your password.')
         .oneOf([Yup.ref('password')], 'Your passwords do not match.'),

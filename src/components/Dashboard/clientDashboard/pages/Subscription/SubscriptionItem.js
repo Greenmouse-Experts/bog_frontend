@@ -64,6 +64,7 @@ const SubscriptionItem = ({ item, user }) => {
                 confirmButtonColor: "#3F79AD",
             }).then(function () {
                 navigate("/dashboard");
+                window.location.reload();
             });
 
         } catch (error) {

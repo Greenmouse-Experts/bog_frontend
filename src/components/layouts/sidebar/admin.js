@@ -105,7 +105,7 @@ const AdminSidebar = () => {
       </div>
       {showSideBar && (
         <div
-          className="fixed lg:pb-24 overflow-y-scroll z-20 bg-white fs-400 top-20 w-6/12 h-full lg:sidebar-w shadow lg:pl-4 pt-2 px-2"
+          className="fixed lg:pb-24 overflow-y-auto z-20 bg-white fs-400 top-20 w-6/12 h-full lg:sidebar-w shadow lg:pl-4 pt-2 px-2"
           onClick={CloseAll}
         >
           <div className="">
@@ -431,6 +431,12 @@ const AdminSidebar = () => {
                   <VscHistory className="text-xl" />
                   <p className="pl-3">Transactions</p>
                 </NavLink>
+              </>
+            ) : (
+              ""
+            )}
+            {user?.level === 1 || user?.level === 4 ? (
+              <>
                 <NavLink
                   to="delivery"
                   onClick={unShow}

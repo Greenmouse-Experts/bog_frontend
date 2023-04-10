@@ -5,7 +5,7 @@ import { BsInfoCircleFill, BsThreeDotsVertical } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getDispatchedProjects } from "../../../../redux/actions/ProjectAction";
-import { getProjectCategory } from "../../../../services/helper";
+import { getProjectCategory, getStatus } from "../../../../services/helper";
 import { Loader } from "../../../layouts/Spinner";
 import QouteProject from "./projects/Modal/QouteProject";
 
@@ -20,6 +20,8 @@ export function AllProject() {
             dispatch(getDispatchedProjects(user.profile.id))
         }
     }, [dispatch, user])
+
+    const project = projects.filter(where => where.project.status === "dispatched")
 
     const navigate = useNavigate()
 
@@ -96,8 +98,8 @@ export function AllProject() {
                                         </thead>
                                         <tbody>
                                             {
-                                                projects.length > 0 ? projects.map((item, index) => (
-                                                    <tr>
+                                                project.length > 0 ? project.map((item, index) => (
+                                                    <tr key={index}>
                                                         <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
                                                             {index + 1}
                                                         </td>
@@ -114,19 +116,19 @@ export function AllProject() {
                                                             {dayjs(item.project.createdAt).format("YYYY-MM-DD")}
                                                         </td>
                                                         <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                            Pending
+                                                            {getStatus(item.project.status)}
                                                         </td>
                                                         <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
                                                             <Menu placement="left-start" className="w-16">
                                                                 <MenuHandler>
-                                                                    <Button className="border-none bg-transparent shadow-none hover:shadow-none text-primary px-0"><button className="lg:text-xl text-primary"><BsThreeDotsVertical /></button></Button>
+                                                                    <Button className="border-none bg-transparent shadow-none hover:shadow-none text-primary px-0"><p className="lg:text-xl text-primary"><BsThreeDotsVertical /></p></Button>
                                                                 </MenuHandler>
                                                                 <MenuList className="w-16 bg-gray-100 fw-600 text-black">
                                                                     <MenuItem onClick={() => gotoForm(item.projectId)}>View Details</MenuItem>
                                                                     <MenuItem onClick={() => OpenQoute(item)}>Accept Project</MenuItem>
                                                                     <MenuItem onClick={OpenDecline}>Decline Project</MenuItem>
                                                                 </MenuList>
-                                                                </Menu>
+                                                            </Menu>
                                                         </td>
                                                     </tr>
                                                 )) : null

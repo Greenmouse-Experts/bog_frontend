@@ -66,7 +66,7 @@ export default function Header() {
     }
     if (auth?.user?.userType === "admin") {
         count = adminNotifications.length;
-        content = adminNotifications.length > 0 ? adminNotifications.map(notify => {
+        content = adminNotifications.length > 0 ? adminNotifications.slice(0,6).map(notify => {
             return (
                 <p key={notify.id} className="my-5 flex" onClick={() =>gotoNotification(notify.id)}>
                     <div>
@@ -82,9 +82,9 @@ export default function Header() {
         }) : null
     } else {
         count = userNotifications.length;
-        content = userNotifications.length > 0 ? userNotifications.map(notify => {
+        content = userNotifications.length > 0 ? userNotifications.slice(0,4).map(notify => {
             return (
-                <p key={notify.id} className="my-5 flex" onClick={() =>gotoNotification(notify.id)}>
+                <p key={notify.id} className="my-3 flex" onClick={() =>gotoNotification(notify.id)}>
                     <div>
                         <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1667908351/BOG/jot-logo_q4jjyl.png' className="mx-3 w-9" alt="Notify" />
                     </div>
