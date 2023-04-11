@@ -212,6 +212,7 @@ export default function ProjectsTable({ status, loader }) {
           </p>
         );
       case "ongoing":
+      case "Ongoing":
         return (
           <p className="px-2 py-1 text-orange-700 bg-orange-100 w-24 rounded-md fw-600">
             Ongoing

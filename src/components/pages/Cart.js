@@ -263,69 +263,69 @@ export const Cart = () => {
                 {
                   carts?.length === 0 ? null :
                   <div className="relative mt-8 lg:mt-0 ">
-                  <div className="rounded-md bg-blue-100 shadow-md py-5 px-3 lg:px-5 sticky top-24">
-                    <div class="grid">
-                      <p class="text-2xl fw-600">Order Summary</p>
-                      <div className="py-5 border-y border-gray-400 mt-6">
-                        <div className="fw-600 flex justify-between">
-                          <p>
-                            ITEMS <span className="px-2"></span>
-                          </p>
-                          <p>{carts.length}</p>
-                        </div>
-                      </div>
-                      <div className="fw-600 mt-3 flex justify-between">
-                        <p>
-                          Subtotal
-                        </p>
-                        <p className="text-end">NGN {formatNumber(totalAmount)}</p>
-                      </div>
-                      <div className="fw-600 mt-3 flex justify-between">
-                        <p>
-                          Estimated Delivery Cost
-                        </p>
-                        <p>TBD</p>
-                      </div>
-                      <div className="fw-600 mt-3 flex justify-between">
-                        <p>
-                          Estimated Sales Tax
-                        </p>
-                        <p>TBD</p>
-                      </div>
-                      <form onSubmit={form.handleSubmit}>
-                        
-                        <div className="fw-600 my-4">
-                          <div className="flex justify-between my-4">
-                            <p>TOTAL COST</p>
-                            <p>NGN {formatNumber(totalAmount)}</p>
+                    <div className="rounded-md bg-blue-100 shadow-md py-5 px-3 lg:px-5 sticky top-24">
+                      <div class="grid">
+                        <p class="text-2xl fw-600">Order Summary</p>
+                        <div className="py-5 border-y border-gray-400 mt-6">
+                          <div className="fw-600 flex justify-between">
+                            <p>
+                              ITEMS <span className="px-2"></span>
+                            </p>
+                            <p>{carts.length}</p>
                           </div>
-
-                          {auth.isAuthenticated ?
-                            
-                            (
-                              <p
-                                onClick={() =>setCartForm(true)}
-                                className="w-full cursor-pointer text-center btn bg-primary text-white"
-                              >
-                                PROCEED TO CHECKOUT
-                              </p>
-                            )
-                            :
-                            
-                            (
-                              <button
-                                onClick={() => AuhtCheck()}
-                                className="w-full btn bg-primary text-white"
-                              >
-                                CHECKOUT
-                              </button>
-                            )}
                         </div>
-                      </form>
+                        <div className="fw-600 mt-3 flex justify-between">
+                          <p>
+                            Subtotal
+                          </p>
+                          <p className="text-end">NGN {formatNumber(totalAmount)}</p>
+                        </div>
+                        <div className="fw-600 mt-3 flex justify-between">
+                          <p>
+                            Estimated Delivery Cost
+                          </p>
+                          <p>TBD</p>
+                        </div>
+                        <div className="fw-600 mt-3 flex justify-between">
+                          <p>
+                            Estimated Sales Tax
+                          </p>
+                          <p>TBD</p>
+                        </div>
+                        <form onSubmit={form.handleSubmit}>
+                          
+                          <div className="fw-600 my-4">
+                            <div className="flex justify-between my-4">
+                              <p>TOTAL COST</p>
+                              <p>NGN {formatNumber(totalAmount)}</p>
+                            </div>
 
+                            {auth.isAuthenticated ?
+                              
+                              (
+                                <p
+                                  onClick={() =>setCartForm(true)}
+                                  className="w-full cursor-pointer text-center btn bg-primary text-white"
+                                >
+                                  PROCEED TO CHECKOUT
+                                </p>
+                              )
+                              :
+                              
+                              (
+                                <button
+                                  onClick={() => AuhtCheck()}
+                                  className="w-full btn bg-primary text-white"
+                                >
+                                  CHECKOUT
+                                </button>
+                              )}
+                          </div>
+                        </form>
+
+                      </div>
                     </div>
                   </div>
-                </div>
                 }
                 
               </div>

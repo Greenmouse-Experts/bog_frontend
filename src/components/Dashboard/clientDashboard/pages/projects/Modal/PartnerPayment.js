@@ -88,7 +88,7 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
 
   return (
     <div className="fixed font-primary left-0 top-0 w-full h-screen bg-op center-item z-40" onClick={CloseModal}>
-        <div className="bg-white lg:w-4/12 relative rounded-md  overscroll-none  w-11/12 p-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
+        <div className="bg-white max-h-96 lg:max-h-01 overflow-y-auto lg:w-4/12 relative rounded-md  overscroll-none  w-11/12 p-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
             <p className="fw-600 text-lg lg:text-xl mb-6">Project Partner Payment</p>
             <div>
                 <p>Please select on bank option</p>

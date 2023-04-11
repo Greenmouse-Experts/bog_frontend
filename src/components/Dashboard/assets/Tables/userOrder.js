@@ -83,7 +83,7 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export default function UserOrderTable({status, loader}){
+export default function UserOrderTable({status, loader, cancelOrder}){
   // let adminOrders = useSelector((state) => state.orders.adminOrders);
       let userOrders = useSelector((state) => state.orders.userOrders);
 
@@ -158,6 +158,12 @@ export default function UserOrderTable({status, loader}){
                             </MenuHandler>
                             <MenuList className="w-16 bg-gray-100 fw-600 text-black">
                               <MenuItem onClick={() => gotoDetailsPage(row.value)}>View Details</MenuItem>
+                              {
+                                row.row.original.status === "pending"?
+                                <MenuItem className="bg-red-500 text-white hover:bg-red-600" onClick={cancelOrder}>Cancel Order</MenuItem>
+                                :
+                                ""
+                              }
                             </MenuList>
                           </Menu> ,
           },

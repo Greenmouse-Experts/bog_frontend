@@ -49,6 +49,7 @@ export default function AdminTransactions() {
                                 <Tab>Products</Tab>
                                 <Tab>Projects</Tab>
                                 <Tab>Subscription</Tab>
+                                <Tab>Payout</Tab>
                             </TabList>
                             <TabPanel>
                                 {
@@ -74,7 +75,12 @@ export default function AdminTransactions() {
                                     <AdminTransactTable item={transactions} type={"Subscription"}/> : <Spinner2/>
                                 }
                             </TabPanel>
-                            
+                            <TabPanel>
+                                {
+                                    !loading && transactions !== null ? 
+                                    <AdminTransactTable item={transactions} type={"Project Payout to service partner"}/> : <Spinner2/>
+                                }
+                            </TabPanel>
                         </Tabs>
                     </div>
                 </div>

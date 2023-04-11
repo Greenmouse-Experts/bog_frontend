@@ -253,9 +253,17 @@ const AdminSidebar = () => {
                   <div className="lg:ml-9 ml-4 fs-400 pt-2">
                     <NavLink
                       to="ordersadmin"
-                      // style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                      style={({ isActive }) => (isActive ? activeStyle : undefined)}
                     >
                       <p className="py-2">All Orders</p>
+                    </NavLink>
+                    <NavLink
+                      to="order-refund"
+                      style={({ isActive }) =>
+                        isActive ? activeStyles : undefined
+                      }
+                    >
+                      <p className="py-2">Order Refund</p>
                     </NavLink>
                   </div>
                 )}

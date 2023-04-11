@@ -7,17 +7,26 @@ import { Link } from "react-router-dom";
 import { getUserOrders } from "../../../../redux/actions/OrderAction";
 import { Loader } from "../../../layouts/Spinner";
 import UserOrderTable from "../../assets/Tables/userOrder";
+import CancelOrderModal from "./Order/cancelModal";
 
 export default function Orders() {
   const dispatch = useDispatch();
   let orders = useSelector((state) => state.orders.userOrders);
   const [loading, setLoading] = useState(false);
+  const [cancelModal, setCancelModal] = useState()
   const stopLoading = () => setLoading(false);
 
   useEffect(() => {
     setLoading(true);
     dispatch(getUserOrders(stopLoading));
   }, [])
+
+  const CloseModal = () => {
+    setCancelModal(false)
+  }
+  const cancelOrder = () => {
+    setCancelModal(true)
+  }
 
   return (
     <div>
@@ -63,20 +72,8 @@ export default function Orders() {
               {/* All Orders */}
               <TabPanel>
                   <div className="overflow-x-auto">
-                    {/* <table className="items-center w-full bg-transparent border-collapse">
-                      <thead className="thead-light bg-light">
-                        <OrderHeader />
-                      </thead>
-                      <tbody>
-                        {
-                          orders.length > 0 ? orders.map((item, index) => (
-                            <OrderItem key={item.id} item={item} index={index} />
-                          )) : null
-                        }
-                      </tbody>
-                    </table> */}
                     {
-                      orders.length > 0 ? <UserOrderTable/> : "No Orders"
+                      orders.length > 0 ? <UserOrderTable cancelOrder={cancelOrder} /> : "No Orders"
                     }
                   </div>
               </TabPanel>
@@ -84,7 +81,7 @@ export default function Orders() {
               {/* Pending Orders */}
               <TabPanel>
                   {
-                      orders.length > 0 ? <UserOrderTable status="pending"/> : "No Orders"
+                      orders.length > 0 ? <UserOrderTable cancelOrder={cancelOrder} status="pending"/> : "No Orders"
                     }
               </TabPanel>
 
@@ -106,6 +103,11 @@ export default function Orders() {
           </div>
         </div>
       </div>
+      {
+        cancelModal && (
+          <CancelOrderModal CloseModal={CloseModal}/>
+        )
+      }
     </div>
   );
 }

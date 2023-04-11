@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import ProtectedRoute from "../../Routes/ProtectedRoute";
 import Header from "./header";
 import Dashboard from "./pages/Dasboard";
 import Meetings from "./pages/Meetings";
@@ -87,7 +86,7 @@ export default function ClientDashboard() {
                     }}
                     className="lg:main-p pt-21 home-bg pb-10 relative">
                     <KycAlert />
-                    <Routes element={<ProtectedRoute />}>
+                    <Routes >
                         <Route path="" element={<Dashboard />} />
                         <Route path="orders" element={<Orders />} />
                         <Route path="order-request" element={<OrderRequest />} />
