@@ -61,6 +61,7 @@ import { ServiceRequest } from "./pages/ServiceRequest";
 import AdminSub from "./pages/AdminSub";
 import ServicePartnerMeeting from "./pages/ServicePartnerMeeting";
 import ProjectDetailsPartner from "./pages/ProjectDetailsPartner";
+import RefundOrders from "./pages/RefundOrder";
 
 export default function ClientDashboard() {
 
@@ -105,6 +106,7 @@ export default function ClientDashboard() {
                         <Route path="productsadmin" element={<ProductsAdmin />} />
                         <Route path="productdetailadmin" element={<ProductDetailsAdmin />} />
                         <Route path="ordersadmin" element={<OrdersAdmin />} />
+                        <Route path="order-refund" element={<RefundOrders />} />
                         <Route path="myorderdetails" element={<OrderDetailsClient />} />
                         <Route path="orderadmindetail" element={<OrderDetails />} />
                         <Route path="order-detail/:orderId" element={<UserOrderDetail />} />

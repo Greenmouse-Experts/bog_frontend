@@ -29,6 +29,8 @@ export default function ProductDetail() {
     const { itemId } = useParams();
     const [item, setItem] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [maxQuantity, setMaxQuantity] = useState(0)
+    const [prodNum, setProductNum] = useState(false)
 
     const fetchProduct = async () => {
         try {
@@ -67,6 +69,7 @@ export default function ProductDetail() {
     useEffect(() => {
         dispatch(getProducts())
         if (item != null) {
+            setMaxQuantity(item.remaining)
             const similar = products.filter(where => where.category.id === item.category.id).filter(prod => prod.id != item.id);
             setSimilarProducts(similar)
         }
@@ -77,6 +80,11 @@ export default function ProductDetail() {
         if (itemAdded) {
             setTimeout(function () {
                 setItemAdded(false);
+            }, 4000);
+        } 
+        if (prodNum) {
+            setTimeout(function () {
+                setProductNum(false);
             }, 4000);
         } 
         if (show) {
@@ -138,12 +146,18 @@ export default function ProductDetail() {
                                         <div className="mt-2 flex items-end fs-500 lg:fs-600">
                                             <div>
                                                 <p className="fw-600 text-gray-600 mb-2">Quantity</p>
-                                                <input type="number" min={0} max={10} value={cartNum} onChange={(e) => setCartNum(e.target.value)} className="w-16 px-1 lg:px-2 rounded py-1 lg:py-2 border border-black" />
+                                                <input type="number" min={0} max={maxQuantity} value={cartNum} onChange={(e) => setCartNum(e.target.value)} className="w-16 px-1 lg:px-2 rounded py-1 lg:py-2 border border-black" />
                                             </div>
                                             <div className="">
                                                 {
                                                     user?.profile?.userType === "professional" || user?.profile?.userType === "vendor"?
                                                     <button className="btn-primary ml-7 px-4 lg:px-8 " onClick={() => setShow(true)} >Add To Cart</button>
+                                                    :
+                                                    item.remaining < 1?
+                                                    <button className="btn-primary ml-7 px-4 lg:px-8 " onClick={() => setProductNum(true)}>Out of Stock</button>
+                                                    :
+                                                    item.remaining < cartNum?
+                                                    <button className="btn-primary ml-7 px-4 lg:px-8 " onClick={() => setProductNum(true)}>Add To Cart</button>
                                                     :
                                                     <button className="btn-primary ml-7 px-4 lg:px-8 " onClick={() => addItemToCart(item, cartNum)}>Add To Cart</button>
                                                 }
@@ -154,6 +168,14 @@ export default function ProductDetail() {
                                                         }}
                                                         color="red" className="absolute w-72 fs-400 fw-500"
                                                     >Please sign up / switch to client to access</Alert>
+                                                )}
+                                                {prodNum && (
+                                                    <Alert 
+                                                        dismissible={{
+                                                            onClose: () => setShow(false),
+                                                        }}
+                                                        color="red" className="absolute w-72 fs-400 fw-500"
+                                                    >Selected Quantity is not availbale</Alert>
                                                 )}
                                                 {itemAdded && (
                                                     <div className="absolute lg:fs-400 fs-300 fw-600 px-2 text-center w-40 border lg:right-0 xl:right-1/4 lg:bottom-0 -bottom-3/4 py-1 bg-secondary rounded text-gray-100 scale-ani">

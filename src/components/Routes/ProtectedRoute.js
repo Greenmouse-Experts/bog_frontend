@@ -14,6 +14,7 @@ export default ProtectedRoute
 export const Protected = ({children}) => {
 
     const isLoggedIn = useSelector((state) => state.auth.isAuthenticated)
+    // const loading = useSelector((state) => state.auth.isLoading);
     
     if(!isLoggedIn){
         return <Spinner2 size/>

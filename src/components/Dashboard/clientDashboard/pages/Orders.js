@@ -7,13 +7,16 @@ import { Link } from "react-router-dom";
 import { getUserOrders } from "../../../../redux/actions/OrderAction";
 import { Loader } from "../../../layouts/Spinner";
 import UserOrderTable from "../../assets/Tables/userOrder";
-import CancelOrderModal from "./Order/cancelModal";
+import CancelOrderModal from "./Order/Modals/cancelModal";
+import RefundOrderModal from "./Order/Modals/refundModal";
 
 export default function Orders() {
   const dispatch = useDispatch();
   let orders = useSelector((state) => state.orders.userOrders);
   const [loading, setLoading] = useState(false);
   const [cancelModal, setCancelModal] = useState()
+  const [refundModal, setRefundModal] = useState()
+  const [orderId, setOrderId] = useState('')
   const stopLoading = () => setLoading(false);
 
   useEffect(() => {
@@ -23,10 +26,19 @@ export default function Orders() {
 
   const CloseModal = () => {
     setCancelModal(false)
+    setRefundModal(false)
   }
-  const cancelOrder = () => {
+
+  const RefundOrder = (val) => {
+    setRefundModal(true)
+    setOrderId(val)
+  }
+
+  const cancelOrder = (id) => {
     setCancelModal(true)
+    setOrderId(id)
   }
+  
 
   return (
     <div>
@@ -95,7 +107,7 @@ export default function Orders() {
               {/* Cancelled Orders */}
               <TabPanel>
                 {
-                      orders.length > 0 ? <UserOrderTable status="cancelled"/> : "No Orders"
+                      orders.length > 0 ? <UserOrderTable status="cancelled" refundOrder={RefundOrder} refundTab/> : "No Orders"
                     }
               </TabPanel>
             </Tabs>
@@ -105,8 +117,13 @@ export default function Orders() {
       </div>
       {
         cancelModal && (
-          <CancelOrderModal CloseModal={CloseModal}/>
-        )
+          <CancelOrderModal CloseModal={CloseModal} id={orderId} getUserOrders={getUserOrders}/>
+        ) 
+      }
+      {
+        refundModal && (
+          <RefundOrderModal CloseModal={CloseModal} id={orderId} getUserOrders={getUserOrders}/>
+        ) 
       }
     </div>
   );
