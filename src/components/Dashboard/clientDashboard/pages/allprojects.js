@@ -32,9 +32,9 @@ export function AllProject() {
         setSelectedProject(item)
         setQoute(true);
     }
-    const OpenDecline = () => {
-        setDecline(true)
-    }
+    // const OpenDecline = () => {
+    //     setDecline(true)
+    // }
 
     const CloseModal = () => {
         setQoute(false)
@@ -126,7 +126,7 @@ export function AllProject() {
                                                                 <MenuList className="w-16 bg-gray-100 fw-600 text-black">
                                                                     <MenuItem onClick={() => gotoForm(item.projectId)}>View Details</MenuItem>
                                                                     <MenuItem onClick={() => OpenQoute(item)}>Accept Project</MenuItem>
-                                                                    <MenuItem onClick={OpenDecline}>Decline Project</MenuItem>
+                                                                    {/* <MenuItem onClick={OpenDecline}>Decline Project</MenuItem> */}
                                                                 </MenuList>
                                                             </Menu>
                                                         </td>

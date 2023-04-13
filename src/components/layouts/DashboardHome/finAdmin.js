@@ -4,6 +4,7 @@ import { Breadcrumbs } from "@material-tailwind/react";
 import { useSelector } from 'react-redux';
 import useFetchHook from '../../../hooks/useFetchHook';
 import { Loader } from '../Spinner';
+import { FinanceChart } from '../../Dashboard/assets/FinanceChart';
 
 export const FinanceAdmin = () => {
 
@@ -12,12 +13,6 @@ export const FinanceAdmin = () => {
     
     const user = useSelector((state) => state.auth.user);
    
-    // if(transactions){
-    //     const ProjectTran = transactions.filter(where => where.type === "Projects")
-    //     const ProductTran = transactions.filter(where => where.type === "Products")
-    //     const SubTran = transactions.filter(where => where.type === "Subscription") 
-    //     console.log(ProjectTran); 
-    // }
     if (loading){
         return <center><Loader /></center>
       } 
@@ -55,69 +50,72 @@ export const FinanceAdmin = () => {
         </div>
         <div className='p-5'>
             <div className="mt-3">
-            <div className="lg:grid-2 gap-x-16 gap-y-12 justify-between fs-500 fw-600">
-                <div className="bg-[#e0e7ff] px-4 py-3 rounded flex justify-between items-center shades">
-                <Link to="transactions" className="flex justify-between items-center w-full">
-                    <div>
-                    {/* {transactions? transactions.length : 0} */}
-                        <p className="text-xxl fw-600 pb-2 text-xl">{transactions? transactions.length : 0}</p>
-                        <p className="text-gray-600">Total Transactions</p>
+                <div className="lg:grid-2 gap-x-16 gap-y-12 justify-between fs-500 fw-600">
+                    <div className="bg-[#e0e7ff] px-4 py-3 rounded flex justify-between items-center shades">
+                    <Link to="transactions" className="flex justify-between items-center w-full">
+                        <div>
+                        {/* {transactions? transactions.length : 0} */}
+                            <p className="text-xxl fw-600 pb-2 text-xl">{transactions? transactions.length : 0}</p>
+                            <p className="text-gray-600">Total Transactions</p>
+                        </div>
+                        <div className="">
+                            <img
+                            src={require("../images/users.png")}
+                            alt="project"
+                            className="-bottom-3 relative w-20"
+                            />
+                        </div>
+                    </Link>
                     </div>
-                    <div className="">
-                        <img
-                        src={require("../images/users.png")}
-                        alt="project"
-                        className="-bottom-3 relative w-20"
-                        />
+                    <div className="bg-orange-100 mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
+                    <Link to="transactions" className="flex justify-between items-center w-full">
+                        <div>
+                            <p className="text-xxl pb-2 fw-600">{ProductTran? ProductTran.length : 0}</p>
+                            <p className="text-gray-600">Product Transaction</p>
+                        </div>
+                        <div className="">
+                            <img
+                            src={require("../images/client.png")}
+                            alt="orders"
+                            className="w-16 lg:mt-2"
+                            />
+                        </div>
+                    </Link>
                     </div>
-                </Link>
-                </div>
-                <div className="bg-orange-100 mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
-                <Link to="transactions" className="flex justify-between items-center w-full">
-                    <div>
-                        <p className="text-xxl pb-2 fw-600">{ProductTran? ProductTran.length : 0}</p>
-                        <p className="text-gray-600">Product Transaction</p>
+                    <div className="bg-blue-100  mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
+                    <Link to="transactions" className="flex justify-between items-center w-full">
+                        <div>
+                            <p className="fw-600 text-xxl pb-2">{ProjectTran? ProjectTran.length : 0}</p>
+                            <p className="text-gray-600">Project Transaction</p>
+                        </div>
+                        <div className="relative">
+                            <img
+                            src={require("../images/sp.png")}
+                            alt="cart"
+                            className="w-16 lg:mt-3"
+                            />
+                        </div>
+                    </Link>
                     </div>
-                    <div className="">
-                        <img
-                        src={require("../images/client.png")}
-                        alt="orders"
-                        className="w-16 lg:mt-2"
-                        />
+                    <div className="bg-green-100  mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
+                    <Link to="transactions" className="flex justify-between items-center w-full">
+                        <div>
+                            <p className="text-xxl fw-600 pb-2">{SubTran? SubTran.length : 0}</p>
+                            <p className="text-gray-600">Subscriptions</p>
+                        </div>
+                        <div className="">
+                            <img
+                            src={require("../images/pp.png")}
+                            alt="ongoing"
+                            className=" w-16"
+                            />
+                        </div>
+                    </Link>
                     </div>
-                </Link>
-                </div>
-                <div className="bg-blue-100  mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
-                <Link to="transactions" className="flex justify-between items-center w-full">
-                    <div>
-                        <p className="fw-600 text-xxl pb-2">{ProjectTran? ProjectTran.length : 0}</p>
-                        <p className="text-gray-600">Project Transaction</p>
-                    </div>
-                    <div className="relative">
-                        <img
-                        src={require("../images/sp.png")}
-                        alt="cart"
-                        className="w-16 lg:mt-3"
-                        />
-                    </div>
-                </Link>
-                </div>
-                <div className="bg-green-100  mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
-                <Link to="transactions" className="flex justify-between items-center w-full">
-                    <div>
-                        <p className="text-xxl fw-600 pb-2">{SubTran? SubTran.length : 0}</p>
-                        <p className="text-gray-600">Subscriptions</p>
-                    </div>
-                    <div className="">
-                        <img
-                        src={require("../images/pp.png")}
-                        alt="ongoing"
-                        className=" w-16"
-                        />
-                    </div>
-                </Link>
                 </div>
             </div>
+            <div className='mt-8'>
+                <FinanceChart/>
             </div>
         </div>
     </div>

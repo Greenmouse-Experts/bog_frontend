@@ -16,6 +16,7 @@ import { FaRegHandPointRight } from "react-icons/fa";
 import { getProjects } from "../../../redux/actions/ProjectAction";
 import { getUsers, getUsersAnalyze } from "../../../redux/actions/UserAction";
 import { Loader } from "../Spinner";
+import { FinanceChart } from "../../Dashboard/assets/FinanceChart";
 // import Moment from 'react-moment';
 
 
@@ -241,6 +242,9 @@ export default function AdminDashboard(status) {
                     <div></div>
                 </div>
             </div>
+        </div>
+        <div className="mt-8 p-6 bg-white rounded">
+            <FinanceChart/>
         </div>
         {/*order table*/}
         <div className="mt-7">

@@ -594,7 +594,7 @@ export const addProductToStore = (productId, saveLoading, navigate) => {
         } catch (error) {
             saveLoading();
             if (error.message === 'Request failed with status code 401') {
-                window.location.href = '/';
+                toast.error('Please refresh and try again')
             }
             else {
                 dispatch(setError(error.message));
@@ -635,7 +635,7 @@ export const ApproveProduct = (payload, stopLoading, navigate) => {
         } catch (error) {
             stopLoading();
             if (error.message === 'Request failed with status code 401') {
-                window.location.href = '/';
+                toast.error('Please refresh and try again')
             }
             else {
                 dispatch(setError(error.message));
