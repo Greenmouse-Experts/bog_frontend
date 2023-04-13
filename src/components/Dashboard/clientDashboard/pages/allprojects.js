@@ -68,8 +68,8 @@ export function AllProject() {
                                     <p className="fw-600 fs-600 lg:text-lg mb-6 lg:mb-0">Available Projects</p>
                                 </div>
                             </div>
-                            <div className="px-5 mt-6">
-                                <div className="overflow-x-auto">
+                            <div className="px-5  my-6">
+                                <div className="overflow-x-auto pb-6">
                                     <table className="items-center w-full bg-transparent border-collapse">
                                         <thead className="thead-light bg-light">
                                             <tr>
@@ -131,7 +131,7 @@ export function AllProject() {
                                                             </Menu>
                                                         </td>
                                                     </tr>
-                                                )) : null
+                                                )) : <p className="my-6 text-center w-full">No Projects available</p>
                                             }
                                         </tbody>
                                     </table>

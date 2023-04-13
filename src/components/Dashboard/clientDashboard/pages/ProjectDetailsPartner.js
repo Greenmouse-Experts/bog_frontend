@@ -10,6 +10,7 @@ import { BiEdit } from "react-icons/bi";
 import { PartnerProgress } from "./projects/Modal/PartnerProgress";
 import * as moment from 'moment'
 import { PartnerUpdates } from "./projects/Modal/PartnerUpdates";
+import { formatNumber } from "../../../../services/helper";
 
 export default function ProjectDetailsPartner() {
     const { search } = useLocation();
@@ -198,8 +199,26 @@ export default function ProjectDetailsPartner() {
                                 <div className="flex justify-between border-b border-gray-300 pb-4">
                                     <p className="fw-600">Paymet Status</p>
                                 </div>
-                                <div className="my-6">
-                                    <p className="text-center">No payment from admin</p>
+                                <div className="mb-6 mt-3">
+                                    <div className="flex flex-col">
+                                        {
+                                            project?.transactions?.payouts?.length > 0? 
+                                            project?.transactions?.payouts.map((item, index) => (
+                                                <div className="fw-500 border-b mt-3 pb-3" key={index}>
+                                                    <div className="flex items-center">
+                                                        <p className="text-gray-500">Amount:</p>
+                                                        <p className="pl-3">{"NGN" + formatNumber(item?.amount || "No Price")}</p>
+                                                    </div>
+                                                    <div className=" mt-2 flex items-center">
+                                                        <p className="text-gray-500">Date:</p>
+                                                        <p className="pl-3">{dayjs(item.createdAt).format("DD-MMM-YYYY")}</p>
+                                                    </div>
+                                                </div>
+                                            ))
+                                            :
+                                            <p>No Payment made yet</p>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>

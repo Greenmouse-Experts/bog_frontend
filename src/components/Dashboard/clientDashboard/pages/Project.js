@@ -173,7 +173,7 @@ export function ServiceProject({isLoading}) {
                             {isLoading ? <Loader size />
                                 :
                             <div className="px-5 mt-6">
-                                <div className="overflow-x-auto">
+                                <div className="overflow-x-auto pb-6">
                                     <table className="items-center w-full bg-transparent border-collapse">
                                         <thead className="thead-light bg-light">
                                             <tr>
@@ -202,7 +202,7 @@ export function ServiceProject({isLoading}) {
                                         </thead>
                                         <tbody>
                                             {
-                                                projects.length > 0 && projects.filter(where => where.status === "ongoing").map((item, index) => (
+                                                projects.length > 0? projects.filter(where => where.status === "ongoing").map((item, index) => (
                                                     <tr>
                                                         <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
                                                             {index +1 }
@@ -230,6 +230,8 @@ export function ServiceProject({isLoading}) {
                                                         </td>
                                                     </tr>
                                                 ))
+                                                :
+                                                <p className="my-6 text-center w-full">No Projects available</p>
                                             }
 
 
