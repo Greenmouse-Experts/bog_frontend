@@ -68,6 +68,7 @@ const AdminSidebar = () => {
   const [projectDrop, setProjectDrop] = useState(false);
   const [serviceDrop, setServiceDrop] = useState(false);
   const [settingsDrop, setSettingsDrop] = useState(false);
+  const [blogDrop, setBlogDrop] = useState(false);
   const [signOut, setSignOut] = useState(false);
 
   function CloseAll() {
@@ -77,6 +78,8 @@ const AdminSidebar = () => {
     setUserDrop(false);
     setProjectDrop(false);
     setServiceDrop(false);
+    setSettingsDrop(false)
+    setBlogDrop(false)
   }
   function CloseModal() {
     setSignOut(false);
@@ -132,6 +135,7 @@ const AdminSidebar = () => {
                       setProductDrop(false);
                       setOrderDrop(false);
                       setSettingsDrop(false);
+                      setBlogDrop(false)
                     }}
                   >
                     <p className="pl-3 pr-5">Users</p>
@@ -202,6 +206,7 @@ const AdminSidebar = () => {
                       setOrderDrop(false);
                       setUserDrop(false);
                       setSettingsDrop(false);
+                      setBlogDrop(false)
                     }}
                   >
                     <p className="pl-3 pr-5">Products</p>
@@ -243,6 +248,7 @@ const AdminSidebar = () => {
                       setProductDrop(false);
                       setUserDrop(false);
                       setSettingsDrop(false);
+                      setBlogDrop(false)
                     }}
                   >
                     <p className="pl-3 pr-5">Orders</p>
@@ -286,6 +292,7 @@ const AdminSidebar = () => {
                       setOrderDrop(false);
                       setUserDrop(false);
                       setSettingsDrop(false);
+                      setBlogDrop(false);
                     }}
                   >
                     <p className="pl-3 pr-5">Projects</p>
@@ -332,6 +339,7 @@ const AdminSidebar = () => {
                       setProductDrop(false);
                       setUserDrop(false);
                       setSettingsDrop(false);
+                      setBlogDrop(false)
                     }}
                   >
                     <p className="pl-3 pr-5">Services</p>
@@ -364,15 +372,49 @@ const AdminSidebar = () => {
             )}
 
             {user?.level === 1 || user?.level === 2 ? (
-              <NavLink
-                to="blog"
-                className="w-full flex items-center pl-2 py-2 fw-600 my-2"
+              <div
+                className="w-full items-center pl-2 py-2 fw-600 my-2"
                 onClick={unShow}
-                style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
-                <GrBlog className="text-lg" />
-                <p className="pl-3">Blog</p>
-              </NavLink>
+                <div className="flex" onClick={(e) => e.stopPropagation()}>
+                  <GrBlog className="text-lg" />
+                  <div
+                    className="flex items-center cursor-pointer"
+                    onClick={() => {
+                      setBlogDrop(true);
+                      setServiceDrop(false);
+                      setOrderDrop(false);
+                      setProjectDrop(false);
+                      setProductDrop(false);
+                      setUserDrop(false);
+                      setSettingsDrop(false);
+                    }}
+                  >
+                    <p className="pl-3">Blog</p>
+                    <BsFillCaretDownFill className="text-black ml-6" />
+                  </div>
+                </div>
+                {blogDrop && (
+                  <div className="lg:ml-9 ml-4 fs-400 pt-2">
+                    <NavLink
+                      to="blog"
+                      style={({ isActive }) =>
+                        isActive ? activeStyles : undefined
+                      }
+                    >
+                      <p className="py-2">Blogs</p>
+                    </NavLink>
+                    <NavLink
+                      to="blog-category"
+                      style={({ isActive }) =>
+                        isActive ? activeStyles : undefined
+                      }
+                    >
+                      <p className="py-2">Category</p>
+                    </NavLink>
+                  </div>
+                )}
+              </div>
             ) : (
               ""
             )}

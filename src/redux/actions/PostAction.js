@@ -51,6 +51,27 @@ export const getCategory = (payload) => {
     }
 }
 
+export const createCategory = (payload) => {
+    return {
+        type: ActionType.ADD_POST_CATEGORY,
+        payload
+    }
+}
+
+export const editCategory = (payload) => {
+    return {
+        type: ActionType.EDIT_POST_CATEGORY,
+        payload
+    }
+}
+
+export const deleteCategory = (payload) => {
+    return {
+        type: ActionType.DELETE_POST_CATEGORY,
+        payload
+    }
+}
+
 export const getAllBlogCategories = () => {
     return async (dispatch) => {
         try {
@@ -141,6 +162,125 @@ export const deleteBlogPost = (id) => {
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
+            }
+            else {
+                dispatch(setError(error.message));
+                toast.error(
+                    error.message,
+                    {
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
+                    }
+                );
+            }
+        }
+
+    }
+}
+
+export const createBlogCategory = (payload) => {
+    return async (dispatch) => {
+        try {
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    'authorization': localStorage.getItem("auth_token")
+                },
+            }
+            const url = `blog/create-category`
+            const response = await axios.post(url, payload, config);
+            console.log(response);
+            Swal.fire({
+                title: "Category Created",
+                text: "Category added successfully",
+                icon: "success"
+            })
+        } catch (error) {
+            if (error.message === 'Request failed with status code 401') {
+                window.location.href = '/';
+            }
+            else {
+                dispatch(setError(error.message));
+                toast.error(
+                    error.message,
+                    {
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
+                    }
+                );
+            }
+        }
+
+    }
+}
+
+export const editBlogCategory = (payload) => {
+    return async (dispatch) => {
+        try {
+            dispatch(loading());
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    'authorization': localStorage.getItem("auth_token")
+                },
+            }
+            const url = `/blog/update-category`
+            const response = await axios.put(url, payload, config);
+            console.log(response);
+            toast.success("Category edited succesfully")
+        } catch (error) {
+            if (error.message === 'Request failed with status code 401') {
+                window.location.href = '/';
+            }
+            else {
+                dispatch(setError(error.message));
+                toast.error(
+                    error.message,
+                    {
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
+                    }
+                );
+            }
+        }
+
+    }
+}
+
+export const deleteBlogCategory = (payload) => {
+    return async (dispatch) => {
+        try {
+            // dispatch(loading());
+            const config = {
+                method: 'delete',
+                url: `/blog/delete-category`,
+                headers: { 
+                    "Content-Type": "application/json",
+                    'authorization': localStorage.getItem("auth_token")
+                },
+                body: {
+                    categoryId: payload
+                }
+            }
+            // const url = `/blog/delete-category`
+            console.log(config);
+            const response = await axios(config);
+            toast.success("Category deleted succesfully")            
+            return response
+        } catch (error) {
+            if (error.message === 'Request failed with status code 401') {
+                window.location.href = '/';
+                toast.error(
+                    "Token epired, please login",
+                    {
+                        duration: 6000,
+                        position: "top-center",
+                        style: { background: '#BD362F', color: 'white' },
+                    }
+                );
             }
             else {
                 dispatch(setError(error.message));

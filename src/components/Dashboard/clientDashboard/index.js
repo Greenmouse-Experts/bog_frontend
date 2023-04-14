@@ -62,6 +62,7 @@ import AdminSub from "./pages/AdminSub";
 import ServicePartnerMeeting from "./pages/ServicePartnerMeeting";
 import ProjectDetailsPartner from "./pages/ProjectDetailsPartner";
 import RefundOrders from "./pages/RefundOrder";
+import BlogCategory from "./pages/BlogCat";
 
 export default function ClientDashboard() {
 
@@ -96,6 +97,7 @@ export default function ClientDashboard() {
                         <Route path="cart" element={<Cart />} />
                         <Route path="client" element={<Clients />} />
                         <Route path="blog" element={<Blog />} />
+                        <Route path="blog-category" element={<BlogCategory />} />
                         <Route path="createpost" element={<BlogPost />} />
                         <Route path="viewpost/:postId" element={<ViewBlog />} />
                         <Route path="editpost/:postId" element={<EditPost />} />

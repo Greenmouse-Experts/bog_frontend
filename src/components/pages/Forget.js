@@ -5,12 +5,15 @@ import Spinner from '../layouts/Spinner';
 import { forgetPasswordValidation } from '../../services/validation';
 import Axios from "../../config/config";
 import Swal from "sweetalert2";
-import toast from 'react-hot-toast';
+import { Alert } from "@material-tailwind/react";
 
 export default function Forget() {
 
   const [loading, setLoading] = useState(false);
-  const handleSubmit = (values,) => {
+  const [errorShow, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('')
+
+  const handleSubmit = (values) => {
     setLoading(true)
     console.log(values);
     const url = `/user/forgot-password?email=${values.email}`
@@ -24,14 +27,8 @@ export default function Forget() {
       })
     }).catch(error => {
       setLoading(false)
-      toast.error(
-        error.response.data.message,
-        {
-          duration: 6000,
-          position: "top-center",
-          style: { background: '#BD362F', color: 'white' },
-        }
-      );
+      setError(true)
+      setErrorMsg(error.response.data.message)
     })
   }
   const formik = useFormik({
@@ -58,6 +55,12 @@ export default function Forget() {
                 send you a link to reset your password.
               </p>
             </div>
+            <Alert show={errorShow}
+                dismissible={{
+                    onClose: () => setError(false),
+                }}
+                  color="red" className="mt-5"
+            >{errorMsg}</Alert>
             <div className="mt-8">
               <form onSubmit={formik.handleSubmit}>
                 <div className="w-full">
@@ -79,7 +82,7 @@ export default function Forget() {
 
                 <div className="mt-6 w-full flex">
 
-                  <button type="submit" className="w-full text-lg text-white bg-primary py-2 rounded fw-600">
+                  <button className="w-full text-lg text-white bg-primary py-2 rounded fw-600">
                     Get Link
                   </button>
                 </div>
