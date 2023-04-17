@@ -21,7 +21,7 @@ import "jspdf-autotable";
 import { useExportData } from "react-table-plugins";
 import Papa from "papaparse";
 import * as XLSX from 'xlsx'
-import { commenceProject, deleteUserProject, getCommitmentFee } from '../../../../redux/actions/ProjectAction';
+import { commenceProject, deleteUserProject, getCommitmentFee} from '../../../../redux/actions/ProjectAction';
 import Spinner, { Loader } from "../../../layouts/Spinner";
 import { BsExclamationCircleFill } from "react-icons/bs";
 import { usePaystackPayment } from "react-paystack";

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import {  deleteBlogCategory } from '../../../../../redux/actions/PostAction';
 
 
-const DeleteCategoryModal = ({ CloseModal, id }) => {
+const DeleteCategoryModal = ({ CloseModal, id, refreshCategory }) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
@@ -13,6 +13,7 @@ const DeleteCategoryModal = ({ CloseModal, id }) => {
         dispatch(deleteBlogCategory(id));
         setLoading(false)
         CloseModal()
+        refreshCategory()
     }
 
     return (

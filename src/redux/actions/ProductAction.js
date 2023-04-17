@@ -2,6 +2,7 @@ import * as ActionType from '../type';
 import axios from '../../config/config';
 import Swal from "sweetalert2";
 import toast from 'react-hot-toast';
+import Axios from '../../config/config';
 
 
 export const loading = () => {
@@ -569,8 +570,14 @@ export const addProductToStore = (productId, saveLoading, navigate) => {
     return async (dispatch) => {
         try {
             dispatch(loading());
-            const url = `/product/add-to-shop/${productId}`;
-            const response = await axios.patch(url);
+            const config = {
+                headers: {
+                    'Content-Type': "application/json",
+                    'authorization': localStorage.getItem("auth_token")
+                },
+            }
+            const url = `/product/add-to-shop/${productId}`
+            const response = await Axios.patch(url, config);
             console.log(response);
             const payload = {
                 productId,
@@ -594,7 +601,8 @@ export const addProductToStore = (productId, saveLoading, navigate) => {
         } catch (error) {
             saveLoading();
             if (error.message === 'Request failed with status code 401') {
-                toast.error('Please refresh and try again')
+                toast.error('Please try again')
+                window.location.reload();
             }
             else {
                 dispatch(setError(error.message));
@@ -616,9 +624,15 @@ export const ApproveProduct = (payload, stopLoading, navigate) => {
         try {
             dispatch(loading());
             const url = `product/admin/approve-product`;
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'authorization': localStorage.getItem("auth_token")
+                },
+            }
             const response = await axios.post(url, payload);
             stopLoading();
-            dispatch(UpdateAdminProductStatus(payload));
+            dispatch(UpdateAdminProductStatus(payload, config));
             Swal.fire({
                 title: "Success",
                 imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
@@ -635,7 +649,8 @@ export const ApproveProduct = (payload, stopLoading, navigate) => {
         } catch (error) {
             stopLoading();
             if (error.message === 'Request failed with status code 401') {
-                toast.error('Please refresh and try again')
+                toast.error('Please try again')
+                window.location.reload();
             }
             else {
                 dispatch(setError(error.message));

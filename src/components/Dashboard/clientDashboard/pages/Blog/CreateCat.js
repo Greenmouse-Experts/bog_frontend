@@ -3,10 +3,9 @@ import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Spinner from '../../../../layouts/Spinner';
-import { createBlogCategory, getCategory } from '../../../../../redux/actions/PostAction';
-// import Spinner from '../../../../../layouts/Spinner';
+import { createBlogCategory} from '../../../../../redux/actions/PostAction';
 
-const CreateCategoryModal = ({ CloseModal }) => {
+const CreateCategoryModal = ({ CloseModal, refreshCategory }) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
@@ -22,6 +21,7 @@ const CreateCategoryModal = ({ CloseModal }) => {
         dispatch(createBlogCategory(payload, stopLoading));
         setLoading(false)
         CloseModal()
+        refreshCategory()
     }
     const formik = useFormik({
         initialValues: {

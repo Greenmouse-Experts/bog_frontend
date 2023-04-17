@@ -261,8 +261,8 @@ export const deleteBlogCategory = (payload) => {
                     "Content-Type": "application/json",
                     'authorization': localStorage.getItem("auth_token")
                 },
-                body: {
-                    categoryId: payload
+                data: {
+                    "categoryId": payload
                 }
             }
             // const url = `/blog/delete-category`

@@ -24,6 +24,8 @@ export default function BlogCategory() {
 
     const categories = useSelector((state) => state.blog.categories);
 
+    const refreshCategory = () => { dispatch(getAllBlogCategories(stopLoading)) } 
+
     useEffect(() => {
         setLoading(true);
         dispatch(getAllBlogCategories(stopLoading))
@@ -90,13 +92,13 @@ export default function BlogCategory() {
                 </div>
             </div>
             {adminAdd && (
-                <CreateCategoryModal CloseModal={CloseModal} />
+                <CreateCategoryModal refreshCategory={refreshCategory} CloseModal={CloseModal} />
             )}
             {adminEdit && (
                 <EditCategoryModal selectedItem={selectedItem} CloseModal={CloseModal} />
             )}
             {adminDelete && (
-                <DeleteCategoryModal id={selectedItem} CloseModal={CloseModal} />
+                <DeleteCategoryModal refreshCategory={refreshCategory} id={selectedItem} CloseModal={CloseModal} />
             )}
         </div>
     )
