@@ -7,6 +7,10 @@ import { Breadcrumbs } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import moment from "moment";
+import { FcCalendar } from "react-icons/fc";
+import { MdVerified } from "react-icons/md";
+import { getUserType } from "../../../../services/helper";
 
 export default function Settings() {
   const auth = useSelector((state) => state.auth);
@@ -59,27 +63,77 @@ export default function Settings() {
             </Tabs>
           </div>
           {
-            auth?.user?.userType === "admin" || auth?.user?.userType === "private_client" || auth?.user?.userType === "corporate_client"? 
+            auth?.user?.userType === "admin" ? 
             ""
             :
             <div>
               <div className="bg-white w-full py-6 lg:px-6 px-3 rounded-lg mt-6">
-                <p className="fs-700 fw-600">Your Account Status</p>
-                <div className="flex py-6">
-                  <p className="px-4 py-2 bg-green-500 fw-600 fs-400 text-white rounded-lg">Email Verified</p>
-                  <p className="px-4 py-2 bg-orange-500 fw-600 fs-400 text-white rounded-lg ml-5"> {auth?.user?.profile?.isVerified ? `KYC Point: ${auth?.user?.profile?.kycPoint}`: 'KYC Pending'} </p>
-                  <p className="px-4 py-2 ml-3 bg-blue-500 fw-500 fs-200 text-white rounded-lg">{auth?.user?.profile?.hasActiveSubscription ? `Subscribed`: 'Subscription Pending'}</p>
+                <div>
+                  <img 
+                    src={auth?.user?.photo? auth?.user?.photo : ""}
+                    alt="profilephoto"
+                    className="w-24 h-24 circle shadow  mx-auto"
+                  />
+                  <div className="flex justify-center fw-500 mt-4">
+                    <p>{auth?.user?.fname} {auth?.user?.lname}</p>
+                  </div>
+                  <div className="text-center">
+                    <span className="mt-2 inline-block px-6 py-1 rounded-lg bg-green-400 text-white fw-600 ">{getUserType(auth?.user?.profile?.userType)}</span>
+                  </div>
+                  <div className="text-center mt-2">
+                    <p className="fw-500 text-primary flex justify-center items-center"><FcCalendar className="mr-1 text-lg"/>Joined {moment(auth?.user?.createdAt).fromNow()}</p>
+                  </div>
                 </div>
+                {
+                   auth?.user?.userType === "vendor" ||  auth?.user?.userType === "professional"?
+                   <div>
+                      <div className="border-b mt-4">
+                        <p className="fs-700 fw-500">Account Status</p>
+                      </div>
+                      <div className="mt-5">
+                        <div className="flex gap-x-4">
+                          <p className="text-gray-600 fw-500">Email:</p>
+                          <p className="flex items-center gap-x-2 fw-600 text-primary">Verified <MdVerified/></p>
+                        </div>
+                      </div>
+                      <div className="mt-3">
+                        <div className="flex gap-x-4">
+                          <p className="text-gray-600 fw-500">KYC:</p>
+                          {
+                            auth?.user?.profile?.isVerified ?
+                            <p className="flex items-center gap-x-2 fw-600 text-primary"><MdVerified/>  {auth?.user?.profile?.kycPoint} KYC Point</p>
+                            :
+                            <p className="fw-500 text-red-600">Not Verified</p>
+                          }
+                        </div>
+                      </div>
+                      <div className="mt-3">
+                        <div className="flex gap-x-4">
+                          <p className="text-gray-600 fw-500">Subscribtion:</p>
+                          {
+                            auth?.user?.profile?.hasActiveSubscription ?
+                            <p className="flex items-center gap-x-2 fw-600 text-primary"><span className="bg-secondary text-white px-3 rounded">Active</span>Expires {moment().to(auth?.user?.profile?.expiredAt)}</p>
+                            :
+                            <p className="fw-600 bg-red-600 px-3 rounded text-white">Inactive</p>
+                          }
+                        </div>
+                      </div>
+                   </div>
+                   :
+                   ""
+                }
               </div>
-              {
+              {auth?.user?.userType === "vendor" ||  auth?.user?.userType === "professional"?
                 !auth?.user?.profile?.isVerified &&
-              <div className="bg-white w-full py-6 lg:px-6 px-3 rounded-lg mt-6">
-                <p className="fs-700 fw-600">Identity Verification - KYC</p>
-                <p className="mt-4">To comply with regulation, participant will have to go through indentity verification.</p>
-                <p className="mb-6 mt-3">You have not submitted your KYC application to verify your indentity.</p>
-                <button className="btn-primary" onClick={() => {navigate("/dashboard/kyc")}}>Click to Proceed</button>
-                <p className="mt-7 text-red-600">* KYC verification required for verification badge</p>
-              </div>
+                <div className="bg-white w-full py-6 lg:px-6 px-3 rounded-lg mt-6">
+                  <p className="fs-700 fw-600">Identity Verification - KYC</p>
+                  <p className="mt-4">To comply with regulation, participant will have to go through indentity verification.</p>
+                  <p className="mb-6 mt-3">You have not submitted your KYC application to verify your indentity.</p>
+                  <button className="btn-primary" onClick={() => {navigate("/dashboard/kyc")}}>Click to Proceed</button>
+                  <p className="mt-7 text-red-600">* KYC verification required for verification badge</p>
+                </div>
+                :
+                ""
                 }
                 {
                   auth?.user?.userType === "admin" || auth?.user?.userType === "private_client" || auth?.user?.userType === "corporate_client" ?

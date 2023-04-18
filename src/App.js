@@ -6,10 +6,7 @@ import SignupIndex from './components/pages/SignupIndex';
 import Homepage from './components/pages/Homepage';
 import Forget from './components/pages/Forget';
 import Userauth from './components/pages/Emailauth';
-// import Alert from './components/layouts/Alert';
-// import { getMe } from './redux/actions/authAction';
 import setAuthToken from './config/setAuthHeader';
-// import Dashboard from './components/Dashboard/Dashboard';
 import ResetPassword from './components/pages/ResetPassword';
 
 import ClientDashboard from './components/Dashboard/clientDashboard';
@@ -33,7 +30,7 @@ import { OrderSuccess } from './components/pages/OrderSuccess';
 import { BAP } from './components/pages/BAP';
 import Refund from './components/pages/Refund';
 import { Protected } from './components/Routes/ProtectedRoute';
-// import { Protected } from './components/Routes/ProtectedRoute';
+import { NotFound } from './components/pages/NotFound';
 
 if (localStorage.auth_token) {
   setAuthToken(localStorage.auth_token);
@@ -77,6 +74,9 @@ function App() {
 
         <Route path='/dashboard/*' element={<Protected><ClientDashboard /></Protected>} />
         <Route path='/admin' element={<AdminLogin />} />
+
+        {/* 404 */}
+        <Route path='*' element={<NotFound/>}/>
       </Routes>
     </div>
 
