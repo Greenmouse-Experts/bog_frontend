@@ -8,10 +8,7 @@ import {
 } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-// import Spinner from '../../../layouts/Spinner';
 import ActionFeedBack from "./Modals/ActionFeedBack";
-// import ApproveModal from "./Modals/ApproveModal";
-// import CancelModal from "./Modals/CancelModal";
 import AddressDeleteModal from "./Modals/AddressDeleteModal";
 import AddressInfoModal from "./Modals/AddressInfoModal";
 

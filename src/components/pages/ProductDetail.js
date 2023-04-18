@@ -23,6 +23,7 @@ import { Alert } from "@material-tailwind/react";
 
 export default function ProductDetail() {
 
+    // eslint-disable-next-line 
     const products = useSelector((state) => state.products.products);
     const [cartNum, setCartNum] = useState(1)
     const dispatch = useDispatch()
@@ -52,7 +53,7 @@ export default function ProductDetail() {
     }
 
     const navigate = useNavigate()
-    const [itemAdded, setItemAdded] = useState(false)
+    const [itemAdded, setItemAdded] = useState(false) // eslint-disable-next-line 
     const [similarProducts, setSimilarProducts] = useState([]);
     const user =useSelector((state) => state.auth.user)
     const [show, setShow] = useState(false);
@@ -70,8 +71,8 @@ export default function ProductDetail() {
         dispatch(getProducts())
         if (item != null) {
             setMaxQuantity(item.remaining)
-            const similar = products.filter(where => where.category.id === item.category.id).filter(prod => prod.id != item.id);
-            setSimilarProducts(similar)
+            // const similar = products.filter(where => where.category.id === item.category.id).filter(prod => prod.id != item.id);
+            // setSimilarProducts(similar)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [item, !loading])
