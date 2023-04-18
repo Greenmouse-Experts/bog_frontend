@@ -69,7 +69,10 @@ export const UploadDoc = ({
       });
 
       const authToken = localStorage.getItem("auth_token");
-      const kycScore_ = {...kycScore, uploadDocument: kycScore.uploadDocument + 1}
+      const kycScore_ = {
+        ...kycScore,
+        uploadDocument: kycScore.uploadDocument + 1,
+      };
       await Axios.patch(
         `/user/update-account`,
         {
@@ -84,8 +87,7 @@ export const UploadDoc = ({
         }
       );
 
-      setFormData({})
-
+      setFormData({});
     }
   };
   let newValue = {};
@@ -247,10 +249,28 @@ export const UploadDoc = ({
     return { total, score };
   };
 
-  const loadData__ = () => {
+  const loadData__ = async () => {
     const auto = formScoreAuto();
+    console.log(auto);
     setKycTotal({ ...kycTotal, uploadDocument: auto.total });
     setKycScore({ ...kycScore, uploadDocument: auto.score });
+    const authToken = localStorage.getItem("auth_token");
+
+
+    await Axios.patch(
+      `/user/update-account`,
+      {
+        kycScore: JSON.stringify({...kycScore, uploadDocument: auto.score}),
+        kycTotal: JSON.stringify({ ...kycTotal, uploadDocument: auto.total }),
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+      }
+    );
+    
   };
 
   useEffect(() => {
