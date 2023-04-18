@@ -3,12 +3,11 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { MessageModal } from "./MessageModal";
-// import { RiDeleteBin5Line } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import useFetchHook from "../../../../../hooks/useFetchHook";
 import { Loader } from "../../../../layouts/Spinner";
 import { cutText, getUserTypeRevserse } from "../../../../../services/helper";
-import dayjs from "dayjs";
+import moment from "moment";
 
 export default function UserInbox() {
 
@@ -75,12 +74,9 @@ export default function UserInbox() {
                                     <div className="lg:w-7/12">
                                         <p> { cutText(item.content, 80, "...") } </p>
                                     </div>
-                                    <div className="lg:w-1/12">
-                                        <p> {dayjs(item.createdAt).format("DD-MMM-YYYY HH:mm")} </p>
+                                    <div className="lg:w-2/12">
+                                        <p className="fs-400"> {moment(item.createdAt).format("MMMM Do YYYY , h:mm a")}{" "} </p>
                                     </div>
-                                    {/* <div className="w-6 h-6 absolute right-3 circle bg-gray-300 grid place-content-center text-red-600 hidden group-hover:grid" onClick={e => e.stopPropagation()}>
-                                        <RiDeleteBin5Line />
-                                    </div> */}
                                 </div>
                             ))
                         }

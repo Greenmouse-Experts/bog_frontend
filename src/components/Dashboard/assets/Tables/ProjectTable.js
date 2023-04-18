@@ -21,7 +21,7 @@ import "jspdf-autotable";
 import { useExportData } from "react-table-plugins";
 import Papa from "papaparse";
 import * as XLSX from 'xlsx'
-import { commenceProject, deleteUserProject, getCommitmentFee } from '../../../../redux/actions/ProjectAction';
+import { commenceProject, deleteUserProject, getCommitmentFee} from '../../../../redux/actions/ProjectAction';
 import Spinner, { Loader } from "../../../layouts/Spinner";
 import { BsExclamationCircleFill } from "react-icons/bs";
 import { usePaystackPayment } from "react-paystack";
@@ -152,13 +152,13 @@ export default function ProjectTable({ status, isLoader }) {
       case "disapproved":
         return <p className="px-2 py-1 text-red-700 bg-red-100 w-28 rounded-md fw-600">Cancelled</p>
       case "pending":
-        return <p className="px-2 py-1 w-24 rounded-md fw-600">Pending</p>
+        return <p className="px-2 py-1 w-24 rounded-md fw-600 bg-yellow-100 text-yellow-700">Pending</p>
       case "completed":
         return <p className="px-2 py-1 w-24 rounded-md fw-600">Completed</p>
       case "ongoing":
-        return <p className="px-2 py-1 w-24 text-blue-700 rounded-md fw-600">Ongoing</p>
-      case "draft":
-        return "Draft"
+        return <p className="px-2 py-1 w-24 bg-orange-100 text-orange-700 rounded-md fw-600">Ongoing</p>
+      case "closed":
+        return <p className="px-2 py-1 w-24 text-red-700 bg-red-100 rounded-md fw-600">Closed</p>
       default: return status
     }
 
@@ -244,13 +244,18 @@ export default function ProjectTable({ status, isLoader }) {
 
       },
       {
-        Header: "Project Status	",
-        accessor: "status",
+        Header: "Approval Status",
+        accessor: "approvalStatus",
         Cell: (props) => {
           const {approvalStatus} = props.cell.row.original;
           // console.log(approvalStatus)
           return formatStatus(approvalStatus)
         }
+      },
+      {
+        Header: "Project Status",
+        accessor: "status",
+        Cell: (props) => formatStatus(props.value)
       },
       {
         Header: "Due Date",

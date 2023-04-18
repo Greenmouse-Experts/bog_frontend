@@ -240,7 +240,7 @@ export default function Shop() {
                                     loading ? <Spinner /> :
                                         <div>
                                             {/* <AllProducts products={show ? productCategory : products} /> */}
-                                            <ProductItems itemsPerPage={6} products={show ? productCategory : products} />
+                                            <ProductItems itemsPerPage={9} products={show ? productCategory : products} />
                                         </div>
                                 }
                             </div>

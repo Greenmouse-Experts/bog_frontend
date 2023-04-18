@@ -16,28 +16,13 @@ import { FaRegHandPointRight } from "react-icons/fa";
 import { getProjects } from "../../../redux/actions/ProjectAction";
 import { getUsers, getUsersAnalyze } from "../../../redux/actions/UserAction";
 import { Loader } from "../Spinner";
+import { FinanceChart } from "../../Dashboard/assets/FinanceChart";
+import { getStatus } from "../../../services/helper";
 // import Moment from 'react-moment';
 
 
 export default function AdminDashboard(status) {
     const user = useSelector((state) => state.auth.user);
-    const formatStatus = (status) => {
-        switch (status) {
-            case "in_review":
-                return "In Review"
-            case "approved":
-                return "Approved"
-            case "disapproved":
-                return "Disapproved"
-            case "pending":
-                return "Pending"
-            case "draft":
-                return "Draft"
-
-            default: return status
-        }
-
-    }
 
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
@@ -242,6 +227,9 @@ export default function AdminDashboard(status) {
                 </div>
             </div>
         </div>
+        <div className="mt-8 p-6 bg-white rounded">
+            <FinanceChart/>
+        </div>
         {/*order table*/}
         <div className="mt-7">
             <div className=" fw-600 fs-500 bg-white pt-6 rounded">
@@ -302,12 +290,7 @@ export default function AdminDashboard(status) {
                                                 NGN {formatNumber(item.totalAmount)}
                                             </td>
                                             <td className="border-b text-blue-600 border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                {formatStatus(item.status)}
-                                            </td>
-                                            <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                <div className="flex text-xl">
-                                                    {/* <p className="bg-orange-100" onClick={() => gotoDetailsPage(item.id)}><BsThreeDotsVertical /></p> */}
-                                                </div>
+                                                {getStatus(item.status)}
                                             </td>
                                         </tr>
                                     )

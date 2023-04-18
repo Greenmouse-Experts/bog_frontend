@@ -19,10 +19,10 @@ const Spinner = () => {
 
 export default Spinner;
 
-export const Spinner2 = () => {
+export const Spinner2 = ({size}) => {
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1676023431/BOG/spinner2-unscreen_1_yqjgi9.gif' className="w-4/12 mx-auto" alt='spinner'/>
+      <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1676023431/BOG/spinner2-unscreen_1_yqjgi9.gif' className={size? "w-11/12 lg:w-6/12 mx-auto" : "w-4/12 mx-auto"} alt='spinner'/>
     </div>
   )
 }

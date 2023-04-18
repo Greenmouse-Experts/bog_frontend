@@ -7,6 +7,7 @@ import 'react-phone-input-2/lib/style.css'
 import axios from "axios";
 import { useFormik } from "formik";
 import { Spinner2 } from "../layouts/Spinner";
+import { toast } from "react-hot-toast";
 
 
 
@@ -21,20 +22,21 @@ export default function Contact(){
     const handleSubmit = async (values) => {
         try{
             setLoading(true)
+            setDisableBtn(true)
             console.log(values);
             const paylaod = {
                 ...values,
                 captcha: captchaRef.current.getValue(),
             }
             const response = await axios.post(`${process.env.REACT_APP_URL }/user/contact-admin`, paylaod )
-            setDisableBtn(true)
-            alert(response.message)
+            toast.success(response.data.message)
             setLoading(false)
+            setDisableBtn(false)
             return response
         }catch(error){
             console.log(error)
             setLoading(false)
-            alert(error.response.data.message)
+            toast.error(error.response.data.message)
         }
     }
 

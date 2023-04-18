@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { usePaystackPayment } from 'react-paystack';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Axios from '../../../../../config/config';
 import { formatNumber } from '../../../../../services/helper'
@@ -11,7 +10,6 @@ export const InstallPayment = ({item, index, id}) => {
 
     const user = useSelector(state => state.auth.user)
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
     console.log(item)
     const config = {
         reference:  "TR-" + Math.floor((Math.random() * 1000000000) + 1),
@@ -60,9 +58,7 @@ export const InstallPayment = ({item, index, id}) => {
                 buttonsStyling: "false",
                 confirmButtonText: 'Continue',
                 confirmButtonColor: "#3F79AD",
-            }).then(function () {
-                navigate("/dashboard");
-            });
+            })
 
         } catch (error) {
             setLoading(false);
@@ -70,7 +66,7 @@ export const InstallPayment = ({item, index, id}) => {
             Swal.fire({
                 title: "Error",
                 icon: "error",
-                text: "Unable to Finish subscription. Please contact administrator"
+                text: "Unable to Finish Payment. Please contact administrator"
             })
         }
 

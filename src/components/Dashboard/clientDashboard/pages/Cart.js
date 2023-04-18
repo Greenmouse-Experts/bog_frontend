@@ -1,25 +1,23 @@
+ /* eslint-disable */
 import { Breadcrumbs } from "@material-tailwind/react";
 // import React from "react";
-import { PaystackButton } from "react-paystack";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { clearCart } from "../../../../redux/actions/cartAction";
 import CartItems from "./CartItems";
-import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
-import { SuccessAlert } from "../../../../services/endpoint";
-import toast from 'react-hot-toast';
 import { Loader } from "../../../layouts/Spinner";
-import Axios from "../../../../config/config";
 import React, { useState, useEffect } from "react";
+import { FaTimes } from 'react-icons/fa'
+import { CartModal } from "../../../pages/cart/CartModal";
 
 export default function Cart() {
-    const dispatch = useDispatch();
     const carts = useSelector((state) => state.cart.cart);
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
-    const auth = useSelector((state) => state.auth);
-    const navigate = useNavigate();
+    const[cartForm, setCartForm] = useState(false)
+
+  const CloseModal = () => {
+    setCartForm(false)
+  }
 
     const formatNumber = (number) => {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -28,17 +26,17 @@ export default function Cart() {
     carts.forEach(cart => {
         totalAmount += cart.price * cart.quantity
     });
-    const form = useFormik({
-        initialValues: {
-            city: "",
-            state: "",
-            country: "",
-            postal_code: "",
-            address: "",
-        },
-    });
-    const { city, state, country, postal_code, address } = form.values;
-    const value = form.values;
+    // const form = useFormik({
+    //     initialValues: {
+    //         city: "",
+    //         state: "",
+    //         country: "",
+    //         postal_code: "",
+    //         address: "",
+    //     },
+    // });
+    // const { city, state, country, postal_code, address } = form.values;
+    // const value = form.values;
     let productsArray = carts.map((option) => {
         let prodInfo = {};
         prodInfo.productId = `${option.id}`;
@@ -50,67 +48,6 @@ export default function Cart() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const sendOrder = async (payment) => {
-        try {
-            setLoading(true);
-            const payload = {
-                products: products,
-                shippingAddress: {
-                    city: value.city,
-                    state: value.state,
-                    country: value.country,
-                    postal_code: value.postal_code,
-                    address: value.address,
-                },
-                paymentInfo: {
-                    reference: payment.reference,
-                    amount: totalAmount,
-                },
-                discount: 0,
-                deliveryFee: 0,
-                totalAmount: totalAmount,
-            };
-            console.log(payload);
-            const config = {
-                headers: {
-                    "Content-Type": "Application/json",
-                    authorization: localStorage.getItem("auth_token"),
-                },
-            };
-            await Axios.post("/orders/submit-order", payload, config);
-            setLoading(false);
-            SuccessAlert("Order in Progress!");
-        } catch (error) {
-            setLoading(false);
-            if (error.response.data.message) {
-                toast.error(
-                    error.response.data.message,
-                    {
-                        duration: 6000,
-                        position: "top-center",
-                        style: { background: '#BD362F', color: 'white' },
-                    }
-                );
-                return;
-            }
-            toast.error(
-                error.response.data.message,
-                {
-                    duration: 6000,
-                    position: "top-center",
-                    style: { background: '#BD362F', color: 'white' },
-                }
-            );
-        }
-    };
-    const handlePaystackSuccessAction = (reference) => {
-        console.log(reference);
-        sendOrder(reference);
-        dispatch(clearCart())
-    }
-    const handlePaystackCloseAction = () => {
-        console.log('incorrect transaction');
-    }
 
     if (loading) {
         return (
@@ -120,18 +57,6 @@ export default function Cart() {
         );
     }
 
-    const config = {
-        reference: "TR-" + (new Date()).getTime().toString(),
-        email: "user@example.com",
-        amount: totalAmount,
-        publicKey: 'pk_test_0c79398dba746ce329d163885dd3fe5bc7e1f243',
-    };
-    const componentProps = {
-        ...config,
-        // text: 'Paystack Button Implementation',
-        onSuccess: (reference) => handlePaystackSuccessAction(reference),
-        onClose: handlePaystackCloseAction,
-    };
 
 
     return (
@@ -174,153 +99,71 @@ export default function Cart() {
                         </div>
                         {
                             totalAmount > 0 ?
-                                <div className="mt-8 lg:mt-0">
-                                    <div className="bg-white px-4 lg:px-8 py-6 rounded-md">
-                                        <p className="text-lg fw-600">Cart Summary</p>
-                                        <form onSubmit={form.handleSubmit}>
-                                            <div className="w-full mt-2">
-                                                <label className="block">City</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder="enter your city"
-                                                    className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
-                                                    name="city"
-                                                    required
-                                                    id="city"
-                                                    value={city}
-                                                    onChange={form.handleChange}
-                                                    onBlur={form.handleBlur}
-                                                />
-                                                {form.touched.city && form.errors.city ? (
-                                                    <p className="text-red-500">{form.errors.city}</p>
-                                                ) : null}
+                                    <div className="relative mt-8 lg:mt-0 ">
+                                      <div className="rounded-md bg-blue-100 shadow-md py-5 px-3 lg:px-5 sticky top-24">
+                                        <div class="grid">
+                                          <p class="text-2xl fw-600">Order Summary</p>
+                                          <div className="py-5 border-y border-gray-400 mt-6">
+                                            <div className="fw-600 flex justify-between">
+                                              <p>
+                                                ITEMS <span className="px-2"></span>
+                                              </p>
+                                              <p>{carts.length}</p>
                                             </div>
-                                            <div className="w-full mt-2">
-                                                <label className="block">State</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder="enter your state"
-                                                    className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
-                                                    name="state"
-                                                    required
-                                                    id="state"
-                                                    value={state}
-                                                    onChange={form.handleChange}
-                                                    onBlur={form.handleBlur}
-                                                />
-                                                {form.touched.state && form.errors.state ? (
-                                                    <p className="text-red-500">{form.errors.state}</p>
-                                                ) : null}
-                                            </div>
-                                            <div className="w-full mt-2">
-                                                <label className="block">Country</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder="enter your country"
-                                                    className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
-                                                    name="country"
-                                                    required
-                                                    id="country"
-                                                    value={country}
-                                                    onChange={form.handleChange}
-                                                    onBlur={form.handleBlur}
-                                                />
-                                                {form.touched.country && form.errors.country ? (
-                                                    <p className="text-red-500">
-                                                        {form.errors.country}
-                                                    </p>
-                                                ) : null}
-                                            </div>
-                                            <div className="w-full mt-2">
-                                                <label className="block">Postal Code</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder="enter your city"
-                                                    className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
-                                                    name="postal_code"
-                                                    required
-                                                    id="postal_code"
-                                                    value={postal_code}
-                                                    onChange={form.handleChange}
-                                                    onBlur={form.handleBlur}
-                                                />
-                                                {form.touched.postal_code &&
-                                                    form.errors.postal_code ? (
-                                                    <p className="text-red-500">
-                                                        {form.errors.postal_code}
-                                                    </p>
-                                                ) : null}
-                                                <label className="block">Address</label>
-
-                                                <input
-                                                    type="text"
-                                                    placeholder="enter your address"
-                                                    className="w-full mt-2 py-2 px-2 border-gray-400 rounded border"
-                                                    name="address"
-                                                    required
-                                                    id="address"
-                                                    value={address}
-                                                    onChange={form.handleChange}
-                                                    onBlur={form.handleBlur}
-                                                />
-                                                {form.touched.address && form.errors.address ? (
-                                                    <p className="text-red-500">
-                                                        {form.errors.address}
-                                                    </p>
-                                                ) : null}
-                                            </div>
+                                          </div>
+                                          <div className="fw-600 mt-3 flex justify-between">
+                                            <p>
+                                              Subtotal
+                                            </p>
+                                            <p className="text-end">NGN {formatNumber(totalAmount)}</p>
+                                          </div>
+                                          <div className="fw-600 mt-3 flex justify-between">
+                                            <p>
+                                              Estimated Delivery Cost
+                                            </p>
+                                            <p>TBD</p>
+                                          </div>
+                                          <div className="fw-600 mt-3 flex justify-between">
+                                            <p>
+                                              Estimated Sales Tax
+                                            </p>
+                                            <p>TBD</p>
+                                          </div>
+                                          <form >
+                                            
                                             <div className="fw-600 my-4">
-                                                <div className="flex justify-between my-4">
-                                                    <p>TOTAL COST</p>
-                                                    <p>NGN {formatNumber(totalAmount)}</p>
-                                                </div>
-
-                                                {auth.isAuthenticated ?
-                                                    (value.address !== null && value.address !== '') ? (
-
-
-                                                        <PaystackButton
-
-                                                            text="CHECKOUT"
-                                                            label="CHECKOUT"
-                                                            className="w-full btn bg-primary text-white"
-                                                            {...componentProps}
-                                                        />
-                                                    ) : <button
-                                                        // onClick={() => navigate("/login")}
-                                                        className="w-full btn bg-primary text-white"
-                                                    >
-                                                        CHECKOUT
-                                                    </button>
-                                                    : (
-                                                        <button
-                                                            onClick={() => navigate("/login")}
-                                                            className="w-full btn bg-primary text-white"
-                                                        >
-                                                            LOGIN
-                                                        </button>
-                                                    )}
-                                            </div>
-                                        </form>
-                                        {/* <div className="my-2 py-4 border-t border-b">
-                                            <div className="flex justify-between fw-600 fs-700">
-                                                <p>Subtotal</p>
+                                              <div className="flex justify-between my-4">
+                                                <p>TOTAL COST</p>
                                                 <p>NGN {formatNumber(totalAmount)}</p>
+                                              </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>setCartForm(true)}
+                                                    className="w-full cursor-pointer text-center btn bg-primary text-white"
+                                                  >
+                                                    PROCEED TO CHECKOUT
+                                                </button>
                                             </div>
-                                            <p className="pt-2 fs-400">Delivery fees not included yet</p>
-
-                                        </div> 
-                                        <div className="py-4">
-                                            {/* <button className="w-full rounded-md text-white fw-600 py-2 bg-secondary">CHECKOUT (NGN {formatNumber(totalAmount)})</button> */}
-                                        {/* <PaystackButton text={`CHECKOUT`} label='CHECKOUT' className='w-full btn bg-primary text-white' {...componentProps} /> */}
-                                        {/* </div> */}
+                                          </form>
+                  
+                                        </div>
+                                      </div>
                                     </div>
-                                </div>
                                 : null
                         }
                     </div>
                 </div>
             </div>
+            {
+                cartForm && (
+                    <div className="bg-op fixed z-50 top-0 h-screen w-full flex justify-center items-center"  onClick={CloseModal}>
+                        <div className="max-h-103 p-5 lg:p-10 bg-white w-11/12 lg:w-6/12 relative overflow-y-scroll " onClick={(e) => e.stopPropagation()}>
+                        <FaTimes className="text-2xl cursor-pointer absolute top-5 right-5" onClick={CloseModal} />
+                        <CartModal CloseModal={CloseModal} />
+                        </div>
+                    </div>
+                )
+            }
         </div>
     )
 }

@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { RiDeleteBinLine } from "react-icons/ri";
-// import Swal from 'sweetalert2';
-// import Axios from '../../../../../config/config';
-// import toaster from "toasted-notes";
 import "toasted-notes/src/styles.css";
 import Spinner from '../../../../layouts/Spinner';
 import { useDispatch } from 'react-redux';

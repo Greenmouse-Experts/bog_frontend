@@ -83,7 +83,7 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export default function UserOrderTable({status, loader}){
+export default function UserOrderTable({status, loader, cancelOrder, refundOrder, refundTab}){
   // let adminOrders = useSelector((state) => state.orders.adminOrders);
       let userOrders = useSelector((state) => state.orders.userOrders);
 
@@ -100,7 +100,7 @@ export default function UserOrderTable({status, loader}){
     const formatStatus = (status) => {
       switch (status) {
           case "in_review":
-              return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-24 rounded-md fw-600">Ongoing</p>
+              return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-32 rounded-md fw-600">Ongoing</p>
           case "approved":
               return <p className="px-2 py-1 text-green-700 bg-green-100 w-24 rounded-md fw-600">Approved</p>
           case "completed":
@@ -109,12 +109,28 @@ export default function UserOrderTable({status, loader}){
             return <p className="px-2 py-1 text-red-700 bg-red-100 w-28 rounded-md fw-600">Cancelled</p>
           case "pending":
               return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-24 rounded-md fw-600">Pending</p>
+            case "cancelled":
+              return <p className="px-2 py-1 text-red-700 bg-red-100 w-28 rounded-md fw-600">Cancelled</p>
           case "draft":
               return "Draft"
           default: return status
       }
 
   }
+  const RefundStatus = (refundStatus) => {
+    switch (refundStatus) {
+        case "not refunded":
+            return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-32 rounded-md fw-600">Not Refunded</p>
+        case "refunded":
+            return <p className="px-2 py-1 text-green-700 bg-green-100 w-32 rounded-md fw-600">Refunded</p>
+        case "request refund":
+            return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-32 rounded-md fw-600">Pending</p>
+          case "cancelled":
+            return <p className="px-2 py-1 text-red-700 bg-red-100 w-28 rounded-md fw-600">Cancelled</p>
+        default: return status
+    }
+
+}
 
 
     const columns = useMemo(
@@ -149,6 +165,13 @@ export default function UserOrderTable({status, loader}){
             accessor: "status",
             Cell: (props) => formatStatus(props.value)
           },
+          ...(refundTab? [
+            {
+              Header: "Refund Status",
+              accessor: "refundStatus",
+              Cell: (props) => RefundStatus(props.value)
+            }
+         ] : []),
           {
             Header: 'Action',
             accessor: 'id',
@@ -158,6 +181,18 @@ export default function UserOrderTable({status, loader}){
                             </MenuHandler>
                             <MenuList className="w-16 bg-gray-100 fw-600 text-black">
                               <MenuItem onClick={() => gotoDetailsPage(row.value)}>View Details</MenuItem>
+                              {
+                                row.row.original.status === "pending"?
+                                <MenuItem className="bg-red-500 text-white hover:bg-red-600" onClick={() => cancelOrder(row.value)}>Cancel Order</MenuItem>
+                                :
+                                ""
+                              }
+                              {
+                                row.row.original.status === "cancelled" && refundTab?
+                                <MenuItem className="bg-red-500 text-white hover:bg-red-600" onClick={() => refundOrder(row.value)}>Request Refund</MenuItem>
+                                :
+                                ""
+                              }
                             </MenuList>
                           </Menu> ,
           },

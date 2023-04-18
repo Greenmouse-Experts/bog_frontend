@@ -86,16 +86,18 @@ export default function ProjectDetailsClient() {
             getCostSummary()
             getInstallSummary()
             getUpdates()
-        }
-        if(sum){
-            getTotal()
         }// eslint-disable-next-line 
-    },[project,sum])
+    },[project])
 
     useEffect(() => {
         getProjectDetail();
         // eslint-disable-next-line 
     }, [])
+    useEffect(() => {
+        if(sum){
+            getTotal()
+        }// eslint-disable-next-line 
+    }, [sum])
 
     if (loading || !project) {
         return <center>
@@ -148,7 +150,7 @@ export default function ProjectDetailsClient() {
                         <Link to="/dashboard" className="opacity-60">
                             <span>Dashboard</span>
                         </Link>
-                        <Link to="" className="opacity-60">
+                        <Link to="/dashboard/projects" className="opacity-60">
                             <span>project</span>
                         </Link>
                         <Link to="" className="">

@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import ProtectedRoute from "../../Routes/ProtectedRoute";
 import Header from "./header";
 import Dashboard from "./pages/Dasboard";
 import Meetings from "./pages/Meetings";
@@ -62,6 +61,8 @@ import { ServiceRequest } from "./pages/ServiceRequest";
 import AdminSub from "./pages/AdminSub";
 import ServicePartnerMeeting from "./pages/ServicePartnerMeeting";
 import ProjectDetailsPartner from "./pages/ProjectDetailsPartner";
+import RefundOrders from "./pages/RefundOrder";
+import BlogCategory from "./pages/BlogCat";
 
 export default function ClientDashboard() {
 
@@ -87,7 +88,7 @@ export default function ClientDashboard() {
                     }}
                     className="lg:main-p pt-21 home-bg pb-10 relative">
                     <KycAlert />
-                    <Routes element={<ProtectedRoute />}>
+                    <Routes >
                         <Route path="" element={<Dashboard />} />
                         <Route path="orders" element={<Orders />} />
                         <Route path="order-request" element={<OrderRequest />} />
@@ -96,6 +97,7 @@ export default function ClientDashboard() {
                         <Route path="cart" element={<Cart />} />
                         <Route path="client" element={<Clients />} />
                         <Route path="blog" element={<Blog />} />
+                        <Route path="blog-category" element={<BlogCategory />} />
                         <Route path="createpost" element={<BlogPost />} />
                         <Route path="viewpost/:postId" element={<ViewBlog />} />
                         <Route path="editpost/:postId" element={<EditPost />} />
@@ -106,6 +108,7 @@ export default function ClientDashboard() {
                         <Route path="productsadmin" element={<ProductsAdmin />} />
                         <Route path="productdetailadmin" element={<ProductDetailsAdmin />} />
                         <Route path="ordersadmin" element={<OrdersAdmin />} />
+                        <Route path="order-refund" element={<RefundOrders />} />
                         <Route path="myorderdetails" element={<OrderDetailsClient />} />
                         <Route path="orderadmindetail" element={<OrderDetails />} />
                         <Route path="order-detail/:orderId" element={<UserOrderDetail />} />

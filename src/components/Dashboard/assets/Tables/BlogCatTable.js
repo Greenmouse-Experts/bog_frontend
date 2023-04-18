@@ -1,11 +1,10 @@
+import React from 'react'
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from 'react'
-import { useSelector } from 'react-redux';
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight, FaFileDownload } from "react-icons/fa";
 import { useTable, useGlobalFilter, useAsyncDebounce, useFilters, usePagination } from "react-table";
-import { useMemo } from "react";
-import * as moment from 'moment'
+// import { useNavigate } from "react-router-dom";
+import {useMemo } from "react";
 import {
   Menu,
   MenuHandler,
@@ -13,14 +12,14 @@ import {
   MenuItem,
   Button,
 } from "@material-tailwind/react";
+import { BsThreeDotsVertical } from 'react-icons/bs';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { useExportData } from "react-table-plugins";
 import Papa from "papaparse";
 import * as XLSX from 'xlsx'
-import { Loader } from "../../../layouts/Spinner";
-
- 
+import { useSelector } from 'react-redux';
+import dayjs from 'dayjs';
 
 // export table files
 
@@ -81,36 +80,10 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export default function ProductOrderTable({status, loader}){
-  // let adminOrders = useSelector((state) => state.orders.adminOrders);
-      let productOrders = useSelector((state) => state.orders.orderRequests);
+export function BlogCategoryTable({adminEdit, adminDelete}) {
 
-    if (status) {
-        productOrders = productOrders.filter(where => where.order.status === status)
-    }
-    const formatNumber = (number) => {
-      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-    const formatStatus = (status) => {
-      switch (status) {
-          case "in_review":
-              return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-28 text-center rounded-md fw-600">Ongoing</p>
-          case "approved":
-              return <p className="px-2 py-1 text-green-700 bg-green-100 w-28 text-center rounded-md fw-600">Approved</p>
-          case "completed":
-              return <p className="px-2 py-1 text-green-700 bg-green-100 w-28 text-center rounded-md fw-600">Completed</p>
-          case "disapproved":
-            return <p className="px-2 py-1 text-red-700 bg-red-100 w-28 text-center rounded-md fw-600">Cancelled</p>
-          case "pending":
-              return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-28 text-center rounded-md fw-600">Pending</p>
-          case "cancelled":
-            return <p className="px-2 py-1 text-red-700 bg-red-100 w-28 text-center rounded-md fw-600">Cancelled</p>
-          case "draft":
-              return "Draft"
-          default: return status
-      }
-
-  }
+  let cat = useSelector((state) => state.blog.categories);
+   
 
 
     const columns = useMemo(
@@ -120,44 +93,38 @@ export default function ProductOrderTable({status, loader}){
             accessor: ( row, index) => index + 1  //RDT provides index by default
           },
           {
-            Header: "Product Name",
-            accessor: "product.name",
+            Header: "Category Name",
+            accessor: "name",
           },
           {
-            Header: "Product Amount",
-            accessor: "amount",
-            Cell: (props) => `NGN ${formatNumber(props.value)}`
-          },
-          {
-            Header: "Quantity",
-            accessor:  'quantity',
-          },
-          {
-            Header: "Date",
+            Header: "Date Created",
             accessor: "createdAt",
-            Cell: (props) => moment(props.value).format("MMMM Do YYYY , h:mm:ss a")
-            // Filter: SelectColumnFilter, 
-            // filter: 'includes',
+            Cell: (props) => dayjs(props.value).format('DD-MM-YYYY')
           },
           {
-            Header: "Status",
-            accessor: "order.status",
-            Cell: (props) => formatStatus(props.value)
+            Header: 'Action',
+            accessor: 'id',
+            Cell: (row) => <Menu placement="left-start" className="w-16">
+                    <MenuHandler>
+                      <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><p className="lg:text-xl"><BsThreeDotsVertical /></p></Button>
+                    </MenuHandler>
+                    <MenuList className="w-16 bg-gray-100 fw-600 text-black">
+                      <MenuItem onClick={() => adminEdit(row.row.original)}>View</MenuItem>
+                      <MenuItem className='bg-red-600 hover:bg-red-500 text-white' onClick={() => adminDelete(row.value)}>Delete</MenuItem>
+                    </MenuList>
+                  </Menu>,
           },
-        ],
-        [] // eslint-disable-line react-hooks/exhaustive-deps
+        ],  // eslint-disable-next-line 
+        []
       );
 
     
-      const data = useMemo(() => productOrders, [productOrders]);
+      const data = useMemo(() => cat, [cat]);
     
       return (
         <>
           <div className="overflow-hidden px-4 bg-white py-8 rounded-md">
-            {
-              loader ? <Loader size /> :
-              <Table columns={columns} data={data} className="" />
-            }
+            <Table columns={columns} data={data}  className=""/>
           </div>
         </>
       );
@@ -200,11 +167,11 @@ const Table = ({columns, data}) => {
         gotoPage,
         nextPage,
         previousPage,
-        setPageSize, exportData } =
+        setPageSize,exportData } =
     useTable({
       columns,
       data,
-      getExportFileBlob
+      getExportFileBlob,
     }, 
     useFilters,
     useGlobalFilter, usePagination, useExportData );
@@ -222,7 +189,7 @@ const Table = ({columns, data}) => {
                 <div className="flex">
                 <Menu>
                     <MenuHandler>
-                      <Button className="p-0 m-0 bg-transparent shadow-none text-blue-800 hover:shadow-none flex items-center">Export <FaFileDownload className="text-2xl"/></Button>
+                      <Button className="p-0 m-0 bg-transparent shadow-none text-blue-800 hover:shadow-none flex items-center"> Export <FaFileDownload className="text-2xl"/></Button>
                     </MenuHandler>
                     <MenuList>
                       <MenuItem onClick={() => {

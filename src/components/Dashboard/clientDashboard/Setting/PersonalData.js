@@ -19,8 +19,11 @@ const PersonalData = () => {
     fname: "",
     lname: "",
     phone: "",
+    address: "",
+    city: "",
+    state: "",
   });
-  const { fname, lname, phone } = userData;
+  const { fname, lname, phone, address, city, state  } = userData;
 
   useEffect(() => {
     if (user) {
@@ -28,6 +31,9 @@ const PersonalData = () => {
         fname: user?.fname ? user?.fname : "",
         lname: user?.lname ? user?.lname : "",
         phone: user?.phone ? user?.phone : "",
+        address: user?.address ? user?.address : "",
+        city: user?.city ? user?.city : "",
+        state: user?.state ? user?.state : "",
       });
     }
   }, [user]);
@@ -50,6 +56,9 @@ const PersonalData = () => {
       fd.append("fname", fname);
       fd.append("lname", lname);
       fd.append("phone", phone);
+      fd.append("address", address);
+      fd.append("city", city);
+      fd.append("state", state);
       if (photo && photo !== "") {
         fd.append("photo", photo);
       }
@@ -158,6 +167,39 @@ const PersonalData = () => {
                 name="phone"
                 id="phone"
                 value={phone}
+                onChange={handleUserDetailsChange}
+              />
+            </div>
+          </div>
+          <div className="mt-3 lg:mt-4">
+              <label className="block mb-1 fw-500">Address</label>
+              <input
+                type="text"
+                className="w-10/12 lg:w-full py-2 placeholder-black px-3 rounded-lg bg-light border border-gray-600"
+                name="address"
+                value={address}
+                onChange={handleUserDetailsChange}
+              />
+            </div>
+          <div className="lg:grid-2 justify-between lg:mt-4">
+            <div className="mt-3 ">
+              <label className="block mb-1 fw-500">City</label>
+              <input
+                type="text"
+                className="w-10/12 lg:w-full py-2 placeholder-black px-3 rounded-lg bg-light border border-gray-600"
+                name="city"
+                value={city}
+                onChange={handleUserDetailsChange}
+              />
+            </div>
+            <div className="mt-3">
+              <label className="block mb-1 fw-500">State</label>
+              <input
+                type="text"
+                className="w-10/12 lg:w-full py-2 px-3 placeholder-black rounded-lg bg-light border border-gray-600"
+                name="state"
+                id="state"
+                value={state}
                 onChange={handleUserDetailsChange}
               />
             </div>

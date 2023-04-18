@@ -178,7 +178,7 @@ export default function ProjectDetails() {
                         <Link to="/dashboard" className="opacity-60">
                             <span>Dashboard</span>
                         </Link>
-                        <Link to="" className="opacity-60">
+                        <Link to="/dashboard/projectsadmin" className="opacity-60">
                             <span>project</span>
                         </Link>
                         <Link to="" className="">
@@ -207,7 +207,7 @@ export default function ProjectDetails() {
                                                 <p><span className="text-gray-600 fs-400">Request Date:</span> {dayjs(project?.createdAt).format("YYYY-MM-DD")} </p>
                                             </div>
                                         </div>
-                                        <div className="fw-500 flex mt-2 lg:mt-0 lg:text-end">
+                                        <div className="fw-500 flex mt-6 lg:mt-0 lg:text-end">
                                             <div>
                                                 <p className="block opacity-0">l</p>
                                                 <p><span className="text-gray-600 fs-400">Total Cost</span> </p>
@@ -312,7 +312,23 @@ export default function ProjectDetails() {
                                     <p className="fw-600">Project Partner Payment</p>
                                 </div>
                                 <div className="flex flex-col mt-6">
-                                    <p>No Payment made yet</p>
+                                    {
+                                        project?.transactions?.payouts?.length > 0? 
+                                        project?.transactions?.payouts.map((item, index) => (
+                                            <div className="fw-500 border-b pb-3" key={index}>
+                                                <div className="flex items-center">
+                                                    <p className="text-gray-500">Amount:</p>
+                                                    <p className="pl-3">{"NGN" + formatNumber(item?.amount || "No Price")}</p>
+                                                </div>
+                                                <div className=" mt-2 flex items-center">
+                                                    <p className="text-gray-500">Date:</p>
+                                                    <p className="pl-3">{dayjs(item.createdAt).format("DD-MMM-YYYY")}</p>
+                                                </div>
+                                            </div>
+                                        ))
+                                        :
+                                        <p>No Payment made yet</p>
+                                    }
                                 </div>
                                 <div className="text-center mt-10">
                                     <button className="btn-primary py-2 px-16" onClick={() => setPartnerPaymentModal(true)}>Initalize Payment</button>
