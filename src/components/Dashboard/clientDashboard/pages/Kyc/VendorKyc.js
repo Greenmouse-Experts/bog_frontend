@@ -66,6 +66,7 @@ export const VendorKyc = () => {
       },
     })
 
+    console.log(response.user.kyScore)
     if (response.user.kycScore !== "" && response.user.kycScore !== null) {
       const _kycScore = JSON.parse(response.user.kycScore);
 
