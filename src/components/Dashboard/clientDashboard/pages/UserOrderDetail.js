@@ -263,30 +263,6 @@ export default function UserOrderDetail() {
                     <OrderReview productId={orderId} review={order.review} />
                   </div>
                 </div>
-                {/* <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
-                                <div className="flex justify-between border-b border-gray-300 pb-4">
-                                    <p className="fw-600">Product Partner Info</p>
-                                </div>
-                                <div className="flex mt-6">
-                                    <div>
-                                        <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
-                                    </div>
-                                    <div className="grid fs-400 content-between pl-4 fw-500">
-                                        <p>Frank Diamond</p>
-                                        <p className="text-gray-600">Product Partner</p>
-                                    </div>
-                                </div>
-                                <div className="fs-400 fw-500 mt-4">
-                                    <div className="flex">
-                                        <p className="text-gray-600">Phone:</p>
-                                        <p className="pl-3">0800 000 0000</p>
-                                    </div>
-                                    <div className="flex">
-                                        <p className="text-gray-600">Email:</p>
-                                        <p className="pl-3">email@test.com</p>
-                                    </div>
-                                </div>
-                            </div> */}
               </div>
             </div>
           </div>

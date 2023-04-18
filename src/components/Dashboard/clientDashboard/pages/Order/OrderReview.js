@@ -70,7 +70,7 @@ export const OrderReview = ({ review, productId }) => {
                         className='h-24 p-2 w-full rounded mt-2 border border-gray-400 '
                         onChange={(e) => setMessage(e.target.value)}
                         name={message}
-                        readOnly={review !== null ? true : false}
+                        readOnly={review? true : false}
                     >
                         {review?.review || message}
                     </textarea>
@@ -87,7 +87,7 @@ export const OrderReview = ({ review, productId }) => {
                 </div>
                 <div className='mt-6'>
                     {
-                        review !== null ?
+                        review?
                             null :
                             <>
                                 {

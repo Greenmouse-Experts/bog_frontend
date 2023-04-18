@@ -34,9 +34,6 @@ import ProjectRequest from "./pages/ProjectRequest";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/Blog/CreatePost";
 import EditPost from "./pages/Blog/EditPost";
-import Email from "./pages/Email";
-import CreateEmail from "./pages/Email/CreateEmail";
-import OrderDetailsClient from "./pages/OrderDetails Client";
 import ProjectDetailsClient from "./pages/ProjectDetailsClient";
 import OrderRequest from "./pages/OrderRequest";
 import UserOrderDetail from "./pages/UserOrderDetail";
@@ -101,15 +98,13 @@ export default function ClientDashboard() {
                         <Route path="createpost" element={<BlogPost />} />
                         <Route path="viewpost/:postId" element={<ViewBlog />} />
                         <Route path="editpost/:postId" element={<EditPost />} />
-                        <Route path="email" element={<Email />} />
-                        <Route path="createmail" element={<CreateEmail />} />
                         <Route path="userdetails" element={<UserDetails />} />
                         <Route path="productscategory" element={<ProductsCategory />} />
                         <Route path="productsadmin" element={<ProductsAdmin />} />
                         <Route path="productdetailadmin" element={<ProductDetailsAdmin />} />
                         <Route path="ordersadmin" element={<OrdersAdmin />} />
                         <Route path="order-refund" element={<RefundOrders />} />
-                        <Route path="myorderdetails" element={<OrderDetailsClient />} />
+                        {/* <Route path="myorderdetails" element={<OrderDetailsClient />} /> */}
                         <Route path="orderadmindetail" element={<OrderDetails />} />
                         <Route path="order-detail/:orderId" element={<UserOrderDetail />} />
                         <Route path="projectsadmin" element={<ProjectsAdmin />} />
