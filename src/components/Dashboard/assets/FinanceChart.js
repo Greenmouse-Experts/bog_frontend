@@ -318,11 +318,11 @@ export const FinanceChart = () => {
         <div className='mt-8 lg:mt-12 p-6 bg-white shadow rounded'>
             <div className='flex justify-between items-center'>
                 <p className='lg:text-xl fw-600'>Transaction Analytics</p>
-                <select className="border lg:w-36 text-sm px-2 h-8 mr-4 mt-3" >
+                {/* <select className="border lg:w-36 text-sm px-2 h-8 mr-4 mt-3" >
                     {allYears.map((year, index) => (
                     <option key={index} value={year}>{year}</option>
                     ))}
-                </select>
+                </select> */}
             </div>
             <div className='mt-6'>
                 <ReactApexChart options={options} series={series} width="100%" type="bar" height={550}/>

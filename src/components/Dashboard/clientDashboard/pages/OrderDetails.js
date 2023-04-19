@@ -254,11 +254,42 @@ export default function OrderDetails() {
                       <option selected value="">
                         Order Status
                       </option>
-                      {["pending", "approved", "cancelled", "shipped", "completed"].map(
-                        (stat) => (
-                          <option value={stat}>{capitalize(stat)}</option>
+                      {
+                        order.status === "cancelled" &&
+                        <option value="cancelled">Cancelled</option>
+                      }
+                      {
+                        order.status === "approved" &&
+                        ["approved", "cancelled", "shipped", "completed"].map(
+                          (stat) => (
+                            <option value={stat}>{capitalize(stat)}</option>
+                          )
                         )
-                      )}
+                      }
+                      {
+                        order.status === "pending" &&
+                        ["pending","approved", "cancelled", "shipped", "completed"].map(
+                          (stat) => (
+                            <option value={stat}>{capitalize(stat)}</option>
+                          )
+                        )
+                      }
+                      {
+                        order.status === "shipped" &&
+                        ["cancelled", "shipped", "completed"].map(
+                          (stat) => (
+                            <option value={stat}>{capitalize(stat)}</option>
+                          )
+                        )
+                      }
+                      {
+                        order.status === "completed" &&
+                        ["completed"].map(
+                          (stat) => (
+                            <option value={stat}>{capitalize(stat)}</option>
+                          )
+                        )
+                      }
                     </select>
 
                     {/* <button className="bg-black text-white hover:bg-blue-gray-900 rounded-md p-2">
