@@ -71,8 +71,8 @@ export default function ProductDetail() {
         dispatch(getProducts())
         if (item != null) {
             setMaxQuantity(item.remaining)
-            // const similar = products.filter(where => where.category.id === item.category.id).filter(prod => prod.id != item.id);
-            // setSimilarProducts(similar)
+            const similar = products.filter(where => where?.category.id === item.category?.id).filter(prod => prod?.id != item?.id);
+            setSimilarProducts(similar)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [item, !loading])
@@ -117,7 +117,7 @@ export default function ProductDetail() {
                     <div className="box">
                         <div className=" w-full">
                             <div className="lg:flex items-center justify-between lg:pt-10">
-                                <div className="lg:w-6/12 bg-light shadow-md p-4">
+                                <div className="lg:w-6/12 overflow-hidden bg-light shadow-md p-4">
                                     {/* <img src="https://www.mobismea.com/upload/iblock/2a0/2f5hleoupzrnz9o3b8elnbv82hxfh4ld/No%20Product%20Image%20Available.png" alt="product" className="w-full lg:h-72" /> */}
 
                                     <ProductImage item={item} />
@@ -222,7 +222,7 @@ export default function ProductDetail() {
                     <div className="box">
                         <div>
                             {
-                                similarProducts.length > 0 ?
+                                similarProducts?.length > 0 ?
                                     <>
                                         <p className="fw-600 lg:text-2xl py-6">Similar Products</p>
                                         <SimilarProducts products={similarProducts} />

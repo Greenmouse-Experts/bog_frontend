@@ -19,6 +19,7 @@ module.exports = withMT(
           '02': '360px',
           '03': '490px',
           '04': '860px',
+          '80': '80vh',
         },
         backgroundImage: {
           'profile': "linear-gradient(to right, rgba(105, 76, 87, 1),rgba(0, 0, 0, 0.2))",

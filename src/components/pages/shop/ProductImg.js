@@ -37,8 +37,8 @@ export  const ProductImage = ({item}) => {
            modules={[FreeMode, Navigation, Thumbs]}
            className="w-2/12 pr-3"
         >
-            {item.product_image.map((i, ) => {
-                return <SwiperSlide><img src={i.url} alt="product" className="w-11/12 lg:h-16"/></SwiperSlide>;
+            {item.product_image.slice(0,4).map((i, ) => {
+                return <SwiperSlide><img src={i.url} alt="product" className="w-11/12 h-12 lg:h-16"/></SwiperSlide>;
             })}
         </Swiper>
         <Swiper 
@@ -53,7 +53,7 @@ export  const ProductImage = ({item}) => {
               className="w-10/12 pl-3"
         >
             {item.product_image.map((i,) => {
-                return <SwiperSlide><img src={i.url} alt="product" className="w-full lg:h-72 xl:h-96"/></SwiperSlide>;
+                return <SwiperSlide><img src={i.url} alt="product" className="w-full h-[220px] lg:h-72 xl:h-96"/></SwiperSlide>;
             })}
         </Swiper>   
     </div>

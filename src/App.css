@@ -350,6 +350,12 @@
   .bg-op-white {
     background-color: rgba(245, 245, 245, 0.8);
   }
+  .opps{
+    text-shadow: 5px 5px 10px rgb(173, 173, 173);
+  }
+  .bg-opps{
+    background-color: rgb(252,252,255);
+  }
   .scale-ani {
     position: relative;
     animation: pop 0.3s ease-in-out;

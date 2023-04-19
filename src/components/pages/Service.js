@@ -11,14 +11,6 @@ import Swal from "sweetalert2";
 import { BiLogIn } from "react-icons/bi";
 import { getAllServiceCategories, getServiceFormBuilder } from "../../redux/actions/ServiceCategoryAction";
 import { fetchServiceCategories } from "../../redux/actions/ProjectAction";
-/*import { AiOutlineCloudUpload } from 'react-icons/ai';
-import { useFormik } from 'formik';
-import Axios from '../../../src/config/config';
-import { SuccessAlert } from '../../../src/services/endpoint';
-import { WarningAlert } from '../../../src/services/endpoint';
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
-import Spinner from '../layouts/Spinner';*/
 
 window.jQuery = $; //JQuery alias
 window.$ = $; //JQuery alias
@@ -45,11 +37,6 @@ export default function Service() {
     const [formDisplay, setServiceFormDisplay] = useState(false);
     const [selectedService, setSelectedService] = useState('');
 
-    /* const [gInvest, setGInvest] = useState(false);
-     const [cDraw, setCDraw] = useState(false);
-     const [bAppove, setBAppove] = useState(false);
-     const [bCon, setBCon] = useState(false);
-     const [sCalc, setSCalc] = useState(false); */
 
 
     const AuhtCheck = () => {
@@ -190,70 +177,6 @@ export default function Service() {
                                         <BiLogIn className="text-3xl text-white" />
                                     </div>
                                 </div>
-                                {/*<div className="shadow-md h-48 center-item lg:mt-0 mt-10">
-                                    <div className="cursor-pointer" onClick={() => {
-                                        // eslint-disable-next-line
-                                        {
-                                            // eslint-disable-next-line
-                                            auth.isAuthenticated ?
-                                                setGInvest(true) :
-                                                AuhtCheck()
-                                        }
-                                    }}>
-                                        <img src={require("../assets/images/GI.png")} alt="survey" className="lg:w-16 mx-auto mb-5" />
-                                        <p className="fw-500">Geotechnical Investigation</p>
-                                    </div>
-                                </div>
-                                <div className="shadow-md h-48 center-item lg:mt-0 mt-10">
-                                    <div className="cursor-pointer" onClick={() => {
-                                        // eslint-disable-next-line
-                                        {
-                                            // eslint-disable-next-line
-                                            auth.isAuthenticated ?
-                                                setCDraw(true) :
-                                                AuhtCheck()
-                                        }
-
-                                    }}>
-                                        <img src={require("../assets/images/CS.png")} alt="survey" className="lg:w-16 mx-auto mb-5" />
-                                        <p className="fw-500">Construction Drawing</p>
-                                    </div>
-                                </div>
-                                <div className="shadow-md h-48 center-item mt-10">
-                                    <div className="cursor-pointer" onClick={() => {
-                                        // eslint-disable-next-line
-                                        {
-                                            // eslint-disable-next-line
-                                            auth.isAuthenticated ?
-                                                setBAppove(true) :
-                                                AuhtCheck()
-                                        }
-                                    }}>
-                                        <img src={require("../assets/images/BA.png")} alt="survey" className="lg:w-16 mx-auto mb-5" />
-                                        <p className="fw-500">Building Approval</p>
-                                    </div>
-                                </div>
-                                <div className="shadow-md h-48 center-item  mt-10">
-                                    <div className="cursor-pointer" onClick={() => {
-                                        // eslint-disable-next-line
-                                        {
-                                            // eslint-disable-next-line
-                                            auth.isAuthenticated ?
-                                                setBCon(true) :
-                                                AuhtCheck()
-                                        }
-                                    }}>
-                                        <img src={require("../assets/images/BC.png")} alt="survey" className="lg:w-16 mx-auto mb-5" />
-                                        <p className="fw-500">Building Contractor</p>
-                                    </div>
-                                </div>
-                                <div className="shadow-md h-48 center-item  mt-10 bg-primary">
-                                    <div className="cursor-pointer flex items-center" onClick={() => navigate("/contact")}>
-                                        <p className="fw-500 text-white w-36 text-center">Request other Services</p>
-                                        <BiLogIn className="text-3xl text-white" />
-                                    </div>
-                                </div>
-                                */}
                             </div>
                         </div>
                     </div>
@@ -286,8 +209,8 @@ export default function Service() {
 
             {formDisplay && (
                 serviceForm ? (Object.keys(serviceForm).length > 0 ? (
-                    <div className="fixed font-primary top-0 w-full h-screen bg-op center-item z-40" onClick={CloseFormModal}>
-                        <div className="bg-white lg:w-5/12 px-5 max-h-screen overflow-y-auto overscroll-none lg:px-12 w-11/12 py-12 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
+                    <div className="fixed font-primary top-0 w-full h-screen bg-op  center-item z-40" onClick={CloseFormModal}>
+                        <div className="bg-white lg:w-5/12 px-5 max-h-80 overflow-y-auto overscroll-none lg:px-12 w-11/12 py-12 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
                             <div className="flex justify-between">
                                 <p className="text-lg lg:text-2xl fw-600">Request {selectedService}</p>
                                 <FontAwesomeIcon icon={faTimes} className="text-2xl relative -top-3 cursor-pointer" onClick={CloseFormModal} />
