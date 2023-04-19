@@ -18,10 +18,6 @@ import { HomepageBlog } from "./Blog/HomepageBlog";
 import { BiArrowToRight } from "react-icons/bi";
 
 
-// const Text = ({children}) => {
-//     return <div className="text">{children}</div>;
-// }
-
 export default function Homepage() {
 
     const [showVideo, setShowVideo] = useState(false)
@@ -40,8 +36,6 @@ export default function Homepage() {
     const feature3 = useRef();
     const feature4 = useRef();
     const features = useRef();
-    // const into = useRef();
-    // const into = gsap.utils.selector(intro);
     
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
@@ -193,13 +187,6 @@ export default function Homepage() {
             <div className="bg-hero">
                 <div className="box">
                     <div className="lg:flex flex-row-reverse items-center py-1 pb-6 lg:py-6">
-                        {/* <div className="lg:w-6/12 relative z-0">
-                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1669564220/BOG/hero_1_1_hcpq4u.png" alt="hero" className="lg:w-10/12 lg:float-right animate-pulse" ref={hero} />
-                            <img src={require("../assets/images/hero1.png")} alt="hero1" className="absolute lg:w-28 w-20 hero1" />
-                            <img src={require("../assets/images/hero2.png")} alt="hero2" className="absolute lg:w-28 w-20 hero2" />
-                            <img src={require("../assets/images/hero3.png")} alt="hero3" className="absolute lg:w-28 w-20 hero3" />
-                            <img src={require("../assets/images/hero4.png")} alt="hero4" className="absolute lg:w-28 w-20 hero4" />
-                        </div> */}
                         <div className='lg:w-6/12 ipad-view relative mt-10 lg:mt-0 overflow-hidden lg:h-01 h-02'>
                             <div className='sphere overflow-hidden'>
                                 <div className='w-16 h-8 lg:w-20 lg:h-10 circle dots'>
@@ -337,7 +324,6 @@ export default function Homepage() {
 
                         </video>
                         <div className="absolute bg-white xl:left-50 lg:left-45 circle left-40 z-20 top-50 flex items-center">
-                            {/* <div className="lg:w-20 w-10 h-1 bg-gray-400"></div> */}
                             <div className="lg:w-20 lg:h-20 w-10 h-10 bg-blue-500 circle center-item " onClick={() => { setShowVideo(true) }}>
                                 <FontAwesomeIcon icon={faPlay} className="lg:text-3xl text-white" />
                             </div>
@@ -393,7 +379,7 @@ export default function Homepage() {
                     <div className="absolute z-10  w-full h-full lg:flex justify-between lg:items-center  lg:px-16">
                         <div className="lg:w-4/12 pr-6 text-center">
                             <p className="text-2xl lg:text-5xl fw-600">Products available in Store</p>
-                            <p className="mt-12">Duis suscipit dui non elit elementum, nec fermentum lectus posuere. Pellentesque lobortis ac felis eu luctus. Donec pharetra sollicitudin odio, at feugiat ligula rutrum ut. Maecenas augue tortor, luctus at est non, rutrum pretium nulla.</p>
+                            <p className="mt-12">BOG offers users a wide range of construction materials to buy with relative ease. These materials are delivered to your choiced location at your stipulated time with minimal stress.</p>
                         </div>
                         <div className="w-full lg:w-6/12 mt-4 lg:mt-0">
                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678817725/BOG/Group_47677_1_pfzbpz.png" alt="products" className="w-full"/>
