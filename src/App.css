@@ -344,6 +344,12 @@
     opacity: 0;
     animation: hero1 8s ease 6s infinite alternate;
   }
+  .bg-excel{
+     background: linear-gradient(75.12deg, #3F79AD 2%, #6392BD 100%);
+  }
+  .bg-image{
+    background: linear-gradient(255.49deg, #FEB019 4.65%, #EC8B20 97.9%);
+  }
   .bg-op {
     background-color: rgba(131, 131, 131, 0.7);
   }
