@@ -73,7 +73,7 @@ export const SmartCalc = () => {
         </div>
         <div className="md:flex gap-x-10 lg:gap-x-24 justify-center">
           <div
-            className="rounded-lg shadow-md bg-white w-11/12 mx-auto md:w-80 lg:w-96 cursor-pointer hover:scale-105 duration-100"
+            className="rounded-lg shadow-md bg-white w-11/12 mx-auto lg:mx-0 md:w-80 lg:w-96 cursor-pointer hover:scale-105 duration-100"
             onClick={() => OpenUpload("excel")}
           >
             <div className="h-44 lg:h-52 px-4 lg:px-8 grid items-center bg-excel rounded-t-lg">
@@ -97,7 +97,7 @@ export const SmartCalc = () => {
             </div>
           </div>
           <div
-            className="rounded-lg mt-6 md:mt-0 bg-white shadow-md w-11/12 mx-auto md:w-80 lg:w-96 cursor-pointer hover:scale-105 duration-100"
+            className="rounded-lg mt-6 md:mt-0 bg-white shadow-md w-11/12 mx-auto lg:mx-0 md:w-80 lg:w-96 cursor-pointer hover:scale-105 duration-100"
             onClick={() => OpenUpload("image")}
           >
             <div className="h-44 lg:h-52 px-4 lg:px-8 grid items-center  bg-image rounded-t-lg">
@@ -136,6 +136,7 @@ export const SmartCalc = () => {
               <div className="mt-2 relative border-pri bg-primary-op rounded-lg h-44 grid place-content-center">
                 <input 
                   type="file" 
+                  multiple
                   onChange={(e) => changeHandler(e)}
                   className="w-full absolute opacity-0 h-44  border border-gray-700"
                   />

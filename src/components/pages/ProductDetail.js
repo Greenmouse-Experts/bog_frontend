@@ -188,7 +188,7 @@ export default function ProductDetail() {
                                         </div>
                                     </div>
                                     <div className="mt-4">
-                                        <p className="fw-500 text-gray-500">Remaianing Quantity: <span className="text-lg text-gray-600">{maxQuantity}</span></p>
+                                        <p className="fw-500 text-gray-500">Remaining Quantity: <span className="text-lg text-gray-600">{maxQuantity}</span></p>
                                         <p className="mt-2 lg:mt-2 flex fw-500 text-primary fs-300 lg:fs-500"><span className="text-lg lg:text-xl pr-2 mt-1"><BsFillInfoCircleFill/></span><span>Delivery is effecient and fast to every part of Nigeria. (same day delivery is location based)</span></p>
                                     </div>
                                 </div>
