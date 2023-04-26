@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ProjectTable from "../../assets/Tables/ProjectTable";
 import { getMyProject } from '../../../../redux/actions/ProjectAction';
 import { useDispatch } from "react-redux";
-import { getProjectCategory } from "../../../../services/helper";
+import { getProjectCategory, getStatus } from "../../../../services/helper";
 import dayjs from "dayjs";
 import { Loader } from "../../../layouts/Spinner";
 import MyProjectChart from "../../assets/myProjectChart";
@@ -202,27 +202,27 @@ export function ServiceProject({isLoading}) {
                                         </thead>
                                         <tbody>
                                             {
-                                                projects.length > 0? projects.filter(where => where.status === "ongoing").map((item, index) => (
+                                                projects.length > 0? projects.map((item, index) => (
                                                     <tr>
-                                                        <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                                                        <td className="border-b border-gray-200 align-middle fw-400 whitespace-nowrap px-2 py-4 text-left">
                                                             {index +1 }
                                                         </td>
-                                                        <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                                                        <td className="border-b border-gray-200 align-middle fw-400 whitespace-nowrap px-2 py-4 text-left">
                                                             {item.projectSlug}
                                                         </td>
-                                                        <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                                                        <td className="border-b border-gray-200 align-middle fw-400 whitespace-nowrap px-2 py-4 text-left">
                                                             {getProjectCategory(item.projectTypes)}
                                                         </td>
-                                                        <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                                                        <td className="border-b border-gray-200 align-middle fw-400 whitespace-nowrap px-2 py-4 text-left">
                                                             {item.projectData?.propertyLocation}
                                                         </td>
-                                                        <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                                                        <td className="border-b border-gray-200 align-middle fw-400 whitespace-nowrap px-2 py-4 text-left">
                                                             {dayjs(item.createdAt).format("YYYY-MM-DD")}
                                                         </td>
-                                                        <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                            {item.status.toUpperCase()}
+                                                        <td className="border-b border-gray-200 align-middle fw-400 whitespace-nowrap px-2 py-4 text-left">
+                                                            {getStatus(item.status)}
                                                         </td>
-                                                        <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                                                        <td className="border-b border-gray-200 align-middle fw-400 whitespace-nowrap px-2 py-4 text-left">
                                                             <div className="flex text-xl">
                                                                 <Button onClick={() => (navigate(`/dashboard/projectpartnerdetails/?projectId=${item.id}`))}>View</Button>
                                                                 
