@@ -1,3 +1,6 @@
+import { BsDatabaseFillCheck } from "react-icons/bs";
+import { MdOutlineCancel } from "react-icons/md";
+
 export const capitalizeFirstLetter = (string) => {
     console.log({string});
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -54,22 +57,30 @@ export const getUserType = (type) => {
 export const getStatus = (type) => {
     switch (type) {
         case "pending":
-            return <p className="px-2 py-1 text-yellow-700 bg-yellow-100 w-24 rounded-md fw-600">Pending</p>
+            return <p className="px-2 py-1 text-yellow-700 bg-yellow-100 w-24 text-center rounded-md fw-600">Pending</p>
         case "approved":
-            return <p className="px-2 py-1 text-green-700 bg-green-100 w-24 rounded-md fw-600">Approved</p>
+            return <p className="px-2 py-1 text-green-700 bg-green-100 w-24 text-center rounded-md fw-600">Approved</p>
         case "dispatched":
-            return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-24 rounded-md fw-600">Dispatched</p>
+            return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-24 text-center rounded-md fw-600">Dispatched</p>
         case "ongoing":
-            return <p className="px-2 py-1 text-orange-700 bg-orange-100 w-24 rounded-md fw-600">Ongoing</p>
+            return <p className="px-2 py-1 text-orange-700 bg-orange-100 w-24 text-center rounded-md fw-600">Ongoing</p>
         case "Ongoing":
-            return <p className="px-2 py-1 text-orange-700 bg-orange-100 w-24 rounded-md fw-600">Ongoing</p>
+            return <p className="px-2 py-1 text-orange-700 bg-orange-100 w-24 text-center rounded-md fw-600">Ongoing</p>
         case "declined":
-            return <p className="px-2 py-1 text-red-700 bg-red-100 w-24 rounded-md fw-600">Declined</p>
+            return <p className="px-2 py-1 text-red-700 bg-red-100 w-24 text-center rounded-md fw-600">Declined</p>
         case "cancelled":
-            return <p className="px-2 py-1 text-red-700 bg-red-100 w-24 rounded-md fw-600">Cancelled</p>
+            return <p className="px-2 py-1 text-red-700 bg-red-100 w-24 text-center rounded-md fw-600">Cancelled</p>
         case "completed":
-            return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-24 rounded-md fw-600">Completed</p>
+            return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-24 text-center rounded-md fw-600">Completed</p>
         default: return ""
+    }
+}
+
+export const paidStatus = (type) => {
+    switch (type) {
+        case "paid":
+            return <p className="flex text-green-600 fw-500 items-center gap-x-2">Paid <BsDatabaseFillCheck className="text-lg"/></p>
+        default: return <p className="flex text-red-600 fw-500 items-center gap-x-2">Not Paid <MdOutlineCancel/></p>
     }
 }
 

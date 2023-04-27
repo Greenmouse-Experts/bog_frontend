@@ -1,8 +1,10 @@
 import { Button } from '@material-tailwind/react'
+import { useSelector } from 'react-redux';
 import Swal from "sweetalert2";
 
 export default function FormPackage({ formPayload, formClose }) {
     const responseArray = [];
+    const userType = useSelector((state) => state.auth.user.profile.userType)
 
     const handleInputChange = (e, data, options) => {
         const objIndex = responseArray.findIndex((obj => obj.name === data.name));
@@ -194,7 +196,7 @@ export default function FormPackage({ formPayload, formClose }) {
             ...rest,
         }));
 
-        const payload = { form: newResponseArray };
+        const payload = { form: newResponseArray, userType: userType };
 
         var requestData = {
             method: 'POST',

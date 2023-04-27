@@ -78,8 +78,8 @@ const AdminSidebar = () => {
     setUserDrop(false);
     setProjectDrop(false);
     setServiceDrop(false);
-    setSettingsDrop(false)
-    setBlogDrop(false)
+    setSettingsDrop(false);
+    setBlogDrop(false);
   }
   function CloseModal() {
     setSignOut(false);
@@ -135,7 +135,7 @@ const AdminSidebar = () => {
                       setProductDrop(false);
                       setOrderDrop(false);
                       setSettingsDrop(false);
-                      setBlogDrop(false)
+                      setBlogDrop(false);
                     }}
                   >
                     <p className="pl-3 pr-5">Users</p>
@@ -206,7 +206,7 @@ const AdminSidebar = () => {
                       setOrderDrop(false);
                       setUserDrop(false);
                       setSettingsDrop(false);
-                      setBlogDrop(false)
+                      setBlogDrop(false);
                     }}
                   >
                     <p className="pl-3 pr-5">Products</p>
@@ -248,7 +248,7 @@ const AdminSidebar = () => {
                       setProductDrop(false);
                       setUserDrop(false);
                       setSettingsDrop(false);
-                      setBlogDrop(false)
+                      setBlogDrop(false);
                     }}
                   >
                     <p className="pl-3 pr-5">Orders</p>
@@ -259,7 +259,9 @@ const AdminSidebar = () => {
                   <div className="lg:ml-9 ml-4 fs-400 pt-2">
                     <NavLink
                       to="ordersadmin"
-                      style={({ isActive }) => (isActive ? activeStyles : undefined)}
+                      style={({ isActive }) =>
+                        isActive ? activeStyles : undefined
+                      }
                     >
                       <p className="py-2">All Orders</p>
                     </NavLink>
@@ -339,7 +341,7 @@ const AdminSidebar = () => {
                       setProductDrop(false);
                       setUserDrop(false);
                       setSettingsDrop(false);
-                      setBlogDrop(false)
+                      setBlogDrop(false);
                     }}
                   >
                     <p className="pl-3 pr-5">Services</p>

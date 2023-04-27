@@ -59,7 +59,7 @@ export const ArticleAdminDashboard = () => {
             <div className="mt-3">
             <div className="lg:grid-2 gap-x-16 gap-y-12 justify-between fs-500 fw-600">
                 <div className="bg-[#e0e7ff] px-4 py-6 rounded flex justify-between items-center shades">
-                <Link to="transactions" className="flex justify-between items-center w-full">
+                <Link to="blog" className="flex justify-between items-center w-full">
                     <div>
                     {/* {transactions? transactions.length : 0} */}
                         <p className="text-xxl fw-600 pb-2 text-xl">{blogs? blogs.length : 0}</p>
@@ -75,7 +75,7 @@ export const ArticleAdminDashboard = () => {
                 </Link>
                 </div>
                 <div className="bg-orange-100 mt-4 lg:mt-0 px-6 py-3 rounded flex justify-between items-center shades">
-                <Link to="transactions" className="flex justify-between items-center w-full">
+                <Link to="blog" className="flex justify-between items-center w-full">
                     <div>
                         <p className="text-xxl pb-2 fw-600">{drafts? drafts.length : 0}</p>
                         <p className="text-gray-600">Posts in Drafts</p>
@@ -90,7 +90,7 @@ export const ArticleAdminDashboard = () => {
                 </Link>
                 </div>
                 <div className="bg-blue-100  mt-4 lg:mt-0 px-4 py-6 rounded flex justify-between items-center shades">
-                <Link to="transactions" className="flex justify-between items-center w-full">
+                <Link to="blog" className="flex justify-between items-center w-full">
                     <div>
                         <p className="fw-600 text-xxl pb-2">{Published? Published.length : 0}</p>
                         <p className="text-gray-600">Published Posts</p>
@@ -105,7 +105,7 @@ export const ArticleAdminDashboard = () => {
                 </Link>
                 </div>
                 <div className="bg-green-100  mt-4 lg:mt-0 px-4 py-6 rounded flex justify-between items-center shades">
-                <Link to="transactions" className="flex justify-between items-center w-full">
+                <Link to="blog" className="flex justify-between items-center w-full">
                     <div>
                         <p className="text-xxl fw-600 pb-2">0</p>
                         <p className="text-gray-600">Total Shares</p>

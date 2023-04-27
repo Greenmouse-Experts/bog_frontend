@@ -9,9 +9,11 @@ import { Loader } from "../../../layouts/Spinner";
 import UserOrderTable from "../../assets/Tables/userOrder";
 import CancelOrderModal from "./Order/Modals/cancelModal";
 import RefundOrderModal from "./Order/Modals/refundModal";
+import EmptyData from "../../assets/UI/EmptyData";
 
 export default function Orders() {
   const dispatch = useDispatch();
+  const userType = useSelector((state) => state.auth.user.profile.userType)
   let orders = useSelector((state) => state.orders.userOrders);
   const [loading, setLoading] = useState(false);
   const [cancelModal, setCancelModal] = useState()
@@ -21,7 +23,7 @@ export default function Orders() {
 
   useEffect(() => {
     setLoading(true);
-    dispatch(getUserOrders(stopLoading));
+    dispatch(getUserOrders(userType, stopLoading));
   }, [])
 
   const CloseModal = () => {
@@ -85,7 +87,7 @@ export default function Orders() {
               <TabPanel>
                   <div className="overflow-x-auto">
                     {
-                      orders.length > 0 ? <UserOrderTable cancelOrder={cancelOrder} /> : "No Orders"
+                      orders.length > 0 ? <UserOrderTable cancelOrder={cancelOrder} /> : <EmptyData message='No Order Yet'/>
                     }
                   </div>
               </TabPanel>
@@ -93,21 +95,21 @@ export default function Orders() {
               {/* Pending Orders */}
               <TabPanel>
                   {
-                      orders.length > 0 ? <UserOrderTable cancelOrder={cancelOrder} status="pending"/> : "No Orders"
+                      orders.length > 0 ? <UserOrderTable cancelOrder={cancelOrder} status="pending"/> : <EmptyData message='No Order Yet'/>
                     }
               </TabPanel>
 
               {/* Delivered Orders */}
               <TabPanel>
                 {
-                      orders.length > 0 ? <UserOrderTable status="completed"/> : "No Orders"
+                      orders.length > 0 ? <UserOrderTable status="completed"/> : <EmptyData message='No Order Yet'/>
                     }
               </TabPanel>
 
               {/* Cancelled Orders */}
               <TabPanel>
                 {
-                      orders.length > 0 ? <UserOrderTable status="cancelled" refundOrder={RefundOrder} refundTab/> : "No Orders"
+                      orders.length > 0 ? <UserOrderTable status="cancelled" refundOrder={RefundOrder} refundTab/> : <EmptyData message='No Order Yet'/>
                     }
               </TabPanel>
             </Tabs>

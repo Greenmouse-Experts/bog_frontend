@@ -101,8 +101,6 @@ export default function ProjectTable({ status, isLoader }) {
     myProjects = myProjects.filter(where => where.status === status)
   }
 
-  console.log(myProjects);
-
   const commitment = useSelector((state) => state.projects.fees);
 
 
@@ -261,8 +259,6 @@ export default function ProjectTable({ status, isLoader }) {
         Header: "Due Date",
         accessor: "createdAt",
         Cell: (props) => moment(props.value).format("MM /D /YYYY "),
-        // Filter: SelectColumnFilter, 
-        // filter: 'includes',
       },
       {
         Header: 'Action',

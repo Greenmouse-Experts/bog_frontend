@@ -11,6 +11,7 @@ import moment from "moment";
 import { FcCalendar } from "react-icons/fc";
 import { MdVerified } from "react-icons/md";
 import { getUserType } from "../../../../services/helper";
+import { UserAvatar } from "../../assets/Avatar";
 
 export default function Settings() {
   const auth = useSelector((state) => state.auth);
@@ -70,7 +71,7 @@ export default function Settings() {
               <div className="bg-white w-full py-6 lg:px-6 px-3 rounded-lg mt-6">
                 <div>
                   <img 
-                    src={auth?.user?.photo? auth?.user?.photo : ""}
+                    src={auth?.user?.photo? auth?.user?.photo : <UserAvatar />}
                     alt="profilephoto"
                     className="w-24 h-24 circle shadow  mx-auto"
                   />

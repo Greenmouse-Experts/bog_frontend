@@ -210,7 +210,7 @@ export default function Service() {
             {formDisplay && (
                 serviceForm ? (Object.keys(serviceForm).length > 0 ? (
                     <div className="fixed font-primary top-0 w-full h-screen bg-op  center-item z-40" onClick={CloseFormModal}>
-                        <div className="bg-white lg:w-5/12 px-5 max-h-80 overflow-y-auto overscroll-none lg:px-12 w-11/12 py-12 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
+                        <div className="bg-white lg:w-5/12 px-5 max-h-70 overflow-y-auto overscroll-none lg:px-12 w-11/12 py-12 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
                             <div className="flex justify-between">
                                 <p className="text-lg lg:text-2xl fw-600">Request {selectedService}</p>
                                 <FontAwesomeIcon icon={faTimes} className="text-2xl relative -top-3 cursor-pointer" onClick={CloseFormModal} />
