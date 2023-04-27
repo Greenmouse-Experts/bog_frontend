@@ -80,6 +80,8 @@ export const paidStatus = (type) => {
     switch (type) {
         case "paid":
             return <p className="flex text-green-600 fw-500 items-center gap-x-2">Paid <BsDatabaseFillCheck className="text-lg"/></p>
+        case "successful":
+            return <p className="flex text-green-600 fw-500 items-center gap-x-2">Successful <BsDatabaseFillCheck className="text-lg"/></p>
         default: return <p className="flex text-red-600 fw-500 items-center gap-x-2">Not Paid <MdOutlineCancel/></p>
     }
 }

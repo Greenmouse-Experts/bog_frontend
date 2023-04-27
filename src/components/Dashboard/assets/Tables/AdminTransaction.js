@@ -20,7 +20,7 @@ import { useExportData } from "react-table-plugins";
 import Papa from "papaparse";
 import * as XLSX from 'xlsx'
 import dayjs from 'dayjs';
-import { formatNumber } from '../../../../services/helper';
+import { formatNumber, paidStatus } from '../../../../services/helper';
 
 // export table files
 
@@ -120,6 +120,7 @@ export function AdminTransactTable({item, type}) {
           {
             Header: "Status",
             accessor: "status",
+            Cell: (props) => paidStatus(props.value),
             Filter: SelectColumnFilter, 
             filter: 'includes',
           },

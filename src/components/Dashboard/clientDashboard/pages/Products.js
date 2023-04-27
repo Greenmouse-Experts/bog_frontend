@@ -197,7 +197,7 @@ export default function Products() {
                     </Button>
                   </PopoverHandler>
                   <PopoverContent >
-                    View the your recent products in BOG shop.
+                    View your recent products in BOG shop.
                   </PopoverContent>
                 </Popover>
               </div>
