@@ -84,7 +84,7 @@ export default function ProductDetailsAdmin() {
                     productId,
                     status: "disapproved"
                 }
-                dispatch(ApproveProduct(payload, stopLoading))
+                dispatch(ApproveProduct(payload, stopLoading, navigate))
             }
         });
     }
@@ -175,7 +175,15 @@ export default function ProductDetailsAdmin() {
                                             className="w-5/12 py-2 text-white bg-primary rounded-lg"
                                                 >Approve Product</button>
                                             </>
-                                            : null
+                                            : 
+                                            product?.status === "approved"?<button
+                                            onClick={disapproveProduct}
+                                            className="w-5/12 py-2 border border-red-500 text-red-500 bg-white rounded-lg"
+                                        >Disapprove</button> : product?.status === "disapproved"? <button
+                                        onClick={approveProduct}
+                                        className="w-5/12 py-2 text-white bg-primary rounded-lg"
+                                            >Approve Product</button>
+                                        : ""
                                 }
 
                             </div>

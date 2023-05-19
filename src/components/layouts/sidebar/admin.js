@@ -72,7 +72,7 @@ const AdminSidebar = () => {
   const [signOut, setSignOut] = useState(false);
 
   function CloseAll() {
-    // setSettingsDrop(false)
+    setSettingsDrop(false)
     setOrderDrop(false);
     setProductDrop(false);
     setUserDrop(false);
@@ -359,7 +359,7 @@ const AdminSidebar = () => {
                       <p className="py-2">Category</p>
                     </NavLink>
                     <NavLink
-                      to="servicecategory"
+                      to="service-provider"
                       style={({ isActive }) =>
                         isActive ? activeStyles : undefined
                       }
@@ -504,7 +504,7 @@ const AdminSidebar = () => {
             )}
           </div>
           {user?.level === 1 ? (
-            <div className="w-full items-center fw-600">
+            <div className="w-full items-center fw-600" onClick={(e) => {e.stopPropagation()}}>
               <div
                 className="w-full py-2 pl-2 fw-600 cursor-pointer flex items-center my-2 rounded-lg"
                 onClick={() => {
@@ -512,14 +512,14 @@ const AdminSidebar = () => {
                   setUserDrop(false);
                   setProjectDrop(false);
                   setProductDrop(false);
+                  setServiceDrop(false);
                   setOrderDrop(false);
                 }}
               >
-                <BsGear className="text-lg" />
+                <BsGear className={`text-lg ${settingsDrop? "text-red" : ""}`} />
                 <p className="pl-3 pr-5">Settings</p>
                 <BsFillCaretDownFill className="text-black" />
               </div>
-              <div>
                 {settingsDrop && (
                   <div
                     className="lg:pl-8 pl-4 fs-400 pt-1"
@@ -536,7 +536,6 @@ const AdminSidebar = () => {
                     </NavLink>
                   </div>
                 )}
-              </div>
             </div>
           ) : (
             ""

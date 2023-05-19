@@ -96,6 +96,10 @@ export function ProductCategoryTable({adminEdit, adminDelete}) {
             accessor: "name",
           },
           {
+            Header: "Category Unit",
+            accessor: "",
+          },
+          {
             Header: "Number of Products",
             accessor: "totalProducts",
           },

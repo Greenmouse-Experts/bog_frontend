@@ -875,7 +875,7 @@ export default function UserDetails() {
                                 </div>
                                 <div className="py-4 border-b lg:w-6/12">
                                   <p className="text-gray-500">
-                                    Invovement of parent company:
+                                    Involvement of parent company:
                                   </p>
                                   <p className="mt-1">
                                     {item?.company_involvement

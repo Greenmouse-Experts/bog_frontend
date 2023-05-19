@@ -329,6 +329,13 @@ export const CartModal = ({ CloseModal }) => {
             ) : null}
           </div>
         </div>
+          <div className="mt-6 flex gap-x-2">
+            <input type="checkbox" className="w-4 mt-1"/>
+            <div className="flex gap-x-4">
+              <p>I want insurance coverage for the delivery of these items</p>
+              
+            </div>
+          </div>
 
         <div className="fw-600 my-4">
           {Object.keys(address_).length > 0 && (

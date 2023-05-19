@@ -312,9 +312,16 @@ export const getAdminProducts = (stopLoading) => {
 export const removeProduct = (productId, saveLoading, isAdmin) => {
     return async (dispatch) => {
         try {
-            dispatch(loading());
+                const authToken = localStorage.getItem("auth_token");
+                const config = {
+                    headers:
+                    {
+                        "Content-Type": "application/json",
+                        'Authorization': authToken
+                    }
+                };
             const url = `/product/${productId}`
-            const response = await axios.delete(url);
+            const response = await axios.delete(url, config);
             console.log(response);
             if (isAdmin) {
                 dispatch(DeleteProductAdmin(productId));
@@ -335,7 +342,8 @@ export const removeProduct = (productId, saveLoading, isAdmin) => {
         } catch (error) {
             console.log(error?.response?.data?.message);
             if (error.message === 'Request failed with status code 401') {
-                window.location.href = '/';
+                // window.location.href = '/';
+                toast.error("Unauthorized Request")
             }
             else {
                 dispatch(setError(error.message));
@@ -570,15 +578,16 @@ export const addProductToStore = (productId, saveLoading, navigate) => {
     return async (dispatch) => {
         try {
             dispatch(loading());
-            const config = {
-                headers: {
-                    'Content-Type': "application/json",
-                    'authorization': localStorage.getItem("auth_token")
-                },
-            }
+            const authToken = localStorage.getItem("auth_token");
+                const config = {
+                    headers:
+                    {
+                        "Content-Type": "application/json",
+                        'Authorization': authToken
+                    }
+                };
             const url = `/product/add-to-shop/${productId}`
             const response = await Axios.patch(url, config);
-            console.log(response);
             const payload = {
                 productId,
                 status: "in_review"
@@ -602,7 +611,7 @@ export const addProductToStore = (productId, saveLoading, navigate) => {
             saveLoading();
             if (error.message === 'Request failed with status code 401') {
                 toast.error('Please try again')
-                window.location.reload();
+                // window.location.reload();
             }
             else {
                 dispatch(setError(error.message));
@@ -623,16 +632,21 @@ export const ApproveProduct = (payload, stopLoading, navigate) => {
     return async (dispatch) => {
         try {
             dispatch(loading());
-            const url = `product/admin/approve-product`;
+            const authToken = localStorage.getItem("auth_token");
+            
             const config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'authorization': localStorage.getItem("auth_token")
+                method: 'post',
+                url: `product/admin/approve-product`,
+                headers:
+                {
+                    "Content-Type": "application/json",
+                    'Authorization': authToken
                 },
+                data: {...payload}
             }
-            const response = await axios.post(url, payload);
+            const response = await axios(config);
             stopLoading();
-            dispatch(UpdateAdminProductStatus(payload, config));
+            dispatch(UpdateAdminProductStatus(payload));
             Swal.fire({
                 title: "Success",
                 imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
@@ -650,7 +664,7 @@ export const ApproveProduct = (payload, stopLoading, navigate) => {
             stopLoading();
             if (error.message === 'Request failed with status code 401') {
                 toast.error('Please try again')
-                window.location.reload();
+                // window.location.reload();
             }
             else {
                 dispatch(setError(error.message));

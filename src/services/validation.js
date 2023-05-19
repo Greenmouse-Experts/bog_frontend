@@ -6,8 +6,9 @@ export const privateClientSchema = Yup.object({
     lname: Yup.string().required("Last name is required"),
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     phone: Yup.string()
-        .phone("NG", "Please enter a valid phone number, start with country code (+234)")
-        .required("A phone number is required"),
+        .required("A phone number is required")
+        .min(7, "Please enter a valid phone number")
+        .max(13, "Please enter a valid phone number"),
     password: Yup.string().required('Password is required').matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
@@ -63,8 +64,9 @@ export const supplierValidationSchema = Yup.object({
     company_name: Yup.string().required("Company name is required"),
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     phone: Yup.string()
-        .phone("NG", "Please enter a valid phone number, start with country code (+234)")
-        .required("A phone number is required"),
+        .required("A phone number is required")
+        .min(7, "Please enter a valid phone number")
+        .max(13, "Please enter a valid phone number"),
     password: Yup.string().required('Password is required').matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
@@ -81,8 +83,9 @@ export const servicePartnerValidationSchema = Yup.object({
     company_name: Yup.string().required("Company name is required"),
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     phone: Yup.string()
-        .phone("NG", "Please enter a valid phone number, start with country code (+234)")
-        .required("A phone number is required"),
+        .required("A phone number is required")
+        .min(7, "Please enter a valid phone number")
+        .max(13, "Please enter a valid phone number"),
     password: Yup.string().required('Password is required').matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
@@ -98,8 +101,9 @@ export const corporateClientSchema = Yup.object({
     name: Yup.string().required("Company name is required"),
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     phone: Yup.string()
-        .phone("NG", "Please enter a valid phone number, start with country code (+234)")
-        .required("A phone number is required"),
+        .required("A phone number is required")
+        .min(7, "Please enter a valid phone number")
+        .max(13, "Please enter a valid phone number"),
 
     password: Yup.string().required('Password is required').matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
