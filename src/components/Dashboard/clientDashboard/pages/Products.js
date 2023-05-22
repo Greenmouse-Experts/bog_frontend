@@ -176,7 +176,11 @@ export default function Products() {
                     </Button>
                   </PopoverHandler>
                   <PopoverContent className="w-48 lg:w-80 xl:w-96">
-                    Goto the add product tab to add a new product, after adding, your product is saved in the draft tab. Add to shop on the draft tab moves your product to review tab and submits it to be reviewed by the admin. At admin approval your product is added to the shop.
+                    Goto the add product tab to add a new product, after adding,
+                    your product is saved in the draft tab. Add to shop on the
+                    draft tab moves your product to review tab and submits it to
+                    be reviewed by the admin. At admin approval your product is
+                    added to the shop.
                   </PopoverContent>
                 </Popover>
               </div>
@@ -196,7 +200,7 @@ export default function Products() {
                       <BsInfoCircle className="text-xl text-primary" />
                     </Button>
                   </PopoverHandler>
-                  <PopoverContent >
+                  <PopoverContent>
                     View your recent products in BOG shop.
                   </PopoverContent>
                 </Popover>

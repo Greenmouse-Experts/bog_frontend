@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createAnnouncement } from '../../../../../../redux/actions/AnnouncementAction';
 import { announcementSchema } from '../../../../../../services/validation';
 import Spinner from '../../../../../layouts/Spinner';
@@ -10,16 +10,17 @@ export const SendMessage = ({closeModal}) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [support, setSupport] = useState();
+
+    const admin = useSelector((state) => state.auth.user);
+
     const stopLoading = () => {
         setLoading(false);
         closeModal();
     }
 
     const handleSupportChange = (e) => {
-        console.log(e.target.files);
         setSupport(e.target.files[0])
     }
-    console.log(support);
 
     const handleSubmit = (values) => {
         try {
@@ -95,11 +96,18 @@ export const SendMessage = ({closeModal}) => {
                         onBlur={formik.handleBlur}
                     >
                         <option selected>Select Receiver</option>
-                        <option value="all">All</option>
+                        {
+                            admin?.level === 1 && <option value="all">All</option>
+                        }
                         <option value="private_client">Private Clients</option>
                         <option value="corporate_client">Corporate Clients</option>
-                        <option value="product_partner">Product Partners</option>
-                        <option value="service_partner">Service Partners</option>
+                        {
+                            admin?.level === 1 || admin?.level === 4 ? <option value="product_partner">Product Partners</option> : ""
+                        }
+                        {
+                            admin?.level === 1 || admin?.level === 5 ? <option value="service_partner">Service Partners</option> : ""
+                        }
+                        
                     </select>
                     {
                         formik.touched.user && formik.errors.user ? <p className='text-red-500'>{formik.errors.user}</p> : null

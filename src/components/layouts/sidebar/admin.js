@@ -433,7 +433,6 @@ const AdminSidebar = () => {
             ) : (
               ""
             )}
-            {user?.level === 1 ? (
               <NavLink
                 to="announcement"
                 className="w-full flex items-center pl-2 py-2 fw-600 my-2"
@@ -443,9 +442,6 @@ const AdminSidebar = () => {
                 <MdOutlineEmail className="text-lg" />
                 <p className="pl-3">Messages</p>
               </NavLink>
-            ) : (
-              ""
-            )}
             {user?.level === 1 || user?.level === 5 ? (
               <NavLink
                 to="admin-meetings"

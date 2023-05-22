@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../../../redux/actions/cartAction";
 import { fetchStateAddresses } from "../../../redux/actions/addressAction";
+import { BsFillInfoCircleFill } from "react-icons/bs";
 
 export const CartModal = ({ CloseModal }) => {
   const AuhtCheck = () => {
@@ -37,6 +38,7 @@ export const CartModal = ({ CloseModal }) => {
     });
   };
   const [loading, setLoading] = useState(false);
+  const [info, setInfo] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [address_, setAddress_] = useState({});
 
@@ -329,13 +331,18 @@ export const CartModal = ({ CloseModal }) => {
             ) : null}
           </div>
         </div>
-          <div className="mt-6 flex gap-x-2">
+          <div className="mt-6 flex items-center gap-x-2">
             <input type="checkbox" className="w-4 mt-1"/>
-            <div className="flex gap-x-4">
-              <p>I want insurance coverage for the delivery of these items</p>
-              
+            <div className="flex items-center gap-x-4">
+              <p>I want insurance coverage for this delivery</p>
+              <BsFillInfoCircleFill className="text-sm cursor-pointer hover:text-primary" onClick={() => setInfo(!info)}/>
             </div>
           </div>
+          {
+            info && (
+              <p className="bg-light p-3 rounded scale-ani fs-400">This insurance provides the coverage for the orders shipped to recover any losses if the package is lost or damaged in transit. There is a fee required for this coverage.</p>
+            )
+          }
 
         <div className="fw-600 my-4">
           {Object.keys(address_).length > 0 && (

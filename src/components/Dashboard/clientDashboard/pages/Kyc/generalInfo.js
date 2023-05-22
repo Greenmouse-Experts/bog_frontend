@@ -5,6 +5,8 @@ import Spinner from "../../../../layouts/Spinner";
 import ActionFeedBack from "../Modals/ActionFeedBack";
 import { loadData, saveData } from "./DataHandler";
 import Axios from "../../../../../config/config";
+// import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 export const GeneralInfo = ({
   handleOpen,
@@ -18,6 +20,7 @@ export const GeneralInfo = ({
   const [isLoaded, setDataLoaded] = useState(false);
   const [feedback, setFeetback] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  
   const [formData, setFormData] = useState({
     organisation_name: null,
     email_address: null,
@@ -28,8 +31,7 @@ export const GeneralInfo = ({
     operational_address: null,
   });
   const user = useSelector((state) => state.auth.user);
-  const auth = useSelector((state) => state.auth);
-  console.log(auth)
+
 
   const dataLoader = () => {
     const url = "/kyc-general-info/fetch?userType=" + user.userType;
@@ -62,6 +64,10 @@ export const GeneralInfo = ({
       handleOpen(tab + 1);
     }
   };
+
+  // const [phoneNo, setPhoneNo] = useState(String(formData?.contact_number));
+  // console.log(formData?.contact_number)
+  
   const [formScore, setFormScore] = useState({
     organisation_name: { score: 0, total: 1 },
     email_address: { score: 0, total: 1 },
@@ -71,6 +77,10 @@ export const GeneralInfo = ({
     business_address: { score: 0, total: 1 },
     operational_address: { score: 0, total: 1 },
   });
+
+  // const handlePhoneChange = (formattedValue) => {
+  //   setPhoneNo(`+${formattedValue}`);
+  // };
 
   let newValue = {};
   const updateValue = (newVal, variable) => {
@@ -177,6 +187,20 @@ export const GeneralInfo = ({
           type="number"
           className="w-full p-2 mt-2 border border-gray-400 rounded"
         />
+        {/* <PhoneInput
+                  country={"ng"}
+                  name="phone"
+                  // value={String(formData?.contact_number)}
+                  onChange={(phone) => updateValue(setPhoneNo(phone), "contact_number")}
+                  className="mt-1 w-full rounded bg-white border border-gray-700"
+                  inputStyle={{
+                    width: "100%",
+                    border: "none",
+                    paddingTop: "19px",
+                    paddingBottom: "19px",
+                  }}
+                  rules={{ required: true }}
+                /> */}
       </div>
       <div className="mt-3">
         <label className="">Type of Registration</label>
