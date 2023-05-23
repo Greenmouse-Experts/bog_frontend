@@ -12,6 +12,7 @@ export default function Notify() {
     const dispatch = useDispatch();
     const notifications = useSelector(state => state.notifications.adminNotifications);
     const [loading, setLoading] = useState(false);
+    const [seeMores, setSeeMores] = useState(10);
     const stopLoading = () => setLoading(false);
 
     useEffect(() => {
@@ -21,6 +22,10 @@ export default function Notify() {
 
     const setReload = () => {
         dispatch(fetchAllAdminNotifications(stopLoading()))
+    }
+
+    const seeMore = () => {
+        setSeeMores(seeMores + 20)
     }
 
     return (
@@ -63,8 +68,8 @@ export default function Notify() {
                                     <div className="mt-10 px-3 pb-5">
                                         {
                                             notifications.length > 0 &&
-                                            notifications.filter(where => !where.isRead).map(item => (
-                                                <NotificationItem key={item.id} item={item} isAdmin />
+                                            notifications.filter(where => !where.isRead).slice(0,20).map(item => (
+                                                <NotificationItem key={item.id} item={item} isAdmin seeMore={seeMore}/>
                                             ))
                                         }
                                     </div>
@@ -73,17 +78,20 @@ export default function Notify() {
                                     <div className="mt-10 px-3 lg:px--0 lg:pb-0 pb-5">
                                         {
                                             notifications &&
-                                            notifications.map(item => (
-                                                <NotificationItem key={item.id} item={item} reload={setReload} isAdmin />
+                                            notifications.slice(0,seeMores).map(item => (
+                                               <div>
+                                                 <NotificationItem key={item.id} item={item} reload={setReload} isAdmin/>
+                                               </div>
                                             ))
                                         }
+                                        <p className="fw-500 text-center my-5 text-secondary underline" onClick={seeMore}>See More</p>
                                     </div>
                                 </TabPanel>
                                 <TabPanel>
                                     <div className="mt-10 pb-8 px-3">
                                         {
                                             notifications &&
-                                            notifications.filter(where => !where.isRead).map(item => (
+                                            notifications.filter(where => !where.isRead).slice(0,20).map(item => (
                                                 <NotificationItem key={item.id} item={item} isAdmin />
                                             ))
                                         }

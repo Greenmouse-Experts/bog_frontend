@@ -10,7 +10,7 @@ export const privateClientSchema = Yup.object({
         .min(7, "Please enter a valid phone number")
         .max(13, "Please enter a valid phone number"),
     password: Yup.string().required('Password is required').matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
     terms: Yup.boolean().oneOf([true],'Please accept terms and conditions'),
@@ -24,7 +24,7 @@ export const adminSchema = Yup.object({
     level: Yup.string().required("Level is required"),
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     password: Yup.string().required('Password is required').matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
 })
@@ -36,7 +36,7 @@ export const loginValidation = Yup.object({
 
 export const changePasswordValidation = Yup.object({
     password: Yup.string().required('Password is required').matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
     confirmPassword: Yup.string()
@@ -46,7 +46,7 @@ export const changePasswordValidation = Yup.object({
 export const updatePasswordValidation = Yup.object({
     oldPassword: Yup.string().required('Old Password is required'),
     newPassword: Yup.string().required('New Password is required').matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
     confirmPassword: Yup.string()
@@ -68,7 +68,7 @@ export const supplierValidationSchema = Yup.object({
         .min(7, "Please enter a valid phone number")
         .max(13, "Please enter a valid phone number"),
     password: Yup.string().required('Password is required').matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
     terms: Yup.boolean().oneOf([true],'Please accept terms and conditions'),
@@ -87,7 +87,7 @@ export const servicePartnerValidationSchema = Yup.object({
         .min(7, "Please enter a valid phone number")
         .max(13, "Please enter a valid phone number"),
     password: Yup.string().required('Password is required').matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
     terms: Yup.boolean().oneOf([true],'Please accept terms and conditions'),
@@ -106,7 +106,7 @@ export const corporateClientSchema = Yup.object({
         .max(13, "Please enter a valid phone number"),
 
     password: Yup.string().required('Password is required').matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
     terms: Yup.boolean().oneOf([true],'Please accept terms and conditions'),

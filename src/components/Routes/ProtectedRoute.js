@@ -17,7 +17,7 @@ export const Protected = ({children}) => {
     // const loading = useSelector((state) => state.auth.isLoading);
     
     if(!isLoggedIn){
-        return <Spinner2 size/>
+        return (<Spinner2 size/>)
     }else if(isLoggedIn){
         return children
     }else{

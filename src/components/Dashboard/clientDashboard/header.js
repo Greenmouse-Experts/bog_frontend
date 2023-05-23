@@ -73,9 +73,11 @@ export default function Header() {
     await markNotificationAsRead(id);
   };
   if (auth?.user?.userType === "admin") {
-    count = adminNotifications.length;
+
+    const notice = adminNotifications.filter(where => !where.isRead)
+    count = notice.length
     content =
-      adminNotifications.length > 0
+      notice.length > 0
         ? adminNotifications.slice(0, 6).map((notify) => {
             return (
               <p
@@ -86,12 +88,12 @@ export default function Header() {
                 <div>
                   <img
                     src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667908351/BOG/jot-logo_q4jjyl.png"
-                    className="mx-3 w-7 h-6"
+                    className="mx-3 mt-1 w-7 h-7 shadow p-1"
                     alt="Notify"
                   />
                 </div>
                 <div>
-                  <p>{notify.message.substring(0, 20) + "..."}</p>
+                  <p>{notify.message.substring(0, 30) + "..."}</p>
                   <p className="text-gray-500 text-xs">
                     <ReactTimeAgo
                       date={Date.parse(notify.createdAt)}

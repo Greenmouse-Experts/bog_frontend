@@ -14,7 +14,6 @@ export const SwitchAccount = () => {
     const [accounts, setAccounts] = useState([])
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-    // const BASE_URL = process.env.REACT_APP_IMAGE_URL;
     const user = useSelector((state) => state.auth.user);
     const navigate = useNavigate()
 
