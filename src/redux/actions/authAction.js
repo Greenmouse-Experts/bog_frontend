@@ -68,17 +68,6 @@ export const loginUser = (apiData, navigate, stopLoading, displayError) => {
             const response = await axios.post(url, apiData);
             dispatch(login(response));
             stopLoading();
-            // Swal.fire({
-            //     title: "Success",
-            //     imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
-            //     imageWidth: "75px",
-            //     text: "Login completed successfully",
-            //     buttonsStyling: "false",
-            //     confirmButtonText: "Continue",
-            //     confirmButtonColor: "#3F79AD",
-            // }).then(() => {
-            //     navigate("/dashboard");
-            // })
             navigate("/dashboard");
         } catch (error) {
             console.log(error.message);
