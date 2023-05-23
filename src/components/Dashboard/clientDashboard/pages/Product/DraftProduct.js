@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { RiDeleteBinLine } from "react-icons/ri";
-// import Swal from 'sweetalert2';
-// import Axios from '../../../../../config/config';
-// import toaster from "toasted-notes";
 import "toasted-notes/src/styles.css";
 import Spinner from '../../../../layouts/Spinner';
 import { useDispatch } from 'react-redux';
@@ -23,33 +20,6 @@ const DraftProduct = ({ item, setProductDelete, setProductEdit }) => {
 
     const navigate = useNavigate();
 
-    // const addProductToStore = async () => {
-    //     try {
-    //         setLoading(true);
-    //         const url = `/product/add-to-shop/${item.id}`;
-    //         const response = await Axios.patch(url);
-    //         console.log(response);
-    //         setLoading(false);
-    //         Swal.fire({
-    //             title: "Success",
-    //             imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
-    //             imageWidth: "75px",
-    //             text: response.message,
-    //             buttonsStyling: "false",
-    //             confirmButtonText: "Continue",
-    //             confirmButtonColor: "#3F79AD",
-    //         })
-    //     } catch (error) {
-    //         setLoading(false);
-    //         toaster.notify(
-    //             error?.response?.data?.message || error.message,
-    //             {
-    //                 duration: "4000",
-    //                 position: "bottom",
-    //             }
-    //         );
-    //     }
-    // }
      const addProductToStoreV2 = () => {
         setLoading(true);
         dispatch(addProductToStore(item.id, saveLoading, navigate));
@@ -92,5 +62,3 @@ const DraftProduct = ({ item, setProductDelete, setProductEdit }) => {
 }
 
 export default DraftProduct
-
-// src={`${baseURL}/${item.image}`}

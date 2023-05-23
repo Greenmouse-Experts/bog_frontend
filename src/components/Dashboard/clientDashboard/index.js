@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import ProtectedRoute from "../../Routes/ProtectedRoute";
 import Header from "./header";
 import Dashboard from "./pages/Dasboard";
 import Meetings from "./pages/Meetings";
@@ -35,9 +34,6 @@ import ProjectRequest from "./pages/ProjectRequest";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/Blog/CreatePost";
 import EditPost from "./pages/Blog/EditPost";
-import Email from "./pages/Email";
-import CreateEmail from "./pages/Email/CreateEmail";
-import OrderDetailsClient from "./pages/OrderDetails Client";
 import ProjectDetailsClient from "./pages/ProjectDetailsClient";
 import OrderRequest from "./pages/OrderRequest";
 import UserOrderDetail from "./pages/UserOrderDetail";
@@ -61,6 +57,9 @@ import ServiceCategoryForm from "./pages/ServiceCatForm";
 import { ServiceRequest } from "./pages/ServiceRequest";
 import AdminSub from "./pages/AdminSub";
 import ServicePartnerMeeting from "./pages/ServicePartnerMeeting";
+import ProjectDetailsPartner from "./pages/ProjectDetailsPartner";
+import RefundOrders from "./pages/RefundOrder";
+import BlogCategory from "./pages/BlogCat";
 
 export default function ClientDashboard() {
 
@@ -81,12 +80,12 @@ export default function ClientDashboard() {
                 <KycModals/>
                 <div
                     style={{
-                        width: sidebarReduce ? "calc(100% - 45px)" : "",
-                        zIndex: sidebarReduce ? "45" : ""
+                        width: sidebarReduce ? "calc(100% - 49px)" : "",
+                        zIndex: sidebarReduce ? "49" : ""
                     }}
                     className="lg:main-p pt-21 home-bg pb-10 relative">
                     <KycAlert />
-                    <Routes element={<ProtectedRoute />}>
+                    <Routes >
                         <Route path="" element={<Dashboard />} />
                         <Route path="orders" element={<Orders />} />
                         <Route path="order-request" element={<OrderRequest />} />
@@ -95,21 +94,22 @@ export default function ClientDashboard() {
                         <Route path="cart" element={<Cart />} />
                         <Route path="client" element={<Clients />} />
                         <Route path="blog" element={<Blog />} />
+                        <Route path="blog-category" element={<BlogCategory />} />
                         <Route path="createpost" element={<BlogPost />} />
                         <Route path="viewpost/:postId" element={<ViewBlog />} />
                         <Route path="editpost/:postId" element={<EditPost />} />
-                        <Route path="email" element={<Email />} />
-                        <Route path="createmail" element={<CreateEmail />} />
                         <Route path="userdetails" element={<UserDetails />} />
                         <Route path="productscategory" element={<ProductsCategory />} />
                         <Route path="productsadmin" element={<ProductsAdmin />} />
                         <Route path="productdetailadmin" element={<ProductDetailsAdmin />} />
                         <Route path="ordersadmin" element={<OrdersAdmin />} />
-                        <Route path="myorderdetails" element={<OrderDetailsClient />} />
+                        <Route path="order-refund" element={<RefundOrders />} />
+                        {/* <Route path="myorderdetails" element={<OrderDetailsClient />} /> */}
                         <Route path="orderadmindetail" element={<OrderDetails />} />
                         <Route path="order-detail/:orderId" element={<UserOrderDetail />} />
                         <Route path="projectsadmin" element={<ProjectsAdmin />} />
                         <Route path="projectadmindetails" element={<ProjectDetails />} />
+                        <Route path="projectpartnerdetails" element={<ProjectDetailsPartner />} />
                         <Route path="myprojectdetails" element={<ProjectDetailsClient />} />
                         <Route path="projectrequest" element={<ProjectRequest />} />
                         <Route path="service-request/:projectId" element={<ServiceRequest />} />
@@ -120,7 +120,7 @@ export default function ClientDashboard() {
                         <Route path="admin-details" element={<SubAdminDetails />} />
                         <Route path="allprojects" element={<AllProject />} />
                         <Route path="projectfile" element={<ProjectFile />} />
-                        <Route path="servicecategory" element={<ProjectCategory />} />
+                        <Route path="service-provider" element={<ProjectCategory />} />
                         <Route path="servicecategory/buildForm/:id/:name" element={<ServiceCategoryForm />} />
                         <Route path="meetings" element={<Meetings />} />
                         <Route path="delivery" element={<DeliveryAddresses />} />
@@ -149,8 +149,8 @@ export default function ClientDashboard() {
                 </div>
                 <div
                     style={{
-                        width: sidebarReduce ? "calc(100% - 45px)" : "",
-                        zIndex: sidebarReduce ? "45" : ""
+                        width: sidebarReduce ? "calc(100% - 49px)" : "",
+                        zIndex: sidebarReduce ? "49" : ""
                     }}
                     className="lg:flex relative bg-white text-center lg:main-p px-5 py-5 text-primary fw-500 justify-between fs-400">
                     <div className="flex mb-5 lg:mb-0">
@@ -164,9 +164,6 @@ export default function ClientDashboard() {
                         Copyright &copy; {new Date().getFullYear()}{' '} Build On The Go
                     </div>
                 </div>
-                {/* <div className="fixed bottom-0 right-0 lg:m-5 m-4">
-                    <FontAwesomeIcon icon={faQuestionCircle} className="lg:text-5xl text-3xl text-secondary cursor-pointer" />
-                </div> */}
             </div>
         </div>
 

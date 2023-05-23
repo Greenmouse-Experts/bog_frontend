@@ -33,8 +33,11 @@ const ProductItem = ({ item, setProductDelete }) => {
                             </div>
                             <div className='flex'>
                                 <span className="text-2xl pr-3 cursor-pointer">
-                                    <p className="mt-1 h-10 fs-300">
+                                    <p className="fs-300">
                                         Quantity : <b>{item.quantity}</b>
+                                    </p>
+                                    <p className="mt-1 fs-300">
+                                        Remaining : <b>{item.remaining}</b>
                                     </p>
                                 </span>
                             </div>

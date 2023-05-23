@@ -72,7 +72,7 @@ export default function ProjectCategory() {
             <div className="min-h-screen fs-500 relative">
                 <div className="w-full py-8 bg-white px-4 lg:flex justify-between items-center">
                     <div>
-                        <p className="text-2xl fw-600">Manage Service Categories</p>
+                        <p className="text-2xl fw-600">Manage Service Providers</p>
                         <p className="fs-400 text-gray-600 mt-2">Update, add and edit service categories for service providers</p>
                         <Breadcrumbs className="bg-white pl-0 mt-4">
                             <Link to="/" className="opacity-60">
@@ -94,7 +94,7 @@ export default function ProjectCategory() {
                         </Breadcrumbs>
                     </div>
                     <div className="mt-4 lg:mt-0">
-                        <button className="px-4 lg:py-2 py-1 rounded border-pri text-primary" onClick={() => setAdminAdd(!adminAdd)}>Add New Category</button>
+                        <button className="px-4 lg:py-2 py-1 rounded border-pri text-primary" onClick={() => setAdminAdd(!adminAdd)}>Add New Provider</button>
                     </div>
                 </div>
                 {/* product contents */}
@@ -103,7 +103,7 @@ export default function ProjectCategory() {
                         {loading ? <Loader size /> :
                             <Tabs className="px-2 lg:px-0 py-5 lg:py-0">
                                 <TabList className="">
-                                    <Tab>Service Category</Tab>
+                                    <Tab>Service Types</Tab>
                                 </TabList>
                                 <TabPanel>
                                     <div className="mt-5">

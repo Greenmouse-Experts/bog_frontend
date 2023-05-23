@@ -3,6 +3,7 @@ import axios from '../../config/config';
 // import Swal from "sweetalert2";
 import toast from 'react-hot-toast';
 
+
 export const loading = () => {
     return {
         type: ActionType.LOADING
@@ -77,7 +78,7 @@ export const getAdminOrders = (stopLoading) => {
     }
 }
  
-export const getUserOrders = (stopLoading) => {
+export const getUserOrders = (userType, stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -90,7 +91,8 @@ export const getUserOrders = (stopLoading) => {
 
             }
             dispatch(loading());
-            const response = await axios.get('/orders/my-orders', config);
+            console.log(userType);
+            const response = await axios.get(`/orders/my-orders?userType=${userType}`, config);
             stopLoading();
             dispatch(fetchUserOrder(response.data))
         } catch (error) {

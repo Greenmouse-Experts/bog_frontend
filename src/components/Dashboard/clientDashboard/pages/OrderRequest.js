@@ -17,6 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { getProductOwnerOrders } from "../../../../redux/actions/OrderAction";
 import ProductOrderTable from "../../assets/Tables/productOrder";
+import EmptyData from "../../assets/UI/EmptyData";
 
 
 function OrderReqest() {
@@ -67,23 +68,23 @@ function OrderReqest() {
               </TabList>
               <TabPanel>
                 {
-                  orders.length > 0 ? <ProductOrderTable/> : 'No Orders'
+                  orders.length > 0 ? <ProductOrderTable/> : <EmptyData message='No Order Yet'/>
                 }
               </TabPanel>
 
               <TabPanel>
                 {
-                  orders.length > 0 ? <ProductOrderTable status="awaiting_shipment"/> : 'No Orders'
+                  orders.length > 0 ? <ProductOrderTable status="awaiting_shipment"/> : <EmptyData message='No Order Yet'/>
                 }
               </TabPanel>
               <TabPanel>
                 {
-                  orders.length > 0 ? <ProductOrderTable status="completed"/> : 'No Orders'
+                  orders.length > 0 ? <ProductOrderTable status="completed"/> : <EmptyData message='No Order Yet'/>
                 }
               </TabPanel>
               <TabPanel>
                 {
-                  orders.length > 0 ? <ProductOrderTable status="cancelled"/> : 'No Orders'
+                  orders.length > 0 ? <ProductOrderTable status="cancelled"/> : <EmptyData message='No Order Yet'/>
                 }
               </TabPanel>
             </Tabs>

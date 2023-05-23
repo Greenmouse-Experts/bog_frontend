@@ -1,5 +1,3 @@
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaLocationArrow } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
@@ -126,13 +124,6 @@ export default function Blog() {
                                 </div>
                             </div>
                             <div className="hidden lg:block w-3/12 pl-8">
-                                <div class=" relative mx-auto text-gray-600 hidden lg:block">
-                                    <input class="border-2 border-gray-300 bg-white h-10 px-6 pr-16 rounded text-sm focus:outline-none"
-                                        type="search" name="search" placeholder="Search Blog Post" />
-                                    <button type="submit" class="absolute bg-tertiary right-0 top-0 py-2 px-4 rounded-r">
-                                        <FontAwesomeIcon icon={faSearch} className="text-white" />
-                                    </button>
-                                </div>
                                 <div className="mt-10 py-8 px-4 bg-tertiary text-white rounded-lg">
                                     <p className="fs-500 fw-600">Never Miss A Thing </p>
                                     <p className="fs-400 mt-1">Subscribe for more content</p>

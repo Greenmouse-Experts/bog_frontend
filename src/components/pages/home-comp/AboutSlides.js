@@ -107,7 +107,7 @@ export function AboutSlides() {
             Execellent Customer Care
           </p>
           <p className="mt-2 px-4 fs-400">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do.
+            BOG offer execellent support services to users.
           </p>
         </div>
       </SwiperSlide>
@@ -141,20 +141,10 @@ export function AboutSlides() {
             On time product and service delivery
           </p>
           <p className="mt-2 px-4 fs-400">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do.
+            Provides on time product delivery, innovative pricing.
           </p>
         </div>
       </SwiperSlide>
-      {/* <SwiperSlide>
-                    <div className="text-center py-4 shadow lg:w-10/12 mx-auto">
-                        <div>
-                            <img src={require("../../assets/images/tv.png")} alt="img1" className="w-20 m-auto"/>
-                        </div>
-                        <p className="fs-500 fw-500 mt-4">Execellent Customer Care</p>
-                        <p className="mt-4 px-4 fs-400">Amet minim mollit non deserunt ullamco est sit aliqua dolor do. 22</p>
-                        
-                    </div>
-                </SwiperSlide> */}
     </Swiper>
   );
 }
@@ -183,7 +173,7 @@ export function AboutSlidesSm() {
           </div>
           <p className="fs-500 fw-500 mt-4">Execellent Customer Care</p>
           <p className="mt-4 px-4 fs-400">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do.
+            We offer quality and customer satisfaction.
           </p>
         </div>
       </SwiperSlide>
@@ -196,9 +186,9 @@ export function AboutSlidesSm() {
               className="w-20 m-auto"
             />
           </div>
-          <p className="fs-500 fw-500 mt-4">Execellent Customer Care</p>
+          <p className="fs-500 fw-500 mt-4"> On time product and service delivery</p>
           <p className="mt-4 px-4 fs-400">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do.
+             Provides on time product delivery, innovative pricing.
           </p>
         </div>
       </SwiperSlide>
@@ -211,9 +201,9 @@ export function AboutSlidesSm() {
               className="w-20 m-auto"
             />
           </div>
-          <p className="fs-500 fw-500 mt-4">Execellent Customer Care</p>
+          <p className="fs-500 fw-500 mt-4">Safe, Secure & Reliable</p>
           <p className="mt-4 px-4 fs-400">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do.
+          BOG is a reliable platform known to be very safe and secure .
           </p>
         </div>
       </SwiperSlide>
@@ -226,54 +216,9 @@ export function AboutSlidesSm() {
               className="w-20 m-auto"
             />
           </div>
-          <p className="fs-500 fw-500 mt-4">Execellent Customer Care</p>
+          <p className="fs-500 fw-500 mt-4">Construction Marketplace</p>
           <p className="mt-4 px-4 fs-400">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do.
-          </p>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide>
-        <div className="text-center py-4 shadow lg:w-10/12 mx-auto">
-          <div>
-            <img
-              src={require("../../assets/images/tv.png")}
-              alt="img1"
-              className="w-20 m-auto"
-            />
-          </div>
-          <p className="fs-500 fw-500 mt-4">Execellent Customer Care</p>
-          <p className="mt-4 px-4 fs-400">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do.
-          </p>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide>
-        <div className="text-center py-4 shadow lg:w-10/12 mx-auto">
-          <div>
-            <img
-              src={require("../../assets/images/tv.png")}
-              alt="img1"
-              className="w-20 m-auto"
-            />
-          </div>
-          <p className="fs-500 fw-500 mt-4">Execellent Customer Care</p>
-          <p className="mt-4 px-4 fs-400">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do.
-          </p>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide>
-        <div className="text-center py-4 shadow lg:w-10/12 mx-auto">
-          <div>
-            <img
-              src={require("../../assets/images/tv.png")}
-              alt="img1"
-              className="w-20 m-auto"
-            />
-          </div>
-          <p className="fs-500 fw-500 mt-4">Execellent Customer Care</p>
-          <p className="mt-4 px-4 fs-400">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do.
+            BOG provides for your construction needs
           </p>
         </div>
       </SwiperSlide>
@@ -347,9 +292,9 @@ export function ReviewSlide({ reviews }) {
     <div className="w-full overflow-hidden">
       <div className="flex w-200 justify-between" ref={review}>
         {reviews.length > 0
-          ? reviews.slice(0, 6).map((item) => {
+          ? reviews.slice(0, 6).map((item, index) => {
               return (
-                <div className="py-4 mr-10 w-96 hover:bg-primary hover:text-white border border-pri px-5 mx-auto bg-white rounded">
+                <div className="py-4 mr-10 w-96 hover:bg-primary hover:text-white border border-pri px-5 mx-auto bg-white rounded" key={index}>
                   <div className="flex items-center">
                     <Avatar
                       round
@@ -390,7 +335,7 @@ export function ReviewSlideSm({ reviews }) {
     >
       {reviews.length > 0
         ? reviews.map((item, index) => (
-            <SwiperSlide virtualIndex={index}>
+            <SwiperSlide virtualIndex={index} key={index}>
               <div className="py-4 mb-8 hover:bg-primary hover:text-white border border-pri px-5 mx-auto bg-white rounded">
                 <div className="flex items-center">
                   <Avatar

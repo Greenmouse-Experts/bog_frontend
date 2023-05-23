@@ -7,12 +7,10 @@ import Spinner from '../layouts/Spinner';
 import { capitalizeFirstLetter, formatNumber, getSubTotal } from '../../services/helper';
 import dayjs from 'dayjs';
 
-const BASE_URL = "https://bog.greenmouseproperties.com";
 
 export const OrderSuccess = () => {
     const navigate = useNavigate();
     const location = useLocation()
-    console.log(location.state);
     const url = `orders/order-detail/${location.state.orderId}`
     const { loading, data: order } = useFetchHook(url);
 
@@ -22,8 +20,7 @@ export const OrderSuccess = () => {
 
     const printInvoice = (orderId) => {
         const splitSlug = orderId.split('/');
-        console.log(splitSlug);
-        const url = `${BASE_URL}/uploads/${splitSlug[2]}.pdf`
+        const url = `${process.env.REACT_APP_IMAGE_URL}/uploads/${splitSlug[2]}.pdf`
         window.open(url, "_blank")
     }
 
@@ -57,12 +54,6 @@ export const OrderSuccess = () => {
                                     <p>{order?.contact.contact_phone || "09090000000"}</p>
                                 </div>
                             </div>
-                            {/* <div>
-                            <p className='bg-primary fw-600 pl-3 py-2 text-white w-full'>Shipping Method</p>
-                            <div className='px-3 bg-light py-4'>
-                                <p>Flat Rate - Fixed</p>
-                            </div>
-                        </div> */}
                             <div className='bg-light text-end pb-3'>
                                 <p className='bg-primary fw-600 px-3 py-2 text-white w-full'>Payment</p>
                                 <div className='px-3 bg-light py-4'>

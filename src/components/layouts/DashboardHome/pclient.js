@@ -11,58 +11,54 @@ import dayjs from "dayjs";
 import { UserOrderAnal } from "../assets/UserOrderAnal";
 import { getMyProject } from "../../../redux/actions/ProjectAction";
 import { Loader } from "../Spinner";
+import { getStatus } from "../../../services/helper";
+import EmptyData from "../../Dashboard/assets/UI/EmptyData";
 
 export default function PclientDashboard() {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
-  const order = useSelector((state) => state.orders.userOrders)
-  const project = useSelector((state) => state.projects.projects)
+  const order = useSelector((state) => state.orders.userOrders);
+  const project = useSelector((state) => state.projects.projects);
 
-  const pendingOrder = order.filter(where => where.status === "pending")
-  const ongoingProject = project.filter(where => where.status === "ongoing")
+  const pendingOrder = order.filter((where) => where.status === "pending");
+  const ongoingProject = project.filter((where) => where.status === "ongoing");
 
   const [loading, setLoading] = useState(false);
 
   const stopLoading = () => setLoading(false);
 
   useEffect(() => {
-    setLoading(true)
-    dispatch(getUserOrders(stopLoading))
+    setLoading(true);
+    dispatch(getUserOrders(user.profile.userType, stopLoading)); // eslint-disable-next-line
   }, [dispatch]);
 
   useEffect(() => {
-   if (user) {
-        dispatch(getMyProject(user.userType, navigate, stopLoading));
+    if (user) {
+      dispatch(getMyProject(user.userType, navigate, stopLoading));
     }
     //dispatch(getProjects(stopLoading))
-  }, [dispatch, user, navigate])
-  
+  }, [dispatch, user, navigate]);
+
   const myProjects = useSelector((state) => state.projects.projects);
 
-  
   const returnColor = (value) => {
-    if ((value >= 0) && (value < 30)) {
-      return 'red'
+    if (value >= 0 && value < 30) {
+      return "red";
+    } else if (value >= 30 && value < 70) {
+      return "yellow";
+    } else if (value >= 70) {
+      return "green";
     }
-    else if ((value >= 30) && (value < 70)) {
-      return 'yellow'
-    }
-    else if (value >= 70) {
-      return 'green'
-    }
-  }
-
+  };
 
   if (loading) {
     return (
       <center>
         <Loader />
       </center>
-    )
+    );
   }
-
 
   return (
     <div className="min-h-screen">
@@ -94,9 +90,14 @@ export default function PclientDashboard() {
         <div className="mt-3">
           <div className="lg:grid-4 justify-between fs-500 fw-600">
             <div className="px-4 py-3 bg-purple-50 rounded flex justify-between items-center shades">
-              <Link to="orders" className="flex justify-between items-center w-full">
+              <Link
+                to="orders"
+                className="flex justify-between items-center w-full"
+              >
                 <div>
-                  <p className="text-xxl fw-600 pb-2 text-xl">{order? order.length : 0} </p>
+                  <p className="text-xxl fw-600 pb-2 text-xl">
+                    {order ? order.length : 0}{" "}
+                  </p>
                   <p className="">Total Orders</p>
                 </div>
                 <div className="">
@@ -109,9 +110,14 @@ export default function PclientDashboard() {
               </Link>
             </div>
             <div className="bg-yellow-100 mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
-              <Link to="orders" className="flex justify-between items-center w-full">
+              <Link
+                to="orders"
+                className="flex justify-between items-center w-full"
+              >
                 <div>
-                  <p className="text-xxl pb-2 fw-600">{pendingOrder? pendingOrder.length : 0 }</p>
+                  <p className="text-xxl pb-2 fw-600">
+                    {pendingOrder ? pendingOrder.length : 0}
+                  </p>
                   <p className="text-gray-600">Pending Orders</p>
                 </div>
                 <div className="">
@@ -124,9 +130,14 @@ export default function PclientDashboard() {
               </Link>
             </div>
             <div className="bg-blue-100  mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
-              <Link to="projects" className="flex justify-between items-center w-full">
+              <Link
+                to="projects"
+                className="flex justify-between items-center w-full"
+              >
                 <div>
-                  <p className="fw-600 text-xxl pb-2">{project? project.length : 0}</p>
+                  <p className="fw-600 text-xxl pb-2">
+                    {project ? project.length : 0}
+                  </p>
                   <p className="text-gray-600">Total Projects</p>
                 </div>
                 <div className="relative">
@@ -139,9 +150,14 @@ export default function PclientDashboard() {
               </Link>
             </div>
             <div className="bg-green-100  mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
-              <Link to="projects" className="flex justify-between items-center w-full">
+              <Link
+                to="projects"
+                className="flex justify-between items-center w-full"
+              >
                 <div>
-                  <p className="text-xxl fw-600 pb-2">{ongoingProject? ongoingProject.length : 0}</p>
+                  <p className="text-xxl fw-600 pb-2">
+                    {ongoingProject ? ongoingProject.length : 0}
+                  </p>
                   <p className="text-gray-600">Ongoing Projects</p>
                 </div>
                 <div className="">
@@ -164,13 +180,17 @@ export default function PclientDashboard() {
               </div>
               <div className="">
                 <div class="mr-6 relative mx-auto text-black">
-                  <Link to='orders'><button className="border-secondary bg-light px-3 py-1">View All</button></Link>
+                  <Link to="orders">
+                    <button className="border-secondary bg-light px-3 py-1">
+                      View All
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
             <div>
               <CardBody>
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto relative min-h-[250px]">
                   <table className="items-center w-full bg-transparent border-collapse">
                     <thead className="thead-light rounded-lg bg-gray-100">
                       <tr className="rounded-lg">
@@ -191,31 +211,37 @@ export default function PclientDashboard() {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="fw-400">
+                    {
+                      order.length > 0? 
+                      <tbody className="fw-400">
                       {
-                          order.length > 0 ? order.slice(0, 6).map((item, index) => {
-                              return (
-                                  <tr key={index}>
-                                      <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                          {index + 1}                    
-                                      </td>
-                                      <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                          {item.orderSlug}
-                                      </td>
-                                      <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                          {item.order_items[0].product.name}
-                                      </td>
-                                      <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                          {dayjs(item.createdAt).format('DD-MMM-YYYY')}
-                                      </td>
-                                      <td className="border-b text-blue-600 border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                          {item.status}
-                                      </td>
-                                  </tr>
-                              )
-                          }) : <p className="text-primary text-center fw-500 mt-8">No Order Made</p>
-                      }
-                  </tbody>
+                        order.slice(0, 6).map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
+                                {index + 1}
+                              </td>
+                              <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
+                                {item.orderSlug}
+                              </td>
+                              <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
+                                {item.order_items[0].product.name}
+                              </td>
+                              <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
+                                {dayjs(item.createdAt).format("DD-MMM-YYYY")}
+                              </td>
+                              <td className="border-b text-blue-600 border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
+                                {getStatus(item.status)}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                    :
+                    <div className="w-full absolute top-20">
+                        <EmptyData message='No Orders Yet'/>
+                    </div>
+                    }
                   </table>
                 </div>
               </CardBody>
@@ -226,11 +252,11 @@ export default function PclientDashboard() {
               <p className="fw-600 text-lg">Order Analysis</p>
             </div>
             <div className="mt-8">
-              {order?.length > 0?
-                <UserOrderAnal order={order}/>
-                :
-                <p className="text-center text-primary fw-500">No Order Yet</p>
-              }
+              {order?.length > 0 ? (
+                <UserOrderAnal order={order} />
+              ) : (
+                <EmptyData message='No Orders Yet'/>
+              )}
             </div>
           </div>
         </div>
@@ -241,31 +267,42 @@ export default function PclientDashboard() {
               <p className="text-lg fw-600">Project Analysis</p>
             </div>
             <div className="mt-4 px-4 ">
-              <ProjectChart data={myProjects} />
+             {project && !project.length && <EmptyData message='No Projects Yet'/>}
+             {project && !!project.length && <ProjectChart data={myProjects} />}
             </div>
           </div>
           {/* ongoing projects */}
           <div className="bg-white mt-6 lg:mt-0 pb-6 rounded">
-            <div  className="border-b-2 flex justify-between items-center py-3 px-4 bg-primary text-white rounded-t-lg">
+            <div className="border-b-2 flex justify-between items-center py-3 px-4 bg-primary text-white rounded-t-lg">
               <p className="text-lg fw-600">My Projects</p>
-              <p><Link to='projects'><button className="border-secondary bg-light px-3 fw-500 fs-400 py-1 text-black">View All</button></Link></p>
+              <p>
+                <Link to="projects">
+                  <button className="border-secondary bg-light px-3 fw-500 fs-400 py-1 text-black">
+                    View All
+                  </button>
+                </Link>
+              </p>
             </div>
             <div className="pt-5 text-sm fw-600 px-6">
-              {
-                myProjects.length > 0? myProjects.slice(0, 5).map(item => (
+              {project && !project.length && <EmptyData message='No Projects Yet'/>}
+              {myProjects && !!myProjects.length &&  (
+                myProjects.slice(0, 5).map((item) => (
                   <div className="flex mt-5 justify-between items-center">
                     <div className="w-full">
                       <p className="fs-500 pb-2">{item?.title}</p>
-                      <Progress value={item?.progress ? item?.progress : 0} color={returnColor(item?.progress ? item?.progress : 0)} />
+                      <Progress
+                        value={item?.progress ? item?.progress : 0}
+                        color={returnColor(item?.progress ? item?.progress : 0)}
+                      />
                       <div className="grid fs-400 content-between pl-4 fw-500 my-3">
-                        <p>{item?.progress ? project?.progress : 0}% completed</p>
+                        <p>
+                          {item?.progress ? project?.progress : 0}% completed
+                        </p>
                       </div>
                     </div>
                   </div>
                 ))
-                :
-                <p className="text-primary text-center">No Project Yet</p>
-              }
+              )}
             </div>
           </div>
         </div>

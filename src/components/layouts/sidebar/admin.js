@@ -68,15 +68,18 @@ const AdminSidebar = () => {
   const [projectDrop, setProjectDrop] = useState(false);
   const [serviceDrop, setServiceDrop] = useState(false);
   const [settingsDrop, setSettingsDrop] = useState(false);
+  const [blogDrop, setBlogDrop] = useState(false);
   const [signOut, setSignOut] = useState(false);
 
   function CloseAll() {
-    // setSettingsDrop(false)
+    setSettingsDrop(false)
     setOrderDrop(false);
     setProductDrop(false);
     setUserDrop(false);
     setProjectDrop(false);
     setServiceDrop(false);
+    setSettingsDrop(false);
+    setBlogDrop(false);
   }
   function CloseModal() {
     setSignOut(false);
@@ -105,7 +108,7 @@ const AdminSidebar = () => {
       </div>
       {showSideBar && (
         <div
-          className="fixed lg:pb-24 overflow-y-scroll z-20 bg-white fs-400 top-20 w-6/12 h-full lg:sidebar-w shadow lg:pl-4 pt-2 px-2"
+          className="fixed lg:pb-24 overflow-y-auto z-20 bg-white fs-400 top-20 w-6/12 h-full lg:sidebar-w shadow lg:pl-4 pt-2 px-2"
           onClick={CloseAll}
         >
           <div className="">
@@ -132,6 +135,7 @@ const AdminSidebar = () => {
                       setProductDrop(false);
                       setOrderDrop(false);
                       setSettingsDrop(false);
+                      setBlogDrop(false);
                     }}
                   >
                     <p className="pl-3 pr-5">Users</p>
@@ -202,6 +206,7 @@ const AdminSidebar = () => {
                       setOrderDrop(false);
                       setUserDrop(false);
                       setSettingsDrop(false);
+                      setBlogDrop(false);
                     }}
                   >
                     <p className="pl-3 pr-5">Products</p>
@@ -243,6 +248,7 @@ const AdminSidebar = () => {
                       setProductDrop(false);
                       setUserDrop(false);
                       setSettingsDrop(false);
+                      setBlogDrop(false);
                     }}
                   >
                     <p className="pl-3 pr-5">Orders</p>
@@ -253,9 +259,19 @@ const AdminSidebar = () => {
                   <div className="lg:ml-9 ml-4 fs-400 pt-2">
                     <NavLink
                       to="ordersadmin"
-                      // style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                      style={({ isActive }) =>
+                        isActive ? activeStyles : undefined
+                      }
                     >
                       <p className="py-2">All Orders</p>
+                    </NavLink>
+                    <NavLink
+                      to="order-refund"
+                      style={({ isActive }) =>
+                        isActive ? activeStyles : undefined
+                      }
+                    >
+                      <p className="py-2">Order Refund</p>
                     </NavLink>
                   </div>
                 )}
@@ -278,6 +294,7 @@ const AdminSidebar = () => {
                       setOrderDrop(false);
                       setUserDrop(false);
                       setSettingsDrop(false);
+                      setBlogDrop(false);
                     }}
                   >
                     <p className="pl-3 pr-5">Projects</p>
@@ -324,6 +341,7 @@ const AdminSidebar = () => {
                       setProductDrop(false);
                       setUserDrop(false);
                       setSettingsDrop(false);
+                      setBlogDrop(false);
                     }}
                   >
                     <p className="pl-3 pr-5">Services</p>
@@ -341,7 +359,7 @@ const AdminSidebar = () => {
                       <p className="py-2">Category</p>
                     </NavLink>
                     <NavLink
-                      to="servicecategory"
+                      to="service-provider"
                       style={({ isActive }) =>
                         isActive ? activeStyles : undefined
                       }
@@ -356,15 +374,49 @@ const AdminSidebar = () => {
             )}
 
             {user?.level === 1 || user?.level === 2 ? (
-              <NavLink
-                to="blog"
-                className="w-full flex items-center pl-2 py-2 fw-600 my-2"
+              <div
+                className="w-full items-center pl-2 py-2 fw-600 my-2"
                 onClick={unShow}
-                style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
-                <GrBlog className="text-lg" />
-                <p className="pl-3">Blog</p>
-              </NavLink>
+                <div className="flex" onClick={(e) => e.stopPropagation()}>
+                  <GrBlog className="text-lg" />
+                  <div
+                    className="flex items-center cursor-pointer"
+                    onClick={() => {
+                      setBlogDrop(true);
+                      setServiceDrop(false);
+                      setOrderDrop(false);
+                      setProjectDrop(false);
+                      setProductDrop(false);
+                      setUserDrop(false);
+                      setSettingsDrop(false);
+                    }}
+                  >
+                    <p className="pl-3">Blog</p>
+                    <BsFillCaretDownFill className="text-black ml-6" />
+                  </div>
+                </div>
+                {blogDrop && (
+                  <div className="lg:ml-9 ml-4 fs-400 pt-2">
+                    <NavLink
+                      to="blog"
+                      style={({ isActive }) =>
+                        isActive ? activeStyles : undefined
+                      }
+                    >
+                      <p className="py-2">Blogs</p>
+                    </NavLink>
+                    <NavLink
+                      to="blog-category"
+                      style={({ isActive }) =>
+                        isActive ? activeStyles : undefined
+                      }
+                    >
+                      <p className="py-2">Category</p>
+                    </NavLink>
+                  </div>
+                )}
+              </div>
             ) : (
               ""
             )}
@@ -381,7 +433,6 @@ const AdminSidebar = () => {
             ) : (
               ""
             )}
-            {user?.level === 1 ? (
               <NavLink
                 to="announcement"
                 className="w-full flex items-center pl-2 py-2 fw-600 my-2"
@@ -391,9 +442,6 @@ const AdminSidebar = () => {
                 <MdOutlineEmail className="text-lg" />
                 <p className="pl-3">Messages</p>
               </NavLink>
-            ) : (
-              ""
-            )}
             {user?.level === 1 || user?.level === 5 ? (
               <NavLink
                 to="admin-meetings"
@@ -431,6 +479,12 @@ const AdminSidebar = () => {
                   <VscHistory className="text-xl" />
                   <p className="pl-3">Transactions</p>
                 </NavLink>
+              </>
+            ) : (
+              ""
+            )}
+            {user?.level === 1 || user?.level === 4 ? (
+              <>
                 <NavLink
                   to="delivery"
                   onClick={unShow}
@@ -446,7 +500,7 @@ const AdminSidebar = () => {
             )}
           </div>
           {user?.level === 1 ? (
-            <div className="w-full items-center fw-600">
+            <div className="w-full items-center fw-600" onClick={(e) => {e.stopPropagation()}}>
               <div
                 className="w-full py-2 pl-2 fw-600 cursor-pointer flex items-center my-2 rounded-lg"
                 onClick={() => {
@@ -454,14 +508,14 @@ const AdminSidebar = () => {
                   setUserDrop(false);
                   setProjectDrop(false);
                   setProductDrop(false);
+                  setServiceDrop(false);
                   setOrderDrop(false);
                 }}
               >
-                <BsGear className="text-lg" />
+                <BsGear className={`text-lg ${settingsDrop? "text-red" : ""}`} />
                 <p className="pl-3 pr-5">Settings</p>
                 <BsFillCaretDownFill className="text-black" />
               </div>
-              <div>
                 {settingsDrop && (
                   <div
                     className="lg:pl-8 pl-4 fs-400 pt-1"
@@ -478,7 +532,6 @@ const AdminSidebar = () => {
                     </NavLink>
                   </div>
                 )}
-              </div>
             </div>
           ) : (
             ""

@@ -175,7 +175,7 @@ export const OrganisationInfo = ({ handleOpen, tab, setKycScore, kycScore, setKy
       <div className="mt-3">
         <label>Date of Incorporation / Registration</label>
         <input
-          value={formData.Incorporation_date.split("T")[0]}
+          value={formData?.Incorporation_date?.split("T")[0]}
           onChange={(e) => updateValue(e.target.value, "Incorporation_date")}
           type="date"
           className="w-full mt-2 p-2 border border-gray-400 rounded"

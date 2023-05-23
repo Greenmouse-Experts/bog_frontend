@@ -32,7 +32,7 @@ const DeleteModal = ({ CloseDelete, product, isAdmin }) => {
                     </div>
                 </div>
                 <div className="bg-light rounded-b-md  py-4 mt-5 text-end px-5">
-                    <Button color="black" variant="outlined" ripple={true} onClick={CloseDelete}>Cancel</Button>
+                    <Button className='' variant="outlined" ripple={true} onClick={CloseDelete}>Cancel</Button>
                     {
                         loading ? <Spinner /> :
                             <Button color="red" onClick={deleteProduct} className="ml-4" ripple={true}>Delete</Button>

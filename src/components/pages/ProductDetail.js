@@ -23,12 +23,15 @@ import { Alert } from "@material-tailwind/react";
 
 export default function ProductDetail() {
 
+    // eslint-disable-next-line 
     const products = useSelector((state) => state.products.products);
     const [cartNum, setCartNum] = useState(1)
     const dispatch = useDispatch()
     const { itemId } = useParams();
     const [item, setItem] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [maxQuantity, setMaxQuantity] = useState(0)
+    const [prodNum, setProductNum] = useState(false)
 
     const fetchProduct = async () => {
         try {
@@ -50,7 +53,7 @@ export default function ProductDetail() {
     }
 
     const navigate = useNavigate()
-    const [itemAdded, setItemAdded] = useState(false)
+    const [itemAdded, setItemAdded] = useState(false) // eslint-disable-next-line 
     const [similarProducts, setSimilarProducts] = useState([]);
     const user =useSelector((state) => state.auth.user)
     const [show, setShow] = useState(false);
@@ -67,7 +70,8 @@ export default function ProductDetail() {
     useEffect(() => {
         dispatch(getProducts())
         if (item != null) {
-            const similar = products.filter(where => where.category.id === item.category.id).filter(prod => prod.id != item.id);
+            setMaxQuantity(item.remaining)
+            const similar = products.filter(where => where?.category.id === item.category?.id).filter(prod => prod?.id != item?.id);
             setSimilarProducts(similar)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,6 +81,11 @@ export default function ProductDetail() {
         if (itemAdded) {
             setTimeout(function () {
                 setItemAdded(false);
+            }, 4000);
+        } 
+        if (prodNum) {
+            setTimeout(function () {
+                setProductNum(false);
             }, 4000);
         } 
         if (show) {
@@ -108,7 +117,7 @@ export default function ProductDetail() {
                     <div className="box">
                         <div className=" w-full">
                             <div className="lg:flex items-center justify-between lg:pt-10">
-                                <div className="lg:w-6/12 bg-light shadow-md p-4">
+                                <div className="lg:w-6/12 overflow-hidden bg-light shadow-md p-4">
                                     {/* <img src="https://www.mobismea.com/upload/iblock/2a0/2f5hleoupzrnz9o3b8elnbv82hxfh4ld/No%20Product%20Image%20Available.png" alt="product" className="w-full lg:h-72" /> */}
 
                                     <ProductImage item={item} />
@@ -138,12 +147,18 @@ export default function ProductDetail() {
                                         <div className="mt-2 flex items-end fs-500 lg:fs-600">
                                             <div>
                                                 <p className="fw-600 text-gray-600 mb-2">Quantity</p>
-                                                <input type="number" min={0} max={10} value={cartNum} onChange={(e) => setCartNum(e.target.value)} className="w-16 px-1 lg:px-2 rounded py-1 lg:py-2 border border-black" />
+                                                <input type="number" min={0} max={maxQuantity} value={cartNum} onChange={(e) => setCartNum(e.target.value)} className="w-16 px-1 lg:px-2 rounded py-1 lg:py-2 border border-black" />
                                             </div>
                                             <div className="">
                                                 {
                                                     user?.profile?.userType === "professional" || user?.profile?.userType === "vendor"?
                                                     <button className="btn-primary ml-7 px-4 lg:px-8 " onClick={() => setShow(true)} >Add To Cart</button>
+                                                    :
+                                                    item.remaining < 1?
+                                                    <button className="btn-primary ml-7 px-4 lg:px-8 " onClick={() => setProductNum(true)}>Out of Stock</button>
+                                                    :
+                                                    item.remaining < cartNum?
+                                                    <button className="btn-primary ml-7 px-4 lg:px-8 " onClick={() => setProductNum(true)}>Add To Cart</button>
                                                     :
                                                     <button className="btn-primary ml-7 px-4 lg:px-8 " onClick={() => addItemToCart(item, cartNum)}>Add To Cart</button>
                                                 }
@@ -155,6 +170,14 @@ export default function ProductDetail() {
                                                         color="red" className="absolute w-72 fs-400 fw-500"
                                                     >Please sign up / switch to client to access</Alert>
                                                 )}
+                                                {prodNum && (
+                                                    <Alert 
+                                                        dismissible={{
+                                                            onClose: () => setShow(false),
+                                                        }}
+                                                        color="red" className="absolute w-72 fs-400 fw-500"
+                                                    >Selected Quantity is not availbale</Alert>
+                                                )}
                                                 {itemAdded && (
                                                     <div className="absolute lg:fs-400 fs-300 fw-600 px-2 text-center w-40 border lg:right-0 xl:right-1/4 lg:bottom-0 -bottom-3/4 py-1 bg-secondary rounded text-gray-100 scale-ani">
                                                         <p>Added to Cart</p>
@@ -164,8 +187,9 @@ export default function ProductDetail() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <p className="mt-4 lg:mt-6 flex fw-500 text-primary fs-300 lg:fs-500"><span className="text-lg lg:text-xl pr-2 mt-1"><BsFillInfoCircleFill/></span><span>Delivery is effecient and fast to every part of Nigeria. (same day delivery is location based)</span></p>
+                                    <div className="mt-4">
+                                        <p className="fw-500 text-gray-500">Remaining Quantity: <span className="text-lg text-gray-600">{maxQuantity}</span></p>
+                                        <p className="mt-2 lg:mt-2 flex fw-500 text-primary fs-300 lg:fs-500"><span className="text-lg lg:text-xl pr-2 mt-1"><BsFillInfoCircleFill/></span><span>Delivery is effecient and fast to every part of Nigeria. (same day delivery is location based)</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +222,7 @@ export default function ProductDetail() {
                     <div className="box">
                         <div>
                             {
-                                similarProducts.length > 0 ?
+                                similarProducts?.length > 0 ?
                                     <>
                                         <p className="fw-600 lg:text-2xl py-6">Similar Products</p>
                                         <SimilarProducts products={similarProducts} />

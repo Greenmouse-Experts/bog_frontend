@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getAdminProducts, getCategories } from '../../../../redux/actions/ProductAction';
 import AdminCreateProduct from "./Product/Modals/AdminCreateProduct";
-// import AdminProductLists from "./Product/AdminProductLists";
 import ProductTable from "../../assets/Tables/ProductTable";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md"
 

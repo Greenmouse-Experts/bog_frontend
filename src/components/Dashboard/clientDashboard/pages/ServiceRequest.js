@@ -22,6 +22,10 @@ export const ServiceRequest = () => {
         navigate('/dashboard/projectsadmin')
     }
 
+    const CloseQoute = () => {
+        setQoute(false)
+    }
+
     const openQoute = (item) => {
         setSelected(item)
         setQoute(true)
@@ -62,7 +66,7 @@ export const ServiceRequest = () => {
             </div>
             {
                 qoute && (
-                    <ViewQoute item={selected} closeModal={CloseModal} project={data.project} />
+                    <ViewQoute item={selected} closeModal={CloseQoute} project={data.project} />
                     
                 )
             }

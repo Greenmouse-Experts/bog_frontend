@@ -7,17 +7,40 @@ import { Link } from "react-router-dom";
 import { getUserOrders } from "../../../../redux/actions/OrderAction";
 import { Loader } from "../../../layouts/Spinner";
 import UserOrderTable from "../../assets/Tables/userOrder";
+import CancelOrderModal from "./Order/Modals/cancelModal";
+import RefundOrderModal from "./Order/Modals/refundModal";
+import EmptyData from "../../assets/UI/EmptyData";
 
 export default function Orders() {
   const dispatch = useDispatch();
+  const userType = useSelector((state) => state.auth.user.profile.userType)
   let orders = useSelector((state) => state.orders.userOrders);
   const [loading, setLoading] = useState(false);
+  const [cancelModal, setCancelModal] = useState()
+  const [refundModal, setRefundModal] = useState()
+  const [orderId, setOrderId] = useState('')
   const stopLoading = () => setLoading(false);
 
   useEffect(() => {
     setLoading(true);
-    dispatch(getUserOrders(stopLoading));
+    dispatch(getUserOrders(userType, stopLoading));
   }, [])
+
+  const CloseModal = () => {
+    setCancelModal(false)
+    setRefundModal(false)
+  }
+
+  const RefundOrder = (val) => {
+    setRefundModal(true)
+    setOrderId(val)
+  }
+
+  const cancelOrder = (id) => {
+    setCancelModal(true)
+    setOrderId(id)
+  }
+  
 
   return (
     <div>
@@ -63,20 +86,8 @@ export default function Orders() {
               {/* All Orders */}
               <TabPanel>
                   <div className="overflow-x-auto">
-                    {/* <table className="items-center w-full bg-transparent border-collapse">
-                      <thead className="thead-light bg-light">
-                        <OrderHeader />
-                      </thead>
-                      <tbody>
-                        {
-                          orders.length > 0 ? orders.map((item, index) => (
-                            <OrderItem key={item.id} item={item} index={index} />
-                          )) : null
-                        }
-                      </tbody>
-                    </table> */}
                     {
-                      orders.length > 0 ? <UserOrderTable/> : "No Orders"
+                      orders.length > 0 ? <UserOrderTable cancelOrder={cancelOrder} /> : <EmptyData message='No Order Yet'/>
                     }
                   </div>
               </TabPanel>
@@ -84,21 +95,21 @@ export default function Orders() {
               {/* Pending Orders */}
               <TabPanel>
                   {
-                      orders.length > 0 ? <UserOrderTable status="pending"/> : "No Orders"
+                      orders.length > 0 ? <UserOrderTable cancelOrder={cancelOrder} status="pending"/> : <EmptyData message='No Order Yet'/>
                     }
               </TabPanel>
 
               {/* Delivered Orders */}
               <TabPanel>
                 {
-                      orders.length > 0 ? <UserOrderTable status="completed"/> : "No Orders"
+                      orders.length > 0 ? <UserOrderTable status="completed"/> : <EmptyData message='No Order Yet'/>
                     }
               </TabPanel>
 
               {/* Cancelled Orders */}
               <TabPanel>
                 {
-                      orders.length > 0 ? <UserOrderTable status="cancelled"/> : "No Orders"
+                      orders.length > 0 ? <UserOrderTable status="cancelled" refundOrder={RefundOrder} refundTab/> : <EmptyData message='No Order Yet'/>
                     }
               </TabPanel>
             </Tabs>
@@ -106,6 +117,16 @@ export default function Orders() {
           </div>
         </div>
       </div>
+      {
+        cancelModal && (
+          <CancelOrderModal CloseModal={CloseModal} id={orderId} getUserOrders={getUserOrders}/>
+        ) 
+      }
+      {
+        refundModal && (
+          <RefundOrderModal CloseModal={CloseModal} id={orderId} getUserOrders={getUserOrders}/>
+        ) 
+      }
     </div>
   );
 }

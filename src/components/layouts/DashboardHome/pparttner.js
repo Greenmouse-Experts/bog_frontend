@@ -2,53 +2,63 @@ import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  Breadcrumbs, CardBody, Progress } from "@material-tailwind/react";
+import { Breadcrumbs, CardBody, Progress } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { getProductOwnerOrders } from "../../../redux/actions/OrderAction";
 import { getUserProducts } from "../../../redux/actions/ProductAction";
 import dayjs from "dayjs";
-import { formatNumber } from "../../../services/helper";
+import { formatNumber, getStatus, paidStatus } from "../../../services/helper";
 import { ProductAnalysis } from "../assets/ProductAnalysis";
 import { OrderAnalysis } from "../assets/OrderAnalysis";
 import { Loader } from "../Spinner";
+import EmptyData from "../../Dashboard/assets/UI/EmptyData";
 // import ProjectChart from "../assets/ProjectChart";
 
 export default function ProductDashboard() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   const stopLoading = () => setLoading(false);
 
   useEffect(() => {
-    setLoading(true)
-    dispatch(getUserProducts(stopLoading))
-    dispatch(getProductOwnerOrders(stopLoading))
-  }, [dispatch])
+    setLoading(true);
+    dispatch(getUserProducts(stopLoading));
+    dispatch(getProductOwnerOrders(stopLoading));
+  }, [dispatch]);
 
   const user = useSelector((state) => state.auth.user);
   const product = useSelector((state) => state.products.userProducts);
   const orders = useSelector((state) => state.orders.orderRequests);
 
-  const storeProducts = product.filter(where => where.showInShop === true)
-  const completedOrders = orders.filter(where => where.order.status === "completed")
-  const ongoingOrders = orders.filter(where => where.order.status === "ongoing")
-  const pendingOrders = orders.filter(where => where.order.status === "pending")
-  const approvedProduct = product.filter(where => where.status === "approved")
-  const reviewProduct = product.filter(where => where.status === "in_review")
-  const disapprovedProduct = product.filter(where => where.status === "disapproved")
+  const storeProducts = product.filter((where) => where.showInShop === true);
+  const completedOrders = orders.filter(
+    (where) => where.order.status === "completed"
+  );
+  const ongoingOrders = orders.filter(
+    (where) => where.order.status === "ongoing"
+  );
+  const pendingOrders = orders.filter(
+    (where) => where.order.status === "pending"
+  );
+  const approvedProduct = product.filter(
+    (where) => where.status === "approved"
+  );
+  const reviewProduct = product.filter((where) => where.status === "in_review");
+  const disapprovedProduct = product.filter(
+    (where) => where.status === "disapproved"
+  );
 
-  const total = orders.reduce((sum, r) => sum + r.amount, 0);
-
+  const total = completedOrders.reduce((sum, r) => sum + r.amount, 0);
 
   if (loading) {
     return (
       <center>
         <Loader />
       </center>
-    )
+    );
   }
-  
+
   return (
     <div className="min-h-screen">
       <div className="w-full py-10 pb-8 lg:px-8 bg-white px-4">
@@ -79,9 +89,14 @@ export default function ProductDashboard() {
         <div className="mt-3">
           <div className="lg:grid-4 justify-between fs-500 fw-600">
             <div className="bg-white px-4 py-3 rounded flex justify-between items-center shades">
-              <Link to="products" className="flex justify-between items-center w-full">
+              <Link
+                to="products"
+                className="flex justify-between items-center w-full"
+              >
                 <div>
-                  <p className="text-xxl fw-600 pb-2 text-xl">{product? product.length : 0}</p>
+                  <p className="text-xxl fw-600 pb-2 text-xl">
+                    {product ? product.length : 0}
+                  </p>
                   <p className="text-gray-600">Total Producs</p>
                 </div>
                 <div className="">
@@ -94,9 +109,14 @@ export default function ProductDashboard() {
               </Link>
             </div>
             <div className="bg-white  mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
-              <Link to="products" className="flex justify-between items-center w-full">
+              <Link
+                to="products"
+                className="flex justify-between items-center w-full"
+              >
                 <div>
-                  <p className="text-xxl fw-600 pb-2">{storeProducts? storeProducts.length : 0}</p>
+                  <p className="text-xxl fw-600 pb-2">
+                    {storeProducts ? storeProducts.length : 0}
+                  </p>
                   <p className="text-gray-600">Products in Store</p>
                 </div>
                 <div className="">
@@ -109,9 +129,14 @@ export default function ProductDashboard() {
               </Link>
             </div>
             <div className="bg-white mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
-              <Link to="orders" className="flex justify-between items-center w-full">
+              <Link
+                to="order-request"
+                className="flex justify-between items-center w-full"
+              >
                 <div>
-                  <p className="text-xxl pb-2 fw-600">{orders? orders.length : 0}</p>
+                  <p className="text-xxl pb-2 fw-600">
+                    {orders ? orders.length : 0}
+                  </p>
                   <p className="text-gray-600">Order Request</p>
                 </div>
                 <div className="">
@@ -124,9 +149,14 @@ export default function ProductDashboard() {
               </Link>
             </div>
             <div className="bg-white  mt-4 lg:mt-0 px-4 py-3 rounded flex justify-between items-center shades">
-              <Link to="orders" className="flex justify-between items-center w-full">
+              <Link
+                to="order-request"
+                className="flex justify-between items-center w-full"
+              >
                 <div>
-                  <p className="fw-600 text-xxl pb-2">{completedOrders? completedOrders.length : 0}</p>
+                  <p className="fw-600 text-xxl pb-2">
+                    {completedOrders ? completedOrders.length : 0}
+                  </p>
                   <p className="text-gray-600">Completed Deliveries</p>
                 </div>
                 <div className="relative">
@@ -142,19 +172,25 @@ export default function ProductDashboard() {
         </div>
         {/* product requests*/}
         <div>
-        <div className="mt-7">
+          <div className="mt-7">
             <div className=" fw-600 fs-500 bg-white pt-6 rounded">
-                <div className="flex px-5 justify-between">
-                    <div>
-                        <p className="fw-600 fs-600 lg:text-lg mb-6 lg:mb-0">Order Request</p>
-                    </div>
-                    <div>
-                        <Link to="order-request"><p className="lg:px-6 px-2 fs-400 lg:fs-600py-1 border border-orange-800 text-secondary rounded-lg fs-400">All Items</p></Link>
-                    </div>
+              <div className="flex px-5 justify-between">
+                <div>
+                  <p className="fw-600 fs-600 lg:text-lg mb-6 lg:mb-0">
+                    Order Request
+                  </p>
                 </div>
                 <div>
+                  <Link to="order-request">
+                    <p className="lg:px-6 px-2 fs-400 lg:fs-600py-1 border border-orange-800 text-secondary rounded-lg fs-400">
+                      All Items
+                    </p>
+                  </Link>
+                </div>
+              </div>
+              <div>
                 <CardBody>
-                  <div className="overflow-x-auto">
+                  <div className="overflow-x-auto relative min-h-[250px]">
                     <table className="items-center w-full bg-transparent border-collapse">
                       <thead className="thead-light bg-light">
                         <tr>
@@ -181,78 +217,95 @@ export default function ProductDashboard() {
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="fw-400">
-                            {
-                                orders.length > 0 ? orders.slice(0, 6).map((item, index) => {
-                                    return (
-                                        <tr key={index}>
-                                            <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                {index + 1}                    
-                                            </td>
-                                            <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                {item?.order.orderSlug}
-                                            </td>
-                                            <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                {item?.product.name}
-                                            </td>
-                                            <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                              {item?.quantity}
-                                            </td>
-                                            <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                {dayjs(item?.createdAt).format('DD-MMM-YYYY')}
-                                            </td>
-                                            <td className="border-b text-blue-600 border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                {item?.order.status}
-                                            </td>
-                                            <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                                                {item?.status}
-                                            </td>
-                                        </tr>
-                                    )
-                                }) : <p className="text-primary text-center fw-500 mt-8">No Order Request Yet</p>
-                            }
+                      {orders && !orders.length && (
+                        <div className="w-full absolute top-20">
+                          <EmptyData message="No Orders Yet" />
+                        </div>
+                      )}
+                      {orders && !!orders.length && (
+                        <tbody className="fw-400">
+                          {orders.slice(0, 6).map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
+                                  {index + 1}
+                                </td>
+                                <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
+                                  {item?.order.orderSlug}
+                                </td>
+                                <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
+                                  {item?.product.name}
+                                </td>
+                                <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
+                                  {item?.quantity}
+                                </td>
+                                <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
+                                  {dayjs(item?.createdAt).format("DD-MMM-YYYY")}
+                                </td>
+                                <td className="border-b text-blue-600 border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
+                                  {getStatus(item?.order.status)}
+                                </td>
+                                <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
+                                  {paidStatus(item?.status)}
+                                </td>
+                              </tr>
+                            );
+                          })}
                         </tbody>
+                      )}
                     </table>
                   </div>
                 </CardBody>
-                </div>
+              </div>
             </div>
-        </div>
+          </div>
         </div>
         {/* project analysis and ongoing project*/}
         <div className="lg:grid-3 justify-between lg:mt-8">
           {/* overview */}
           <div className="bg-white mt-6 rounded-lg ">
-            <p className="fw-600 fs-700 bg-primary rounded-t-lg text-white p-4">Overview</p>
+            <p className="fw-600 fs-700 bg-primary rounded-t-lg text-white p-4">
+              Overview
+            </p>
             <div className="mt-5 fs-400 px-4 py-6">
               <div className="mb-3">
                 <div className="flex justify-between">
                   <p className="mb-2">Total Revenue</p>
-                  <p className="text-green-600 fw-600">NGN {formatNumber(total)}</p>
+                  <p className="text-green-600 fw-600">
+                    NGN {formatNumber(total)}
+                  </p>
                 </div>
-                <Progress color="green" value="95"/>
+                <Progress color="green" value="95" />
               </div>
               <div className="mb-3">
                 <div className="flex justify-between">
                   <p className="mb-2">Expenses</p>
                   <p className="text-red-600">NGN 0</p>
                 </div>
-                <Progress color="red" value="0"/>
+                <Progress color="red" value="0" />
               </div>
               <div className="mb-3">
                 <div className="flex justify-between">
                   <p className="mb-2">Profit</p>
                   <p className="text-green-600">NGN {formatNumber(total)}</p>
                 </div>
-                <Progress color="green" value="95"/>
+                <Progress color="green" value="95" />
               </div>
             </div>
           </div>
           {/* request analysis */}
           <div className="bg-white mt-6 rounded-lg ">
-            <div><p className="fw-600 fs-700 bg-primary rounded-t-lg text-white p-4">Product Analysis</p></div>
+            <div>
+              <p className="fw-600 fs-700 bg-primary rounded-t-lg text-white p-4">
+                Product Analysis
+              </p>
+            </div>
             <div className="mt-4 px-4 py-6">
-              <ProductAnalysis approvedProduct={approvedProduct} disapprovedProduct={disapprovedProduct} reviewProduct={reviewProduct}/>
+              <ProductAnalysis
+                approvedProduct={approvedProduct}
+                disapprovedProduct={disapprovedProduct}
+                reviewProduct={reviewProduct}
+              />
             </div>
           </div>
           {/* ivoices */}
@@ -261,7 +314,11 @@ export default function ProductDashboard() {
               <p className="fw-600 fs-700 ">Order Analysis</p>
             </div>
             <div className="px-4 py-6">
-              <OrderAnalysis ongoingOrders={ongoingOrders} completedOrders={completedOrders} pendingOrders={pendingOrders}/>
+              <OrderAnalysis
+                ongoingOrders={ongoingOrders}
+                completedOrders={completedOrders}
+                pendingOrders={pendingOrders}
+              />
             </div>
           </div>
         </div>

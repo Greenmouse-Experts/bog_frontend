@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import useFetchHook from "../../../../hooks/useFetchHook";
 import { AdminTransactTable } from "../../assets/Tables/AdminTransaction";
 import { Loader } from "../../../layouts/Spinner";
+import EmptyData from "../../assets/UI/EmptyData";
 
 export default function Transactions() {
     const { loading, data: transactions } = useFetchHook("/transactions/user");    
@@ -46,7 +47,7 @@ export default function Transactions() {
                                 {
                                     !loading && transactions !== null ?
                                     <AdminTransactTable key={transactions.id} item={transactions} />
-                                    : null
+                                    : <EmptyData message='No Transactions Yet'/>
                                 }  
                         </div>
                     </div>

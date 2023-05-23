@@ -127,7 +127,17 @@ const AddressInfoModal = ({
             />
             e.g: 2 working days
           </div>
-          <div className="mt-8 flex justify-end">
+          <div className="mt-5">
+                  <label className="block">Insurance Charge</label>
+                  <div className="flex">
+                    <input
+                      type="number"
+                      placeholder="Enter Insurance Charge"
+                      className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
+                    />
+                  </div>
+                </div>
+          <div className="mt-8 flex justify-between">
             <Button
               type="button"
               className="mt-3"
@@ -137,7 +147,7 @@ const AddressInfoModal = ({
               Close
             </Button>
             &nbsp;
-            <Button type="submit" className="mt-3" color="green">
+            <Button type="submit" className="mt-3 bg-primary">
               Save
             </Button>
           </div>

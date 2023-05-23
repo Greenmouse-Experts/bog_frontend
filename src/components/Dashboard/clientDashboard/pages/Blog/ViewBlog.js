@@ -63,7 +63,7 @@ export const ViewBlog = () => {
                                     <img
                                         src={blog?.images[0].image}
                                         alt="blog1"
-                                        className="w-full rounded-md"
+                                        className="w-full xl:w-10/12 mx-auto rounded-md"
                                     />
                                 :null
                                 }
@@ -76,10 +76,10 @@ export const ViewBlog = () => {
                             </div>
                             <div className='mt-10'>
                                 <p className='fw-600'>Category:</p>
-                                <div className='flex mt-4'>
+                                <div className='md:flex mt-4'>
                                     {
                                         blog?.category.length > 0 ? blog?.category.map(cat => (
-                                            <p key={cat.id} className='mx-4 px-4 py-1 bg-gray-100 rounded-md'>{cat.name}</p>
+                                            <p key={cat.id} className='mx-4 mt-3 md:mt-0 px-4 py-1 bg-gray-100 rounded-md'>{cat.name}</p>
                                         )) : null
 
                                     }

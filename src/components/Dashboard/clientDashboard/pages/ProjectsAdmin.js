@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
-// import { DownloadTableExcel } from "react-export-table-to-excel";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@material-tailwind/react";
-// import {BsThreeDotsVertical} from "react-icons/bs";
 import { Breadcrumbs } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
 import ProjectsTable from "../../assets/Tables/ProjectAdminTable";
 import { getProjects } from '../../../../redux/actions/ProjectAction';
 import { useDispatch } from "react-redux";
 
 export default function ProjectsAdmin() {
 
-    // const products = useRef(null);
-    // const navigate = useNavigate()
 
     const [adminAdd, setAdminAdd] = useState(false)
     const [loading, setLoading] = useState(false);

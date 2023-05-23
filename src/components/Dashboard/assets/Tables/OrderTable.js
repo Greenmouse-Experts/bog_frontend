@@ -83,13 +83,16 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export default function OrderTable({status, loader}){
+export default function OrderTable({status, loader, refund, markRefund}){
   // let adminOrders = useSelector((state) => state.orders.adminOrders);
       let adminOrders = useSelector((state) => state.orders.adminOrders);
 
     if (status) {
         adminOrders = adminOrders.filter(where => where.status === status)
     }
+    if (refund) {
+      adminOrders = adminOrders.filter(where => where.refundStatus === refund )
+  }
     const formatNumber = (number) => {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -104,8 +107,8 @@ export default function OrderTable({status, loader}){
           case "approved":
               return <p className="px-2 py-1 text-green-700 bg-green-100 w-24 rounded-md fw-600">Approved</p>
           case "completed":
-              return <p className="px-2 py-1 text-green-700 bg-green-100 w-24 rounded-md fw-600">Completed</p>
-          case "disapproved":
+              return <p className="px-2 py-1 text-green-700 bg-green-100 w-28 rounded-md fw-600">Completed</p>
+          case "cancelled":
             return <p className="px-2 py-1 text-red-700 bg-red-100 w-28 rounded-md fw-600">Cancelled</p>
           case "pending":
               return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-24 rounded-md fw-600">Pending</p>
@@ -154,11 +157,17 @@ export default function OrderTable({status, loader}){
             accessor: 'id',
             Cell: (row) => <Menu placement="left-start" className="w-16">
                             <MenuHandler>
-                              <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><button className="lg:text-xl"><BsThreeDotsVertical /></button></Button>
+                              <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><p className="lg:text-xl"><BsThreeDotsVertical /></p></Button>
                             </MenuHandler>
-                            <MenuList className="w-16 bg-gray-100 fw-600 text-black">
-                              <MenuItem onClick={() => gotoDetailsPage(row.value)}>View Details</MenuItem>
-                            </MenuList>
+                              <MenuList className="w-16 bg-gray-100 fw-600 text-black">
+                                <MenuItem onClick={() => gotoDetailsPage(row.value)}>View Details</MenuItem>
+                                {
+                                row.row.original.refundStatus === "request refund" ?
+                                  <MenuItem onClick={() => markRefund(row.value)}>Make as Refunded</MenuItem>
+                                :
+                                ""
+                              }
+                              </MenuList>
                           </Menu> ,
           },
         ],

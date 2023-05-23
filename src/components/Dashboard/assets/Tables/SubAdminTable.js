@@ -84,10 +84,7 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
 export function SubAdminTable({status, userType, loader}) {
 
   let admin = useSelector((state) => state.users.admins);
-//   let users = userDatas?.map(data => data.user)
-//   const client = users.filter(user => {
-//     return (user.userType === "corporate_client" || user.userType === "private_client");
-//   });
+
 
   if (userType) {
     admin = admin.filter(where => where.userType === userType)

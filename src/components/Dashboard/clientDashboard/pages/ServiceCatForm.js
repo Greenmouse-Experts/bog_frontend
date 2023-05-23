@@ -74,7 +74,7 @@ export default function ServiceCategory() {
                             <Link to="/dashboard" className="opacity-60">
                                 <span>Dashboard</span>
                             </Link>
-                            <Link to="/dashboard/servicecategory" className="opacity-60">
+                            <Link to="/dashboard/service-provider" className="opacity-60">
                                 <span> Service Category</span>
                             </Link>
                             <Link to="" className="">

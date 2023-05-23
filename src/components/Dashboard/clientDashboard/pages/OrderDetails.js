@@ -254,17 +254,43 @@ export default function OrderDetails() {
                       <option selected value="">
                         Order Status
                       </option>
-                      {["pending", "approved", "cancelled", "shipped", "completed"].map(
-                        (stat) => (
-                          <option value={stat}>{capitalize(stat)}</option>
+                      {
+                        order.status === "cancelled" &&
+                        <option value="cancelled">Cancelled</option>
+                      }
+                      {
+                        order.status === "approved" &&
+                        ["approved", "cancelled", "shipped", "completed"].map(
+                          (stat) => (
+                            <option value={stat}>{capitalize(stat)}</option>
+                          )
                         )
-                      )}
+                      }
+                      {
+                        order.status === "pending" &&
+                        ["pending","approved", "cancelled", "shipped", "completed"].map(
+                          (stat) => (
+                            <option value={stat}>{capitalize(stat)}</option>
+                          )
+                        )
+                      }
+                      {
+                        order.status === "shipped" &&
+                        ["cancelled", "shipped", "completed"].map(
+                          (stat) => (
+                            <option value={stat}>{capitalize(stat)}</option>
+                          )
+                        )
+                      }
+                      {
+                        order.status === "completed" &&
+                        ["completed"].map(
+                          (stat) => (
+                            <option value={stat}>{capitalize(stat)}</option>
+                          )
+                        )
+                      }
                     </select>
-
-                    {/* <button className="bg-black text-white hover:bg-blue-gray-900 rounded-md p-2">
-                      Update Order
-                    </button> */}
-                    {/* <p className="text-primary"><BiEdit /></p> */}
                   </div>
                   <div className="py-6 border-b border-gray-300 border-dashed">
                     {order.order_items.map((item) => (
@@ -374,26 +400,25 @@ export default function OrderDetails() {
                   </div>
                 </div>
                 <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
-                  <div className="flex justify-between pb-4">
-                    <p className="fw-600">Client Review</p>
-                    {order?.review && (
+                  <div className="">
+                    <p className="fw-600 pb-4">Client Review</p>
+                    {order?.orderReview[0] && (
                       <div>
                         <textarea
                           className="h-24 p-2 w-full rounded mt-2 border border-gray-400 "
                           readOnly={true}
                         >
-                          {order?.review?.review}
+                          {order?.orderReview[0]?.review}
                         </textarea>
                         <ReactStars
                           count={5}
                           size={45}
                           color2={"#ffd700"}
-                          value={order?.review?.star}
+                          value={order?.orderReview[0]?.star}
                         />
                       </div>
                     )}
                   </div>
-                  <div className="fs-400 mt-4"></div>
                 </div>
                 <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                   <div className="flex justify-between border-b border-gray-300 pb-4">

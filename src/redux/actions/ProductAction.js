@@ -2,6 +2,7 @@ import * as ActionType from '../type';
 import axios from '../../config/config';
 import Swal from "sweetalert2";
 import toast from 'react-hot-toast';
+import Axios from '../../config/config';
 
 
 export const loading = () => {
@@ -311,9 +312,16 @@ export const getAdminProducts = (stopLoading) => {
 export const removeProduct = (productId, saveLoading, isAdmin) => {
     return async (dispatch) => {
         try {
-            dispatch(loading());
+                const authToken = localStorage.getItem("auth_token");
+                const config = {
+                    headers:
+                    {
+                        "Content-Type": "application/json",
+                        'Authorization': authToken
+                    }
+                };
             const url = `/product/${productId}`
-            const response = await axios.delete(url);
+            const response = await axios.delete(url, config);
             console.log(response);
             if (isAdmin) {
                 dispatch(DeleteProductAdmin(productId));
@@ -334,7 +342,8 @@ export const removeProduct = (productId, saveLoading, isAdmin) => {
         } catch (error) {
             console.log(error?.response?.data?.message);
             if (error.message === 'Request failed with status code 401') {
-                window.location.href = '/';
+                // window.location.href = '/';
+                toast.error("Unauthorized Request")
             }
             else {
                 dispatch(setError(error.message));
@@ -569,9 +578,16 @@ export const addProductToStore = (productId, saveLoading, navigate) => {
     return async (dispatch) => {
         try {
             dispatch(loading());
-            const url = `/product/add-to-shop/${productId}`;
-            const response = await axios.patch(url);
-            console.log(response);
+            const authToken = localStorage.getItem("auth_token");
+                const config = {
+                    headers:
+                    {
+                        "Content-Type": "application/json",
+                        'Authorization': authToken
+                    }
+                };
+            const url = `/product/add-to-shop/${productId}`
+            const response = await Axios.patch(url, config);
             const payload = {
                 productId,
                 status: "in_review"
@@ -594,7 +610,8 @@ export const addProductToStore = (productId, saveLoading, navigate) => {
         } catch (error) {
             saveLoading();
             if (error.message === 'Request failed with status code 401') {
-                window.location.href = '/';
+                toast.error('Please try again')
+                // window.location.reload();
             }
             else {
                 dispatch(setError(error.message));
@@ -615,8 +632,19 @@ export const ApproveProduct = (payload, stopLoading, navigate) => {
     return async (dispatch) => {
         try {
             dispatch(loading());
-            const url = `product/admin/approve-product`;
-            const response = await axios.post(url, payload);
+            const authToken = localStorage.getItem("auth_token");
+            
+            const config = {
+                method: 'post',
+                url: `product/admin/approve-product`,
+                headers:
+                {
+                    "Content-Type": "application/json",
+                    'Authorization': authToken
+                },
+                data: {...payload}
+            }
+            const response = await axios(config);
             stopLoading();
             dispatch(UpdateAdminProductStatus(payload));
             Swal.fire({
@@ -635,7 +663,8 @@ export const ApproveProduct = (payload, stopLoading, navigate) => {
         } catch (error) {
             stopLoading();
             if (error.message === 'Request failed with status code 401') {
-                window.location.href = '/';
+                toast.error('Please try again')
+                // window.location.reload();
             }
             else {
                 dispatch(setError(error.message));

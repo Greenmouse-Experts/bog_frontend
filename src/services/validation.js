@@ -6,13 +6,14 @@ export const privateClientSchema = Yup.object({
     lname: Yup.string().required("Last name is required"),
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     phone: Yup.string()
-        .phone("NG", "Please enter a valid phone number, start with country code (+234)")
-        .required("A phone number is required"),
+        .required("A phone number is required")
+        .min(7, "Please enter a valid phone number")
+        .max(13, "Please enter a valid phone number"),
     password: Yup.string().required('Password is required').matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
-    terms: Yup.boolean().required("Please accept terms and conditions"),
+    terms: Yup.boolean().oneOf([true],'Please accept terms and conditions'),
     password2: Yup.string()
         .required('Please retype your password.')
         .oneOf([Yup.ref('password')], 'Your passwords do not match.'),
@@ -63,13 +64,14 @@ export const supplierValidationSchema = Yup.object({
     company_name: Yup.string().required("Company name is required"),
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     phone: Yup.string()
-        .phone("NG", "Please enter a valid phone number, start with country code (+234)")
-        .required("A phone number is required"),
+        .required("A phone number is required")
+        .min(7, "Please enter a valid phone number")
+        .max(13, "Please enter a valid phone number"),
     password: Yup.string().required('Password is required').matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
-    terms: Yup.boolean().required("Please accept terms and conditions"),
+    terms: Yup.boolean().oneOf([true],'Please accept terms and conditions'),
     password2: Yup.string()
         .required('Please retype your password.')
         .oneOf([Yup.ref('password')], 'Your passwords do not match.'),
@@ -81,13 +83,14 @@ export const servicePartnerValidationSchema = Yup.object({
     company_name: Yup.string().required("Company name is required"),
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     phone: Yup.string()
-        .phone("NG", "Please enter a valid phone number, start with country code (+234)")
-        .required("A phone number is required"),
+        .required("A phone number is required")
+        .min(7, "Please enter a valid phone number")
+        .max(13, "Please enter a valid phone number"),
     password: Yup.string().required('Password is required').matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
-    terms: Yup.boolean().required("Please accept terms and conditions"),
+    terms: Yup.boolean().oneOf([true],'Please accept terms and conditions'),
     serviceTypeId: Yup.string().required("Please select the type of service you render"),
     password2: Yup.string()
         .required('Please retype your password.')
@@ -98,14 +101,15 @@ export const corporateClientSchema = Yup.object({
     name: Yup.string().required("Company name is required"),
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     phone: Yup.string()
-        .phone("NG", "Please enter a valid phone number, start with country code (+234)")
-        .required("A phone number is required"),
+        .required("A phone number is required")
+        .min(7, "Please enter a valid phone number")
+        .max(13, "Please enter a valid phone number"),
 
     password: Yup.string().required('Password is required').matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
-    terms: Yup.boolean().required("Please accept terms and conditions"),
+    terms: Yup.boolean().oneOf([true],'Please accept terms and conditions'),
     password2: Yup.string()
         .required('Please retype your password.')
         .oneOf([Yup.ref('password')], 'Your passwords do not match.'),

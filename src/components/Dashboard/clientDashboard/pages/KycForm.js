@@ -96,7 +96,6 @@ export function SKycForm() {
                 {/* kyc contents */}
                 <div className="lg:p-5 px-2 py-4">
                     <div className="bg-white px-4 rounded-md pt-8 pb-8 lg:p-10 lg:pb-16 shadow lg:w-10/12 mx-auto">
-                        {/* <ProductKyc/> */}
                         <VendorKyc/>
                     </div> 
                 </div>

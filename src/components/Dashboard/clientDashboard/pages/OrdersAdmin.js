@@ -1,51 +1,13 @@
 import React, { useEffect, useState } from "react";
-// import { DownloadTableExcel } from "react-export-table-to-excel";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faSearch } from "@fortawesome/free-solid-svg-icons";
-// import {BsThreeDotsVertical} from "react-icons/bs";
 import { Breadcrumbs} from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-// import { HiOutlineDocumentDownload } from "react-icons/hi";
-// import { useNavigate } from "react-router-dom";
 import { getAdminOrders } from '../../../../redux/actions/OrderAction';
 import { useDispatch } from "react-redux";
 import OrderTable from "../../assets/Tables/OrderTable";
 
 export default function OrdersAdmin() {
     const [loading, setLoading] = useState(false);
-    //   const formatNumber = (number) => {
-    //     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    // }
-    // const formatStatus = (status) => {
-    //     switch (status) {
-    //         case "in_review":
-    //             return "In Review"
-    //         case "approved":
-    //             return "Approved"
-    //         case "disapproved":
-    //             return "Disapproved"
-    //         case "pending":
-    //             return "Pending"
-    //         case "draft":
-    //             return "Draft"
-
-    //         default: return status
-    //     }
-
-    // }
-    //  if (status) {
-    //     adminOrders = adminOrders.filter(where => where.status === status)
-    //  }
-    // console.log(`====== ${adminOrders}`);
-    //   const dispatch = useDispatch();
-
-    // const draftOrders = adminOrders.length > 0 ? adminOrders.filter(where => where.status === "pending") : [];
-    // const reviewOrders = adminOrders.length > 0 ? adminOrders.filter(where => where.status === "in_review") : [];
-    // const approvedOrders = adminOrders.length > 0 ? adminOrders.filter(where => where.status === "approved") : [];
-
-    // const products = useRef(null);
-    // const navigate = useNavigate()
     const dispatch = useDispatch();
     const stopLoading = () => setLoading(false);
 
@@ -97,13 +59,13 @@ export default function OrdersAdmin() {
                                  <OrderTable loader={loading} />
                             </TabPanel>
                              <TabPanel>
-                                <OrderTable status={"in_review"} loader={loading} />
+                                <OrderTable status={"completed"} loader={loading} />
                             </TabPanel>
                             <TabPanel>
                                 <OrderTable status={"approved"} loader={loading} />
                             </TabPanel>
                             <TabPanel>
-                                <OrderTable status={"disapproved"} loader={loading} />
+                                <OrderTable status={"cancelled"} loader={loading} />
                             </TabPanel>
                             
                         </Tabs>

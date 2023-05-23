@@ -4,53 +4,46 @@ import React, { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import toast from 'react-hot-toast';
 
-export const AdminUpdates = ({CloseModal,project}) => {
+export const AdminUpdates = ({CloseModal,project, getUpdates}) => {
 
     const [isLoading, setIsLoading] = useState(false)
-     const [photo, setPhoto] = useState('');
-    // const [photos, setPhotos] = useState([]);
-
-    // const handlePhotoChange = (e) => {
-    //     setPhotos(Array.from(e.target.files));
-    // }
 
     const handleSubmit = async (values) => {
         try{
             setIsLoading(true)
-            console.log(project)
-            const paylaod = {
-                body: body,
-                image: photo,
-                project_slug: project.projectSlug,
-            }
+            
             let data = new FormData();
             values.image.forEach((image, index) => {
             data.append(`image`, values.image[index]);
             });
-            console.log(values.image);
-            const config = {
-                headers: {
-                    "Content-Type": "application/json",
-                    'authorization': localStorage.getItem("auth_token")
-                },
-            }
-
-            const response =   await axios.post(`${process.env.REACT_APP_IMAGE_URL}/upload`, data)
-                await axios.post(`${process.env.REACT_APP_URL }/projects/notification/create`, paylaod, config )
             
-            setIsLoading(false)
-            setPhoto(response[0])
-            CloseModal()
-            toast.success(
-                response.data.message,
-                {
-                    duration: 6000,
-                    position: "top-center",
-                    style: { background: 'green', color: 'white' },
+                const response =   await axios.post(`${process.env.REACT_APP_IMAGE_URL}/upload`, data);
+                const datas = await response.data[0]
+
+                const paylaod = {
+                    body: body,
+                    image: datas,
+                    project_slug: project.projectSlug,
                 }
-            );
-            return response
-            // return res
+                const config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        'authorization': localStorage.getItem("auth_token")
+                    },
+                }
+                const responses = await axios.post(`${process.env.REACT_APP_URL }/projects/notification/create`, paylaod, config )
+                setIsLoading(false)
+                CloseModal()
+                getUpdates()
+                toast.success(
+                    responses.data.message,
+                    {
+                        duration: 4000,
+                        position: "top-center",
+                        style: { background: 'green', color: 'white' },
+                    }
+                );
+            // }
         }catch(error){
             console.log(error)
             setIsLoading(false)

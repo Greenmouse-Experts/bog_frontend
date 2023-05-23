@@ -18,10 +18,6 @@ import { HomepageBlog } from "./Blog/HomepageBlog";
 import { BiArrowToRight } from "react-icons/bi";
 
 
-// const Text = ({children}) => {
-//     return <div className="text">{children}</div>;
-// }
-
 export default function Homepage() {
 
     const [showVideo, setShowVideo] = useState(false)
@@ -40,8 +36,6 @@ export default function Homepage() {
     const feature3 = useRef();
     const feature4 = useRef();
     const features = useRef();
-    // const into = useRef();
-    // const into = gsap.utils.selector(intro);
     
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
@@ -193,13 +187,6 @@ export default function Homepage() {
             <div className="bg-hero">
                 <div className="box">
                     <div className="lg:flex flex-row-reverse items-center py-1 pb-6 lg:py-6">
-                        {/* <div className="lg:w-6/12 relative z-0">
-                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1669564220/BOG/hero_1_1_hcpq4u.png" alt="hero" className="lg:w-10/12 lg:float-right animate-pulse" ref={hero} />
-                            <img src={require("../assets/images/hero1.png")} alt="hero1" className="absolute lg:w-28 w-20 hero1" />
-                            <img src={require("../assets/images/hero2.png")} alt="hero2" className="absolute lg:w-28 w-20 hero2" />
-                            <img src={require("../assets/images/hero3.png")} alt="hero3" className="absolute lg:w-28 w-20 hero3" />
-                            <img src={require("../assets/images/hero4.png")} alt="hero4" className="absolute lg:w-28 w-20 hero4" />
-                        </div> */}
                         <div className='lg:w-6/12 ipad-view relative mt-10 lg:mt-0 overflow-hidden lg:h-01 h-02'>
                             <div className='sphere overflow-hidden'>
                                 <div className='w-16 h-8 lg:w-20 lg:h-10 circle dots'>
@@ -227,16 +214,16 @@ export default function Homepage() {
                                     viewBox="0 0 1100 1100"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M334.326 882.433C286.784 840.832 249.565 788.747 225.608 730.292C201.651 671.837 191.612 608.613 196.284 545.613C200.956 482.612 220.21 421.56 252.528 367.279C284.845 312.997 329.339 266.972 382.497 232.838C435.656 198.704 496.022 177.396 558.828 170.597C621.635 163.798 685.162 171.694 744.393 193.661C803.625 215.629 856.938 251.066 900.123 297.174C943.307 343.282 975.181 398.799 993.227 459.34" stroke="orange" stroke-width="3"></path>
-                                    <path d="M1004.79 648.64C1013.37 664.833 1015.93 679.803 1012.64 693.203C1009.34 706.602 1000.18 718.513 985.151 728.551C955.073 748.642 902.782 760.368 833.826 762.389C764.893 764.409 681.994 756.653 594.053 739.949C506.113 723.245 416.474 698.228 334.785 667.593C253.093 636.957 182.462 601.867 130.485 566.107C104.497 548.227 83.6757 530.526 68.4327 513.478C53.1864 496.426 43.5431 480.052 39.8701 464.829C36.2015 449.624 38.5536 435.84 46.684 423.775C54.8252 411.694 68.7879 401.296 88.4086 392.947C127.656 376.246 187.89 368.446 262.665 370.429" stroke="blue" stroke-width="3"></path>
-                                    <path d="M744.537 203.285C799.611 142.519 849.675 104 888.524 92.3818C907.933 86.5773 924.054 87.6324 936.552 95.1925C949.055 102.756 958.037 116.891 963.03 137.469C973.02 178.646 966.532 243.539 944.284 324.159C922.042 404.757 885.047 497.461 837.876 590.785C790.707 684.108 735.44 773.941 678.925 849.156C622.405 924.378 567.139 981.646 519.979 1013.9C496.398 1030.02 475.396 1039.52 457.537 1042.34C439.696 1045.16 425.016 1041.31 413.989 1030.79C402.942 1020.24 395.739 1003.16 392.55 980.179C389.362 957.207 390.194 928.403 395.163 894.489" stroke="#050505" stroke-width="3"></path>
-                                    <path d="M838.407 907.01C820.956 952.118 791.357 980.223 752.688 988.55C713.993 996.883 667.503 985.135 617.98 954.392C568.464 923.652 517.759 875.063 471.093 813.609C424.428 752.157 383.499 680.076 352.52 604.785C321.541 529.492 301.636 453.721 294.846 385.27C288.056 316.813 294.634 258.189 313.854 215.404C333.065 172.639 364.201 147.259 404.047 141.774C443.925 136.285 491.182 150.907 540.967 184.251" stroke="gray" stroke-width="3"></path>
+                                    <path d="M334.326 882.433C286.784 840.832 249.565 788.747 225.608 730.292C201.651 671.837 191.612 608.613 196.284 545.613C200.956 482.612 220.21 421.56 252.528 367.279C284.845 312.997 329.339 266.972 382.497 232.838C435.656 198.704 496.022 177.396 558.828 170.597C621.635 163.798 685.162 171.694 744.393 193.661C803.625 215.629 856.938 251.066 900.123 297.174C943.307 343.282 975.181 398.799 993.227 459.34" stroke="orange" strokeWidth="3"></path>
+                                    <path d="M1004.79 648.64C1013.37 664.833 1015.93 679.803 1012.64 693.203C1009.34 706.602 1000.18 718.513 985.151 728.551C955.073 748.642 902.782 760.368 833.826 762.389C764.893 764.409 681.994 756.653 594.053 739.949C506.113 723.245 416.474 698.228 334.785 667.593C253.093 636.957 182.462 601.867 130.485 566.107C104.497 548.227 83.6757 530.526 68.4327 513.478C53.1864 496.426 43.5431 480.052 39.8701 464.829C36.2015 449.624 38.5536 435.84 46.684 423.775C54.8252 411.694 68.7879 401.296 88.4086 392.947C127.656 376.246 187.89 368.446 262.665 370.429" stroke="blue" strokeWidth="3"></path>
+                                    <path d="M744.537 203.285C799.611 142.519 849.675 104 888.524 92.3818C907.933 86.5773 924.054 87.6324 936.552 95.1925C949.055 102.756 958.037 116.891 963.03 137.469C973.02 178.646 966.532 243.539 944.284 324.159C922.042 404.757 885.047 497.461 837.876 590.785C790.707 684.108 735.44 773.941 678.925 849.156C622.405 924.378 567.139 981.646 519.979 1013.9C496.398 1030.02 475.396 1039.52 457.537 1042.34C439.696 1045.16 425.016 1041.31 413.989 1030.79C402.942 1020.24 395.739 1003.16 392.55 980.179C389.362 957.207 390.194 928.403 395.163 894.489" stroke="#050505" strokeWidth="3"></path>
+                                    <path d="M838.407 907.01C820.956 952.118 791.357 980.223 752.688 988.55C713.993 996.883 667.503 985.135 617.98 954.392C568.464 923.652 517.759 875.063 471.093 813.609C424.428 752.157 383.499 680.076 352.52 604.785C321.541 529.492 301.636 453.721 294.846 385.27C288.056 316.813 294.634 258.189 313.854 215.404C333.065 172.639 364.201 147.259 404.047 141.774C443.925 136.285 491.182 150.907 540.967 184.251" stroke="gray" strokeWidth="3"></path>
                                 </svg>
                             </div>
                         </div>
                         <div className="lg:w-6/12 py-12 text-white">
                             <p className="lg:text-4xl relative lg:leading-snug text-2xl fw-600" ref={intro}>
-                                Providing products and services to intending structure owners across borders.
+                                Providing products and services to intending building owners across borders.
                             </p>
                             <div ref={intro1}>
                                 <p className="my-7" >A platform where people can monitor and manage their projects without being encumbered by time and distance.</p>
@@ -337,7 +324,6 @@ export default function Homepage() {
 
                         </video>
                         <div className="absolute bg-white xl:left-50 lg:left-45 circle left-40 z-20 top-50 flex items-center">
-                            {/* <div className="lg:w-20 w-10 h-1 bg-gray-400"></div> */}
                             <div className="lg:w-20 lg:h-20 w-10 h-10 bg-blue-500 circle center-item " onClick={() => { setShowVideo(true) }}>
                                 <FontAwesomeIcon icon={faPlay} className="lg:text-3xl text-white" />
                             </div>
@@ -393,7 +379,7 @@ export default function Homepage() {
                     <div className="absolute z-10  w-full h-full lg:flex justify-between lg:items-center  lg:px-16">
                         <div className="lg:w-4/12 pr-6 text-center">
                             <p className="text-2xl lg:text-5xl fw-600">Products available in Store</p>
-                            <p className="mt-12">Duis suscipit dui non elit elementum, nec fermentum lectus posuere. Pellentesque lobortis ac felis eu luctus. Donec pharetra sollicitudin odio, at feugiat ligula rutrum ut. Maecenas augue tortor, luctus at est non, rutrum pretium nulla.</p>
+                            <p className="mt-12">BOG offers users a wide range of construction materials to buy with relative ease. These materials are delivered to your choiced location at your stipulated time with minimal stress.</p>
                         </div>
                         <div className="w-full lg:w-6/12 mt-4 lg:mt-0">
                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1678817725/BOG/Group_47677_1_pfzbpz.png" alt="products" className="w-full"/>

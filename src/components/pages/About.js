@@ -106,42 +106,42 @@ export default function About() {
                                 <div className="cursor-pointer text-center" >
                                     <img src={require("../assets/images/SC.png")} alt="survey" className="lg:w-16 w-16 mx-auto mb-5" />
                                     <p className="fw-500">Smart Calculator</p>
-                                    <p className="mt-3">Magna sit do ipsum id qui fugiat esse id in est. Labore minim proident minim quis nisi aliquip.</p>
+                                    <p className="mt-3">Get the estimated cost of building your dream project by uploading a few documents and get the results.</p>
                                 </div>
                             </div>
                             <div className="py-3 px-6 center-item lg:mt-0 mt-3">
                                 <div className="cursor-pointer text-center" >                               
                                     <img src={require("../assets/images/tv.png")} alt="survey" className="lg:w-16 w-16 mx-auto mb-5" />
                                     <p className="fw-500">In app meetings and reviews</p>
-                                    <p className="mt-3">Ea pariatur laboris laborum sint sit. Anim labore occaecat deserunt excepteur quis dolor.</p>
+                                    <p className="mt-3">Schedule a meeting in real-time to get valuable updates about your ongoing projects.</p>
                                 </div>
                             </div>
                             <div className="py-3 px-6 center-item lg:mt-0 mt-3">
                                 <div className="cursor-pointer text-center" >                             
                                     <img src={require("../assets/images/prof.png")} alt="survey" className="lg:w-16 w-16 mx-auto mb-5" />
                                     <p className="fw-500">Find expert construction workers</p>
-                                    <p className="mt-3">Ea pariatur laboris laborum sint sit. Anim labore occaecat deserunt excepteur quis dolor.</p>
+                                    <p className="mt-3">BOG is the best place to find on-demand construction workers for residential or commercial projects.</p>
                                 </div>
                             </div>
                             <div className="py-3 px-6 center-item lg:mt-10 mt-3">
                                 <div className="cursor-pointer text-center" >                               
                                     <img src={require("../assets/images/tractor.png")} alt="survey" className="lg:w-16 w-16 mx-auto mb-5" />
                                     <p className="fw-500">Shop for construction materials</p>
-                                    <p className="mt-3">Ea pariatur laboris laborum sint sit. Anim labore occaecat deserunt excepteur quis dolor.</p>
+                                    <p className="mt-3">Quality building materials available to the home owner, tradesman or constructionist without leaving the comfort of their home.</p>
                                 </div>
                             </div>
                             <div className="py-3 px-6 center-item lg:mt-10 mt-3">
                                 <div className="cursor-pointer text-center" >                             
                                     <img src={require("../assets/images/CS.png")} alt="survey" className="lg:w-16 w-16 mx-auto mb-5" />
                                     <p className="fw-500">Project & Order progress live tracking</p>
-                                    <p className="mt-3">Ea pariatur laboris laborum sint sit. Anim labore occaecat deserunt excepteur quis dolor.</p>
+                                    <p className="mt-3">Learn exactly what's happening on your project or order live. Track in real time to see the latest updates and monitor your work.</p>
                                 </div>
                             </div>
                             <div className="py-3 px-6 center-item lg:mt-10 mt-3">
                                 <div className="cursor-pointer text-center" >                                
                                     <img src={require("../assets/images/call.png")} alt="survey" className="lg:w-16 w-16 mx-auto mb-5" />
                                     <p className="fw-500">Quality customer care</p>
-                                    <p className="mt-3">Ea pariatur laboris laborum sint sit. Anim labore occaecat deserunt excepteur quis dolor.</p>
+                                    <p className="mt-3">Our series of customer care services are created with quality and customer satisfaction in mind.</p>
                                 </div>
                             </div>
                         </div>

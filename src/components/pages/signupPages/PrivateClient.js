@@ -14,6 +14,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { FcGoogle } from 'react-icons/fc';
 import toast from 'react-hot-toast';
+import { BsApple } from 'react-icons/bs';
 
 
 const PrivateClient = () => {
@@ -339,9 +340,12 @@ const PrivateClient = () => {
                     <p className='w-12 text-center mx-auto bg-white relative z-10 text-lg'>OR</p>
                     <p className='border border-gray-500 relative -top-3'></p>
                 </div>
-                <div className='lg:flex px-8 lg:px-0 mt-8 '>
-                       <div className='mt-4 flex lg:text-lg w-full xl:w-7/12 mx-auto cursor-pointer items-center justify-evenly border py-2 rounded-lg shadow' onClick={() => login()}>
+                <div className='lg:grid grid-cols-2 gap-x-6 px-8 lg:px-4 mt-8 '>
+                       <div className='mt-4 flex cursor-pointer items-center justify-evenly border py-2 rounded-lg shadow' onClick={() => login()}>
                             <FcGoogle className='text-2xl'/><button className=''>Sign Up with Google</button>
+                        </div>
+                        <div className='mt-4 flex cursor-pointer items-center justify-evenly border py-2 rounded-lg shadow bg-black text-white' >
+                            <BsApple className='text-2xl'/><button className=''>Sign Up with Apple</button>
                         </div>
                 </div>
             </div>

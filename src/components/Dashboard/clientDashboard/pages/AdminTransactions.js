@@ -7,8 +7,7 @@ import { Loader, Spinner2 } from "../../../layouts/Spinner";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 
 export default function AdminTransactions() {
-    const { loading, data: transactions } = useFetchHook("/transactions");    
-    console.log(transactions)
+    const { loading, data: transactions } = useFetchHook("/transactions");   
 
     if (loading){
         return <center><Loader /></center>
@@ -50,6 +49,7 @@ export default function AdminTransactions() {
                                 <Tab>Products</Tab>
                                 <Tab>Projects</Tab>
                                 <Tab>Subscription</Tab>
+                                <Tab>Payout</Tab>
                             </TabList>
                             <TabPanel>
                                 {
@@ -75,7 +75,12 @@ export default function AdminTransactions() {
                                     <AdminTransactTable item={transactions} type={"Subscription"}/> : <Spinner2/>
                                 }
                             </TabPanel>
-                            
+                            <TabPanel>
+                                {
+                                    !loading && transactions !== null ? 
+                                    <AdminTransactTable item={transactions} type={"Project Payout to service partner"}/> : <Spinner2/>
+                                }
+                            </TabPanel>
                         </Tabs>
                     </div>
                 </div>
