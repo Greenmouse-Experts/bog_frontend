@@ -22,6 +22,7 @@ import { getProjectCategory, getStatus } from "../../../../services/helper";
 import { Loader } from "../../../layouts/Spinner";
 import QouteProject from "./projects/Modal/QouteProject";
 import EmptyData from "../../assets/UI/EmptyData";
+import { toast } from "react-hot-toast";
 
 export function AllProject() {
   const { dispatchedProjects: projects, isLoading } = useSelector(
@@ -47,8 +48,18 @@ export function AllProject() {
   const [decline, setDecline] = useState(false);
 
   const OpenQoute = (item) => {
+    toast.success(
+      "Project Accepted Please Fill the interest form",
+      {
+          duration: 4000,
+          position: "top-center",
+          style: { background: 'green', color: 'white', textAlign:'center' },
+      }
+  );
     setSelectedProject(item);
-    setQoute(true);
+    setTimeout(() => {
+      setQoute(true);
+    }, 3000);
   };
 
   const CloseModal = () => {
