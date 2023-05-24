@@ -60,6 +60,7 @@ import ServicePartnerMeeting from "./pages/ServicePartnerMeeting";
 import ProjectDetailsPartner from "./pages/ProjectDetailsPartner";
 import RefundOrders from "./pages/RefundOrder";
 import BlogCategory from "./pages/BlogCat";
+import { PartnerPayment } from "./pages/PartnerPayment";
 
 export default function ClientDashboard() {
 
@@ -129,6 +130,7 @@ export default function ClientDashboard() {
                         <Route path="transact" element={<Transactions />} />
                         <Route path="transact-details" element={<TransactionDetails />} />
                         <Route path="transactions" element={<AdminTransactions />} />
+                        <Route path="payout" element={<PartnerPayment />} />
                         <Route path="delivery" element={<address />} />
                         <Route path="notification" element={<Notify />} />
                         <Route path="notify" element={<Notification />} />
