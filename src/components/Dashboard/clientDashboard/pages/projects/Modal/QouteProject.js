@@ -47,7 +47,7 @@ const QouteProject = ({ closeModal, project }) => {
                 <div className='flex justify-between lg:mt-3'>
                     <div>
                         <p className="lg:text-xl fw-600">Project Interest Form</p>
-                        <p className="fs-400 mt-2">With the details contained in the view form, fill and submit the document below to show interest.</p>
+                        <p className="fs-400 mt-2">With the details contained in the view form, fill and submit the document below to show interest.(Note that this project is available for 24hours)</p>
                     </div>
                     <FaTimes className='cursor-pointer text-red-600 mb-4' onClick={closeModal} />
                 </div>
@@ -192,7 +192,10 @@ const QouteProject = ({ closeModal, project }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-10 text-end">
+                    <div className="mt-10 flex justify-between">
+                        <Button className="bg-secondary lg:px-12" onClick={closeModal}>
+                            Fill Later
+                        </Button>
                         {
                             loading ? <Spinner /> :
                                 <Button

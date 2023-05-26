@@ -21,6 +21,7 @@ import {
   MdEngineering,
   MdOutlineEmail,
   MdOutlineReviews,
+  MdPayment,
 } from "react-icons/md";
 import { VscHistory, VscRocket } from "react-icons/vsc";
 
@@ -465,6 +466,21 @@ const AdminSidebar = () => {
                 <BsBell className="text-xl" />
                 <p className="pl-3">Notification</p>
               </NavLink>
+            ) : (
+              ""
+            )}
+            {user?.level === 1 || user?.level === 3 ? (
+              <>
+                <NavLink
+                  to="payout"
+                  onClick={unShow}
+                  className="w-full flex items-center pl-2 py-2 fw-600 my-2"
+                  style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                >
+                  <MdPayment className="text-xl" />
+                  <p className="pl-3">Partner Payout</p>
+                </NavLink>
+              </>
             ) : (
               ""
             )}

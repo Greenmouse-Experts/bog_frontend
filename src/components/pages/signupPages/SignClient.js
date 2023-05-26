@@ -50,7 +50,7 @@ export default function SignClient() {
           <div className="lg:w-5/12 fw-500 w-11/12 m-auto bg-white lg:mr-24 py-10 lg:px-10 px-5 shadow-lg ">
             <div>
               <p className="text-xl fw-600">Sign Up as a Client</p>
-              <p className="mt-1">Not a service provider ? <Link to="/signup" className="text-primary">Switch User type</Link></p>
+              <p className="mt-1">Not a client ? <Link to="/signup" className="text-primary">Switch User type</Link></p>
             </div>
             <Tabs className="mt-6">
               <TabList>
