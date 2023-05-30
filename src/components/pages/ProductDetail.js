@@ -32,8 +32,8 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(false);
   const [maxQuantity, setMaxQuantity] = useState(0);
   const [prodNum, setProductNum] = useState(false);
-  const [review, setReview] = useState([])
-  const [postReview, setPostReview] = useState(false)
+  const [review, setReview] = useState([]);
+  const [postReview, setPostReview] = useState(false);
 
   const fetchProduct = async () => {
     try {
@@ -65,9 +65,7 @@ export default function ProductDetail() {
       const url = `/review/product/get-review?productId=${itemId}`;
       const res = await Axios.get(url, config);
       setReview(res.data);
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   const navigate = useNavigate();
@@ -83,7 +81,7 @@ export default function ProductDetail() {
 
   useEffect(() => {
     fetchProduct();
-    fetchProductReview()
+    fetchProductReview();
   }, [itemId]);
   useEffect(() => {
     dispatch(getProducts());
@@ -144,12 +142,22 @@ export default function ProductDetail() {
                       </p>
                       <div className="flex items-center">
                         <div className="hidden lg:block">
-                          <ReactStars edit={false} value={review?.star} size={35} />
+                          <ReactStars
+                            edit={false}
+                            value={review?.star}
+                            size={35}
+                          />
                         </div>
                         <div className="lg:hidden">
-                          <ReactStars edit={false} value={review?.star} size={25} />
+                          <ReactStars
+                            edit={false}
+                            value={review?.star}
+                            size={25}
+                          />
                         </div>
-                        <p className="text-gray-500 pl-3">({review && review?.reviews?.length} Reviews)</p>
+                        <p className="text-gray-500 pl-3">
+                          ({review && review?.reviews?.length} Reviews)
+                        </p>
                       </div>
                       <p className="lg:text-2xl fs-700 fw-600 py-2 text-secondary">
                         NGN {formatNumber(item.price)}
@@ -275,22 +283,72 @@ export default function ProductDetail() {
                     </TabPanel>
                     <TabPanel>
                       <div className="pt-6 lg:px-6 fs-400 lg:fs-600">
-                        {user && <button className="mb-6 px-4 py-1 bg-secondary text-white rounded" onClick={() => setPostReview(true)}>Leave a review</button>}
-                        {review &&  !review?.reviews?.length && <p>No Review Yet</p>}
-                        {
-                          review &&  !!review?.reviews?.length && review?.reviews?.map((item,index) => (
-                            <div className="flex items-center border-b py-4 lg:gap-x-5" key={index}>
-                                <div>
-                                    <p>{`${item.client.fname} ${item.client.lname} `}</p>
-                                    <ReactStars edit={false} value={item.star} size={25} />
+                        {user && (
+                          <button
+                            className="mb-6 px-4 py-1 bg-secondary text-white rounded"
+                            onClick={() => setPostReview(true)}
+                          >
+                            Leave a review
+                          </button>
+                        )}
+                        {review && !review?.reviews?.length && (
+                          <p>No Review Yet</p>
+                        )}
+                        {review && !!review?.reviews?.length && (
+                          <div className="lg:flex lg:gap-x-6">
+                            <div className="lg:w-3/12">
+                              <div className="flex justify-center items-end mt-4">
+                                <span className="lg:text-8xl text-4xl fw-600 block">
+                                  {review?.star}
+                                </span>{" "}
+                                <span className="lg:text-5xl text-2xl fw-600">
+                                  / 5.0
+                                </span>
+                              </div>
+                              <div className="flex justify-center">
+                                <div className="hidden lg:block">
+                                  <ReactStars
+                                    edit={false}
+                                    value={review?.star}
+                                    size={35}
+                                  />
                                 </div>
-                                <div>
-                                    <p>{dayjs(item.createdAt).format('DD/MM/YYYY')}</p>
-                                    <p className="mt-4">{item.review}</p>
+                                <div className="lg:hidden">
+                                  <ReactStars
+                                    edit={false}
+                                    value={review?.star}
+                                    size={25}
+                                  />
                                 </div>
+                              </div>
                             </div>
-                          ))
-                        }
+                            <div className="lg:w-9/12">
+                              {review?.reviews?.map((item, index) => (
+                                <div
+                                  className="md:flex items-center border-b py-4 lg:gap-x-8"
+                                  key={index}
+                                >
+                                  <div>
+                                    <p className="fw-500">{`${item.client.fname} ${item.client.lname} `}</p>
+                                    <ReactStars
+                                      edit={false}
+                                      value={item.star}
+                                      size={22}
+                                    />
+                                  </div>
+                                  <div>
+                                    <p>
+                                      {dayjs(item.createdAt).format(
+                                        "DD/MM/YYYY"
+                                      )}
+                                    </p>
+                                    <p className="mt-4">{item.review}</p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </TabPanel>
                   </Tabs>
@@ -315,11 +373,13 @@ export default function ProductDetail() {
         )}
         <Footer />
       </div>
-      {
-        postReview && (
-            <AddProductReview closeModal={() => setPostReview(false)} productId={itemId} fetchReview={fetchProductReview}/>
-        )
-      }
+      {postReview && (
+        <AddProductReview
+          closeModal={() => setPostReview(false)}
+          productId={itemId}
+          fetchReview={fetchProductReview}
+        />
+      )}
     </div>
   );
 }

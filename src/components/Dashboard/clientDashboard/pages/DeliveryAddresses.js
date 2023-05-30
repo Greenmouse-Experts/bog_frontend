@@ -170,9 +170,6 @@ const DeliveryAddresses = () => {
           </div>
         </div>
         <div className="lg:p-5 px-2">
-          {/* <div className="bg-white px-4 lg:px-8 py-6 rounded-md">
-                         <ProductTable/>
-                    </div> */}
           <div className="bg-white lg:p-5  mt-6 rounded-lg">
             {loading ? (
               <Loader size />

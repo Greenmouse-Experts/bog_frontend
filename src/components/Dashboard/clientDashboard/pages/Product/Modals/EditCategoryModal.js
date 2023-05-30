@@ -71,6 +71,9 @@ const EditCategoryModal = ({ CloseModal, itemDetails }) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
+            {formik.touched.unit && formik.errors.unit ? (
+              <p className="text-red-500">{formik.errors.unit}</p>
+            ) : null}
           </div>
           <div className="mt-5">
             <label className="block">Category Description</label>
