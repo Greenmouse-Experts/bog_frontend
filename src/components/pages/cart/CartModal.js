@@ -19,7 +19,6 @@ export const CartModal = ({ CloseModal }) => {
       imageUrl:
         "https://uxwing.com/wp-content/themes/uxwing/download/crime-security-military-law/authentication-icon.png",
       imageWidth: "75px",
-      //text: 'Please Sign Up or Login to order for products. Thank You!',
       html: 'Please <a href="/signup" style=" color: red; "> Sign Up </a> or <a href="/login" style=" color: red; ">Login</a> to order for products. Thank You!',
       buttonsStyling: "false",
       denyButtonText: "Sign Up",
@@ -41,6 +40,8 @@ export const CartModal = ({ CloseModal }) => {
   const [info, setInfo] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [address_, setAddress_] = useState({});
+  const [insure, setInsure] = useState("")
+  const [addInsure, setAddInsure] = useState(false)
 
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -96,16 +97,25 @@ export const CartModal = ({ CloseModal }) => {
       const _address = addresses.find((_a) => _a.id === id);
 
       setAddress_(_address);
+      setInsure(_address.insurancecharge? _address.insurancecharge : 0)
       setOrderForm({ ...orderForm, address: _address.id });
     } else {
       setOrderForm({ ...orderForm, address: "" });
     }
   };
 
+  const addInsuranceCharge = () => {
+    setAddInsure(!addInsure)
+  }
+
   const totalCost = () => {
     if (address_ !== null) {
       if (Object.keys(address_).length > 0) {
+        if (addInsure) {
+          return totalAmount + address_.charge + Number(insure);
+        } else{
         return totalAmount + address_.charge;
+        }
       }
     }
     return totalAmount;
@@ -332,7 +342,7 @@ export const CartModal = ({ CloseModal }) => {
           </div>
         </div>
           <div className="mt-6 flex items-center gap-x-2">
-            <input type="checkbox" className="w-4 mt-1"/>
+            <input type="checkbox" onChange={addInsuranceCharge} className="w-4 mt-1"/>
             <div className="flex items-center gap-x-4">
               <p>I want insurance coverage for this delivery</p>
               <BsFillInfoCircleFill className="text-sm cursor-pointer hover:text-primary" onClick={() => setInfo(!info)}/>
@@ -351,6 +361,12 @@ export const CartModal = ({ CloseModal }) => {
               <p>{address_.delivery_time}</p>
             </div>
           )}
+          {
+            addInsure && (<div className="flex justify-between my-4">
+            <p>INSURANCE</p>
+            <p>NGN {formatNumber(insure)}</p>
+          </div>)
+          }
           <div className="flex justify-between my-4">
             <p>SUB TOTAL</p>
             <p>NGN {formatNumber(totalAmount)}</p>

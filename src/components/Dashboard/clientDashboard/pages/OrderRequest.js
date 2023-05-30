@@ -74,7 +74,7 @@ function OrderReqest() {
 
               <TabPanel>
                 {
-                  orders.length > 0 ? <ProductOrderTable status="awaiting_shipment"/> : <EmptyData message='No Order Yet'/>
+                  orders.length > 0 ? <ProductOrderTable status="ongoing"/> : <EmptyData message='No Order Yet'/>
                 }
               </TabPanel>
               <TabPanel>

@@ -115,6 +115,11 @@ export function AddressTable({addresses, openViewModal}) {
             Cell: (props) => `NGN ${formatNumber(props.value)}`
           },
           {
+            Header: "Insurance Charge",
+            accessor: "insurancecharge",
+            Cell: (props) => props.value && `NGN ${formatNumber(props.value)}`
+          },
+          {
             Header: "Delivery Time",
             accessor: "delivery_time",
           },
@@ -127,8 +132,8 @@ export function AddressTable({addresses, openViewModal}) {
                       <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><button className="lg:text-xl"><BsThreeDotsVertical /></button></Button>
                     </MenuHandler>
                     <MenuList className="w-16 bg-gray-100 fw-600 text-black">
-                      <MenuItem onClick={() => openViewModal("view", row.row.original)}>View</MenuItem>
-                      <MenuItem onClick={() => openViewModal("decline", row.value)}>Delete Blog</MenuItem>
+                      <MenuItem onClick={() => openViewModal("view", row.row.original)}>View Address</MenuItem>
+                      <MenuItem onClick={() => openViewModal("decline", row.value)}>Delete Address</MenuItem>
                     </MenuList>
                   </Menu>,
           },

@@ -16,11 +16,16 @@ export const SimilarProducts = ({ products }) => {
                             <Link to={`/shop/${item.id}`}>
                                 <img src={`${item.image}`}  alt="products" className="w-full h-24 lg:h-44 mx-auto" />
                                 <p className="lg:fs-600 fs-300 fw-500  lg:pt-6 pt-2">{item.name}</p>
+                                {
+                                item.star > 0 ? 
                                 <ReactStars
                                     edit={false}
-                                    value={4}
+                                    value={item.star}
                                     size={20}
                                 />
+                                :
+                                <p className='text-gray-400 fw-500 py-1'>No rating yet</p>
+                                }
                                 <p className="fw-600 fs-400 lg:fs-600">NGN {formatNumber(item.price)}</p>
                             </Link>
                         </div>

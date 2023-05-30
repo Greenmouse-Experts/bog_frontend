@@ -148,11 +148,6 @@ export default function Shop() {
         dispatch(getProducts());
     }, []);
 
-    // if (loading) {
-    //     return <center>
-    //         <Spinner />
-    //     </center>
-    // }
 
     return (
         <div>

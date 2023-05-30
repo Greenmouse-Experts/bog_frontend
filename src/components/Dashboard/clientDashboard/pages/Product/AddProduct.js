@@ -10,6 +10,7 @@ const AddProduct = ({categoryArr}) => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
     const [category, setCategory] = useState("");
+    const [units, setUnits] = useState("");
     const [photos, setPhotos] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -27,7 +28,7 @@ const AddProduct = ({categoryArr}) => {
         fd.append("name", value.name);
         fd.append("price", value.price);
         fd.append("quantity", value.quantity);
-        fd.append("unit", value.unit);
+        fd.append("unit", units);
         fd.append("description", value.description);
         fd.append("categoryId", category);
         fd.append("status", "draft");
@@ -40,21 +41,21 @@ const AddProduct = ({categoryArr}) => {
             price: 0,
             quantity: 0,
             description: "",
-            unit: "",
         },
         validationSchema: productSchema,
-        onSubmit: createNewProduct,
+        onSubmit: () => createNewProduct,
     });
-    const { name, price, quantity, description, unit, } = formik.values;
+    const { name, price, quantity, description, } = formik.values;
     const changeCategory = (val) => {
         const value = val.value;
         setCategory(value);
+        setUnits(val.unit)
     }
-    console.log(categoryArr);
     const options = categoryArr.length > 0 ? categoryArr.map(category => {
         return {
             label: category.name,
-            value: category.id
+            value: category.id,
+            unit: category.unit,
         }
     }) : [];
     return (
@@ -123,12 +124,11 @@ const AddProduct = ({categoryArr}) => {
                     <input
                         type="text"
                         className="w-full lg:w-10/12 border border-gray-400 rounded mt-2 py-2 px-2"
-                        required
                         id="unit"
                         name="unit"
-                        value={unit}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
+                        value={units? units : ""}
+                        onChange={changeCategory}
+                        disabled
                     />
                     {
                         formik.touched.unit && formik.errors.unit ? <p className='text-red-500'>{formik.errors.unit}</p> : null
@@ -170,6 +170,7 @@ const AddProduct = ({categoryArr}) => {
                                 <button 
                                     type='submit' 
                                     className="btn-primary w-5/12"
+                                    onClick={formik.handleSubmit}
                                     // onClick={() => createNewProduct("pending")}
                                     >
                                         Add Product
