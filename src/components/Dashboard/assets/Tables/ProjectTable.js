@@ -149,12 +149,16 @@ export default function ProjectTable({ status, isLoader }) {
         return <p className="px-2 py-1 text-green-700 bg-green-100 w-24 rounded-md fw-600">Approved</p>
       case "disapproved":
         return <p className="px-2 py-1 text-red-700 bg-red-100 w-28 rounded-md fw-600">Cancelled</p>
+        case "dispatched":
+          return <p className="px-2 py-1 text-red-700 bg-blue-100 w-28 rounded-md fw-600">Dispatched</p>
       case "pending":
         return <p className="px-2 py-1 w-24 rounded-md fw-600 bg-yellow-100 text-yellow-700">Pending</p>
       case "completed":
         return <p className="px-2 py-1 w-24 rounded-md fw-600">Completed</p>
       case "ongoing":
         return <p className="px-2 py-1 w-24 bg-orange-100 text-orange-700 rounded-md fw-600">Ongoing</p>
+        case "Ongoing":
+          return <p className="px-2 py-1 w-24 bg-orange-100 text-orange-700 rounded-md fw-600">Ongoing</p>
       case "closed":
         return <p className="px-2 py-1 w-24 text-red-700 bg-red-100 rounded-md fw-600">Closed</p>
       default: return status
@@ -246,7 +250,6 @@ export default function ProjectTable({ status, isLoader }) {
         accessor: "approvalStatus",
         Cell: (props) => {
           const {approvalStatus} = props.cell.row.original;
-          // console.log(approvalStatus)
           return formatStatus(approvalStatus)
         }
       },
@@ -284,10 +287,13 @@ export default function ProjectTable({ status, isLoader }) {
                 Commence Project
               </MenuItem>
             }
-
-            <MenuItem className="bg-red-600 text-white" onClick={() => deleteModalProject(row.value)}>
+            {
+              row.cell.row.original.approvalStatus === "pending" &&
+              <MenuItem className="bg-red-600 text-white" onClick={() => deleteModalProject(row.value)}>
               Delete
             </MenuItem>
+            }
+            
           </MenuList>
         </Menu>,
       },
