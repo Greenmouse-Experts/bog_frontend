@@ -36,6 +36,17 @@ export const CartModal = ({ CloseModal }) => {
       }
     });
   };
+  const addDelivery = () => {
+    Swal.fire({
+      title: "",
+      imageUrl:
+        "https://res.cloudinary.com/greenmouse-tech/image/upload/v1685457317/BOG/info_djndzm.webp",
+      imageWidth: "75px",
+                text: "Please select the nearest address to continue",
+      confirmButtonText: "Continue",
+      confirmButtonColor: "#3F79AD",
+    })
+  };
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState(false);
   const [addresses, setAddresses] = useState([]);
@@ -385,16 +396,23 @@ export const CartModal = ({ CloseModal }) => {
             <p>NGN {formatNumber(totalCost())}</p>
           </div>
 
-          {auth.isAuthenticated &&
-          orderForm.address !== null &&
-          orderForm.address !== "" ? (
+          {auth.isAuthenticated
+          ? orderForm.address !== null &&
+          orderForm.address !== "" ? 
             <PaystackButton
               text="CHECKOUT"
               label="CHECKOUT"
               className="w-full btn bg-primary text-white"
               {...componentProps}
-            />
-          ) : (
+            /> : 
+              <button
+              onClick={() => addDelivery()}
+                className="w-full btn bg-primary opacity-75 text-white"
+              >
+                CHECKOUT
+              </button>
+             
+          : (
             <button
               onClick={() => AuhtCheck()}
               className="w-full btn bg-primary text-white"
