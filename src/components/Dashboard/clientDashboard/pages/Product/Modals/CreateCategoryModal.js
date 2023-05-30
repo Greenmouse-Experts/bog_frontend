@@ -24,11 +24,12 @@ const CreateCategoryModal = ({ CloseModal }) => {
     initialValues: {
       name: "",
       description: "",
+      unit: ""
     },
     onSubmit: submitHandler,
     validationSchema: categorySchema,
   });
-  const { name, description } = formik.values;
+  const { name, description, unit } = formik.values;
   return (
     <div
       className="fixed font-primary top-0 left-0 w-full h-screen bg-op center-item z-40"
@@ -61,6 +62,12 @@ const CreateCategoryModal = ({ CloseModal }) => {
             <input
               type="text"
               className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
+              required
+              id="unit"
+              name="unit"
+              value={unit}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
           </div>
           <div className="mt-5">

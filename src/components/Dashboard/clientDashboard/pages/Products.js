@@ -1,11 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-// import { products } from "../../../pages/shop/AllProducts";
-// import { RiDeleteBinLine } from "react-icons/ri";
-// import { BiEdit } from "react-icons/bi";
-// import { BsExclamationCircleFill } from "react-icons/bs";
-// import ReactStars from "react-rating-stars-component";
 import { useState, useEffect } from "react";
 import {
   Breadcrumbs,

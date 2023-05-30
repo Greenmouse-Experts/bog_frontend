@@ -26,7 +26,7 @@ const orderProgress = [
     allowed: ["cancelled"], percent: 0
   },
   { status: "approved", allowed: ["approved", "shipped", "completed"], percent: 35 },
-  { status: "shipped", allowed: ["shipped", "completed"], percent: 75 },
+  { status: "shipped", allowed: ["shipped", "completed"], percent: 68 },
   { status: "completed", allowed: ["completed"], percent: 100 },
 ];
 
@@ -99,6 +99,7 @@ export default function OrderDetails() {
           confirmButtonText: "Continue",
           confirmButtonColor: "#3F79AD",
         });
+        getOrderDetail()
       } catch (error) {
         console.log(error);
         toast.error(

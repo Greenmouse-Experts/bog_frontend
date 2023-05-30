@@ -123,10 +123,11 @@ const DeliveryAddresses = () => {
       country: "",
       charge: "",
       zipcode: "",
+      insurancecharge: ""
     },
     onSubmit: createDeliveryAddress,
   });
-  const { title, address, delivery_time, state, country, charge, zipcode } =
+  const { title, address, delivery_time, state, country, charge, zipcode, insurancecharge } =
     formik.values;
 
   return (
@@ -307,7 +308,12 @@ const DeliveryAddresses = () => {
                   <div className="flex">
                     <input
                       type="number"
+                      name="insurancecharge"
+                      id="insurancecharge"
                       placeholder="Enter Insurance Charge"
+                      value={insurancecharge}
+                      onChange={formik.handleChange}
+                      required
                       className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
                     />
                   </div>

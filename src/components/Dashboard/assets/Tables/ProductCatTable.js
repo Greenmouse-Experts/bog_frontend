@@ -97,7 +97,8 @@ export function ProductCategoryTable({adminEdit, adminDelete}) {
           },
           {
             Header: "Category Unit",
-            accessor: "",
+            accessor: "unit",
+            Cell: (props) => props.value && props.value
           },
           {
             Header: "Number of Products",
@@ -108,7 +109,7 @@ export function ProductCategoryTable({adminEdit, adminDelete}) {
             accessor: 'id',
             Cell: (row) => <Menu placement="left-start" className="w-16">
                     <MenuHandler>
-                      <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><button className="lg:text-xl"><BsThreeDotsVertical /></button></Button>
+                      <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><p className="lg:text-xl"><BsThreeDotsVertical /></p></Button>
                     </MenuHandler>
                     <MenuList className="w-16 bg-gray-100 fw-600 text-black">
                       <MenuItem onClick={() => adminEdit(row.row.original)}>View</MenuItem>

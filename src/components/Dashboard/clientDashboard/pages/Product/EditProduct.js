@@ -88,7 +88,7 @@ const EditProduct = ({ CloseEditModal, product }) => {
                         <label className="block">Product Tittle</label>
                         <input
                             type="text"
-                            className="w-full lg:w-10/12 border border-gray-400 rounded mt-2 py-2 px-2"
+                            className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
                             required
                             id="name"
                             name="name"
@@ -104,7 +104,7 @@ const EditProduct = ({ CloseEditModal, product }) => {
                         <label className="block">Product Price</label>
                         <input
                             type="number"
-                            className="w-full lg:w-10/12 border border-gray-400 rounded mt-2 py-2 px-2"
+                            className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
                             required
                             id="price"
                             name="price"
@@ -120,7 +120,7 @@ const EditProduct = ({ CloseEditModal, product }) => {
                         <label className="block">Available Quantity</label>
                         <input
                             type="number"
-                            className="w-full lg:w-10/12 border border-gray-400 rounded mt-2 py-2 px-2"
+                            className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
                             required
                             id="quantity"
                             name="quantity"
@@ -136,7 +136,7 @@ const EditProduct = ({ CloseEditModal, product }) => {
                         <label className="block">Unit of measurement</label>
                         <input
                             type="text"
-                            className="w-full lg:w-10/12 border border-gray-400 rounded mt-2 py-2 px-2"
+                            className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
                             required
                             id="unit"
                             name="unit"
@@ -152,7 +152,7 @@ const EditProduct = ({ CloseEditModal, product }) => {
                         <label className="block">Product Image</label>
                         <input
                             type="file"
-                            className="w-full lg:w-10/12 border border-gray-400 rounded mt-2 py-2 px-2"
+                            className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
                             name='photos'
                             multiple
                             onChange={handlePhotoChange}
@@ -161,7 +161,7 @@ const EditProduct = ({ CloseEditModal, product }) => {
                     <div className="mt-5">
                         <label className="block">Product Description</label>
                         <textarea
-                            className="w-full lg:w-10/12 h-24 border border-gray-400 rounded mt-2 p-2"
+                            className="w-full h-24 border border-gray-400 rounded mt-2 p-2"
                             required
                             id="description"
                             name="description"
@@ -174,7 +174,7 @@ const EditProduct = ({ CloseEditModal, product }) => {
                             formik.touched.description && formik.errors.description ? <p className='text-red-500'>{formik.errors.description}</p> : null
                         }
                     </div>
-                    <div className="mt-8 flex lg:w-10/12 justify-between">
+                    <div className="mt-8 flex justify-between">
                         <Button color="red" onClick={CloseEditModal}>Cancel</Button>
                         {
                             loading ? <Spinner /> :

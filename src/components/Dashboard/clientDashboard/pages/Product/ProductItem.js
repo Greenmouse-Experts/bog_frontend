@@ -1,10 +1,5 @@
 import React from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';
-// import { RiDeleteBinLine } from "react-icons/ri";
-// import { BiEdit } from "react-icons/bi";
-
-
-// const baseURL = process.env.REACT_APP_IMAGE_URL;
 
 
 const ProductItem = ({ item, setProductDelete }) => {
