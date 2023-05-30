@@ -374,7 +374,6 @@ export const createProduct = (payload, saveLoading) => {
                 },
             }
             const response = await axios.post(url, payload, config);
-            console.log(response);
             dispatch(addProduct(response.data));
             saveLoading();
             Swal.fire({
@@ -388,7 +387,6 @@ export const createProduct = (payload, saveLoading) => {
             })
         } catch (error) {
             saveLoading();
-            console.log(error?.response?.data?.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -453,7 +451,8 @@ export const updateCategory = (payload, saveLoading, categoryId) => {
             const url = `/product/category/${categoryId}`;
             const sentPayload = {
                 name: payload.name,
-                description: payload.description
+                description: payload.description,
+                unit: payload.unit
             };
             const response = await axios.patch(url, sentPayload);
             console.log(response);

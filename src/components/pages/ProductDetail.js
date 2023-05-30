@@ -278,18 +278,39 @@ export default function ProductDetail() {
                         {user && <button className="mb-6 px-4 py-1 bg-secondary text-white rounded" onClick={() => setPostReview(true)}>Leave a review</button>}
                         {review &&  !review?.reviews?.length && <p>No Review Yet</p>}
                         {
-                          review &&  !!review?.reviews?.length && review?.reviews?.map((item,index) => (
-                            <div className="flex items-center border-b py-4 lg:gap-x-5" key={index}>
-                                <div>
-                                    <p>{`${item.client.fname} ${item.client.lname} `}</p>
-                                    <ReactStars edit={false} value={item.star} size={25} />
+                          review &&  !!review?.reviews?.length && (
+                            <div className="lg:flex lg:gap-x-6">
+                              <div className="lg:w-3/12">
+                                <div className="flex justify-center items-end mt-4">
+                                  <span className="lg:text-8xl text-4xl fw-600 block">{review?.star}</span> <span className="lg:text-5xl text-2xl fw-600">/ 5.0</span>
                                 </div>
-                                <div>
-                                    <p>{dayjs(item.createdAt).format('DD/MM/YYYY')}</p>
-                                    <p className="mt-4">{item.review}</p>
+                                <div className="flex justify-center">
+                                <div className="hidden lg:block">
+                          <ReactStars edit={false} value={review?.star} size={35} />
+                        </div>
+                        <div className="lg:hidden">
+                          <ReactStars edit={false} value={review?.star} size={25} />
+                        </div>
                                 </div>
+                              </div>
+                              <div>
+                                {
+                                  review?.reviews?.map((item,index) => (
+                                    <div className="md:flex items-center border-b py-4 lg:gap-x-5" key={index}>
+                                        <div>
+                                            <p>{`${item.client.fname} ${item.client.lname} `}</p>
+                                            <ReactStars edit={false} value={item.star} size={25} />
+                                        </div>
+                                        <div>
+                                            <p>{dayjs(item.createdAt).format('DD/MM/YYYY')}</p>
+                                            <p className="mt-4">{item.review}</p>
+                                        </div>
+                                    </div>
+                                  ))
+                                }
+                              </div>
                             </div>
-                          ))
+                          )
                         }
                       </div>
                     </TabPanel>

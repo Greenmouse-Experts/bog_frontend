@@ -127,16 +127,18 @@ const AddressInfoModal = ({
             />
             e.g: 2 working days
           </div>
-          <div className="mt-5">
-                  <label className="block">Insurance Charge</label>
-                  <div className="flex">
+          <div className="flex mt-5">
                     <input
                       type="number"
+                      name="insurancecharge"
+                      id="insurancecharge"
                       placeholder="Enter Insurance Charge"
+                      value={addressInfo.insurancecharge}
+                      onChange={e => setAddressInfo({...addressInfo, insurancecharge: e.target.value})}
+                      required
                       className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
                     />
                   </div>
-                </div>
           <div className="mt-8 flex justify-between">
             <Button
               type="button"
