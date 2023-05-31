@@ -12,7 +12,7 @@ export const formatNumber = (number) => {
 
 export const getSubTotal = (items) => {
   const total = items.reduce((sum, data) => {
-    return sum + data.amount;
+    return sum + data.amount ;
   }, 0);
   return total;
 };

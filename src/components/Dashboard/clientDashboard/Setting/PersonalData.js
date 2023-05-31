@@ -186,11 +186,6 @@ const PersonalData = () => {
                     paddingBottom: "19px",
                   }}
                   rules={{ required: true }}
-                  // isValid={(value) => {
-                  //   if(value.length < 7 || value.length > 13 ){
-                  //     return false;
-                  //   }
-                  // }}
                 />
               </div>
             </div>

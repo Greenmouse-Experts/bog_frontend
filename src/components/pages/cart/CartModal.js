@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../../../redux/actions/cartAction";
 import { fetchStateAddresses } from "../../../redux/actions/addressAction";
 import { BsFillInfoCircleFill } from "react-icons/bs";
+import PhoneInput from "react-phone-input-2";
 
 export const CartModal = ({ CloseModal }) => {
   const AuhtCheck = () => {
@@ -42,17 +43,18 @@ export const CartModal = ({ CloseModal }) => {
       imageUrl:
         "https://res.cloudinary.com/greenmouse-tech/image/upload/v1685457317/BOG/info_djndzm.webp",
       imageWidth: "75px",
-                text: "Please select the nearest address to continue",
+      text: "Please select the nearest address to continue",
       confirmButtonText: "Continue",
       confirmButtonColor: "#3F79AD",
-    })
+    });
   };
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [address_, setAddress_] = useState({});
-  const [insure, setInsure] = useState("")
-  const [addInsure, setAddInsure] = useState(false)
+  const [insure, setInsure] = useState("");
+  const [addInsure, setAddInsure] = useState(false);
+  const [phoneNo, setPhoneNo] = useState("");
 
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -108,7 +110,7 @@ export const CartModal = ({ CloseModal }) => {
       const _address = addresses.find((_a) => _a.id === id);
 
       setAddress_(_address);
-      setInsure(_address.insurancecharge? _address.insurancecharge : 0)
+      setInsure(_address.insurancecharge ? _address.insurancecharge : 0);
       setOrderForm({ ...orderForm, address: _address.id });
     } else {
       setOrderForm({ ...orderForm, address: "" });
@@ -116,16 +118,25 @@ export const CartModal = ({ CloseModal }) => {
   };
 
   const addInsuranceCharge = () => {
-    setAddInsure(!addInsure)
-  }
+    if (Number(insure) > 0) {
+      setAddInsure(!addInsure);
+    } else {
+      toast.error("No Insurance for selected location");
+    }
+  };
+
+  const handlePhoneChange = (formattedValue) => {
+    setPhoneNo(`+${formattedValue}`);
+    setOrderForm({ ...orderForm, contact_phone: phoneNo });
+  };
 
   const totalCost = () => {
     if (address_ !== null) {
       if (Object.keys(address_).length > 0) {
-        if (addInsure) {
+        if (addInsure && Number(insure) > 0) {
           return totalAmount + address_.charge + Number(insure);
-        } else{
-        return totalAmount + address_.charge;
+        } else {
+          return totalAmount + address_.charge;
         }
       }
     }
@@ -158,11 +169,10 @@ export const CartModal = ({ CloseModal }) => {
           postal_code: address_.zipcode,
           address: address_.address,
           home_address: orderForm.home_address,
-          // charge: address_.charge,
           contact_name: orderForm.contact_name,
           contact_email: orderForm.contact_email,
           contact_phone: orderForm.contact_phone,
-          delivery_time: address_.delivery_time
+          delivery_time: address_.delivery_time,
         },
         paymentInfo: {
           reference: payment.reference,
@@ -170,8 +180,9 @@ export const CartModal = ({ CloseModal }) => {
         },
         discount: 0,
         deliveryFee: address_.charge,
+        insurancecharge: addInsure ? Number(insure) : 0,
         totalAmount: totalCost(),
-        userType: auth.user.profile.userType
+        userType: auth.user.profile.userType,
       };
       console.log(payload);
       const config = {
@@ -275,17 +286,19 @@ export const CartModal = ({ CloseModal }) => {
           </div>
           <div className="w-full lg:w-6/12 lg:pl-3 mt-3">
             <label className="block">Phone Number</label>
-            <input
-              type="text"
-              placeholder="enter phone number"
-              className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
-              name="contact_phone"
-              required
-              id="contact_phone"
-              value={orderForm.contact_phone}
-              onChange={(e) =>
-                setOrderForm({ ...orderForm, contact_phone: e.target.value })
-              }
+            <PhoneInput
+              country={"ng"}
+              name="phone"
+              value={phoneNo}
+              onChange={(phone) => handlePhoneChange(phone)}
+              className="mt-1 w-full rounded bg-white border border-gray-700"
+              inputStyle={{
+                width: "100%",
+                border: "none",
+                paddingTop: "19px",
+                paddingBottom: "19px",
+              }}
+              rules={{ required: true }}
             />
             {orderForm.contact_phone === "" ? (
               <p className="text-red-500">{"Contact Phone is required"}</p>
@@ -352,18 +365,27 @@ export const CartModal = ({ CloseModal }) => {
             ) : null}
           </div>
         </div>
-          <div className="mt-6 flex items-center gap-x-2">
-            <input type="checkbox" onChange={addInsuranceCharge} className="w-4 mt-1"/>
-            <div className="flex items-center gap-x-4">
-              <p>I want insurance coverage for this delivery</p>
-              <BsFillInfoCircleFill className="text-sm cursor-pointer hover:text-primary" onClick={() => setInfo(!info)}/>
-            </div>
+        <div className="mt-6 flex items-center gap-x-2">
+          <input
+            type="checkbox"
+            onChange={addInsuranceCharge}
+            className="w-4 mt-1"
+          />
+          <div className="flex items-center gap-x-4">
+            <p>I want insurance coverage for this delivery</p>
+            <BsFillInfoCircleFill
+              className="text-sm cursor-pointer hover:text-primary"
+              onClick={() => setInfo(!info)}
+            />
           </div>
-          {
-            info && (
-              <p className="bg-light p-3 rounded scale-ani fs-400">This insurance provides the coverage for the orders shipped to recover any losses if the package is lost or damaged in transit. There is a fee required for this coverage.</p>
-            )
-          }
+        </div>
+        {info && (
+          <p className="bg-light p-3 rounded scale-ani fs-400">
+            This insurance provides the coverage for the orders shipped to
+            recover any losses if the package is lost or damaged in transit.
+            There is a fee required for this coverage.
+          </p>
+        )}
 
         <div className="fw-600 my-4">
           {Object.keys(address_).length > 0 && (
@@ -372,12 +394,12 @@ export const CartModal = ({ CloseModal }) => {
               <p>{address_.delivery_time}</p>
             </div>
           )}
-          {
-            addInsure && (<div className="flex justify-between my-4">
-            <p>INSURANCE</p>
-            <p>NGN {formatNumber(insure)}</p>
-          </div>)
-          }
+          {addInsure && Number(insure) > 0 && (
+            <div className="flex justify-between my-4">
+              <p>INSURANCE</p>
+              <p>NGN {formatNumber(insure)}</p>
+            </div>
+          )}
           <div className="flex justify-between my-4">
             <p>SUB TOTAL</p>
             <p>NGN {formatNumber(totalAmount)}</p>
@@ -396,23 +418,23 @@ export const CartModal = ({ CloseModal }) => {
             <p>NGN {formatNumber(totalCost())}</p>
           </div>
 
-          {auth.isAuthenticated
-          ? orderForm.address !== null &&
-          orderForm.address !== "" ? 
-            <PaystackButton
-              text="CHECKOUT"
-              label="CHECKOUT"
-              className="w-full btn bg-primary text-white"
-              {...componentProps}
-            /> : 
+          {auth.isAuthenticated ? (
+            orderForm.address !== null && orderForm.address !== "" ? (
+              <PaystackButton
+                text="CHECKOUT"
+                label="CHECKOUT"
+                className="w-full btn bg-primary text-white"
+                {...componentProps}
+              />
+            ) : (
               <button
-              onClick={() => addDelivery()}
+                onClick={() => addDelivery()}
                 className="w-full btn bg-primary opacity-75 text-white"
               >
                 CHECKOUT
               </button>
-             
-          : (
+            )
+          ) : (
             <button
               onClick={() => AuhtCheck()}
               className="w-full btn bg-primary text-white"
