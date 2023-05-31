@@ -61,7 +61,7 @@ const EditProduct = ({ CloseEditModal, product }) => {
     validationSchema: productSchema,
     onSubmit: createNewProduct,
   });
-  const { name, price, quantity, description, unit } = formik.values;
+  const { name, price, quantity, description } = formik.values;
   const changeCategory = (val) => {
     const value = val.value;
     setCategory(value);

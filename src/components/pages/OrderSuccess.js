@@ -24,6 +24,9 @@ export const OrderSuccess = () => {
         window.open(url, "_blank")
     }
 
+    const insure = order?.insurancecharge? order.insurancecharge : 0
+
+
     if (loading || !order) {
         return <center>
             <Spinner />
@@ -49,7 +52,7 @@ export const OrderSuccess = () => {
                             <div>
                                 <p className='bg-primary fw-600 py-2 pl-3 text-white w-full'>Shipping Address</p>
                                 <div className='px-3 bg-light py-4'>
-                                    <p className='fw-500'>{`${order?.contact.city}, ${order?.contact.state}`} </p>
+                                    <p className='fw-500'>{`${order?.contact.city? `${order?.contact.city},` : ""} ${order?.contact.state}`} </p>
                                     <p className='my-3'>{order?.contact.address}</p>
                                     <p>{order?.contact.contact_phone || "09090000000"}</p>
                                 </div>
@@ -59,17 +62,13 @@ export const OrderSuccess = () => {
                                 <div className='px-3 bg-light py-4'>
                                     <p className=''>Subtotal - <span className='fw-500'>&#8358; {formatNumber(getSubTotal(order.order_items))}</span></p>
                                     <p className='my-2'>Shipping & Handling - <span className='fw-500'>&#8358; {formatNumber(order.deliveryFee)}</span></p>
-                                    {/* <p className='mb-2'>Tax - <span className='fw-500'>NGN 2,000</span></p> */}
-                                    <p className='fw-600'>Total - <span className='fw-500'>&#8358; {formatNumber(getSubTotal(order.order_items) + order.deliveryFee)}</span></p>
+                                    {
+                                        order.insurancecharge && (
+                                            <p className='my-2'>Insurance Charge - <span className='fw-500'>&#8358; {formatNumber(order.insurancecharge)}</span></p>
+                                        )
+                                    }
+                                    <p className='fw-600'>Total - <span className='fw-500'>&#8358; {formatNumber(getSubTotal(order.order_items) + order.deliveryFee + insure)}</span></p>
                                 </div>
-                                {/* <div className='py-2 pr-3'>
-                                    <a
-                                        href={`${BASE_URL}/uploads/invoice/ORD-${order.orderSlug}.pdf`}
-                                        target="_blank"
-                                        className='bg-primary px-5 py-1 text-white' rel="noreferrer"
-                                    >Print Invoice</a>
-                                    
-                                </div> */}
                                 <button onClick={() => printInvoice(order.orderSlug)} className='bg-primary px-5 py-1 text-white'>Print Receipt</button>
                             </div>
                         </div>
