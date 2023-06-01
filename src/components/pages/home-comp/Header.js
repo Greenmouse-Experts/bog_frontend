@@ -152,10 +152,10 @@ export default function Header() {
                                 <li className="py-4"><Link to="/terms">Terms and Conditions</Link></li>
                                 <li>
                                     <ul className="mt-6 flex">
-                                        <li><img src={require("../../assets/images/insta.png")} alt="insta" /></li>
-                                        <li className="pl-4"><img src={require("../../assets/images/twitter.png")} alt="twitter" /></li>
-                                        <li className="pl-4"><img src={require("../../assets/images/linkedn.png")} alt="linkedn" /></li>
-                                        <li className="pl-4"><img src={require("../../assets/images/facebook.png")} alt="facebook" /></li>
+                                        <li><a href="https://www.instagram.com/build_on_the_go/" target="_blank" rel="noopener noreferrer"><img src={require("../../assets/images/insta.png")} alt="insta" /></a></li>
+                                        <li className="pl-4"><a href="https://twitter.com/BogLimited44612" target="_blank" rel="noopener noreferrer"><img src={require("../../assets/images/twitter.png")} alt="twitter" /></a></li>
+                                        <li className="pl-4"><a href="https://www.linkedin.com/company/build-on-the-go/" target="_blank" rel="noopener noreferrer"><img src={require("../../assets/images/linkedn.png")} alt="linkedn" /></a></li>
+                                        <li className="pl-4"><a href="https://www.facebook.com/profile.php?id=100091812647846" target="_blank" rel="noopener noreferrer"><img src={require("../../assets/images/facebook.png")} alt="facebook" /></a></li>
                                     </ul>
                                 </li>
                             </ul>
