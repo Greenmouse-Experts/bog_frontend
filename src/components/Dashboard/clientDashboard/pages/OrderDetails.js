@@ -1,19 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { capitalize } from "lodash";
-import { Avatar, Breadcrumbs, Progress } from "@material-tailwind/react";
+import { Avatar, Breadcrumbs, Button, Progress } from "@material-tailwind/react";
 import dayjs from "dayjs";
 import React, { useState, useEffect } from "react";
-// import { BiEdit } from "react-icons/bi";
-// import { Link } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import Axios from "../../../../config/config";
 import { Loader } from "../../../layouts/Spinner";
 import ItemList from "./Order/ItemList";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import ReactStars from "react-rating-stars-component";
-
 import toast from 'react-hot-toast';
 import Swal from "sweetalert2";
+import { PartnerPaymentModal } from "./Product/Modals/PartnerPaymentModal";
 
 const orderProgress = [
   {
@@ -37,6 +35,9 @@ export default function OrderDetails() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
   const [progressVal, setProgressVal] = useState({});
+  const [payout, setPayout] = useState(false)
+  const [partnerId, setPartnerId] = useState('')
+  const [prodId, setProdId] = useState('')
 
   const getOrderDetail = async () => {
     try {
@@ -113,6 +114,12 @@ export default function OrderDetails() {
       }
     }
   };
+
+  const openPayment = (id, ids) => {
+    setPayout(true)
+    setPartnerId(id)
+    setProdId(ids)
+  }
 
   useEffect(() => {
     getOrderDetail();
@@ -423,10 +430,12 @@ export default function OrderDetails() {
                 </div>
                 <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                   <div className="flex justify-between border-b border-gray-300 pb-4">
-                    <p className="fw-600">Partner Info</p>
-                    {/* <p className="text-primary"><BiEdit /></p> */}
+                    <p className="fw-600">Partner(s) Info</p>
                   </div>
-                  <div className="flex mt-6">
+                  {
+                    order?.order_items && order?.order_items.map((item, index) => (
+                      <div key={index} className="pb-3 border-b">
+                        <div className="flex items-center mt-6">
                     <div>
                       <Avatar
                         src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png"
@@ -435,34 +444,50 @@ export default function OrderDetails() {
                       />
                     </div>
                     <div className="grid fs-400 content-between pl-4 fw-500">
-                      <p>{order.client.name}</p>
-                      <p className="text-gray-600">{order?.order_items[0]?.product_owner?.fname
-                          ? order.order_items[0].product_owner.fname
-                          : "No name"}</p>
+                      <p>{item.product_owner.fname} {item.product_owner.lname}</p>
                     </div>
                   </div>
                   <div className="fs-400 fw-500 mt-4">
                     <div className="flex">
                       <p className="text-gray-600">Phone:</p>
                       <p className="pl-3">
-                        {order?.order_items[0]?.product_owner?.phone
-                          ? order.order_items[0].product_owner.phone
+                        {item.product_owner.phone
+                          ? item.product_owner.phone
                           : "No Phone number"}
                       </p>
                     </div>
                     <div className="flex">
                       <p className="text-gray-600">Email:</p>
-                      <p className="pl-3">{order?.order_items[0]?.product_owner?.email
-                          ? order.order_items[0].product_owner.email
+                      <p className="pl-3">{item.product_owner.email
+                          ? item.product_owner.email
+                          : "No Email"}</p>
+                    </div>
+                    <div className="flex">
+                      <p className="text-gray-600">Product Name:</p>
+                      <p className="pl-3">{item.product.name
+                          ? item.product.name
+                          : "No name"}</p>
+                    </div>
+                    <div className="flex">
+                      <p className="text-gray-600">Product Price:</p>
+                      <p className="pl-3">{item.product.price
+                          ? formatNumber(item.product.price)
                           : "No Email"}</p>
                     </div>
                   </div>
+                  <Button className="w-full bg-primary mt-4" onClick={() => openPayment(item.product_owner.id, item.product.id)}>Initalize Payment</Button>
+                      </div>
+                    ))
+                  }
                 </div>
               </div>
             </div>
           </div>
         </div>
       )}
+      {
+        payout && <PartnerPaymentModal CloseModal={() => setPayout(false)} id={prodId} userId={partnerId} />
+      }
     </div>
   );
 }

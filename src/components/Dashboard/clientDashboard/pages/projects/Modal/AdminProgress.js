@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { FaTimes } from 'react-icons/fa';
 
-export const AdminProgress = ({CloseModal, id}) => {
+export const AdminProgress = ({CloseModal, id, refetch}) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -23,6 +23,7 @@ export const AdminProgress = ({CloseModal, id}) => {
             const response = await axios.put(`${process.env.REACT_APP_URL }/projects/update/${id}`, paylaod, config )
             setIsLoading(false)
             CloseModal()
+            refetch()
             toast.success(
                 response.data.message,
                 {
@@ -49,7 +50,7 @@ export const AdminProgress = ({CloseModal, id}) => {
 
   return (
     <div className="fixed font-primary left-0 top-0 w-full h-screen bg-op center-item z-40" onClick={CloseModal}>
-        <div className="bg-white lg:w-5/12 relative rounded-md  overscroll-none  w-11/12 p-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
+        <div className="bg-white lg:w-3/12 relative rounded-md  overscroll-none  w-11/12 p-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
             <p className="fw-600 text-lg mb-6">Update Project Progress</p>
             <form onSubmit={handleSubmit}>
                 <div className="mt-3">

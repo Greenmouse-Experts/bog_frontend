@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { FaTimes } from 'react-icons/fa';
 
-export const ProjectMain = ({CloseModal, id, project}) => {
+export const ProjectMain = ({CloseModal, id, project, refetch}) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -22,6 +22,7 @@ export const ProjectMain = ({CloseModal, id, project}) => {
             }
             const response = await axios.put(`${process.env.REACT_APP_URL }/projects/update/${id}`, paylaod, config )
             setIsLoading(false)
+            refetch()
             CloseModal()
             toast.success(
                 response.data.message,
