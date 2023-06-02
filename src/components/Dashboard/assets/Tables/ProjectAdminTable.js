@@ -107,7 +107,7 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
 }
 
 export default function ProjectsTable({ status, loader }) {
-  // let   allProjects = useSelector((state) => state.orders.  allProjects);
+
   let allProjects = useSelector((state) => state.allprojects.projects);
   const [open, setOpen] = useState(false);
   const [partnerOpen, setPartnersOpen] = useState(false);
@@ -129,18 +129,14 @@ export default function ProjectsTable({ status, loader }) {
 
 
   if (status) {
-    // console.log(status)
-
-    // console.log(allProjects)
     if (status === "approved") {
       allProjects = allProjects.filter(
         (where) =>
           where.approvalStatus !== "pending" &&
           where.approvalStatus !== "in_review"
       );
-      // console.log({ allProjects });
     } else {
-      allProjects = allProjects.filter((project) => project.status === status);
+      allProjects = allProjects.filter((project) => (project.status).toLowerCase() === status);
     }
   } else {
     allProjects = allProjects.filter(
@@ -149,7 +145,6 @@ export default function ProjectsTable({ status, loader }) {
           project.approvalStatus === "in_review") &&
         project.status !== "approved"
     );
-    // console.log(allProjects)
   }
 
   const dispatch = useDispatch();
@@ -320,12 +315,6 @@ export default function ProjectsTable({ status, loader }) {
                   View Details
                 </MenuItem>
               )}
-              {/*(row.cell.row.original.status === "ongoing" || row.cell.row.original.status === "dispatched" || 
-                row.cell.row.original.status === "completed") && (
-                <MenuItem onClick={() => gotoDetailsPage(row.value)}>
-                  View Details
-                </MenuItem>
-              )*/}
               {row.cell.row.original.approvalStatus !== "approved" && (
                 <>
                   <MenuItem onClick={() => gotoProjectFile(row.value)}>

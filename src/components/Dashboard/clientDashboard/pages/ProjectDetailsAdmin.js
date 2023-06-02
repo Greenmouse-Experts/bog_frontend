@@ -20,7 +20,7 @@ import { PartnerPayment } from "./projects/Modal/PartnerPayment";
 export default function ProjectDetails() {
     const { search } = useLocation();
     const projectId = new URLSearchParams(search).get("projectId");
-    const { loading, data: project } = useFetchHook(`/projects/v2/view-project/${projectId}`);
+    const { loading, data: project, refetch } = useFetchHook(`/projects/v2/view-project/${projectId}`);
     const [cost, setCost] = useState(false)
     const [installment, setInstallment] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -114,7 +114,7 @@ export default function ProjectDetails() {
             const response = await axios.post(`${process.env.REACT_APP_URL }/projects/installments/create`, paylaod, config )
             setIsLoading(false)
             CloseModal()
-            getCostSummary()
+            refetch()
             toast.success(
                 response.data.message,
                 {
@@ -373,7 +373,7 @@ export default function ProjectDetails() {
                                 <div className="fs-400 fw-500 mt-4">
                                     <div className="flex">
                                         <p className="text-gray-600">Phone:</p>
-                                        <p className="pl-3">+{project?.serviceProvider?.details?.phone}</p>
+                                        <p className="pl-3">{project?.serviceProvider?.details?.phone}</p>
                                     </div>
                                     <div className="flex">
                                         <p className="text-gray-600">Email:</p>
@@ -389,7 +389,12 @@ export default function ProjectDetails() {
                                     {project?.reviews.length > 0 ? project.reviews.map((review, index) => (
                                         <div className="flex mt-6" key={index}>
                                             <div>
-                                                <Avatar src={review.client.photo} variant="circular" alt="order" />
+                                            {
+                                                    review.client.photo?
+                                                    <Avatar src={review.client.photo} variant="circular" alt="order"  />
+                                                    :
+                                                    <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
+                                                }
                                             </div>
                                             <div className="grid fs-400 content-between pl-4 fw-500">
                                                 <p>{ review.client.name }</p>
@@ -416,7 +421,12 @@ export default function ProjectDetails() {
                                 </div>
                                 <div className="flex mt-6">
                                             <div>
-                                                <Avatar src={project?.client?.photo} variant="circular" alt="order"  />
+                                                {
+                                                    project?.client?.photo?
+                                                    <Avatar src={project?.client?.photo} variant="circular" alt="order"  />
+                                                    :
+                                                    <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" variant="circular" alt="order"  />
+                                                }
                                             </div>
                                             <div className="grid fs-400 content-between pl-4 fw-500">
                                                 <p>{project?.client?.name}</p>
@@ -527,7 +537,7 @@ export default function ProjectDetails() {
             }
             {
                 progressModal && (
-                    <AdminProgress CloseModal={CloseModal} id={project.id}/>
+                    <AdminProgress CloseModal={CloseModal} id={project.id} refetch={refetch}/>
                 )
             }
             {
@@ -537,7 +547,7 @@ export default function ProjectDetails() {
             }
             {
                 projectMain && (
-                    <ProjectMain CloseModal={CloseModal} project={project} id={project.id}/>
+                    <ProjectMain CloseModal={CloseModal} project={project} id={project.id} refetch={refetch}/>
                 )
             }
             {

@@ -50,9 +50,6 @@ export default function ProjectsAdmin() {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    {/* <div className="mt-4 lg:mt-0">
-                        <button className="px-4 lg:py-2 py-1 rounded border-pri text-primary" onClick={() => setAdminAdd(!adminAdd)}><span>Assign New Project</span></button>
-                    </div> */}
                 </div>
 
                 {/* service contents */}
@@ -73,7 +70,7 @@ export default function ProjectsAdmin() {
                                 <ProjectsTable status={"dispatched"} loader={loading} />
                             </TabPanel>
                             <TabPanel>
-                                <ProjectsTable status={"ongoing"} loader={loading} />
+                                <ProjectsTable status={"ongoing"}  loader={loading} />
                             </TabPanel>
                             <TabPanel>
                                 <ProjectsTable status={"completed"} loader={loading} />

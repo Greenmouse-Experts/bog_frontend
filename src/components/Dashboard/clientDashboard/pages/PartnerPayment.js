@@ -1,17 +1,113 @@
-import {
-  Breadcrumbs,
-  Button,
-  Menu,
-  MenuHandler,
-  MenuItem,
-  MenuList,
-} from "@material-tailwind/react";
-import React from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import React, { useEffect, useState } from "react";
+import { Breadcrumbs } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import { getStatus } from "../../../../services/helper";
+import Axios from "../../../../config/config";
+import { toast } from "react-hot-toast";
+import { PayoutTable } from "../../assets/Tables/PayoutTable";
+import { Spinner2 } from "../../../layouts/Spinner";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import { PayoutTableProduct } from "../../assets/Tables/PayoutTableProduct";
 
 export const PartnerPayment = () => {
+  const [loading, setLoading] = useState(false);
+  const [payment, setPayments] = useState([]);
+  const [pays, setPays] = useState([]);
+
+  const getPayments = async () => {
+    try {
+      setLoading(true);
+
+      const authToken = localStorage.getItem("auth_token");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+      };
+      const res = await Axios.get("/projects/pendingTransfers", config);
+      setLoading(false);
+      if (res.success === true) {
+        setPayments(res.data);
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error(error.message, {
+        duration: 6000,
+        position: "top-center",
+        style: { background: "#BD362F", color: "white" },
+      });
+    }
+  };
+  const getPays = async () => {
+    try {
+      setLoading(true);
+
+      const authToken = localStorage.getItem("auth_token");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+      };
+      const res = await Axios.get("/products/pendingTransfers", config);
+      setLoading(false);
+      if (res.success === true) {
+        setPays(res.data);
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error(error.message, {
+        duration: 6000,
+        position: "top-center",
+        style: { background: "#BD362F", color: "white" },
+      });
+    }
+  };
+  const approvePayment = async (id) => {
+    try {
+      const authToken = localStorage.getItem("auth_token");
+      const config = {
+        method: "Post",
+        url: `${process.env.REACT_APP_URL}/projects/approveTransfer/${id}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+      };
+      const res = await axios(config);
+      console.log(res);
+      Swal.fire({
+        title: "Success",
+        imageUrl:
+          "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
+        imageWidth: "75px",
+        text: ` ${res?.data?.message}`,
+        buttonsStyling: "false",
+        confirmButtonText: "Continue",
+        confirmButtonColor: "#3F79AD",
+      });
+      getPayments();
+    } catch (error) {
+      const err = error.response.data.message || error.message;
+      Swal.fire({
+        title: "Error",
+        imageUrl:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJeQFiH_3xng2zfS3B10AXUopB57J9cPDE7w&usqp=CAU",
+        imageWidth: "75px",
+        text: ` ${err}`,
+        buttonsStyling: "false",
+        confirmButtonText: "Continue",
+        confirmButtonColor: "#3F79AD",
+      });
+    }
+  };
+
+  useEffect(() => {
+    getPayments();
+    getPays()
+  }, []);
   return (
     <div>
       <div className="min-h-screen fs-500 relative">
@@ -39,52 +135,29 @@ export const PartnerPayment = () => {
             </Link>
           </Breadcrumbs>
         </div>
-        {/* notifications */}
         <div className="lg:p-5 px-2 py-4">
-          <div className="bg-white p-6 rounded">
-            <div className="overflow-x-auto">
-            <table className="items-center w-full bg-transparent border-collapse">
-              <thead className="thead-light rounded-lg bg-light">
-                <tr>
-                    <th className="px-2 align-middle fw-600 py-3 text-primary whitespace-nowrap text-left">S/N</th>
-                  <th className="px-2 align-middle fw-600 py-3 text-primary whitespace-nowrap text-left">Project/Order ID</th>
-                  <th className="px-2 align-middle fw-600 py-3 text-primary whitespace-nowrap text-left">Description</th>
-                  <th className="px-2 align-middle fw-600 py-3 text-primary whitespace-nowrap text-left">Total Amount</th>
-                  <th className="px-2 align-middle fw-600 py-3 text-primary whitespace-nowrap text-left">Paying Amount</th>
-                  <th className="px-2 align-middle fw-600 py-3 text-primary whitespace-nowrap text-left">Date Created</th>
-                  <th className="px-2 align-middle fw-600 py-3 text-primary whitespace-nowrap text-left">Super-Admin</th>
-                  <th className="px-2 align-middle fw-600 py-3 text-primary whitespace-nowrap text-left">Finance-Admin</th>
-                  <th className="px-2 align-middle fw-600 py-3 text-primary whitespace-nowrap text-left">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                    <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">1</td>
-                  <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">BOG/ORD/456849</td>
-                  <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">First installment payment</td>
-                  <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">₦300,000</td>
-                  <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">₦120,000</td>
-                  <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">23-05-2023</td>
-                  <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left"><p>{getStatus("pending")}</p></td>
-                  <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left"><p>{getStatus("pending")}</p></td>
-                  <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
-                    <Menu placement="left-start" className="w-16">
-                      <MenuHandler>
-                        <Button className="p-0 m-0 bg-transparent shadow-none text-blue-800 hover:shadow-none">
-                          <BsThreeDotsVertical className="text-2xl" />
-                        </Button>
-                      </MenuHandler>
-
-                      <MenuList>
-                        <MenuItem>Approve</MenuItem>
-                      </MenuList>
-                    </Menu>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            </div>
-          </div>
+          <Tabs className="px-2 lg:px-0 py-5 lg:py-0">
+            <TabList className="">
+              <Tab>Product Payout</Tab>
+              <Tab>Project Payout</Tab>
+            </TabList>
+            <TabPanel>
+              <div className="bg-white p-6 rounded">
+                {loading && <Spinner2 />}
+                {!loading && (
+                  <PayoutTableProduct payout={pays} adminApprove={approvePayment} />
+                )}
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className="bg-white p-6 rounded">
+                {loading && <Spinner2 />}
+                {!loading && (
+                  <PayoutTable payout={payment} adminApprove={approvePayment} />
+                )}
+              </div>
+            </TabPanel>
+          </Tabs>
         </div>
       </div>
     </div>

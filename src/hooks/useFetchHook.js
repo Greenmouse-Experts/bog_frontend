@@ -23,11 +23,15 @@ const useFetchHook = (url) => {
         }
     }
 
+    const refetch = () => {
+        fetchProduct();
+    }
+
     useEffect(() => {
         fetchProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return { loading, data: product}
+    return { loading, data: product, refetch}
 }
 export default useFetchHook

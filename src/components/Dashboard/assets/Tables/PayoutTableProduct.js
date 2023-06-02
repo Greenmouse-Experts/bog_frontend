@@ -17,8 +17,9 @@ import "jspdf-autotable";
 import { useExportData } from "react-table-plugins";
 import Papa from "papaparse";
 import * as XLSX from 'xlsx'
-import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
+import { getStatus } from '../../../../services/helper';
+import { cutText } from '../../../../services/helper';
 
 // export table files
 
@@ -79,9 +80,7 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export function BlogCategoryTable({adminEdit, adminDelete}) {
-
-  let cat = useSelector((state) => state.blog.categories);
+export function PayoutTableProduct({payout, adminApprove}) {
    
 
 
@@ -92,13 +91,38 @@ export function BlogCategoryTable({adminEdit, adminDelete}) {
             accessor: ( row, index) => index + 1  //RDT provides index by default
           },
           {
-            Header: "Category Name",
-            accessor: "name",
+            Header: "Project/Order ID",
+            accessor: "transactionId",
           },
+          {
+            Header: "Description",
+            accessor: "transaction.description",
+            Cell: (props) => cutText(props.value, 28)
+          },
+          // {
+          //   Header: "Total Amount",
+          //   accessor: "transaction.project.estimatedCost",
+          //   Cell: (props) => `NGN ${formatNumber(props.value)}`
+          // },
+          // {
+          //   Header: "Paying Amount",
+          //   accessor: "transaction.amount",
+          //   Cell: (props) => `NGN ${formatNumber(props.value)}`
+          // },
           {
             Header: "Date Created",
             accessor: "createdAt",
             Cell: (props) => dayjs(props.value).format('DD-MM-YYYY')
+          },
+          {
+            Header: "Super-Admin",
+            accessor: "superadmin",
+            Cell: (props) => props.value? getStatus("approved") : getStatus("pending")
+          },
+          {
+            Header: "Finance-Admin",
+            accessor: "financialadmin",
+            Cell: (props) => props.value? getStatus("approved") : getStatus("pending")
           },
           {
             Header: 'Action',
@@ -108,8 +132,7 @@ export function BlogCategoryTable({adminEdit, adminDelete}) {
                       <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><p className="lg:text-xl"><BsThreeDotsVertical /></p></Button>
                     </MenuHandler>
                     <MenuList className="w-16 bg-gray-100 fw-600 text-black">
-                      <MenuItem onClick={() => adminEdit(row.row.original)}>View</MenuItem>
-                      <MenuItem className='bg-red-600 hover:bg-red-500 text-white' onClick={() => adminDelete(row.value)}>Delete</MenuItem>
+                      <MenuItem className='bg-green-600 hover:bg-red-500 text-white text-center' onClick={() => adminApprove(row.value)}>Approve</MenuItem>
                     </MenuList>
                   </Menu>,
           },
@@ -118,7 +141,7 @@ export function BlogCategoryTable({adminEdit, adminDelete}) {
       );
 
     
-      const data = useMemo(() => cat, [cat]);
+      const data = useMemo(() => payout, [payout]);
     
       return (
         <>
