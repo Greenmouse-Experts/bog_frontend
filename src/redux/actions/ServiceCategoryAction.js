@@ -212,7 +212,7 @@ export const updateServiceCategory = (payload, saveLoading) => {
 }
 
 
-export const createServiceForm = (payload, saveLoading) => {
+export const createServiceForm = (payload, saveLoading, navigate) => {
     return async (dispatch) => {
         try {
             dispatch(loading());
@@ -231,6 +231,10 @@ export const createServiceForm = (payload, saveLoading) => {
                 title: "Service Form Created",
                 text: "Service Form Built successfully",
                 icon: "success"
+            }).then((result) => {
+                if (result.value) {
+                    navigate('/dashboard/service-provider');
+                }
             })
         } catch (error) {
             console.log(error.message);

@@ -2,7 +2,7 @@ import * as ActionType from '../type';
 import axios from '../../config/config';
 import Swal from "sweetalert2";
 import toast from 'react-hot-toast';
-import Axios from '../../config/config';
+// import Axios from '../../config/config';
 
 
 export const loading = () => {
@@ -579,14 +579,15 @@ export const addProductToStore = (productId, saveLoading, navigate) => {
             dispatch(loading());
             const authToken = localStorage.getItem("auth_token");
                 const config = {
+                    method:"patch",
+                    url:`/product/add-to-shop/${productId}`,
                     headers:
                     {
                         "Content-Type": "application/json",
                         'Authorization': authToken
                     }
                 };
-            const url = `/product/add-to-shop/${productId}`
-            const response = await Axios.patch(url, config);
+            const response = await axios(config);
             const payload = {
                 productId,
                 status: "in_review"

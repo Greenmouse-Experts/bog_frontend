@@ -122,7 +122,7 @@ export default function ClientDashboard() {
                         <Route path="allprojects" element={<AllProject />} />
                         <Route path="projectfile" element={<ProjectFile />} />
                         <Route path="service-provider" element={<ProjectCategory />} />
-                        <Route path="servicecategory/buildForm/:id/:name" element={<ServiceCategoryForm />} />
+                        <Route path="service-provider/buildForm/:id/:name" element={<ServiceCategoryForm />} />
                         <Route path="meetings" element={<Meetings />} />
                         <Route path="delivery" element={<DeliveryAddresses />} />
                         <Route path="service-meetings" element={<ServicePartnerMeeting />} />

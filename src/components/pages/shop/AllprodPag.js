@@ -43,7 +43,7 @@ function Products({ currentItems }) {
   );
 }
 
-export function ProductItems({ itemsPerPage, products }) {
+export function ProductItems({ itemsPerPage, products, ofset }) {
 
     // const products = products.filter(where => where.totalProducts !== 0);
   console.log(products)
@@ -62,12 +62,9 @@ export function ProductItems({ itemsPerPage, products }) {
   // Invoke when user click to request another page.
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % products.length;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
     setItemOffset(newOffset);
     window.scrollTo({
-      top: 50,
+      top: 360,
       left: 0,
       behavior: 'smooth',
     });
@@ -78,6 +75,7 @@ export function ProductItems({ itemsPerPage, products }) {
       <Products currentItems={currentItems} />
       <ReactPaginate
         breakLabel={<p>break</p>}
+        forcePage = {ofset}
         nextLabel={<p className='ml-2'><IoArrowForwardCircleSharp className='text-3xl text-secondary'/></p>}
         onPageChange={handlePageClick}
         pageRangeDisplayed={3}

@@ -24,7 +24,6 @@ export const OrderSuccess = () => {
         window.open(url, "_blank")
     }
 
-    const insure = order?.insurancecharge? order.insurancecharge : 0
 
 
     if (loading || !order) {
@@ -54,7 +53,7 @@ export const OrderSuccess = () => {
                                 <div className='px-3 bg-light py-4'>
                                     <p className='fw-500'>{`${order?.contact.city? `${order?.contact.city},` : ""} ${order?.contact.state}`} </p>
                                     <p className='my-3'>{order?.contact.address}</p>
-                                    <p>{order?.contact.contact_phone || "09090000000"}</p>
+                                    <p>{order?.contact.contact_phone || "No Phone"}</p>
                                 </div>
                             </div>
                             <div className='bg-light text-end pb-3'>
@@ -63,11 +62,11 @@ export const OrderSuccess = () => {
                                     <p className=''>Subtotal - <span className='fw-500'>&#8358; {formatNumber(getSubTotal(order.order_items))}</span></p>
                                     <p className='my-2'>Shipping & Handling - <span className='fw-500'>&#8358; {formatNumber(order.deliveryFee)}</span></p>
                                     {
-                                        order.insurancecharge && (
-                                            <p className='my-2'>Insurance Charge - <span className='fw-500'>&#8358; {formatNumber(order.insurancecharge)}</span></p>
+                                       order?.order_items[0]?.shippingAddress?.deliveryaddress?.insurancecharge && (
+                                            <p className='my-2'>Insurance Charge - <span className='fw-500'>&#8358; {formatNumber(order?.order_items[0]?.shippingAddress?.deliveryaddress?.insurancecharge)}</span></p>
                                         )
                                     }
-                                    <p className='fw-600'>Total - <span className='fw-500'>&#8358; {formatNumber(getSubTotal(order.order_items) + order.deliveryFee + insure)}</span></p>
+                                    <p className='fw-600'>Total - <span className='fw-500'>&#8358; {formatNumber(order?.totalAmount)}</span></p>
                                 </div>
                                 <button onClick={() => printInvoice(order.orderSlug)} className='bg-primary px-5 py-1 text-white'>Print Receipt</button>
                             </div>

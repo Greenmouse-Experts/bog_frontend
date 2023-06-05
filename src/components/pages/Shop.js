@@ -25,6 +25,7 @@ export default function Shop() {
     const products = useSelector((state) => state.products.products);
     const categories = useSelector((state) => state.products.categories);
     const loading = useSelector((state) => state.products.isLoading);
+    const [ofset, setOfset] = useState(0)
 
     function ShowAll() {
         setAll(true);
@@ -46,6 +47,7 @@ export default function Shop() {
         setShow(true);
         setAll(false);
         setActive(catId)
+        setOfset(0)
     }
 
     // filter functions
@@ -235,7 +237,7 @@ export default function Shop() {
                                     loading ? <Spinner /> :
                                         <div>
                                             {/* <AllProducts products={show ? productCategory : products} /> */}
-                                            <ProductItems itemsPerPage={9} products={show ? productCategory : products} />
+                                            <ProductItems itemsPerPage={9} products={show ? productCategory : products} ofset={ofset}/>
                                         </div>
                                 }
                             </div>
