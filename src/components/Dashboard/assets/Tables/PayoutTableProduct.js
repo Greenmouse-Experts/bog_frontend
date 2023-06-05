@@ -18,8 +18,9 @@ import { useExportData } from "react-table-plugins";
 import Papa from "papaparse";
 import * as XLSX from 'xlsx'
 import dayjs from 'dayjs';
-import { getStatus } from '../../../../services/helper';
+import { formatNumber, getStatus } from '../../../../services/helper';
 import { cutText } from '../../../../services/helper';
+import { useNavigate } from 'react-router-dom';
 
 // export table files
 
@@ -81,6 +82,10 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
 }
 
 export function PayoutTableProduct({payout, adminApprove}) {
+  const navigate = useNavigate()
+  const gotoDetailsPage = (id) => {
+    navigate(`/dashboard/orderadmindetail?productId=${id}`)
+}
    
 
 
@@ -92,7 +97,8 @@ export function PayoutTableProduct({payout, adminApprove}) {
           },
           {
             Header: "Project/Order ID",
-            accessor: "transactionId",
+            accessor: "TransactionId",
+            Cell: (row) => <p onClick={() => gotoDetailsPage(row.row.original.orderItemId)}>{row.value}</p>
           },
           {
             Header: "Description",
@@ -104,11 +110,11 @@ export function PayoutTableProduct({payout, adminApprove}) {
           //   accessor: "transaction.project.estimatedCost",
           //   Cell: (props) => `NGN ${formatNumber(props.value)}`
           // },
-          // {
-          //   Header: "Paying Amount",
-          //   accessor: "transaction.amount",
-          //   Cell: (props) => `NGN ${formatNumber(props.value)}`
-          // },
+          {
+            Header: "Paying Amount",
+            accessor: "transfer.amount",
+            Cell: (props) => props.value && `NGN ${formatNumber(props.value)}`
+          },
           {
             Header: "Date Created",
             accessor: "createdAt",

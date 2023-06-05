@@ -475,7 +475,7 @@ export default function OrderDetails() {
                           : "No Email"}</p>
                     </div>
                   </div>
-                  <Button className="w-full bg-primary mt-4" onClick={() => openPayment(item.product_owner.id, item.product.id)}>Initalize Payment</Button>
+                  <Button className="w-full bg-primary mt-4" onClick={() => openPayment(item.product_owner.id, item.id)}>Initalize Payment</Button>
                       </div>
                     ))
                   }

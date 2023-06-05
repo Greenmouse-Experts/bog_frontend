@@ -48,7 +48,7 @@ export default function Header() {
                         <ul className="flex xl:font-600 fw-600 fw-600 w-full justify-between">
                             <li><BsList className="xl:text-3xl text-2xl cursor-pointer transition hover:scale-110" onClick={() => setHomeMenu(true)} /></li>
                             <li><Link to="/shop">Products</Link></li>
-                            {((auth?.user?.userType !== 'professional') && (auth?.user?.userType !== 'admin')) ? (
+                            {((auth?.user?.userType !== 'professional') && (auth?.user?.userType !== 'admin') && (auth?.user?.userType !== 'vendor')) ? (
                                 <li><Link to="/services"><span className="extra3">Request for </span>Service Provider</Link></li>
                             )
                                 : (<li className='cursor-pointer' onClick={errorRequest}><span className="extra3">Request for </span>Service Provider</li>)

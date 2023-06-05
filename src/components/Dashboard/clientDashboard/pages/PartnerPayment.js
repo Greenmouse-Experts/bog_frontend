@@ -89,6 +89,7 @@ export const PartnerPayment = () => {
         confirmButtonColor: "#3F79AD",
       });
       getPayments();
+      getPays();
     } catch (error) {
       const err = error.response.data.message || error.message;
       Swal.fire({

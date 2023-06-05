@@ -55,6 +55,7 @@ export const CartModal = ({ CloseModal }) => {
   const [insure, setInsure] = useState("");
   const [addInsure, setAddInsure] = useState(false);
   const [phoneNo, setPhoneNo] = useState("");
+  const [insuranceId, setInsuranceId] = useState('')
 
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -112,6 +113,7 @@ export const CartModal = ({ CloseModal }) => {
       setAddress_(_address);
       setInsure(_address.insurancecharge ? _address.insurancecharge : 0);
       setOrderForm({ ...orderForm, address: _address.id });
+      setInsuranceId(_address.id )
     } else {
       setOrderForm({ ...orderForm, address: "" });
     }
@@ -180,7 +182,8 @@ export const CartModal = ({ CloseModal }) => {
         },
         discount: 0,
         deliveryFee: address_.charge,
-        insurancecharge: addInsure ? Number(insure) : 0,
+        deliveryaddressId: insuranceId,
+        insurancefee: addInsure? true : false,
         totalAmount: totalCost(),
         userType: auth.user.profile.userType,
       };

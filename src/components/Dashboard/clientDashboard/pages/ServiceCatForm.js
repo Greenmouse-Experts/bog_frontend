@@ -3,7 +3,7 @@ import $ from "jquery";
 import { Button } from '@material-tailwind/react'
 import React, { useState, useRef } from "react";
 import { Breadcrumbs } from "@material-tailwind/react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch} from "react-redux";
 import { useEffect } from "react";
 import Spinner from '../../../layouts/Spinner';
@@ -32,7 +32,7 @@ export default function ServiceCategory() {
        editor = $(fb.current).formBuilder();
     }, []);
 
-
+    const navigate = useNavigate();
     const buildForm = (e) => {
         e.preventDefault();
         setLoading(true);
@@ -47,7 +47,7 @@ export default function ServiceCategory() {
             "formData": result
         };
 
-        dispatch(createServiceForm(formPayload, stopLoading));
+        dispatch(createServiceForm(formPayload, stopLoading, navigate));
     }
 
     return (
