@@ -97,19 +97,14 @@ export function PayoutTableProduct({payout, adminApprove}) {
           },
           {
             Header: "Project/Order ID",
-            accessor: "TransactionId",
-            Cell: (row) => <p onClick={() => gotoDetailsPage(row.row.original.orderItemId)}>{row.value}</p>
+            accessor: "orderSlug",
+            Cell: (row) => <p onClick={() => gotoDetailsPage(row.row.original.orderId)}>{row.value}</p>
           },
           {
             Header: "Description",
             accessor: "transaction.description",
             Cell: (props) => cutText(props.value, 28)
           },
-          // {
-          //   Header: "Total Amount",
-          //   accessor: "transaction.project.estimatedCost",
-          //   Cell: (props) => `NGN ${formatNumber(props.value)}`
-          // },
           {
             Header: "Paying Amount",
             accessor: "transfer.amount",

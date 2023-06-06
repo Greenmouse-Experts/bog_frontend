@@ -20,6 +20,7 @@ import * as XLSX from 'xlsx'
 import dayjs from 'dayjs';
 import { formatNumber, getStatus } from '../../../../services/helper';
 import { cutText } from '../../../../services/helper';
+import { useNavigate } from 'react-router-dom';
 
 // export table files
 
@@ -82,7 +83,10 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
 
 export function PayoutTable({payout, adminApprove}) {
    
-
+  const navigate = useNavigate()
+  const gotoDetailsPage = (id) => {
+    navigate(`/dashboard/projectadmindetails?projectId=${id}`);
+  };
 
     const columns = useMemo(
         () => [
@@ -93,6 +97,7 @@ export function PayoutTable({payout, adminApprove}) {
           {
             Header: "Project/Order ID",
             accessor: "transaction.project.projectSlug",
+            Cell: (row) => <p onClick={() => gotoDetailsPage(row.row.original.transaction.project.id)}>{row.value}</p>
           },
           {
             Header: "Description",

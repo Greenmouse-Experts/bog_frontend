@@ -62,7 +62,7 @@ export const OrderSuccess = () => {
                                     <p className=''>Subtotal - <span className='fw-500'>&#8358; {formatNumber(getSubTotal(order.order_items))}</span></p>
                                     <p className='my-2'>Shipping & Handling - <span className='fw-500'>&#8358; {formatNumber(order.deliveryFee)}</span></p>
                                     {
-                                       order?.order_items[0]?.shippingAddress?.deliveryaddress?.insurancecharge && (
+                                       order?.insurancefee && (
                                             <p className='my-2'>Insurance Charge - <span className='fw-500'>&#8358; {formatNumber(order?.order_items[0]?.shippingAddress?.deliveryaddress?.insurancecharge)}</span></p>
                                         )
                                     }
