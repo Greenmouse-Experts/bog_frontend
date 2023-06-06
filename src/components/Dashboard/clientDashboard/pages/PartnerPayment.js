@@ -81,7 +81,7 @@ export const PartnerPayment = () => {
       Swal.fire({
         title: "Success",
         imageUrl:
-          "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
+          "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
         imageWidth: "75px",
         text: ` ${res?.data?.message}`,
         buttonsStyling: "false",

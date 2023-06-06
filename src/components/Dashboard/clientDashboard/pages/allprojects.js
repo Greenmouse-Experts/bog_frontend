@@ -23,6 +23,7 @@ import { Loader } from "../../../layouts/Spinner";
 import QouteProject from "./projects/Modal/QouteProject";
 import EmptyData from "../../assets/UI/EmptyData";
 import { toast } from "react-hot-toast";
+import Swal from "sweetalert2";
 
 export function AllProject() {
   const { dispatchedProjects: projects, isLoading } = useSelector(
@@ -48,18 +49,26 @@ export function AllProject() {
   const [decline, setDecline] = useState(false);
 
   const OpenQoute = (item) => {
-    toast.success(
-      "Project Accepted Please Fill the interest form",
-      {
-          duration: 4000,
-          position: "top-center",
-          style: { background: 'green', color: 'white', textAlign:'center' },
+    Swal.fire({
+      title: "Project Interest Submitted",
+      text: "Thank you for picking interest on this project. To complete the process, an interest form is made available where you are expected to analyze the project, prepare the valuation and timeframe required to complete this project. Please note that this form is valid for 24 hours. ",
+      imageUrl:
+        "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
+      imageWidth: "95px",
+      showCancelButton: true,
+      confirmButtonColor: "#4BB543",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Fill Now",
+      cancelButtonText: "Fill Later",
+    }).then((result) => {
+      if (result.value) {
+        setQoute(true);
       }
-  );
+    });
     setSelectedProject(item);
-    setTimeout(() => {
-      setQoute(true);
-    }, 3000);
+    // setTimeout(() => {
+    //   setQoute(true);
+    // }, 3000);
   };
 
   const CloseModal = () => {
@@ -133,9 +142,6 @@ export function AllProject() {
                           Project Category
                         </th>
                         <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                          Location
-                        </th>
-                        <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
                           Date
                         </th>
                         <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
@@ -163,9 +169,6 @@ export function AllProject() {
                             </td>
                             <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
                               {getProjectCategory(item.project.projectTypes)}
-                            </td>
-                            <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
-                              {/* {item.projectDetails.propertyLocation !== null && item.projectDetails.propertyLocation} */}
                             </td>
                             <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
                               {dayjs(item.project.createdAt).format(

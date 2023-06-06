@@ -21,12 +21,12 @@ const RequestItem = ({ item, openQouteModal, openAssignModal, project }) => {
                 <p className='w-4/12'>Ongoing Project:</p>
                 <p className='w-8/12'>{item.ongoingProjects}</p>
             </div>
-            <div className='mt-8 flex justify-between'>
+            <div className='mt-8 flex justify-end'>
                 {
                     project.status === 'dispatched' &&
                         <>
                             <Button className='bg-secondary' onClick={() => openQouteModal(item)}>View Quotation</Button>
-                            <Button className='bg-primary' onClick={() => openAssignModal(item)}>Assign Project</Button>
+                            {/* <Button className='bg-primary' onClick={() => openAssignModal(item)}>Assign Project</Button> */}
                         </>
                 }
 

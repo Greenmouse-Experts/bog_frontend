@@ -6,7 +6,7 @@ import { assignProjectToPartner } from '../../../../../../redux/actions/ProjectA
 import Spinner from '../../../../../layouts/Spinner';
 
 
-const AssignProject = ({ closeModal, item, project }) => {
+const AssignProject = ({ closeModal, closeAssign, item, project }) => {
     const dispatch = useDispatch();
     const [ loading, setLoading] = useState(false);
     const saveLoading = () => {
@@ -29,13 +29,13 @@ const AssignProject = ({ closeModal, item, project }) => {
             <div className="bg-white lg:w-4/12 rounded-md overflow-y-auto overscroll-none  w-11/12 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
                 <p className='fw-500 text-center py-12  px-4'>Are you sure you want to assign this project to {item.userDetails.name}</p>
                 <div className='flex justify-between py-4 px-4 bg-light'>
-                    <Button className='bg-red-600' onClick={closeModal}>Cancel</Button>
+                    <Button className='bg-red-600' onClick={closeAssign}>Cancel</Button>
                     {
                         loading ? <Spinner /> :
                         <Button className='bg-primary' onClick={assignProject}>Assign Project</Button> 
                     }
                 </div>
-                <FaTimes className='absolute top-5 right-5 cursor-pointer' onClick={closeModal} />
+                <FaTimes className='absolute top-5 right-5 cursor-pointer' onClick={closeAssign} />
             </div>
         </div>
     )

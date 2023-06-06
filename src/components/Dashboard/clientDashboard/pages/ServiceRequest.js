@@ -26,6 +26,10 @@ export const ServiceRequest = () => {
         setQoute(false)
     }
 
+    const closeAssign = () => {
+        setAssign(false)
+    }
+
     const openQoute = (item) => {
         setSelected(item)
         setQoute(true)
@@ -66,13 +70,13 @@ export const ServiceRequest = () => {
             </div>
             {
                 qoute && (
-                    <ViewQoute item={selected} closeModal={CloseQoute} project={data.project} />
+                    <ViewQoute item={selected} closeModal={CloseQoute} project={data.project} openAssignModal={openAssign} />
                     
                 )
             }
             {
                 assign && (
-                    <AssignProject item={selected} closeModal={CloseModal} project={data.project} />
+                    <AssignProject item={selected} closeModal={CloseModal} closeAssign={closeAssign} project={data.project} />
                 )
             }
         </div>
