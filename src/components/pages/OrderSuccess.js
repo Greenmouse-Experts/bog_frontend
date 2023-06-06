@@ -40,7 +40,7 @@ export const OrderSuccess = () => {
                     <div className='box'>
                         <div className='flex justify-center items-center'>
                             <div className='text-center lg:w-8/12'>
-                                <img src='https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg' alt='success' className='w-28 mx-auto circle' />
+                                <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg' alt='success' className='w-28 mx-auto circle' />
                                 <p className='text-2xl fw-600 mt-5'>Thank you for your order</p>
                                 <p className='mt-3 fs-500'>The order confimation email with details of your order and a link to track the progress has been sent to your email address.</p>
                                 <p className='mt-3 fw-500'>Your {order?.orderSlug} - {capitalizeFirstLetter(order?.status)}</p>

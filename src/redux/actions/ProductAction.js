@@ -332,7 +332,7 @@ export const removeProduct = (productId, saveLoading, isAdmin) => {
             saveLoading();
             Swal.fire({
                 title: "Success",
-                imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
+                imageUrl: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
                 imageWidth: "75px",
                 text: "Product deleted successfully",
                 buttonsStyling: "false",
@@ -378,7 +378,7 @@ export const createProduct = (payload, saveLoading) => {
             saveLoading();
             Swal.fire({
                 title: "Success",
-                imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
+                imageUrl: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
                 imageWidth: "75px",
                 text: "Product created successfully",
                 buttonsStyling: "false",
@@ -416,7 +416,7 @@ export const removeCategory = (categoryId, saveLoading) => {
             saveLoading();
             Swal.fire({
                 title: "Success",
-                imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
+                imageUrl: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
                 imageWidth: "75px",
                 text: "Category deleted successfully",
                 buttonsStyling: "false",
@@ -460,7 +460,7 @@ export const updateCategory = (payload, saveLoading, categoryId) => {
             saveLoading();
             Swal.fire({
                 title: "Success",
-                imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
+                imageUrl: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
                 imageWidth: "75px",
                 text: "Category updated successfully",
                 buttonsStyling: "false",
@@ -500,7 +500,7 @@ export const createCategory = (payload, saveLoading) => {
             saveLoading();
             Swal.fire({
                 title: "Success",
-                imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
+                imageUrl: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
                 imageWidth: "75px",
                 text: "Category created successfully",
                 buttonsStyling: "false",
@@ -544,7 +544,7 @@ export const updateProduct = (payload, productId, saveLoading) => {
             saveLoading();
             Swal.fire({
                 title: "Success",
-                imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
+                imageUrl: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
                 imageWidth: "75px",
                 text: "Product updated successfully",
                 buttonsStyling: "false",
@@ -596,7 +596,7 @@ export const addProductToStore = (productId, saveLoading, navigate) => {
             dispatch(UpdateProductStatus(payload));
             Swal.fire({
                 title: "Success",
-                imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
+                imageUrl: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
                 imageWidth: "75px",
                 text: response.message,
                 buttonsStyling: "false",
@@ -649,7 +649,7 @@ export const ApproveProduct = (payload, stopLoading, navigate) => {
             dispatch(UpdateAdminProductStatus(payload));
             Swal.fire({
                 title: "Success",
-                imageUrl: "https://t4.ftcdn.net/jpg/05/10/52/31/360_F_510523138_0c1lsboUsa9qvOSxdaOrQIYm2eAhjiGw.jpg",
+                imageUrl: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
                 imageWidth: "75px",
                 text: response.message,
                 buttonsStyling: "false",
