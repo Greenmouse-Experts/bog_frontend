@@ -11,22 +11,30 @@ const QouteProject = ({ closeModal, project }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [loading, setLoading] = useState(false);
+  const [photos, setPhotos] = useState([]);
   const saveLoading = () => {
     setLoading(false);
     closeModal();
   };
 
+  const handlePhotoChange = (e) => {
+    setPhotos(Array.from(e.target.files));
+  };
+
   const submitHandler = (value) => {
     setLoading(true);
-    console.log(value);
-    value["areYouInterested"] =
-      value["areYouInterested"] === "Yes" ? true : false;
-    const payload = {
-      ...value,
-      userId: user.profile.id,
-      projectId: project.projectId,
-    };
-    dispatch(bidForProject(payload, saveLoading));
+    const fd = new FormData();
+    for (let i = 0; i < photos.length; i++) {
+      fd.append(`image[]`, photos[i]);
+    }
+    fd.append("areYouInterested", true);
+    fd.append("deliveryTimeLine", value.deliveryTimeLine);
+    fd.append("projectCost", value.projectCost);
+    fd.append("reasonOfInterest", value.reasonOfInterest);
+    fd.append("description", value.description);
+    fd.append("projectId", project.project.id);
+    fd.append("userId", user.profile.id);
+    dispatch(bidForProject(fd, saveLoading));
   };
 
   const formik = useFormik({
@@ -66,157 +74,163 @@ const QouteProject = ({ closeModal, project }) => {
           />
         </div>
         <div>
-          <div className="mt-3">
-            <label>
-              1. What is your best price for rendering your service on this
-              project
-            </label>
-            <input
-              className="mt-3 w-full p-2 rounded border border-gray-400"
-              type="number"
-              id="projectCost"
-              name="projectCost"
-              value={projectCost}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              required
-            />
-            {formik.touched.projectCost && formik.errors.projectCost ? (
-              <p className="text-red-500">{formik.errors.projectCost}</p>
-            ) : null}
-          </div>
-          <div className="mt-3">
-            <label>
-              2. How soon can you deliver this project? (Give answer in weeks)
-            </label>
-            <input
-              type="number"
-              className="mt-3 w-full p-2 rounded border border-gray-400"
-              id="deliveryTimeLine"
-              name="deliveryTimeLine"
-              value={deliveryTimeLine}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              required
-            />
-            {formik.touched.deliveryTimeLine &&
-            formik.errors.deliveryTimeLine ? (
-              <p className="text-red-500">{formik.errors.deliveryTimeLine}</p>
-            ) : null}
-          </div>
-          <div className="mt-3">
-            <label>3. What is your interest on this project?</label>
-            <div className="flex">
-              <div className="mt-1 w-6/12">
-                <div className="flex">
-                  <input
-                    type="radio"
-                    name="reasonOfInterest"
-                    id="reasonOfInterest"
-                    value="Quantity Surveyor"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  <p className="pl-2">Quantity Surveyor</p>
+          <form onSubmit={submitHandler}>
+            <div className="mt-3">
+              <label>
+                1. What is your best price for rendering your service on this
+                project
+              </label>
+              <input
+                className="mt-3 w-full p-2 rounded border border-gray-400"
+                type="number"
+                id="projectCost"
+                name="projectCost"
+                value={projectCost}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                required
+              />
+              {formik.touched.projectCost && formik.errors.projectCost ? (
+                <p className="text-red-500">{formik.errors.projectCost}</p>
+              ) : null}
+            </div>
+            <div className="mt-3">
+              <label>
+                2. How soon can you deliver this project? (Give answer in weeks)
+              </label>
+              <input
+                type="number"
+                className="mt-3 w-full p-2 rounded border border-gray-400"
+                id="deliveryTimeLine"
+                name="deliveryTimeLine"
+                value={deliveryTimeLine}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                required
+              />
+              {formik.touched.deliveryTimeLine &&
+              formik.errors.deliveryTimeLine ? (
+                <p className="text-red-500">{formik.errors.deliveryTimeLine}</p>
+              ) : null}
+            </div>
+            <div className="mt-3">
+              <label>3. What is your interest on this project?</label>
+              <div className="flex">
+                <div className="mt-1 w-6/12">
+                  <div className="flex">
+                    <input
+                      type="radio"
+                      name="reasonOfInterest"
+                      id="reasonOfInterest"
+                      value="Quantity Surveyor"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <p className="pl-2">Quantity Surveyor</p>
+                  </div>
+                  <div className="flex">
+                    <input
+                      type="radio"
+                      name="reasonOfInterest"
+                      id="reasonOfInterest"
+                      value="Architect"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <p className="pl-2">Architect</p>
+                  </div>
+                  <div className="flex">
+                    <input
+                      type="radio"
+                      name="reasonOfInterest"
+                      id="reasonOfInterest"
+                      value="Structural Engineer"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <p className="pl-2">Structural Engineer</p>
+                  </div>
                 </div>
-                <div className="flex">
-                  <input
-                    type="radio"
-                    name="reasonOfInterest"
-                    id="reasonOfInterest"
-                    value="Architect"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  <p className="pl-2">Architect</p>
+                <div className="mt-1 w-6/12">
+                  <div className="flex">
+                    <input
+                      type="radio"
+                      name="reasonOfInterest"
+                      id="reasonOfInterest"
+                      value="Electrical Engineer"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <p className="pl-2">Electrical Engineer</p>
+                  </div>
+                  <div className="flex">
+                    <input
+                      type="radio"
+                      name="reasonOfInterest"
+                      id="reasonOfInterest"
+                      value="Mechanical Engineer"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <p className="pl-2">Mechanical Engineer</p>
+                  </div>
+                  <div className="flex">
+                    <input
+                      type="radio"
+                      name="reasonOfInterest"
+                      id="reasonOfInterest"
+                      value="Contractor"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <p className="pl-2">Contractor</p>
+                  </div>
+                  {formik.touched.reasonOfInterest &&
+                  formik.errors.reasonOfInterest ? (
+                    <p className="text-red-500">
+                      {formik.errors.reasonOfInterest}
+                    </p>
+                  ) : null}
                 </div>
-                <div className="flex">
-                  <input
-                    type="radio"
-                    name="reasonOfInterest"
-                    id="reasonOfInterest"
-                    value="Structural Engineer"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  <p className="pl-2">Structural Engineer</p>
-                </div>
-              </div>
-              <div className="mt-1 w-6/12">
-                <div className="flex">
-                  <input
-                    type="radio"
-                    name="reasonOfInterest"
-                    id="reasonOfInterest"
-                    value="Electrical Engineer"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  <p className="pl-2">Electrical Engineer</p>
-                </div>
-                <div className="flex">
-                  <input
-                    type="radio"
-                    name="reasonOfInterest"
-                    id="reasonOfInterest"
-                    value="Mechanical Engineer"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  <p className="pl-2">Mechanical Engineer</p>
-                </div>
-                <div className="flex">
-                  <input
-                    type="radio"
-                    name="reasonOfInterest"
-                    id="reasonOfInterest"
-                    value="Contractor"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  <p className="pl-2">Contractor</p>
-                </div>
-                {formik.touched.reasonOfInterest &&
-                formik.errors.reasonOfInterest ? (
-                  <p className="text-red-500">
-                    {formik.errors.reasonOfInterest}
-                  </p>
-                ) : null}
               </div>
             </div>
-          </div>
-          <div className="mt-3">
-            <label>4. Brief description on your work plan</label>
-            <textarea
-              id="description"
-              value={description}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className="mt-3 w-full p-2 rounded border border-gray-400 h-24"
-            ></textarea>
-          </div>
-          <div className="mt-3">
-            <label>5. Supporting Files</label>
-            <input
-              type="file"
-              className="mt-3 w-full p-2 rounded border border-gray-400"
-            />
-          </div>
-          <div className="mt-10 flex justify-between">
-            <Button className="bg-secondary lg:px-12" onClick={closeModal}>
-              Close
-            </Button>
-            {loading ? (
-              <Spinner />
-            ) : (
-              <Button
-                className="bg-primary lg:px-12"
-                onClick={() => formik.handleSubmit(submitHandler)}
-              >
-                Submit
+            <div className="mt-3">
+              <label>4. Brief description on your work plan</label>
+              <textarea
+                id="description"
+                value={description}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className="mt-3 w-full p-2 rounded border border-gray-400 h-24"
+              ></textarea>
+            </div>
+            <div className="mt-3">
+              <label>5. Supporting Files</label>
+              <input
+                type="file"
+                name="photos"
+                className="mt-3 w-full p-2 rounded border border-gray-400"
+                multiple
+                onChange={handlePhotoChange}
+              />
+            </div>
+            <div className="mt-10 flex justify-between">
+              <Button className="bg-secondary lg:px-12" onClick={closeModal}>
+                Close
               </Button>
-            )}
-          </div>
+              {loading ? (
+                <Spinner />
+              ) : (
+                <Button
+                  className="bg-primary lg:px-12"
+                  type="submit"
+                  onClick={() => submitHandler(formik.values)}
+                >
+                  Submit
+                </Button>
+              )}
+            </div>
+          </form>
         </div>
       </div>
     </div>
