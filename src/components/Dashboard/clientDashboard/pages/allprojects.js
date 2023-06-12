@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Menu,
@@ -9,7 +10,6 @@ import {
   PopoverHandler,
 } from "@material-tailwind/react";
 import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
 import {
   BsInfoCircle,
   BsInfoCircleFill,
@@ -24,6 +24,7 @@ import QouteProject from "./projects/Modal/QouteProject";
 import EmptyData from "../../assets/UI/EmptyData";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 export function AllProject() {
   const { dispatchedProjects: projects, isLoading } = useSelector(
@@ -48,28 +49,56 @@ export function AllProject() {
   const [qoute, setQoute] = useState(false);
   const [decline, setDecline] = useState(false);
 
-  const OpenQoute = (item) => {
-    Swal.fire({
-      title: "Project Interest Submitted",
-      text: "Thank you for picking interest on this project. To complete the process, an interest form is made available where you are expected to analyze the project, prepare the valuation and timeframe required to complete this project. Please note that this form is valid for 24 hours. ",
-      imageUrl:
-        "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
-      imageWidth: "95px",
-      showCancelButton: true,
-      confirmButtonColor: "#4BB543",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Fill Now",
-      cancelButtonText: "Fill Later",
-    }).then((result) => {
-      if (result.value) {
-        setQoute(true);
+  const OpenQoute = async (item) => {
+    try {
+      const authToken = localStorage.getItem("auth_token");
+      const config = {
+        method: "post",
+        url: `${process.env.REACT_APP_URL}/projects/apply-project`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+        data: {
+          userId: user?.id,
+          areYouInterested: true,
+          projectId: item.projectId,
+        },
+      };
+      const response = await axios(config);
+      if (response.data) {
+        Swal.fire({
+          title: "Project Interest Submitted",
+          text: "Thank you for picking interest on this project. To complete the process, an interest form is made available where you are expected to analyze the project, prepare the valuation and timeframe required to complete this project. Please note that this form is valid for 24 hours. ",
+          imageUrl:
+            "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
+          imageWidth: "95px",
+          showCancelButton: true,
+          confirmButtonColor: "#4BB543",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "Fill Now",
+          cancelButtonText: "Fill Later",
+        }).then((result) => {
+          if (result.value) {
+            setQoute(true);
+          }
+        });
       }
-    });
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message, {
+        duration: 6000,
+        position: "top-center",
+        style: { background: "#BD362F", color: "white" },
+      });
+    }
+
     setSelectedProject(item);
-    // setTimeout(() => {
-    //   setQoute(true);
-    // }, 3000);
   };
+
+  const OpenQuote2 = (item) => {
+    setSelectedProject(item);
+    setQoute(true);
+  }
 
   const CloseModal = () => {
     setQoute(false);
@@ -195,6 +224,9 @@ export function AllProject() {
                                   </MenuItem>
                                   <MenuItem onClick={() => OpenQoute(item)}>
                                     Accept Project
+                                  </MenuItem>
+                                  <MenuItem onClick={() =>  OpenQuote2(item)}>
+                                    Fill Interest Form
                                   </MenuItem>
                                 </MenuList>
                               </Menu>

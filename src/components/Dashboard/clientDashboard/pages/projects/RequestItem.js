@@ -25,8 +25,12 @@ const RequestItem = ({ item, openQouteModal, openAssignModal, project }) => {
                 {
                     project.status === 'dispatched' &&
                         <>
-                            <Button className='bg-secondary' onClick={() => openQouteModal(item)}>View Quotation</Button>
-                            {/* <Button className='bg-primary' onClick={() => openAssignModal(item)}>Assign Project</Button> */}
+                            {
+                                item.projectCost !== 0 && <Button className='bg-secondary' onClick={() => openQouteModal(item)}>View Quotation</Button>
+                            }
+                            {
+                                 item.projectCost === 0 && <Button className='bg-primary'>Awaiting Form</Button>
+                            }
                         </>
                 }
 
