@@ -8,7 +8,7 @@ import { Spinner2 } from "../../../../layouts/Spinner";
 import { BsDatabaseFillCheck } from "react-icons/bs";
 import { MdOutlineCancel } from "react-icons/md";
 
-export const InstallPayment = ({ item, index, id }) => {
+export const InstallPayment = ({ item, index, id, refetch }) => {
   const user = useSelector((state) => state.auth.user);
   const [loading, setLoading] = useState(false);
   console.log(item);
@@ -38,6 +38,7 @@ export const InstallPayment = ({ item, index, id }) => {
         config
       );
       setLoading(false);
+      refetch()
       return response;
     } catch (error) {
       setLoading(false);

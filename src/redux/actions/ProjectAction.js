@@ -750,13 +750,11 @@ export const bidForProject = (payload, saveLoading) => {
             const config = {
                 headers:
                 {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                     'Authorization': authToken
-                }
+                },
             }
-            // dispatch(loading());
-            const response = await axios.post('projects/bid-project', payload, config);
-            console.log(response);
+            await axios.post('/projects/bid-project', payload, config);
             saveLoading()
             Swal.fire({
                 title: "Done",

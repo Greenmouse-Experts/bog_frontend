@@ -274,6 +274,7 @@ export default function ProjectDetailsClient() {
                           item={item}
                           index={index}
                           id={project.id}
+                          refetch={getInstallSummary}
                         />
                       ))
                     ) : (
@@ -364,6 +365,7 @@ export default function ProjectDetailsClient() {
                       <ClientReview
                         review={getUsersReview(project?.reviews)}
                         projectId={project?.id}
+                        status={project?.status}
                       />
                     ) : project?.reviews.length > 0 ? (
                       project.reviews.map((review, index) => (
