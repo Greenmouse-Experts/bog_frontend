@@ -5,7 +5,7 @@ import Axios from '../../../../../config/config';
 import { SuccessAlert } from '../../../../../services/endpoint';
 import Spinner from '../../../../layouts/Spinner';
 
-export const ClientReview = ({ review, projectId }) => {
+export const ClientReview = ({ review, projectId, status }) => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
     const [reviewData, setReview] = useState(review);
@@ -97,8 +97,9 @@ export const ClientReview = ({ review, projectId }) => {
                                         <div className='mt-6'>
                                             <button
                                                 type='button'
-                                                className='btn-primary w-full'
+                                                className={`btn-primary w-full ${status !== "Completed" && 'opacity-50'}`}
                                                 onClick={handleSubmit}
+                                                disabled={status !== "Completed" && true}
                                             >Submit</button>
                                         </div>
                                 }

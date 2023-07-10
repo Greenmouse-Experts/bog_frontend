@@ -41,8 +41,9 @@ export default function Shop() {
     }
 
     const showCategories = (catId) => {
+        console.log(catId);
 
-        const categorys = products.filter(where => where.category.id === catId);
+        const categorys = products.filter(where => where?.category?.id === catId);
         setProductCategory(categorys)
         setShow(true);
         setAll(false);

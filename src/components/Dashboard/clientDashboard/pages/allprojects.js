@@ -157,7 +157,7 @@ export function AllProject() {
                 </div>
               </div>
               <div className="px-5  my-6">
-                <div className="overflow-x-auto  relative min-h-[250px]">
+                <div className="overflow-x-auto w-full relative min-h-[250px]">
                   <table className="items-center w-full bg-transparent border-collapse">
                     <thead className="thead-light bg-light">
                       <tr>
@@ -175,6 +175,9 @@ export function AllProject() {
                         </th>
                         <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
                           Status
+                        </th>
+                        <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                          Bid
                         </th>
                         <th className="px-2 fw-600 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left w-56">
                           Actions
@@ -208,6 +211,9 @@ export function AllProject() {
                               {getStatus(item.project.status)}
                             </td>
                             <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
+                              {item?.bid?.projectCost? <p className="fw-600 bg-green-50 text-green-700 text-center p-2 rounded">Bidded</p>: <p className="fw-600 bg-orange-50 text-orange-700 text-center p-2 rounded">No Bid Yet</p>}
+                            </td>
+                            <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
                               <Menu placement="left-start" className="w-16">
                                 <MenuHandler>
                                   <Button className="border-none bg-transparent shadow-none hover:shadow-none text-primary px-0">
@@ -222,12 +228,16 @@ export function AllProject() {
                                   >
                                     View Details
                                   </MenuItem>
-                                  <MenuItem onClick={() => OpenQoute(item)}>
+                                  {
+                                    !item?.bid?.projectCost && <MenuItem onClick={() => OpenQoute(item)}>
                                     Accept Project
                                   </MenuItem>
-                                  <MenuItem onClick={() =>  OpenQuote2(item)}>
+                                  }
+                                  {
+                                    !item?.bid?.projectCost && <MenuItem onClick={() =>  OpenQuote2(item)}>
                                     Fill Interest Form
                                   </MenuItem>
+                                  }
                                 </MenuList>
                               </Menu>
                             </td>

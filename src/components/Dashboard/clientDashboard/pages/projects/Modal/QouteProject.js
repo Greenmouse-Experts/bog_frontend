@@ -11,29 +11,26 @@ const QouteProject = ({ closeModal, project }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [loading, setLoading] = useState(false);
-  const [photos, setPhotos] = useState([]);
+  const [photos, setPhotos] = useState();
   const saveLoading = () => {
     setLoading(false);
     closeModal();
   };
 
   const handlePhotoChange = (e) => {
-    setPhotos(Array.from(e.target.files));
+    setPhotos(e.target.files[0]);
   };
 
   const submitHandler = (value) => {
     setLoading(true);
     const fd = new FormData();
-    for (let i = 0; i < photos.length; i++) {
-      fd.append(`image[]`, photos[i]);
-    }
-    fd.append("areYouInterested", true);
+    fd.append('image', photos);
     fd.append("deliveryTimeLine", value.deliveryTimeLine);
     fd.append("projectCost", value.projectCost);
     fd.append("reasonOfInterest", value.reasonOfInterest);
     fd.append("description", value.description);
     fd.append("projectId", project.project.id);
-    fd.append("userId", user.profile.id);
+    fd.append("userId", user.profile.userId);
     dispatch(bidForProject(fd, saveLoading));
   };
 
@@ -210,8 +207,7 @@ const QouteProject = ({ closeModal, project }) => {
                 type="file"
                 name="photos"
                 className="mt-3 w-full p-2 rounded border border-gray-400"
-                multiple
-                onChange={handlePhotoChange}
+                onChange={(e) => handlePhotoChange(e)}
               />
             </div>
             <div className="mt-10 flex justify-between">
