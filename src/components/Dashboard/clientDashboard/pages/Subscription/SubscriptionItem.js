@@ -18,7 +18,7 @@ const SubscriptionItem = ({ item, user }) => {
         reference: "TR-" + new Date().getTime().toString(),
         email: `${user.email}`,
         amount: (item.amount * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
-        publicKey: 'pk_test_0c79398dba746ce329d163885dd3fe5bc7e1f243',
+        publicKey: process.env.REACT_APP_PAYSTACK_API_KEY
     };
 
     const subscribeToPlan = async (reference) => {

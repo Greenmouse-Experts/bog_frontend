@@ -16,7 +16,7 @@ export const InstallPayment = ({ item, index, id, refetch }) => {
     reference: "TR-" + Math.floor(Math.random() * 1000000000 + 1),
     email: user.email,
     amount: item.amount * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
-    publicKey: "pk_test_0c79398dba746ce329d163885dd3fe5bc7e1f243",
+    publicKey: process.env.REACT_APP_PAYSTACK_API_KEY,
   };
 
   const makePayment = async (reference) => {

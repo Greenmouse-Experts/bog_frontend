@@ -88,7 +88,7 @@ export default function ProductDetail() {
     if (item != null) {
       setMaxQuantity(item.remaining);
       const similar = products
-        .filter((where) => where?.category.id === item.category?.id)
+        .filter((where) => where?.category?.id === item.category?.id)
         .filter((prod) => prod?.id != item?.id);
       setSimilarProducts(similar);
     }
