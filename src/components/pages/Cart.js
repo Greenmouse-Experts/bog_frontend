@@ -169,7 +169,7 @@ export const Cart = () => {
     reference: "TR-" + new Date().getTime().toString(),
     email: auth?.user?.email,
     amount: totalAmount,
-    publicKey: "pk_test_0c79398dba746ce329d163885dd3fe5bc7e1f243",
+    publicKey: process.env.REACT_APP_PAYSTACK_API_KEY,
   };
   // eslint-disable-next-line
   const componentProps = {
