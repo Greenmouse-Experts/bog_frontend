@@ -49,9 +49,14 @@ export default function Review() {
             setLoading(true);
             const authToken = localStorage.getItem("auth_token");
             const config = {
+                method: 'patch',
+                url: `/testimony/homepage/${id}`,
+                headers:
+                {
                     'Authorization': authToken
+                },
             }
-            const res = await Axios.patch(`/testimony/homepage/${id}`, config);
+            const res = await Axios(config);
             setLoading(false);
             if (res.success === true) {
                 const index = reviews.findIndex(where => where.id === id);
@@ -84,9 +89,14 @@ export default function Review() {
             setLoading(true);
             const authToken = localStorage.getItem("auth_token");
             const config = {
-                'Authorization': authToken
+                method: 'delete',
+                url: `/testimony/delete/${id}`,
+                headers:
+                {
+                    'Authorization': authToken
+                },
             }
-            const res = await Axios.delete(`/testimony/delete/${id}`, config);
+            const res = await Axios(config);
             setLoading(false);
             if (res.success === true) {
                 const oldReview = [...reviews];
