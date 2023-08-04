@@ -9,6 +9,7 @@ import {
   BsFillCaretDownFill,
   BsCameraVideo,
   BsReceiptCutoff,
+  BsFillCaretUpFill,
 } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { GrBlog, GrUserWorker } from "react-icons/gr";
@@ -26,6 +27,7 @@ import {
 import { VscHistory, VscRocket } from "react-icons/vsc";
 
 import { HiOutlineLogout } from "react-icons/hi";
+import { BiSupport } from "react-icons/bi";
 
 const AdminSidebar = () => {
   const dispatch = useDispatch();
@@ -69,6 +71,7 @@ const AdminSidebar = () => {
   const [projectDrop, setProjectDrop] = useState(false);
   const [serviceDrop, setServiceDrop] = useState(false);
   const [settingsDrop, setSettingsDrop] = useState(false);
+  const [supportDrop, setSupportDrop] = useState(false);
   const [blogDrop, setBlogDrop] = useState(false);
   const [signOut, setSignOut] = useState(false);
 
@@ -137,6 +140,7 @@ const AdminSidebar = () => {
                       setOrderDrop(false);
                       setSettingsDrop(false);
                       setBlogDrop(false);
+                      setSupportDrop(false)
                     }}
                   >
                     <p className="pl-3 pr-5">Users</p>
@@ -208,6 +212,7 @@ const AdminSidebar = () => {
                       setUserDrop(false);
                       setSettingsDrop(false);
                       setBlogDrop(false);
+                      setSupportDrop(false)
                     }}
                   >
                     <p className="pl-3 pr-5">Products</p>
@@ -250,6 +255,7 @@ const AdminSidebar = () => {
                       setUserDrop(false);
                       setSettingsDrop(false);
                       setBlogDrop(false);
+                      setSupportDrop(false)
                     }}
                   >
                     <p className="pl-3 pr-5">Orders</p>
@@ -296,6 +302,7 @@ const AdminSidebar = () => {
                       setUserDrop(false);
                       setSettingsDrop(false);
                       setBlogDrop(false);
+                      setSupportDrop(false)
                     }}
                   >
                     <p className="pl-3 pr-5">Projects</p>
@@ -343,6 +350,7 @@ const AdminSidebar = () => {
                       setUserDrop(false);
                       setSettingsDrop(false);
                       setBlogDrop(false);
+                      setSupportDrop(false)
                     }}
                   >
                     <p className="pl-3 pr-5">Services</p>
@@ -391,6 +399,7 @@ const AdminSidebar = () => {
                       setProductDrop(false);
                       setUserDrop(false);
                       setSettingsDrop(false);
+                      setSupportDrop(false)
                     }}
                   >
                     <p className="pl-3">Blog</p>
@@ -526,6 +535,7 @@ const AdminSidebar = () => {
                   setProductDrop(false);
                   setServiceDrop(false);
                   setOrderDrop(false);
+                  setSupportDrop(false)
                 }}
               >
                 <BsGear className={`text-lg ${settingsDrop? "text-red" : ""}`} />
@@ -552,6 +562,40 @@ const AdminSidebar = () => {
           ) : (
             ""
           )}
+          <div
+
+className="w-full items-center pl-2 py-2 fw-600 my-4"
+onClick={unShow}
+>
+<div className="flex items-center" onClick={e => e.stopPropagation()}>
+    <BiSupport className="text-xl" />
+    <div className="flex items-center cursor-pointer" onClick={() => { setSupportDrop(!supportDrop);setSettingsDrop(false);
+                  setUserDrop(false);
+                  setProjectDrop(false);
+                  setProductDrop(false);
+                  setServiceDrop(false);
+                  setOrderDrop(false); }}>
+        <p className="pl-3 pr-5">Support</p>
+        {supportDrop? <BsFillCaretUpFill className="text-black" /> : <BsFillCaretDownFill className="text-black" />}
+    </div>
+</div>
+{supportDrop && (
+    <div className="lg:ml-9 ml-4 fs-400 pt-2">
+        <NavLink
+            to="chat-support"
+        style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+            <p className="py-2">Chat Support</p>
+        </NavLink>
+        <NavLink
+            to="allprojects"
+        style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+            <p className="py-2">Submit Complaint</p>
+        </NavLink>
+    </div>
+)}
+</div>
           {user?.level === 2 || user?.level === 3 || user?.level === 4 ? (
             <NavLink
               to="settings"

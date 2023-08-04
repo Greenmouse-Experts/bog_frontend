@@ -61,6 +61,8 @@ import ProjectDetailsPartner from "./pages/ProjectDetailsPartner";
 import RefundOrders from "./pages/RefundOrder";
 import BlogCategory from "./pages/BlogCat";
 import { PartnerPayment } from "./pages/PartnerPayment";
+import ClientSupportChat from "./pages/SupportChat";
+import AdminSupportChat from "./pages/AdminChat";
 
 export default function ClientDashboard() {
 
@@ -87,12 +89,11 @@ export default function ClientDashboard() {
                     className="lg:main-p pt-21 home-bg pb-10 relative">
                     <KycAlert />
                     <Routes >
-                        <Route path="" element={<Dashboard />} />
+                        {/* clients routes */}
                         <Route path="orders" element={<Orders />} />
-                        <Route path="order-request" element={<OrderRequest />} />
-                        <Route path="products" element={<Products />} />
-                        <Route path="projects" element={<Projects />} />
-                        <Route path="cart" element={<Cart />} />
+                        <Route path="chats" element={<ClientSupportChat/>}/>
+
+                        {/* admin routes */}
                         <Route path="client" element={<Clients />} />
                         <Route path="blog" element={<Blog />} />
                         <Route path="blog-category" element={<BlogCategory />} />
@@ -100,6 +101,16 @@ export default function ClientDashboard() {
                         <Route path="viewpost/:postId" element={<ViewBlog />} />
                         <Route path="editpost/:postId" element={<EditPost />} />
                         <Route path="userdetails" element={<UserDetails />} />
+                        <Route path="chat-support" element={<AdminSupportChat />} />
+
+                        {/* general routes */}
+                        <Route path="" element={<Dashboard />} />
+                        
+                        <Route path="order-request" element={<OrderRequest />} />
+                        <Route path="products" element={<Products />} />
+                        <Route path="projects" element={<Projects />} />
+                        <Route path="cart" element={<Cart />} />
+                        
                         <Route path="productscategory" element={<ProductsCategory />} />
                         <Route path="productsadmin" element={<ProductsAdmin />} />
                         <Route path="productdetailadmin" element={<ProductDetailsAdmin />} />

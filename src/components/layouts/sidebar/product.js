@@ -2,13 +2,14 @@ import { faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BsFillGrid1X2Fill, BsBell, BsGear, BsReceiptCutoff, BsBoxArrowRight, BsEnvelope } from "react-icons/bs";
 import { VscHistory } from "react-icons/vsc";
-import { RiUserAddLine } from "react-icons/ri"
+import { RiArrowDropDownFill, RiArrowDropUpFill, RiUserAddLine } from "react-icons/ri"
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../redux/actions/authAction';
 import { HiOutlineLogout } from "react-icons/hi";
 import { ImNewspaper } from "react-icons/im";
+import { BiSupport }  from "react-icons/bi";
 
 
 
@@ -20,6 +21,7 @@ const ProductSidebar = () => {
     }
     const dispatch = useDispatch();
     const [showSideBar, setShowSideBar] = useState(true);
+    const [supportDrop, setSupportDrop] = useState()
     const auth = useSelector((state) => state.auth);
     console.log(auth.user);
 
@@ -108,15 +110,6 @@ const ProductSidebar = () => {
                                 <BsEnvelope className="text-lg" />
                                 <p className="pl-3" id="sideText">Messages</p>
                         </NavLink>
-                        {/* <NavLink 
-                            to="meetings"
-                            onClick={unShow}
-                            className="w-full flex items-center pl-2 py-2 fw-600 my-4"
-                            style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                            >
-                            <BsCameraVideo className="text-xl " />
-                            <p className="pl-3" id="sideText">Meetings</p>
-                        </NavLink> */}
                         <NavLink 
                             to="notify"
                             onClick={unShow}
@@ -145,6 +138,35 @@ const ProductSidebar = () => {
                             <VscHistory className="text-xl" />
                             <p className="pl-3" id="sideText">Transactions</p>
                         </NavLink>
+                        <div
+
+                            className="w-full items-center pl-2 py-2 fw-600 my-4"
+                            onClick={unShow}
+                        >
+                            <div className="flex items-center" onClick={e => e.stopPropagation()}>
+                                <BiSupport className="text-xl" />
+                                <div className="flex items-center cursor-pointer" onClick={() => { setSupportDrop(!supportDrop) }}>
+                                    <p className="pl-3 pr-5">Support</p>
+                                    {supportDrop? <RiArrowDropUpFill className="text-black text-3xl" /> : <RiArrowDropDownFill className="text-black text-3xl" />}
+                                </div>
+                            </div>
+                            {supportDrop && (
+                                <div className="lg:ml-9 ml-4 fs-400 pt-2">
+                                    <NavLink
+                                        to="chats"
+                                    style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                                    >
+                                        <p className="py-2">Chat Support</p>
+                                    </NavLink>
+                                    <NavLink
+                                        to="allprojects"
+                                    style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                                    >
+                                        <p className="py-2">Submit Complaint</p>
+                                    </NavLink>
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <div>
                         <NavLink 

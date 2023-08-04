@@ -742,3 +742,29 @@ to{
     left: 8%;
   }
 }
+/* Handle */
+.chat::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, rgba(63, 121, 173) 0%, rgba(63, 121, 173) 100%);
+  /* border-radius: 10px; */
+}
+.chat::-webkit-scrollbar {
+  width: 5px;
+}
+/* Handle on hover */
+.chat::-webkit-scrollbar-thumb:hover {
+  background: rgba(63, 121, 173);
+}
+/* Track */
+.chat::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(164, 164, 164);
+  /* border-radius: 10px; */
+}
+.grid-container {
+  max-height: 600px; /* Set the maximum height as per your requirement */
+  overflow-y: auto; /* Enable vertical scrolling */
+  display: grid;
+  grid-template-columns: repeat(1fr); /* Adjust the number of columns as needed */
+  align-items: end; /* Align the contents to the end (bottom) */
+  grid-auto-rows: max-content; /* Ensure each row takes the height of its content */
+  gap: 10px; /* Add gap between grid items if desired */
+}

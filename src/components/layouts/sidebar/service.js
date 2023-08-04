@@ -98,13 +98,13 @@ const ServiceSidebar = () => {
                                 <div className="lg:ml-9 ml-4 fs-400 pt-2">
                                     <NavLink
                                         to="projects"
-                                    // style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                                    style={({ isActive }) => (isActive ? activeStyle : undefined)}
                                     >
                                         <p className="py-2">My Projects</p>
                                     </NavLink>
                                     <NavLink
                                         to="allprojects"
-                                    // style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                                    style={({ isActive }) => (isActive ? activeStyle : undefined)}
                                     >
                                         <p className="py-2">Available Projects</p>
                                     </NavLink>
