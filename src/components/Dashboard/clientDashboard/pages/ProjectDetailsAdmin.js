@@ -93,24 +93,25 @@ export default function ProjectDetails() {
     setUpdate(res.data.data);
   };
   const getTotal = async () => {
-    if (total === 0) {
-      await setTotal(sum.reduce((sum, r) => sum + r.amount, 0));
-      console.log(total);
-    }
+      setTotal(sum.reduce((sum, r) => sum + r.amount, 0));
   };
 
   // sort installment
   const sortedInstall = install?.sort((a, b) => b.createdAt.localeCompare(a.createdAt, undefined, { numeric: true }));
 
   useEffect(() => {
-    getCostSummary();
+    if(!loading){
+      getCostSummary();
     getInstallSummary();
     getUpdates();
+    getTotal()
+    }
     // eslint-disable-next-line
   }, [project]);
 
   useEffect(() => {
-    getTotal(); // eslint-disable-next-line
+    getTotal();
+     // eslint-disable-next-line
   }, [sum]);
 
   // cost summary post request

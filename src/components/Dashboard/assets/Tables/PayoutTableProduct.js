@@ -81,7 +81,7 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export function PayoutTableProduct({payout, adminApprove}) {
+export function PayoutTableProduct({payout, adminApprove, type}) {
   const navigate = useNavigate()
   const gotoDetailsPage = (id) => {
     navigate(`/dashboard/orderadmindetail?productId=${id}`)
@@ -133,7 +133,7 @@ export function PayoutTableProduct({payout, adminApprove}) {
                       <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><p className="lg:text-xl"><BsThreeDotsVertical /></p></Button>
                     </MenuHandler>
                     <MenuList className="w-16 bg-gray-100 fw-600 text-black">
-                      <MenuItem className='bg-green-600 hover:bg-red-500 text-white text-center' onClick={() => adminApprove(row.value)}>Approve</MenuItem>
+                      <MenuItem className='bg-green-600 hover:bg-red-500 text-white text-center' onClick={() => adminApprove(row.value, "products")}>Approve</MenuItem>
                     </MenuList>
                   </Menu>,
           },

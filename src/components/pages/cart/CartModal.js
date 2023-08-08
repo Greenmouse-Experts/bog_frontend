@@ -12,6 +12,7 @@ import { clearCart } from "../../../redux/actions/cartAction";
 import { fetchStateAddresses } from "../../../redux/actions/addressAction";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import PhoneInput from "react-phone-input-2";
+import { Country, State, City } from "country-state-city";
 
 export const CartModal = ({ CloseModal }) => {
   const AuhtCheck = () => {
@@ -48,6 +49,17 @@ export const CartModal = ({ CloseModal }) => {
       confirmButtonColor: "#3F79AD",
     });
   };
+  const completeField = () => {
+    Swal.fire({
+      title: "",
+      imageUrl:
+        "https://res.cloudinary.com/greenmouse-tech/image/upload/v1685457317/BOG/info_djndzm.webp",
+      imageWidth: "75px",
+      text: "Please fill the required fields",
+      confirmButtonText: "Continue",
+      confirmButtonColor: "#3F79AD",
+    });
+  };
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState(false);
   const [addresses, setAddresses] = useState([]);
@@ -55,7 +67,8 @@ export const CartModal = ({ CloseModal }) => {
   const [insure, setInsure] = useState("");
   const [addInsure, setAddInsure] = useState(false);
   const [phoneNo, setPhoneNo] = useState("");
-  const [insuranceId, setInsuranceId] = useState('')
+  const [insuranceId, setInsuranceId] = useState("");
+  const [country, setCountry] = useState("");
 
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -101,6 +114,11 @@ export const CartModal = ({ CloseModal }) => {
     return prodInfo;
   });
 
+  const getStateFromCountry = (country) => {
+    setOrderForm({ ...orderForm, country });
+    setCountry(country);
+  };
+
   const getStatesAddress = (state) => {
     setOrderForm({ ...orderForm, state });
     fetchStateAddresses(setAddresses, auth.user, state);
@@ -113,7 +131,7 @@ export const CartModal = ({ CloseModal }) => {
       setAddress_(_address);
       setInsure(_address.insurancecharge ? _address.insurancecharge : 0);
       setOrderForm({ ...orderForm, address: _address.id });
-      setInsuranceId(_address.id )
+      setInsuranceId(_address.id);
     } else {
       setOrderForm({ ...orderForm, address: "" });
     }
@@ -183,7 +201,7 @@ export const CartModal = ({ CloseModal }) => {
         discount: 0,
         deliveryFee: address_.charge,
         deliveryaddressId: insuranceId,
-        insurancefee: addInsure? true : false,
+        insuranceFee: addInsure ? true : false,
         totalAmount: totalCost(),
         userType: auth.user.profile.userType,
       };
@@ -218,7 +236,6 @@ export const CartModal = ({ CloseModal }) => {
     }
   };
   const handlePaystackSuccessAction = (reference) => {
-    console.log(reference);
     sendOrder(reference);
     dispatch(clearCart());
   };
@@ -237,6 +254,17 @@ export const CartModal = ({ CloseModal }) => {
     // text: 'Paystack Button Implementation',
     onSuccess: (reference) => handlePaystackSuccessAction(reference),
     onClose: handlePaystackCloseAction,
+  };
+
+  const completeForm = () => {
+    if (
+      !orderForm.name &&
+      !orderForm.contact_email &&
+      !orderForm.contact_phone &&
+      !orderForm.home_address
+    ) {
+      return false;
+    } else return true;
   };
 
   if (loading) {
@@ -310,8 +338,24 @@ export const CartModal = ({ CloseModal }) => {
         </div>
         <div className="lg:flex">
           <div className="w-full lg:w-6/12 mt-2">
+            <label className="block">Country</label>
+            <select
+              onChange={(e) => getStateFromCountry(e.target.value)}
+              className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
+            >
+              <option>Select an option</option>
+              <option value="NG">Nigeria</option>
+              {Country.getAllCountries().map((item, index) => (
+                <option value={item.isoCode}>{item.name}</option>
+              ))}
+            </select>
+            {orderForm.state === "" ? (
+              <p className="text-red-500">{"State is required"}</p>
+            ) : null}
+          </div>
+          <div className="lg:w-6/12 lg:pl-3 mt-2">
             <label className="block">State</label>
-            <input
+            {/* <input
               type="text"
               placeholder="enter your state"
               className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
@@ -320,13 +364,25 @@ export const CartModal = ({ CloseModal }) => {
               id="state"
               value={orderForm.state}
               onChange={(e) => getStatesAddress(e.target.value)}
-            />
+            /> */}
+            <select
+              onChange={(e) => getStatesAddress(e.target.value)}
+              className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
+            >
+              <option>Select an option</option>
+              {country &&
+                State.getStatesOfCountry(country).map((item, index) => (
+                  <option value={item.name}>{item.name}</option>
+                ))}
+            </select>
             {orderForm.state === "" ? (
               <p className="text-red-500">{"State is required"}</p>
             ) : null}
           </div>
-          <div className="w-full lg:w-6/12 lg:pl-3 mt-2">
-            <label className="block">Address</label>
+        </div>
+        <div>
+          <div className="w-full mt-2">
+            <label className="block">Delivery Address</label>
             <input
               type="text"
               placeholder="enter your address"
@@ -345,8 +401,6 @@ export const CartModal = ({ CloseModal }) => {
               </p>
             ) : null}
           </div>
-        </div>
-        <div>
           <div className="mt-2 w-full">
             <label className="block">Nearest address</label>
             <select
@@ -422,7 +476,7 @@ export const CartModal = ({ CloseModal }) => {
           </div>
 
           {auth.isAuthenticated ? (
-            orderForm.address !== null && orderForm.address !== "" ? (
+            completeForm()? (orderForm.address !== null && orderForm.address !== "" ? (
               <PaystackButton
                 text="CHECKOUT"
                 label="CHECKOUT"
@@ -436,7 +490,12 @@ export const CartModal = ({ CloseModal }) => {
               >
                 CHECKOUT
               </button>
-            )
+            )) : <button
+            onClick={() => completeField()}
+            className="w-full btn bg-primary opacity-75 text-white"
+          >
+            CHECKOUT
+          </button>
           ) : (
             <button
               onClick={() => AuhtCheck()}

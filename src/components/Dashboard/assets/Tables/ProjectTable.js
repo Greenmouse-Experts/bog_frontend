@@ -150,7 +150,7 @@ export default function ProjectTable({ status, isLoader }) {
       case "disapproved":
         return <p className="px-2 py-1 text-red-700 bg-red-100 w-28 rounded-md fw-600">Cancelled</p>
         case "dispatched":
-          return <p className="px-2 py-1 text-red-700 bg-blue-100 w-28 rounded-md fw-600">Dispatched</p>
+          return <p className="px-2 py-1 text-blue-700 bg-blue-100 w-28 rounded-md fw-600">Dispatched</p>
       case "pending":
         return <p className="px-2 py-1 w-24 rounded-md fw-600 bg-yellow-100 text-yellow-700">Pending</p>
       case "completed":
