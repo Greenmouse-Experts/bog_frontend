@@ -228,12 +228,12 @@ export default function Homepage() {
                             <div ref={intro1}>
                                 <p className="my-7" >A platform where people can monitor and manage their projects without being encumbered by time and distance.</p>
                                 <div>
-                                    <Link to="/">
+                                    <Link to=''>
                                         <button className="rounded-xl">
                                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670504238/BOG/appstore_dvsria.png" alt="appstore" className="w-24 lg:w-32" />
                                         </button>
                                     </Link>
-                                    <Link to="/">
+                                    <Link to="https://play.google.com/store/apps/details?id=com.bog.app.bog">
                                         <button className="rounded-xl ml-6">
                                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670504241/BOG/playstore_twyw75.png" alt="appstore" className="w-24 lg:w-32" />
                                         </button>
@@ -443,46 +443,6 @@ export default function Homepage() {
                     </div>
                 </div>
             </div>
-            {/* shop on bog */}
-            {/* <div className="section bg-primary">
-                <div className="box">
-                    <div>
-                        <div className="text-white">
-                            <p className="lg:text-4xl text-2xl fw-600 mb-3">Shop on BOG</p>
-                            <p>Purchase quality products for your construction project</p>
-                        </div>
-                        <div className="lg:grid-4 justify-between mt-12">
-                            <div className="bg-white w-11/12 lg:w-full m-auto">
-                                <div className="">
-                                    <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1669565021/BOG/sand_1_qhuy8e.png" alt="sand" className="w-full h-72" />
-                                </div>
-                                <div className="flex items-center py-4 pl-4"><BsBag /><p className="pl-2">Shop for Sand</p></div>
-                            </div>
-                            <div className="mt-6 lg:mt-0 w-11/12 lg:w-full m-auto bg-white">
-                                <div className="w-full bg-primary">
-                                    <img src={require("../assets/images/steels.png")} alt="steel" className="w-full h-72" />
-                                </div>
-                                <div className="flex items-center py-4 pl-4"><BsBag /><p className="pl-2">Shop for Steel</p></div>
-                            </div>
-                            <div className=" mt-6 lg:mt-0 w-11/12 lg:w-full m-auto bg-white">
-                                <div className="">
-                                    <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1669565034/BOG/granite_1_ml5wb2.png" alt="steel" className="w-full h-72" />
-                                </div>
-                                <div className="flex items-center py-4 pl-4"><BsBag /><p className="pl-2">Shop for Granite</p></div>
-                            </div>
-                            <div className=" mt-6 lg:mt-0 w-11/12 lg:w-full m-auto bg-white">
-                                <div className="">
-                                    <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1669565035/BOG/cement_1_mvstfy.png" alt="steel" className="w-full h-72" />
-                                </div>
-                                <div className="flex items-center py-4 pl-4"><BsBag /><p className="pl-2">Shop for Cement</p></div>
-                            </div>
-                        </div>
-                        <div className="text-center mt-12">
-                            <Link to="/shop"><button className="px-8 lg:px-12 lg:py-3 py-2 rounded text-white bg-secondary">Shop Materials</button></Link>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
             {/* hire experts */}
             <div className="section">
                 <div className="box lg:section">
@@ -500,29 +460,6 @@ export default function Homepage() {
                     </div>
                 </div>
             </div>
-            {/* provide service */}
-            {/* <div className="section bg-light">
-                <div className="box">
-                    <div>
-                        <div>
-                            <p className="text-xl lg:text-3xl m-auto text-center lg:w-6/12 w-10/12 fw-600 mb-4 ">Are you looking to provide Services or Goods on BOG?</p>
-                            <p className="text-center m-auto lg:w-5/12 w-10/12">Sign up as a professional service provider or, a vendor today and get more jobs.</p>
-                        </div>
-                        <div className="mt-12 lg:grid-2 justify-around">
-                            <div className="bg-secondary-op h-64 rounded-lg px-6 pt-8">
-                                <p className="text-lg fw-600">Sign Up as a Service Partner</p>
-                                <p className="mt-5 mb-7">Setup your account as a service partner and start rendering services to clients fast and easy </p>
-                                <Link to="/signup/profession"><button className="text-white px-4 py-2 rounded-lg flex items-center fw-600 bg-secondary"><span className="pr-3">Sign Up</span> <BsArrowRight /></button></Link>
-                            </div>
-                            <div className="mt-6 bg-primary-op lg:mt-0 rounded-lg p-8">
-                                <p className="text-lg fw-600">Sign Up as a Product Partner</p>
-                                <p className="mt-5 mb-7">Setup your account as a product partner and start selling your products fast and easy </p>
-                                <Link to="/signup/supply"><button className="text-white px-4 py-2 rounded-lg  flex bg-primary items-center fw-600"><span className="pr-3">Sign Up</span> <BsArrowRight /></button></Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
             {/* what our client says */}
             <div className="section bg-light">
                 <div className="box pb-6 lg:pb-12">
@@ -682,7 +619,7 @@ export default function Homepage() {
                                         <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670844719/BOG/Frame_466445_v7lxvt.png" alt="appstore" className="w-24 lg:w-36" />
                                     </button>
                                 </Link>
-                                <Link to="/">
+                                <Link to="https://play.google.com/store/apps/details?id=com.bog.app.bog">
                                     <button className="rounded-xl bg-secondary ml-6">
                                         <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670844719/BOG/Frame_466443_nlsg5u.png" alt="appstore" className="w-24 lg:w-36" />
                                     </button>

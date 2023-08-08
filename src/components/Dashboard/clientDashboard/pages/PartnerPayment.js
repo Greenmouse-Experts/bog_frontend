@@ -12,6 +12,7 @@ import { PayoutTableProduct } from "../../assets/Tables/PayoutTableProduct";
 
 export const PartnerPayment = () => {
   const [loading, setLoading] = useState(false);
+  const [type, setType] = useState('')
   const [payment, setPayments] = useState([]);
   const [pays, setPays] = useState([]);
 
@@ -65,19 +66,18 @@ export const PartnerPayment = () => {
       });
     }
   };
-  const approvePayment = async (id) => {
+  const approvePayment = async (id, type) => {
     try {
       const authToken = localStorage.getItem("auth_token");
       const config = {
         method: "Post",
-        url: `${process.env.REACT_APP_URL}/projects/approveTransfer/${id}`,
+        url: `${process.env.REACT_APP_URL}/${type}/approveTransfer/${id}`,
         headers: {
           "Content-Type": "application/json",
           Authorization: authToken,
         },
       };
       const res = await axios(config);
-      console.log(res);
       Swal.fire({
         title: "Success",
         imageUrl:
@@ -154,7 +154,7 @@ export const PartnerPayment = () => {
               <div className="bg-white p-6 rounded">
                 {loading && <Spinner2 />}
                 {!loading && (
-                  <PayoutTable payout={payment} adminApprove={approvePayment} />
+                  <PayoutTable payout={payment} adminApprove={approvePayment}/>
                 )}
               </div>
             </TabPanel>

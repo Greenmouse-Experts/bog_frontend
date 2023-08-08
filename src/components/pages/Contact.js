@@ -76,8 +76,7 @@ export default function Contact() {
                   />
                 </div>
                 <p className="fw-600 fs-700 mb-2">Phone Lines</p>
-                <p>0800 000 0000</p>
-                <p>0900 000 0000</p>
+                <p>0906 934 3805</p>
               </div>
               <div className="lg:w-3/12 text-center relative pt-8 mt-20 lg:mt-0">
                 <div className="w-20 m-auto bg-white py-3 shadow-xl rounded flex justify-center absolute -top-12 x-center">

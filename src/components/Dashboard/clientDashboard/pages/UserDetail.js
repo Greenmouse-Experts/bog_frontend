@@ -26,10 +26,11 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import Axios from "../../../../config/config";
 import { formatNumber } from "../../../../services/helper";
-import Spinner, { Loader } from "../../../layouts/Spinner";
+import { Loader } from "../../../layouts/Spinner";
 import { VerifyModal } from "./Modals/VerifyModal";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { SuspendUser } from "./Modals/SuspendUser";
+import { FaTools } from 'react-icons/fa'
 
 // const baseURL = process.env.REACT_APP_IMAGE_URL;
 
@@ -598,6 +599,22 @@ export default function UserDetails() {
                           </p>
                         </div>
                       </div>
+                      {
+                        client?.userType === "professional" &&
+                        <div className="border-b mt-2 py-2">
+                        <div className="w-16 h-16 circle bg-light center-item">
+                          <FaTools className="text-xl lg:text-3xl text-primary" />
+                        </div>
+                        <div className="fw-500 mt-2 flex">
+                          <p className="text-gray-500">Service Type:</p>
+                          <p className="pl-3">
+                            {client?.profile?.service_category
+                              ? client.profile.service_category.title
+                              : "null"}
+                          </p>
+                        </div>
+                      </div>
+                      }
                     </div>
                   </div>
                 </div>

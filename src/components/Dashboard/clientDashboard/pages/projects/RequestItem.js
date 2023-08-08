@@ -7,11 +7,11 @@ const RequestItem = ({ item, openQouteModal, openAssignModal, project }) => {
             <p className='fw-600 border-b pb-2 text-lg'>{item.userDetails.name}</p>
             <div className='flex border-b mt-4 py-2'>
                 <p className='w-4/12'>Service Category:</p>
-                <p className='w-8/12'>{item.userDetails.profile.service_category.title}</p>
+                <p className='w-8/12'>{item?.userDetails?.profile?.service_category?.title}</p>
             </div>
             <div className='flex border-b mt-2 py-2'>
                 <p className='w-4/12'>Service Score:</p>
-                <p className='w-8/12'>{item.userDetails.profile.kycPoint}%</p>
+                <p className='w-8/12'>{item?.userDetails?.profile?.kycPoint}%</p>
             </div>
             <div className='flex border-b mt-2 py-2'>
                 <p className='w-4/12'>Completed Projects:</p>

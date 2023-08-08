@@ -11,20 +11,22 @@ const QouteProject = ({ closeModal, project }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [loading, setLoading] = useState(false);
-  const [photos, setPhotos] = useState();
+  const [photos, setPhotos] = useState([]);
   const saveLoading = () => {
     setLoading(false);
     closeModal();
   };
 
   const handlePhotoChange = (e) => {
-    setPhotos(e.target.files[0]);
+    setPhotos(Array.from(e.target.files));
   };
 
   const submitHandler = (value) => {
     setLoading(true);
     const fd = new FormData();
-    fd.append('image', photos);
+    for (let i = 0; i < photos.length; i++) {
+      fd.append(`image[]`, photos[i]);
+    }
     fd.append("deliveryTimeLine", value.deliveryTimeLine);
     fd.append("projectCost", value.projectCost);
     fd.append("reasonOfInterest", value.reasonOfInterest);
@@ -206,6 +208,7 @@ const QouteProject = ({ closeModal, project }) => {
               <input
                 type="file"
                 name="photos"
+                multiple
                 className="mt-3 w-full p-2 rounded border border-gray-400"
                 onChange={(e) => handlePhotoChange(e)}
               />
