@@ -619,7 +619,7 @@ export default function Homepage() {
                                         <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670844719/BOG/Frame_466445_v7lxvt.png" alt="appstore" className="w-24 lg:w-36" />
                                     </button>
                                 </Link>
-                                <Link to="https://play.google.com/store/apps/details?id=com.bog.app.bog">
+                                <Link to="https://play.google.com/store/apps/details?id=com.bog.app.bog" >
                                     <button className="rounded-xl bg-secondary ml-6">
                                         <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670844719/BOG/Frame_466443_nlsg5u.png" alt="appstore" className="w-24 lg:w-36" />
                                     </button>

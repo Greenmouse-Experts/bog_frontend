@@ -165,7 +165,7 @@ export default function Service() {
               <div className="lg:grid-3 justify-between lg:mt-24 lg:mb-24">
                 {categories.map((category, index) => (
                   <div
-                    className="shadow-md h-48  mt-12 mb-12 center-item"
+                    className="shadow-md h-48  mt-12 mb-12 center-item text-center"
                     key={index}
                   >
                     <div
