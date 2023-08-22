@@ -154,7 +154,9 @@ export default function ProjectTable({ status, isLoader }) {
       case "pending":
         return <p className="px-2 py-1 w-24 rounded-md fw-600 bg-yellow-100 text-yellow-700">Pending</p>
       case "completed":
-        return <p className="px-2 py-1 w-24 rounded-md fw-600">Completed</p>
+        return <p className="px-2 py-1 w-24 rounded-md fw-600 bg-green-100 text-green-700">Completed</p>
+        case "Completed":
+          return <p className="px-2 py-1 w-28 rounded-md fw-600 bg-green-100 text-green-700">Completed</p>
       case "ongoing":
         return <p className="px-2 py-1 w-24 bg-orange-100 text-orange-700 rounded-md fw-600">Ongoing</p>
         case "Ongoing":

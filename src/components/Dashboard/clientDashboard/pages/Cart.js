@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import CartItems from "./CartItems";
 import { Loader } from "../../../layouts/Spinner";
 import React, { useState, useEffect } from "react";
-import { FaTimes } from 'react-icons/fa'
+import { FaShoppingBasket, FaTimes } from 'react-icons/fa'
 import { CartModal } from "../../../pages/cart/CartModal";
 
 export default function Cart() {
@@ -26,17 +26,6 @@ export default function Cart() {
     carts.forEach(cart => {
         totalAmount += cart.price * cart.quantity
     });
-    // const form = useFormik({
-    //     initialValues: {
-    //         city: "",
-    //         state: "",
-    //         country: "",
-    //         postal_code: "",
-    //         address: "",
-    //     },
-    // });
-    // const { city, state, country, postal_code, address } = form.values;
-    // const value = form.values;
     let productsArray = carts.map((option) => {
         let prodInfo = {};
         prodInfo.productId = `${option.id}`;
@@ -62,7 +51,8 @@ export default function Cart() {
     return (
         <div>
             <div className="min-h-screen fs-500 relative">
-                <div className="w-full py-8 bg-white px-4">
+                <div className="w-full py-8 bg-white px-4 flex items-center justify-between">
+                    <div className="">
                     <p className="text-2xl fw-600">My Cart</p>
                     <p className="fs-400 text-gray-600 mt-2">Manage products on your cart.</p>
                     <Breadcrumbs className="bg-white pl-0 mt-4">
@@ -83,6 +73,10 @@ export default function Cart() {
                             <span>Cart</span>
                         </Link>
                     </Breadcrumbs>
+                    </div>
+                    <div>
+            <Link to={'/shop'} className="flex gap-x-3 bg-secondary text-white fw-600 px-5 py-2 rounded-lg hover:scale-105 duration-100"><FaShoppingBasket className="text-2xl"/>Shop Now</Link>
+          </div>
                 </div>
                 <div className="p-5">
                     <div className="lg:grid-74">

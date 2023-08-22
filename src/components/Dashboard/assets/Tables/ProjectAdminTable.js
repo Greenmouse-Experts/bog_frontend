@@ -344,9 +344,7 @@ export default function ProjectsTable({ status, loader }) {
                   View Request
                 </MenuItem>
               )}
-              {row.cell.row.original.status !== "ongoing" &&
-                row.cell.row.original.status !== "dispatched" &&
-                row.cell.row.original.status !== "disapproved" && (
+              {(row.cell.row.original.status === "pending") && (
                   <MenuItem
                     className="bg-red-600 text-white hover:text-white hover:bg-red-500"
                     onClick={() =>

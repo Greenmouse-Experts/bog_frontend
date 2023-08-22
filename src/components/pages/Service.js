@@ -14,6 +14,7 @@ import {
   getServiceFormBuilder,
 } from "../../redux/actions/ServiceCategoryAction";
 import { fetchServiceCategories } from "../../redux/actions/ProjectAction";
+import { FaGreaterThan } from "react-icons/fa";
 
 window.jQuery = $; //JQuery alias
 window.$ = $; //JQuery alias
@@ -117,7 +118,7 @@ export default function Service() {
     setServicesType([]);
     setTimeout(() => {
       setServiceFormDisplay(true);
-    }, 2000);
+    }, 1500);
     setSelectedService(name);
   };
 
@@ -165,7 +166,7 @@ export default function Service() {
               <div className="lg:grid-3 justify-between lg:mt-24 lg:mb-24">
                 {categories.map((category, index) => (
                   <div
-                    className="shadow-md h-48  mt-12 mb-12 center-item"
+                    className="shadow-md h-48  mt-12 mb-12 center-item text-center"
                     key={index}
                   >
                     <div
@@ -213,26 +214,27 @@ export default function Service() {
           onClick={CloseTypeModal}
         >
           <div
-            className="bg-white lg:w-5/12 px-5 max-h-screen overflow-y-auto overscroll-none lg:px-12 w-11/12 py-12 shadow fw-500 scale-ani"
+            className="bg-white lg:w-5/12 px-5 min-h-[50vh] max-h-[70vh] overflow-y-auto overscroll-none lg:px-10 w-11/12 py-10 shadow fw-500 scale-ani"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between">
-              <p className="text-lg lg:text-2xl fw-600">Select Service Type</p>
+            <div className="flex justify-between items-center border-b pb-1 border-gray-400">
+              <p className="text-lg lg:text-xl fw-600">Select Service Type</p>
               <FontAwesomeIcon
                 icon={faTimes}
-                className="text-2xl relative -top-3 cursor-pointer"
+                className="text-xl cursor-pointer"
                 onClick={CloseTypeModal}
               />
             </div>
             <div className="mt-5">
-              <ul style={{ listStyle: "disc" }}>
+              <ul className="list-none">
                 {servicesType.map((type, index) => (
                   <li key={index}>
                     <div
-                      className="mt-3 lg:mt-6 w-auto cursor-pointer"
+                      className="mt-3 lg:mt-6 w-auto flex justify-between items-center cursor-pointer shades px-4 py-4 rounded hover:scale-105 duration-100"
                       onClick={(e) => getServiceForm(e, type.id, type.name)}
                     >
                       {type.name}
+                      <FaGreaterThan className="text-secondary"/>
                     </div>
                   </li>
                 ))}
@@ -250,16 +252,16 @@ export default function Service() {
               onClick={CloseFormModal}
             >
               <div
-                className="bg-white lg:w-5/12 px-5 max-h-70 overflow-y-auto overscroll-none lg:px-12 w-11/12 py-12 shadow fw-500 scale-ani"
+                className="bg-white lg:w-5/12 px-5 max-h-70 overflow-y-auto overscroll-none lg:px-10 w-11/12 py-12 shadow fw-500 scale-ani"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="flex justify-between">
-                  <p className="text-lg lg:text-2xl fw-600">
+                <div className="flex items-center border-b pb-1 border-gray-400 justify-between">
+                  <p className="text-lg lg:text-xl fw-600">
                     Request {selectedService}
                   </p>
                   <FontAwesomeIcon
                     icon={faTimes}
-                    className="text-2xl relative -top-3 cursor-pointer"
+                    className="text-xl cursor-pointer"
                     onClick={CloseFormModal}
                   />
                 </div>

@@ -10,6 +10,7 @@ import UserOrderTable from "../../assets/Tables/userOrder";
 import CancelOrderModal from "./Order/Modals/cancelModal";
 import RefundOrderModal from "./Order/Modals/refundModal";
 import EmptyData from "../../assets/UI/EmptyData";
+import { FaShoppingBasket } from "react-icons/fa";
 
 export default function Orders() {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ export default function Orders() {
   return (
     <div>
       <div className="fs-500 min-h-screen">
-        <div className="w-full flex justify-between py-6 bg-white px-4 rounded-lg">
+        <div className="w-full flex items-center justify-between py-6 bg-white px-4 rounded-lg">
           <div>
             <p className="text-2xl fw-600">Orders</p>
             <p className="fs-400 text-gray-500 pt-4">
@@ -69,6 +70,9 @@ export default function Orders() {
                 <span>Orders</span>
               </Link>
             </Breadcrumbs>
+          </div>
+          <div>
+            <Link to={'/shop'} className="flex gap-x-3 bg-secondary text-white fw-600 px-5 py-2 rounded-lg hover:scale-105 duration-100"><FaShoppingBasket className="text-2xl"/>Shop Now</Link>
           </div>
         </div>
         <div className="p-5">

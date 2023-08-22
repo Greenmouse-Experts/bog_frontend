@@ -13,6 +13,7 @@ import { Loader } from "../../../layouts/Spinner";
 import MyProjectChart from "../../assets/myProjectChart";
 import EmptyData from "../../assets/UI/EmptyData";
 import { BsInfoCircle } from "react-icons/bs";
+import { MdOutlineDesignServices } from "react-icons/md";
 
 export default function Projects() {
   const auth = useSelector((state) => state.auth);
@@ -63,7 +64,8 @@ export function ClientProject({ isLoading }) {
     <div>
       <div className="min-h-screen fs-500 relative">
         {/* header */}
-        <div className="w-full py-8 bg-white px-4">
+        <div className="w-full py-8 bg-white px-4 flex justify-between items-center">
+          <div>
           <p className="text-2xl fw-600">My Projects</p>
           <p className="fs-400 text-gray-600 mt-2">
             Monitor your project progress
@@ -86,6 +88,10 @@ export function ClientProject({ isLoading }) {
               <span>Projects</span>
             </Link>
           </Breadcrumbs>
+          </div>
+          <div>
+            <Link to={'/services'} className="flex gap-x-3 bg-secondary text-white fw-600 px-5 py-2 rounded-lg hover:scale-105 duration-100"><MdOutlineDesignServices className="text-2xl"/>Request Service</Link>
+          </div>
         </div>
         {/* content */}
         {isLoading ? (
