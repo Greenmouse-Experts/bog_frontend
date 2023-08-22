@@ -105,6 +105,12 @@ export const getStatus = (type) => {
           Completed
         </p>
       );
+    case " Completed":
+        return (
+          <p className="px-2 py-1 text-blue-700 bg-blue-100 w-24 text-center rounded-md fw-600">
+            Completed
+          </p>
+        );
     default:
       return "";
   }

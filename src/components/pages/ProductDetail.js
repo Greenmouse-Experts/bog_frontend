@@ -227,7 +227,7 @@ export default function ProductDetail() {
                                 color="red"
                                 className="absolute w-72 fs-400 fw-500"
                               >
-                                Selected Quantity is not availbale
+                                Selected Quantity is not available
                               </Alert>
                             )}
                             {itemAdded && (

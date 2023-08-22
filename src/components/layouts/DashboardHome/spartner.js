@@ -14,6 +14,7 @@ import { Loader } from "../Spinner";
 import axios from "axios";
 import EmptyData from "../../Dashboard/assets/UI/EmptyData";
 import { getStatus } from "../../../services/helper";
+import { MdVerified } from "react-icons/md";
 // import ProjectChart from "../assets/ProjectChart";
 
 export default function ServiceDashboard() {
@@ -103,7 +104,8 @@ export default function ServiceDashboard() {
 
   return (
     <div className="min-h-screen">
-      <div className="w-full py-10 lg:px-8 bg-white px-4">
+      <div className="w-full py-10 lg:px-8 bg-white px-4 lg:flex justify-between items-center">
+        <div>
         <div className="text-2xl fw-600 flex items-center">
           <p className="">Welcome, {user?.name}</p>
           <FontAwesomeIcon icon={faThumbsUp} className="pl-3 text-secondary" />
@@ -126,6 +128,36 @@ export default function ServiceDashboard() {
             <span>Dashboard</span>
           </Link>
         </Breadcrumbs>
+        </div>
+        <div>
+          {user?.profile?.isVerified ? (
+            <div>
+              <div className="text-center fs-400 fw-500 text-secondary">
+                <p>Verified</p>
+                <MdVerified className="text-2xl lg:text-5xl text-secondary mx-auto" />
+                <p className="fw-600 text-primary">
+                  {user?.profile?.kycPoint} KYC Point
+                </p>
+              </div>
+              <div>
+                {user?.profile?.hasActiveSubscription && (
+                  <div className="flex items-center gap-x-1">
+                    <span className="w-4 h-4 circle bg-secondary block"></span>
+                    <span className="fw-600 fs-400">Active Subscription</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div className="text-center fs-400 fw-500 text-secondary">
+                <p>Unverified</p>
+                <MdVerified className="text-2xl lg:text-5xl text-gray-400 mx-auto" />
+              </div>
+              <p></p>
+            </div>
+          )}
+        </div>
       </div>
       <div className=" p-5">
         <div className="mt-3">
