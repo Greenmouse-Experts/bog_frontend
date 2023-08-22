@@ -1,7 +1,7 @@
 // import React from "react";
 import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { Breadcrumbs, Button, Popover, PopoverContent, PopoverHandler } from "@material-tailwind/react";
+import { Breadcrumbs, Button, Popover, PopoverContent, PopoverHandler, Progress } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import ProjectTable from "../../assets/Tables/ProjectTable";
@@ -241,13 +241,16 @@ export function ServiceProject({ isLoading }) {
                             Project ID
                           </th>
                           <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                            Project Category
+                            Project Type
                           </th>
                           <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
-                            Location
+                            Project Title
                           </th>
                           <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
                             Date
+                          </th>
+                          <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
+                            Progress
                           </th>
                           <th className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left">
                             Status
@@ -276,10 +279,13 @@ export function ServiceProject({ isLoading }) {
                                 {getProjectCategory(item.projectTypes)}
                               </td>
                               <td className="border-b border-gray-200 align-middle fw-400 whitespace-nowrap px-2 py-4 text-left">
-                                {item.projectData?.propertyLocation}
+                                {item.title}
                               </td>
                               <td className="border-b border-gray-200 align-middle fw-400 whitespace-nowrap px-2 py-4 text-left">
                                 {dayjs(item.createdAt).format("YYYY-MM-DD")}
+                              </td>
+                              <td className="border-b border-gray-200 align-middle fw-400 whitespace-nowrap px-2 py-4 text-left">
+                              <Progress value={item.service_partner_progress} size="xl" />
                               </td>
                               <td className="border-b border-gray-200 align-middle fw-400 whitespace-nowrap px-2 py-4 text-left">
                                 {getStatus(item.status)}

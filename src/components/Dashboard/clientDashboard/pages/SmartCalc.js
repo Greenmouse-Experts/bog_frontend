@@ -65,7 +65,7 @@ export const SmartCalc = () => {
           </Breadcrumbs>
         </div>
       </div>
-      <div className="lg:p-5 px-3">
+      {/* <div className="lg:p-5 px-3">
         <div>
           <p className="text-center my-12 fw-600 text-2xl">
             Choose Upload Type
@@ -120,6 +120,9 @@ export const SmartCalc = () => {
             </div>
           </div>
         </div>
+      </div> */}
+      <div>
+        <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1692713239/BOG/coming-removebg-preview_ska41u.png" alt="smart" className="w-10/12 mx-auto lg:w-5/12" />
       </div>
       {upload && (
         <div

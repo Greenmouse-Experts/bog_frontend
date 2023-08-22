@@ -258,15 +258,14 @@ export const CartModal = ({ CloseModal }) => {
 
   const completeForm = () => {
     if (
-      !orderForm.name &&
-      !orderForm.contact_email &&
-      !orderForm.contact_phone &&
+      !orderForm.contact_name ||
+      !orderForm.contact_email ||
+      !orderForm.contact_phone ||
       !orderForm.home_address
     ) {
       return false;
     } else return true;
   };
-
   if (loading) {
     return (
       <center>

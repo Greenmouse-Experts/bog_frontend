@@ -7,7 +7,7 @@ const DispatchProjectModal = ({closeModal, getProjectPartner}) => {
 
     const setData = (number) => {
         setScore(number);
-        if ((number === 0) || (isNaN(number))) {
+        if ((number === 0) || (isNaN(number) || (number > 100))) {
             setError(true)
         }
         else {

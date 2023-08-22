@@ -223,6 +223,14 @@ export default function UserOrderDetail() {
                         &#8358;{formatNumber(order.deliveryFee)}
                       </p>
                     </div>
+                    {
+                      order.insuranceFee && <div className="text-gray-600 mt-4 flex justify-between">
+                      <p>Insurance Fee</p>
+                      <p className="text-black">
+                        &#8358;{formatNumber(Number(order?.order_items[0]?.shippingAddress?.deliveryaddress?.insurancecharge))}
+                      </p>
+                    </div>
+                    }
                     <div className="text-gray-600 mt-4 flex justify-between">
                       <p>Discount</p>
                       <p className="text-black">{order.discount} &#37;</p>
@@ -234,7 +242,7 @@ export default function UserOrderDetail() {
                       <p className="text-black">
                         &#8358;
                         {formatNumber(
-                          getSubTotal(order.order_items) + order.deliveryFee
+                          order.totalAmount
                         )}
                       </p>
                     </div>
