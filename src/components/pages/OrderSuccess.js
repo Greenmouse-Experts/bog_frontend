@@ -52,7 +52,7 @@ export const OrderSuccess = () => {
                                 <p className='bg-primary fw-600 py-2 pl-3 text-white w-full'>Shipping Address</p>
                                 <div className='px-3 bg-light py-4'>
                                     <p className='fw-500'>{`${order?.contact.city? `${order?.contact.city},` : ""} ${order?.contact.state}`} </p>
-                                    <p className='my-3'>{order?.contact.address}</p>
+                                    <p className='my-3 capitalize'>{order?.order_items[0]?.shippingAddress?.home_address}</p>
                                     <p>{order?.contact.contact_phone || "No Phone"}</p>
                                 </div>
                             </div>
