@@ -44,7 +44,7 @@ export const removeUserNotifications = (payload) => {
 }
 
 
-export const fetchAllUserNotifications = (userId,stopLoading) => {
+export const fetchAllUserNotifications = (user,stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -56,7 +56,7 @@ export const fetchAllUserNotifications = (userId,stopLoading) => {
                 }
             }
             dispatch(loading());
-            const response = await axios.get(`/notifications/user/${userId}`, config);
+            const response = await axios.get(`/notifications/user/${user.id}?userType=${user.type}`, config);
             stopLoading();
             dispatch(fetchUserNotifications(response.data))
         } catch (error) {

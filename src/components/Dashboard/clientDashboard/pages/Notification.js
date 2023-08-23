@@ -20,7 +20,11 @@ export default function Notification() {
     useEffect(() => {
         setLoading(true);
         if(user){
-            dispatch(fetchAllUserNotifications(user.profile.id,stopLoading))
+            const users = {
+                id: user.profile.id,
+                type: user.profile.userType
+            }
+            dispatch(fetchAllUserNotifications(users,stopLoading))
         }
 
     }, [dispatch, user]);

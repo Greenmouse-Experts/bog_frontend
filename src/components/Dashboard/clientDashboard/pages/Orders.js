@@ -22,6 +22,10 @@ export default function Orders() {
   const [orderId, setOrderId] = useState('')
   const stopLoading = () => setLoading(false);
 
+  const refetchOrder = () => {
+    dispatch(getUserOrders(userType, stopLoading));
+  }
+
   useEffect(() => {
     setLoading(true);
     dispatch(getUserOrders(userType, stopLoading));
@@ -123,12 +127,12 @@ export default function Orders() {
       </div>
       {
         cancelModal && (
-          <CancelOrderModal CloseModal={CloseModal} id={orderId} getUserOrders={getUserOrders}/>
+          <CancelOrderModal CloseModal={CloseModal} id={orderId} getUserOrders={refetchOrder}/>
         ) 
       }
       {
         refundModal && (
-          <RefundOrderModal CloseModal={CloseModal} id={orderId} getUserOrders={getUserOrders}/>
+          <RefundOrderModal CloseModal={CloseModal} id={orderId} getUserOrders={refetchOrder}/>
         ) 
       }
     </div>

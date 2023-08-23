@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 export const SmartCalc = () => {
   const [upload, setUpload] = useState(false);
+  // eslint-disable-next-line
   const [uploadType, setUploadType] = useState("");
   const [name, setName] = useState("");
   const [loadingModal, setLoadingModal] = useState(false)
@@ -14,10 +15,10 @@ export const SmartCalc = () => {
     setSuccessModal(false)
   }
 
-  const OpenUpload = (type) => {
-    setUpload(true);
-    setUploadType(type);
-  };
+  // const OpenUpload = (type) => {
+  //   setUpload(true);
+  //   setUploadType(type);
+  // };
 
   const openLoading = (type) => {
     setUpload(false);

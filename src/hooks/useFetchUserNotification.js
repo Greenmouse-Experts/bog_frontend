@@ -13,6 +13,10 @@ const FetchUserNotification = () => {
 
     useEffect(() => {
         if(auth && auth.userType !== "admin"){
+            const user = {
+                id: auth.profile.id,
+                type: auth.profile.userType
+            }
             // const socket = io(`${process.env.REACT_APP_API_URL}`, {
             //     query: {
             //         userId: auth.profile.id
@@ -20,7 +24,7 @@ const FetchUserNotification = () => {
             // });
             // socket.on("getUserNotifications", (payload) => {
             //     const result = [...payload]
-                dispatch(fetchAllUserNotifications(auth.profile.id,stopLoading))
+                dispatch(fetchAllUserNotifications(user,stopLoading))
             // })
         }
     }, [dispatch, auth])
