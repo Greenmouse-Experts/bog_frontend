@@ -76,7 +76,7 @@ export default function ProjectsAdmin() {
                                 <ProjectsTable status={"completed"} loader={loading} />
                             </TabPanel>
                             <TabPanel>
-                                <ProjectsTable status={"completed"} loader={loading} />
+                                <ProjectsTable status={"overdue"} loader={loading} />
                             </TabPanel>
                             
                         </Tabs>

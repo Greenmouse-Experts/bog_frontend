@@ -12,7 +12,7 @@ import { clearCart } from "../../../redux/actions/cartAction";
 import { fetchStateAddresses } from "../../../redux/actions/addressAction";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import PhoneInput from "react-phone-input-2";
-import { Country, State, City } from "country-state-city";
+import { Country, State } from "country-state-city";
 
 export const CartModal = ({ CloseModal }) => {
   const AuhtCheck = () => {

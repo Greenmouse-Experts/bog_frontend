@@ -12,7 +12,6 @@ import { PayoutTableProduct } from "../../assets/Tables/PayoutTableProduct";
 
 export const PartnerPayment = () => {
   const [loading, setLoading] = useState(false);
-  const [type, setType] = useState('')
   const [payment, setPayments] = useState([]);
   const [pays, setPays] = useState([]);
 

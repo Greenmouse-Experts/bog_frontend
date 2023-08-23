@@ -20,10 +20,11 @@ export const GeneralInfo = ({
   const [isLoaded, setDataLoaded] = useState(false);
   const [feedback, setFeetback] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const users = useSelector((state) => state.auth.user)
   
   const [formData, setFormData] = useState({
-    organisation_name: null,
-    email_address: null,
+    organisation_name: users?.profile?.company_name,
+    email_address: users.email,
     contact_number: null,
     reg_type: null,
     registration_number: null,
@@ -166,8 +167,8 @@ export const GeneralInfo = ({
           value={formData.organisation_name}
           onChange={(e) => updateValue(e.target.value, "organisation_name")}
           type="text"
-          className="w-full mt-2 p-2 border border-gray-400 rounded
-            "
+          className="w-full mt-2 p-2 border border-gray-400 rounded"
+          disabled
         />
       </div>
       <div className="mt-3">
@@ -177,6 +178,7 @@ export const GeneralInfo = ({
           onChange={(e) => updateValue(e.target.value, "email_address")}
           type="email"
           className="w-full p-2 mt-2 border border-gray-400 rounded"
+          disabled
         />
       </div>
       <div className="mt-3">

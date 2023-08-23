@@ -25,9 +25,9 @@ const ViewQoute = ({ item, closeModal, openAssignModal }) => {
                     <p>Partner's interest on project: </p>
                     <p className='fw-500 mt-1'>{item.reasonOfInterest}</p>
                 </div>
-                <div className='bg-light p-3 my-2'>
+                {item.image && <div className='bg-light p-3 my-2'>
                     <a href={item.image} target='_blank' rel="noreferrer noopener" className='underline text-primary fw-500'>View File</a>
-                </div>
+                </div>}
                 <div className='bg-light p-2 my-2'>
                     <p>Description on project: </p>
                     <p className='fw-500 mt-1'>{item.description}</p>

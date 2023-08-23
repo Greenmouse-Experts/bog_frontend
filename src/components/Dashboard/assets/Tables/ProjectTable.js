@@ -275,7 +275,7 @@ export default function ProjectTable({ status, isLoader }) {
 
           <MenuList>
             {
-              row.cell.row.original.approvalStatus !== "in_review" &&
+              row.cell.row.original.approvalStatus === "approved" &&
               <MenuItem onClick={() => gotoDetailsPage(row.value)}>
                 View Details
               </MenuItem>
@@ -284,7 +284,7 @@ export default function ProjectTable({ status, isLoader }) {
               View Form
             </MenuItem>
             {
-              row.cell.row.original.status === "pending" &&
+              row.cell.row.original.approvalStatus === "pending" &&
               <MenuItem onClick={() => requestForCommencement(row.value)}>
                 Commence Project
               </MenuItem>
