@@ -228,7 +228,7 @@ export default function Homepage() {
                             <div ref={intro1}>
                                 <p className="my-7" >A platform where people can monitor and manage their projects without being encumbered by time and distance.</p>
                                 <div>
-                                    <Link to=''>
+                                    <Link to='https://apps.apple.com/us/app/build-on-the-go-bog/id6464473248'>
                                         <button className="rounded-xl">
                                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670504238/BOG/appstore_dvsria.png" alt="appstore" className="w-24 lg:w-32" />
                                         </button>
@@ -483,21 +483,6 @@ export default function Homepage() {
             </div>
             {/* bringing community together */}
             <div>
-                {/* <div className="box">
-                    <div className="lg:flex flex-row-reverse bg-primary rounded-xl justify-center  items-center">
-                        <div className="lg:w-7/12 lg:py-0 py-5 relative ">
-                            <img src='https://res.cloudinary.com/greenmouse-tech/image/upload/v1678204435/BOG/mockuper-removebg-preview_n3gg9g.png' alt="build" className="w-full" />
-                        </div>
-                        <div className="lg:w-5/12 mt-6 text-white lg:mt-0 lg:p-10 p-5 py-10  ">
-                            <p className="text-xl fw-600 lg:text-3xl fw-500">
-                                Bringing together a community of service partners, product partners
-                                and clients.
-                            </p>
-                            <p className="my-3">An online marketplace which intends to provide a platform for individuals interested in owning structures in Nigeria/Africa achieve their aim.</p>
-                            <Link to="/login"><button className="btn bg-white hover:scale-110 duration-200 text-primary fw-600 px-6 mt-6">Become A Partner</button></Link>
-                        </div>
-                    </div>
-                </div> */}
                 <div className="lg:h-90 overflow-hidden  lg:pt-12 pt-6 lg:pt-0 grid items-center bg-primary">
                     <div className="text-white lg:h-1/6">
                         <p className="text-center lg:w-8/12 mx-auto lg:pt-10 lg:fw-600 lg:text-4xl fw-500">
@@ -614,7 +599,7 @@ export default function Homepage() {
                             <p className="fw-500 fs-500 pt-12">BOG is available on iOS, Andriod and Web.</p>
                             <p className="fw-500 fs-500 pt-2">Open an account today</p>
                             <div className="mt-6 lg:mt-12">
-                                <Link to="/">
+                                <Link to="https://apps.apple.com/us/app/build-on-the-go-bog/id6464473248">
                                     <button className="rounded-xl bg-secondary">
                                         <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1670844719/BOG/Frame_466445_v7lxvt.png" alt="appstore" className="w-24 lg:w-36" />
                                     </button>
