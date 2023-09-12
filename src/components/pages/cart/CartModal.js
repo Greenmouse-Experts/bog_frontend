@@ -205,7 +205,6 @@ export const CartModal = ({ CloseModal }) => {
         totalAmount: totalCost(),
         userType: auth.user.profile.userType,
       };
-      console.log(payload);
       const config = {
         headers: {
           "Content-Type": "Application/json",
@@ -354,16 +353,6 @@ export const CartModal = ({ CloseModal }) => {
           </div>
           <div className="lg:w-6/12 lg:pl-3 mt-2">
             <label className="block">State</label>
-            {/* <input
-              type="text"
-              placeholder="enter your state"
-              className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
-              name="state"
-              required
-              id="state"
-              value={orderForm.state}
-              onChange={(e) => getStatesAddress(e.target.value)}
-            /> */}
             <select
               onChange={(e) => getStatesAddress(e.target.value)}
               className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"

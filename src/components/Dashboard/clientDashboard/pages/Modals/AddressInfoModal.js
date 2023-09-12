@@ -4,6 +4,7 @@ import { Button } from "@material-tailwind/react";
 import { BsCheck } from "react-icons/bs";
 import Axios from "../../../../../config/config";
 import { FaTimes } from "react-icons/fa";
+import { Country, State } from "country-state-city";
 
 const AddressInfoModal = ({
   CloseModal,
@@ -26,12 +27,16 @@ const AddressInfoModal = ({
           Authorization: authToken,
         },
       };
-      
+      const payload = {
+        ...addressInfo,
+        country: selectedCountry,
+        state: selectedState
+      }
 
-      await Axios.put(url, addressInfo, config);
+      await Axios.put(url, payload, config);
       setLoading(false);
       CloseModal();
-      updateAddressStatus(addressInfo, address.id);
+      updateAddressStatus(payload, address.id);
       setFeetback({
         info: "Address updated!",
         status: "success",
@@ -50,6 +55,8 @@ const AddressInfoModal = ({
 
 
   const [addressInfo, setAddressInfo] = useState(address)
+  const [selectedCountry, setSelectedCountry] = useState(address.country);
+  const [selectedState, setSelectedState] = useState(address.state);
 
   return (
     <div
@@ -91,22 +98,41 @@ const AddressInfoModal = ({
             />
           </div>
           <div className="mt-5">
-            <label className="block">State</label>
-            <input
-              type="text"
-              className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
-              value={addressInfo.state}
-              onChange={e => setAddressInfo({...addressInfo, state: e.target.value})}
-            />
-          </div>
-          <div className="mt-5">
-            <label className="block">Country</label>
+          <label className="block">Country</label>
+                  <select
+                  value={selectedCountry}
+                    onChange={(e) => setSelectedCountry(e.target.value)}
+                    className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
+                  >
+                    <option>Select an option</option>
+                    <option value="NG">Nigeria</option>
+                    {Country.getAllCountries().map((item, index) => (
+                      <option value={item.isoCode} key={index}>{item.name}</option>
+                    ))}
+                  </select>
+                  <div className="mt-3">
+                  <label className="block">State</label>
+                  <select
+                   value={selectedState}
+                    onChange={(e) => setSelectedState(e.target.value)}
+                    className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
+                  >
+                    <option>Select an option</option>
+                    {selectedCountry &&
+                      State.getStatesOfCountry(selectedCountry).map(
+                        (item, index) => (
+                          <option value={item.name} key={index}>{item.name}</option>
+                        )
+                      )}
+                  </select>
+                  </div>
+            {/* <label className="block">Country</label>
             <input
               type="text"
               className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
               value={addressInfo.country}
               onChange={e => setAddressInfo({...addressInfo, country: e.target.value})}
-            />
+            /> */}
           </div>
           <div className="mt-5">
             <label className="block">Charge</label>

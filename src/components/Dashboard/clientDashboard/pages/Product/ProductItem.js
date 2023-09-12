@@ -11,8 +11,6 @@ const ProductItem = ({ item, setProductDelete }) => {
         setProductDelete(value)
     }
 
-    console.log(item)
-
     return (
         <div className="mt-12 flex border-b pb-4">
             <div className="lg:w-3/12">

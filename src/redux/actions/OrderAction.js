@@ -91,7 +91,6 @@ export const getUserOrders = (userType, stopLoading) => {
 
             }
             dispatch(loading());
-            console.log(userType);
             const response = await axios.get(`/orders/my-orders?userType=${userType}`, config);
             stopLoading();
             dispatch(fetchUserOrder(response.data))

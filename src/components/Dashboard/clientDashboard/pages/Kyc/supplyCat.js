@@ -96,7 +96,6 @@ export const SupplyCat = ({
     Object.keys(formScore).forEach((_data) => {
       let score_ = 0; let total_ = 1;
       if (_data === "categories") {
-        // console.log(formData[_data])
         if (formData[_data].length > 0) {
           score_ = 1;
         } else {

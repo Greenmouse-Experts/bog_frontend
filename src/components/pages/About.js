@@ -35,7 +35,6 @@ export default function About() {
             );
         }
     }
-    console.log(reviews)
     useEffect(() => {
         getReviews();
     }, []);

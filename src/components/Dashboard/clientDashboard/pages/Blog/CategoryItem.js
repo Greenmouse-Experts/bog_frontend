@@ -2,7 +2,6 @@ import React from 'react';
 
 const CategoryItem = ({item, handleCategoryChange}) => {
     const handleChange = (val) => {
-        console.log({value: val});
         handleCategoryChange(val)
     }
     return (

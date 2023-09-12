@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as ActionType from '../type';
 import axios from '../../config/config';
 import Swal from "sweetalert2";
@@ -83,7 +84,6 @@ export const getAllBlogCategories = () => {
                 },
             }
             const response = await axios.get('/blog/get-categories', config);
-            console.log(response);
             dispatch(getCategory(response.data))
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
@@ -117,7 +117,6 @@ export const  getAllBlogPosts = (stopLoading) => {
             }
             const response = await axios.get('/blog/get-blogs', config);
             stopLoading();
-            // console.log(response);
             dispatch( fetchPost(response.data))
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
@@ -152,7 +151,6 @@ export const deleteBlogPost = (id) => {
             }
             const url = `/blog/delete/${id}`
             const response = await axios.delete(url, config);
-            console.log(response);
             dispatch(removePost(id));
             Swal.fire({
                 title: "Post Deleted",
@@ -190,7 +188,6 @@ export const createBlogCategory = (payload) => {
             }
             const url = `blog/create-category`
             const response = await axios.post(url, payload, config);
-            console.log(response);
             Swal.fire({
                 title: "Category Created",
                 text: "Category added successfully",
@@ -228,7 +225,6 @@ export const editBlogCategory = (payload) => {
             }
             const url = `/blog/update-category`
             const response = await axios.put(url, payload, config);
-            console.log(response);
             toast.success("Category edited succesfully")
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
@@ -265,8 +261,6 @@ export const deleteBlogCategory = (payload) => {
                     "categoryId": payload
                 }
             }
-            // const url = `/blog/delete-category`
-            console.log(config);
             const response = await axios(config);
             toast.success("Category deleted succesfully")            
             return response
@@ -310,7 +304,6 @@ export const createBlogPost = (payload, saveLoading, navigate) => {
             }
             const url = `/blog/create-new`
             const response = await axios.post(url, payload, config);
-            console.log(response);
             dispatch(addPost(response.data));
             saveLoading();
             Swal.fire({
@@ -353,8 +346,6 @@ export const updateBlogPost = (payload, saveLoading, navigate) => {
             }
             const url = `/blog/update`
             const response = await axios.patch(url, payload, config);
-            console.log(response);
-            // dispatch(editPost(payload));
             saveLoading();
             Swal.fire({
                 title: "Blog Post updated",

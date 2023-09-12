@@ -12,7 +12,6 @@ import Axios from "../../../../config/config";
 import { Loader } from "../../../layouts/Spinner";
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import { BiEdit } from "react-icons/bi";
 import { PartnerProgress } from "./projects/Modal/PartnerProgress";
@@ -26,12 +25,9 @@ export default function ProjectDetailsPartner() {
   const projectId = new URLSearchParams(search).get("projectId");
   const [project, setProjects] = useState(null);
   const [loading, setLoading] = useState(false);
-  const auth = useSelector((state) => state.auth.user);
   const [progressModal, setProgressModal] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
   const [update, setUpdate] = useState([]);
-
-  console.log(auth);
 
   const getProjectDetail = async () => {
     try {
@@ -48,7 +44,6 @@ export default function ProjectDetailsPartner() {
       setProjects(data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
       setLoading(false);
     }
   };

@@ -93,32 +93,33 @@ export default function ProjectDetails() {
     setUpdate(res.data.data);
   };
   const getTotal = async () => {
-      setTotal(sum.reduce((sum, r) => sum + r.amount, 0));
+    setTotal(sum.reduce((sum, r) => sum + r.amount, 0));
   };
 
   // sort installment
-  const sortedInstall = install?.sort((a, b) => b.createdAt.localeCompare(a.createdAt, undefined, { numeric: true }));
+  const sortedInstall = install?.sort((a, b) =>
+    b.createdAt.localeCompare(a.createdAt, undefined, { numeric: true })
+  );
 
   useEffect(() => {
-    if(!loading){
+    if (!loading) {
       getCostSummary();
-    getInstallSummary();
-    getUpdates();
-    getTotal()
+      getInstallSummary();
+      getUpdates();
+      getTotal();
     }
     // eslint-disable-next-line
   }, [project]);
 
   useEffect(() => {
     getTotal();
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [sum]);
 
   // cost summary post request
   const handleSubmit = async (values) => {
     try {
       setIsLoading(true);
-      console.log(values);
       const paylaod = {
         ...values,
         project_slug: project.projectSlug,
@@ -145,7 +146,6 @@ export default function ProjectDetails() {
       });
       return response;
     } catch (error) {
-      console.log(error);
       setIsLoading(false);
       alert(error.response.data.message);
     }
@@ -272,7 +272,9 @@ export default function ProjectDetails() {
                         <p>Service Partner</p>
                         <p>
                           <span className="text-gray-600 fs-400"></span> &#8358;
-                          {formatNumber(project?.estimatedCost || "No Price")}{" "}
+                          {formatNumber(
+                            project?.estimatedCost || "No Price"
+                          )}{" "}
                         </p>
                         <p>
                           <span className="text-gray-600 fs-400"></span>{" "}
@@ -349,28 +351,31 @@ export default function ProjectDetails() {
                         key={index}
                       >
                         <div className="flex w-10/12">
-                        <div className="w-6/12">
-                          <p>{item.title}</p>
-                          <p className="text-gray-600">Via Paystack</p>
-                        </div>
-                        <div className="w-6/12">
-                          <p>NGN{formatNumber(item.amount)}</p>
-                          <p>
-                            {item.paid ? (
-                              <p className="flex text-green-600 fw-500 items-center gap-x-2">
-                                Paid <BsDatabaseFillCheck className="text-lg" />
-                              </p>
-                            ) : (
-                              <p className="flex text-red-600 fw-500 items-center gap-x-2">
-                                Not Paid <MdOutlineCancel />
-                              </p>
-                            )}
-                          </p>
-                        </div>
+                          <div className="w-6/12">
+                            <p>{item.title}</p>
+                            <p className="text-gray-600">Via Paystack</p>
+                          </div>
+                          <div className="w-6/12">
+                            <p>NGN{formatNumber(item.amount)}</p>
+                            <p>
+                              {item.paid ? (
+                                <p className="flex text-green-600 fw-500 items-center gap-x-2">
+                                  Paid{" "}
+                                  <BsDatabaseFillCheck className="text-lg" />
+                                </p>
+                              ) : (
+                                <p className="flex text-red-600 fw-500 items-center gap-x-2">
+                                  Not Paid <MdOutlineCancel />
+                                </p>
+                              )}
+                            </p>
+                          </div>
                         </div>
                         <div className="mt-2 lg:mt-0">
                           <p className="">Due Date</p>
-                          <p className="text-primary fw-600">{item.dueDate && item.dueDate}</p>
+                          <p className="text-primary fw-600">
+                            {item.dueDate && item.dueDate}
+                          </p>
                         </div>
                       </div>
                     ))

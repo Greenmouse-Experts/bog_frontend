@@ -15,7 +15,6 @@ export const AddSub = ({ closeModal, item }) => {
   const [inputFields, setInputFields] = useState([
     { benefit: '' }
   ]);
-  console.log({item});
 
   useEffect(() => {
     if(item){
@@ -85,8 +84,6 @@ export const AddSub = ({ closeModal, item }) => {
     onSubmit: submitHandler,
   });
   const { name, amount, duration } = formik.values;
-
-  console.log(formik.errors);
 
   return (
     <div>

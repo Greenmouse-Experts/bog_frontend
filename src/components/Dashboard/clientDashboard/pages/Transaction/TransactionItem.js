@@ -29,7 +29,6 @@ export const TransactionDetails = () => {
             }
             const res = await Axios.get(url, config) ;
             const datas = res.data
-            console.log(datas)
             setItem(res.data.transaction);
             setDetails(res.data.detail)
             setLoading(false);

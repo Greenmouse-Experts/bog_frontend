@@ -11,13 +11,11 @@ const ChangePassword = () => {
     const [show, setShow] = useState(false);
 
     const handleSubmit = async (values) => {
-        console.log(values);
         try {
             setLoading(true);
             const payload = {
                 ...values
             }
-            console.log(payload);
             const res = await updatePassword(payload);
             if (res.success === true) {
                 setShow(true);

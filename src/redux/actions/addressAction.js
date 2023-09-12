@@ -15,7 +15,6 @@ export const fetchAddresses = async (stopLoading, setAddresses, user) => {
         
         const res = await Axios.get(url, config);
         const results = res.data;
-        // console.log(results)
         setAddresses(results);
         stopLoading();
     } catch (error) {
@@ -52,7 +51,6 @@ export const fetchStateAddresses = async (setAddresses, user, state) => {
         
         const res = await Axios.get(url, config);
         const results = res.data;
-        // console.log(results)
         setAddresses(results);
     } catch (error) {
         if (error.message === 'Request failed with status code 401') {

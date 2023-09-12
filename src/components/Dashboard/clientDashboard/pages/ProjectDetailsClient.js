@@ -22,8 +22,6 @@ export default function ProjectDetailsClient() {
   const [total, setTotal] = useState(0);
   const auth = useSelector((state) => state.auth.user);
 
-  console.log(auth);
-
   const getProjectDetail = async () => {
     try {
       const config = {
@@ -39,7 +37,6 @@ export default function ProjectDetailsClient() {
       setProjects(data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
       setLoading(false);
     }
   };
@@ -86,7 +83,6 @@ export default function ProjectDetailsClient() {
   const getTotal = () => {
     if (total === 0) {
       setTotal(sum.reduce((sum, r) => sum + r.amount, 0));
-      console.log(total);
     }
   };
 

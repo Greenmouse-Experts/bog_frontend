@@ -27,8 +27,6 @@ export const FinanceChart = () => {
     const subscribe = transactions.filter((where) => where.type === "Subscription")
 
     const payout = transactions.filter((where) => where.type === "Project Payout to service partner")
-
-    console.log(transactions)
     
     // for order
 
@@ -219,13 +217,6 @@ export const FinanceChart = () => {
             }
         })
     }
-
-    console.log(payout)
-    console.log(janPayoutMoney) 
-    console.log(febPayoutMoney)
-    console.log(marPayoutMoney)
-    console.log(aprPayoutMoney)
-    console.log(mayPayoutMoney)
 
     // chart series and option
 

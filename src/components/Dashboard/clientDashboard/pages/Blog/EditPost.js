@@ -47,7 +47,6 @@ export default function EditPost() {
                     value: cat.id
                 }
             });
-            console.log({ category });
             setDefaultData(category);
             setPostData({
                 title: data.title,
@@ -124,7 +123,6 @@ export default function EditPost() {
                 status: status ? "published" : "review",
                 isPublished: status
             }
-            console.log(payload);
             const res = await Axios.patch(url, payload, config);
             if (res.success === true) {
                 Swal.fire({

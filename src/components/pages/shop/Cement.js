@@ -44,7 +44,6 @@ export const Cements = () => {
             const response = await Axios.get("/products/similar-products?category=ea86f613-050f-413f-a92c-70619d9790c9")
             const data = response.data
             setCement(data)
-            console.log(data)
         } catch (error) {
             console.log(error)
         }

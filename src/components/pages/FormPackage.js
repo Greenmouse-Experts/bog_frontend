@@ -251,7 +251,7 @@ export default function FormPackage({ formPayload, formClose }) {
           })
         // formClose(true)
       )
-      .catch((error) => console.log("error", error));
+      .catch((error) => {});
   };
 
   return (

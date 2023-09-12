@@ -44,8 +44,6 @@ export const UploadDoc = ({
     Passport_of_vendors: { score: 0, total: 1 },
   });
 
-  // console.log(formData)
-
   const DataSaver = async (e) => {
     e.preventDefault();
     const url = "/kyc-documents/create";
@@ -251,7 +249,6 @@ export const UploadDoc = ({
 
   const loadData__ = async () => {
     const auto = formScoreAuto();
-    console.log(auto);
     setKycTotal({ ...kycTotal, uploadDocument: auto.total });
     setKycScore({ ...kycScore, uploadDocument: auto.score });
     const authToken = localStorage.getItem("auth_token");

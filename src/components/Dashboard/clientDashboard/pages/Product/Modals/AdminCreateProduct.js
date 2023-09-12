@@ -8,22 +8,21 @@ import Spinner from '../../../../../layouts/Spinner';
 import { createProduct } from '../../../../../../redux/actions/ProductAction';
 import { FaTimes } from 'react-icons/fa';
 
-const AdminCreateProduct = ({ CloseModal }) => {
+const AdminCreateProduct = ({ CloseModal, refetch }) => {
     const dispatch = useDispatch();
     const categories = useSelector((state) => state.products.categories);
     const [category, setCategory] = useState("");
+    const [units, setUnits] = useState("");
     const [photos, setPhotos] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const handlePhotoChange = (e) => {
         setPhotos(Array.from(e.target.files));
     }
-    console.log(photos);
     const stopLoading = () => {
         setLoading(false);
         CloseModal();
     }; 
-
     const createNewProduct = (value, action) => {
         setLoading(true);
         const fd = new FormData();
@@ -33,12 +32,13 @@ const AdminCreateProduct = ({ CloseModal }) => {
         fd.append("name", value.name);
         fd.append("price", value.price);
         fd.append("quantity", value.quantity);
-        fd.append("unit", value.unit);
+        fd.append("unit", units);
         fd.append("description", value.description);
         fd.append("categoryId", category);
         fd.append("status", "in_review");
         dispatch(createProduct(fd, stopLoading));
-        action.resetForm();
+        // action.resetForm();
+        refetch()
     }
     const formik = useFormik({
         initialValues: {
@@ -46,20 +46,21 @@ const AdminCreateProduct = ({ CloseModal }) => {
             price: 0,
             quantity: 0,
             description: "",
-            unit: "",
         },
         validationSchema: productSchema,
         onSubmit: createNewProduct,
     });
-    const { name, price, quantity, description, unit, } = formik.values;
+    const { name, price, quantity, description } = formik.values;
     const changeCategory = (val) => {
         const value = val.value;
         setCategory(value);
+        setUnits(val.unit);
     }
     const options = categories.length > 0 ? categories.map(category => {
         return {
             label: category.name,
-            value: category.id
+            value: category.id,
+            unit: category.unit,
         }
     }) : [];
     return (
@@ -79,7 +80,7 @@ const AdminCreateProduct = ({ CloseModal }) => {
                     />
                     </div>
                     <div className="mt-5">
-                        <label className="block">Product Tittle</label>
+                        <label className="block">Product Title</label>
                         <input
                             type="text"
                             className="w-full  border border-gray-400 rounded mt-2 py-2 px-2"
@@ -134,9 +135,10 @@ const AdminCreateProduct = ({ CloseModal }) => {
                             required
                             id="unit"
                             name="unit"
-                            value={unit}
+                            value={units}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
+                            disabled
                         />
                         {
                             formik.touched.unit && formik.errors.unit ? <p className='text-red-500'>{formik.errors.unit}</p> : null
@@ -172,7 +174,7 @@ const AdminCreateProduct = ({ CloseModal }) => {
                         <Button color="red" className='lg:px-12' onClick={CloseModal}>Cancel</Button>
                         {
                             loading ? <Spinner /> :
-                                <Button type='submit' className="bg-primary lg:px-12">Add Product</Button>
+                                <Button type='submit' className="bg-primary lg:px-12" onClick={() => createNewProduct(formik.values)}>Add Product</Button>
                         }
                     </div>
                 </form>

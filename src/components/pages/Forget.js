@@ -15,10 +15,8 @@ export default function Forget() {
 
   const handleSubmit = (values) => {
     setLoading(true)
-    console.log(values);
     const url = `/user/forgot-password?email=${values.email}`
     Axios.get(url).then(response => {
-      console.log(response);
       setLoading(false);
       Swal.fire({
         title: "Success",

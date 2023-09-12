@@ -13,9 +13,12 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
     const [kyc, setKyc] = useState([])
 
     const getBank = async () => {
-        fetch(`https://maylancer.org/api/nuban/banklist.php/`)
+        fetch(`https://nigerianbanks.xyz`)
       .then((response) => response.json())
-      .then((data) => setBanks(data));
+      .then((data) => {
+        console.log(data);
+        setBanks(data)
+    });
     }
     const fetchKycDetails = async () => {
         try {
@@ -63,9 +66,15 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
             );
             return response
         }catch(error){
-            console.log(error)
             setIsLoading(false)
-            alert(error.response.data.message)
+            toast.error(
+                error.response.data.message,
+                {
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: 'red', color: 'white' },
+                }
+            );
         }
     }
 

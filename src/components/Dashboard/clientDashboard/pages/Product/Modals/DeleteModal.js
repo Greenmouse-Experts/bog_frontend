@@ -8,7 +8,6 @@ import Spinner from '../../../../../layouts/Spinner';
 const DeleteModal = ({ CloseDelete, product, isAdmin }) => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-    console.log(product);
     const saveLoading = () => {
         setLoading(false);
         CloseDelete();

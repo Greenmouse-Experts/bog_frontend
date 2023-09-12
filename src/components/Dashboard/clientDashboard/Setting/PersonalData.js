@@ -42,7 +42,6 @@ const PersonalData = () => {
   }, [user]);
 
   const handleFileChange = (e) => {
-    console.log(e.target.files[0]);
     setPhoto(e.target.files[0]);
   };
 
@@ -62,7 +61,6 @@ const PersonalData = () => {
   const submitHandler = async () => {
     try {
       setLoading(true);
-      console.log(userData);
       const fd = new FormData();
       fd.append("fname", fname);
       fd.append("lname", lname);

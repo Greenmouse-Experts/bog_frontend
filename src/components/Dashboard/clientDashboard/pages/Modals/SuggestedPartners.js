@@ -12,7 +12,6 @@ const SuggestedPartners = ({ data, closeModal, prjId, loading }) => {
     const dispatch = useDispatch();
 
     const submitProjectToPartners = () => {
-        console.log(prjId);
         const payload = {
             partners : selected
         }

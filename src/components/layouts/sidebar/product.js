@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BsFillGrid1X2Fill, BsBell, BsGear, BsReceiptCutoff, BsBoxArrowRight, BsEnvelope } from "react-icons/bs";
@@ -20,9 +21,6 @@ const ProductSidebar = () => {
     }
     const dispatch = useDispatch();
     const [showSideBar, setShowSideBar] = useState(true);
-    const auth = useSelector((state) => state.auth);
-    console.log(auth.user);
-
     const activeStyle = {
         backgroundColor: "rgba(234, 245, 255, 1)",
         color: "rgba(63, 121, 173, 1)",
@@ -108,15 +106,6 @@ const ProductSidebar = () => {
                                 <BsEnvelope className="text-lg" />
                                 <p className="pl-3" id="sideText">Messages</p>
                         </NavLink>
-                        {/* <NavLink 
-                            to="meetings"
-                            onClick={unShow}
-                            className="w-full flex items-center pl-2 py-2 fw-600 my-4"
-                            style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                            >
-                            <BsCameraVideo className="text-xl " />
-                            <p className="pl-3" id="sideText">Meetings</p>
-                        </NavLink> */}
                         <NavLink 
                             to="notify"
                             onClick={unShow}

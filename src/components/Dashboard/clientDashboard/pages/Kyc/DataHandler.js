@@ -110,7 +110,6 @@ export const loadData = async (url, formData, setFormData) => {
             'Authorization': authToken
         }
     }
-    console.log(url, formData, setFormData)
     const newInfo = await Axios.get(url, config);
     setFormData({
         ...formData,

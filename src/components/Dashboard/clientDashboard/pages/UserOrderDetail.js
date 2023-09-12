@@ -39,7 +39,6 @@ const orderProgress = [
 
 export default function UserOrderDetail() {
   const { orderId } = useParams();
-  console.log({ orderId });
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
@@ -64,7 +63,6 @@ export default function UserOrderDetail() {
         orderProgress.find((progress) => progress.status === data.status)
       );
     } catch (error) {
-      console.log(error);
       setLoading(false);
     }
   };

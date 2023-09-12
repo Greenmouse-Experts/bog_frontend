@@ -63,7 +63,6 @@ const ServicePartnerMeeting = () => {
 
     const removeFromMeeting = (id) => {
         const newMeeting = meetings.filter(x => x.id !== id && x)
-        console.log(newMeeting, id)
         setMeeting(newMeeting);
     }
 

@@ -45,7 +45,6 @@ export const PartnerUpdates = ({CloseModal,project, getUpdates}) => {
                 );
             // }
         }catch(error){
-            console.log(error)
             setIsLoading(false)
             alert(error.response.data.message)
         }

@@ -21,7 +21,6 @@ const CorporateClient = () => {
     const handleSubmit = (values) => {
         try {
             setLoading(true)
-            console.log(values);
             const paylaod = {
                 ...values,
                 userType: "corporate_client",
@@ -33,7 +32,6 @@ const CorporateClient = () => {
             dispatch(register(paylaod, navigate, stopLoading));
         } catch (error) {
             setLoading(false)
-            console.log({ error });
         }
     }
 

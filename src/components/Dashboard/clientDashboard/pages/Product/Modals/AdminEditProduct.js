@@ -13,6 +13,7 @@ const AdminEditProduct = ({ CloseModal, product }) => {
     const categories = useSelector((state) => state.products.categories);
     const [category, setCategory] = useState("");
     const [loading, setLoading] = useState(false);
+    const [units, setUnits] = useState(product.unit)
 
     const stopLoading = () => {
         setLoading(false);
@@ -25,7 +26,7 @@ const AdminEditProduct = ({ CloseModal, product }) => {
         fd.append("name", value.name);
         fd.append("price", value.price);
         fd.append("quantity", value.quantity);
-        fd.append("unit", value.unit);
+        fd.append("unit", units);
         fd.append("description", value.description);
         fd.append("categoryId", category ? category : product.category.id);
         fd.append("status", "in_review");
@@ -43,15 +44,17 @@ const AdminEditProduct = ({ CloseModal, product }) => {
         validationSchema: productSchema,
         onSubmit: editNewProduct,
     });
-    const { name, price, quantity, description, unit, } = formik.values;
+    const { name, price, quantity, description, } = formik.values;
     const changeCategory = (val) => {
         const value = val.value;
         setCategory(value);
+        setUnits(val.unit);
     }
     const options = categories.length > 0 ? categories.map(category => {
         return {
             label: category.name,
-            value: category.id
+            value: category.id,
+            unit: category.unit,
         }
     }) : [];
 
@@ -130,7 +133,7 @@ const AdminEditProduct = ({ CloseModal, product }) => {
                             required
                             id="unit"
                             name="unit"
-                            value={unit}
+                            value={units}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                         />

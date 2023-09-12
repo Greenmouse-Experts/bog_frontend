@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as ActionType from '../type';
 import axios from '../../config/config';
 import Swal from "sweetalert2";
@@ -130,10 +131,8 @@ export const getProducts = () => {
             }
             dispatch(loading());
             const response = await axios.get('/products/all', config);
-            console.log(response);
             dispatch(fetchProducts(response.data))
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -167,7 +166,6 @@ export const getCategories = (stopLoading) => {
             }
             dispatch(loading());
             const response = await axios.get('/product/category', config);
-            console.log(response);
             dispatch(fetchCategory(response.data))
             stopLoading();
         } catch (error) {
@@ -206,10 +204,8 @@ export const getSimilarProduct = (category) => {
             dispatch(loading());
             const url = `/products/similar-products?categoryId=${category}`
             const response = await axios.get(url, config);
-            console.log(response);
             dispatch(fetchSimilarProduct(response.data))
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -242,13 +238,10 @@ export const getUserProducts = (stopLoading) => {
 
             }
             dispatch(loading());
-            console.log({ authToken });
             const response = await axios.get('/products', config);
-            console.log(response);
             dispatch(fetchUserProduct(response.data));
             stopLoading();
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -283,11 +276,9 @@ export const getAdminProducts = (stopLoading) => {
             }
             dispatch(loading());
             const response = await axios.get('/product/admin/get-products', config);
-            console.log(response);
             stopLoading();
             dispatch(fetchAdminProduct(response.data))
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -322,7 +313,6 @@ export const removeProduct = (productId, saveLoading, isAdmin) => {
                 };
             const url = `/product/${productId}`
             const response = await axios.delete(url, config);
-            console.log(response);
             if (isAdmin) {
                 dispatch(DeleteProductAdmin(productId));
             } else {
@@ -340,7 +330,6 @@ export const removeProduct = (productId, saveLoading, isAdmin) => {
                 confirmButtonColor: "#3F79AD",
             })
         } catch (error) {
-            console.log(error?.response?.data?.message);
             if (error.message === 'Request failed with status code 401') {
                 // window.location.href = '/';
                 toast.error("Unauthorized Request")
@@ -424,7 +413,6 @@ export const removeCategory = (categoryId, saveLoading) => {
                 confirmButtonColor: "#3F79AD",
             })
         } catch (error) {
-            console.log(error?.response?.data?.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -455,7 +443,6 @@ export const updateCategory = (payload, saveLoading, categoryId) => {
                 unit: payload.unit
             };
             const response = await axios.patch(url, sentPayload);
-            console.log(response);
             dispatch(editCategory(payload, categoryId));
             saveLoading();
             Swal.fire({
@@ -468,7 +455,6 @@ export const updateCategory = (payload, saveLoading, categoryId) => {
                 confirmButtonColor: "#3F79AD",
             })
         } catch (error) {
-            console.log(error?.response?.data?.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -495,7 +481,6 @@ export const createCategory = (payload, saveLoading) => {
             const url = `/product/category`;
 
             const response = await axios.post(url, payload);
-            console.log(response);
             dispatch(addCategory(response.data));
             saveLoading();
             Swal.fire({
@@ -508,7 +493,6 @@ export const createCategory = (payload, saveLoading) => {
                 confirmButtonColor: "#3F79AD",
             })
         } catch (error) {
-            console.log(error?.response?.data?.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -552,7 +536,6 @@ export const updateProduct = (payload, productId, saveLoading) => {
                 confirmButtonColor: "#3F79AD",
             })
         } catch (error) {
-            console.log(error?.response?.data?.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }

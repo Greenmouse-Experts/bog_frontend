@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable  */
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
@@ -13,14 +13,12 @@ export default function ResetPassword() {
     const { search } = useLocation();
     const email = new URLSearchParams(search).get("email");
     const token = new URLSearchParams(search).get("token");
-    console.log({ email, token });
     const navigate = useNavigate();
     const error = useSelector((state) => state.auth.error);
     const [loading, setLoading] = useState(false);
     const handleSubmit = async (values) => {
         try {
             setLoading(true)
-            console.log(values);
             if (values.password !== values.confirmPassword) {
                 setLoading(false)
                 toast.error(
@@ -40,7 +38,6 @@ export default function ResetPassword() {
             };
             const resp = await Axios.post('/user/reset-password', payload);
             setLoading(false)
-            console.log(resp);
             Swal.fire({
                 title: "Success",
                 icon: "success",

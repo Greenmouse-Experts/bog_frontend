@@ -41,8 +41,6 @@ export default function Shop() {
     }
 
     const showCategories = (catId) => {
-        console.log(catId);
-
         const categorys = products.filter(where => where?.category?.id === catId);
         setProductCategory(categorys)
         setShow(true);
@@ -112,8 +110,6 @@ export default function Shop() {
 
     // filter by price
     const filterBySearch = (event) => {
-        console.log(show)
-        console.log(all);
         if (all) {
             const results = products.filter(product => {
                 if (event.target.value !== "") {
@@ -133,13 +129,11 @@ export default function Shop() {
 
             const results = searchCategory.filter(product => {
                 if (event.target.value !== "") {
-                    // console.log(results)
                     return product.name.toLowerCase().includes(event.target.value.toLowerCase())
                 } else {
                     return searchCategory
                 }
             })
-            console.log(results)
             setProductCategory(results)
             
             // setActive(catId)

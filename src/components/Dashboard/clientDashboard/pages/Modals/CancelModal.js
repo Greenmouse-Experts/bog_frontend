@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import { Button } from "@material-tailwind/react";
 import { BsCheck, BsExclamationCircleFill } from "react-icons/bs";
@@ -26,8 +27,6 @@ const CancelModal = ({ CloseDelete, meetingId, setFeetback, updateMeetingStatus 
 
             }
             const res = await Axios.post(url, payload, config);
-            const results = res.data;
-            console.log(results)
             setLoading(false);
             CloseDelete()
             updateMeetingStatus(payload)

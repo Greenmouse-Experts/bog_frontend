@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as ActionType from "../type";
 import axios from "../../config/config";
 import Swal from "sweetalert2";
@@ -127,7 +128,6 @@ export const getDeliveryAddresses = () => {
       };
       const url = `/address/view/all`;
       const response = await axios.get(url, config);
-      console.log(response);
       dispatch(fetchMyProject(response.data));
     } catch (error) {
       if (error.message === "Request failed with status code 401") {
@@ -157,10 +157,8 @@ export const getProjectAnalyze = (year) => {
       };
       const url = `projects/analyze?y=${year}`;
       const response = await axios.get(url, config);
-      console.log(response);
       dispatch(fetchMyProject(response.data));
     } catch (error) {
-      console.log(error.message);
       if (error.message === "Request failed with status code 401") {
         window.location.href = "/";
       } else {
@@ -191,11 +189,9 @@ export const getMyProject = (userType, navigate, stopLoading) => {
           ? `/projects/service-request?userType=${userType}`
           : `/projects/my-request?userType=${userType}`;
       const response = await axios.get(url, config);
-      console.log(response);
       stopLoading();
       dispatch(fetchMyProject(response.data));
     } catch (error) {
-      console.log(error.message);
       if (error.message === "Request failed with status code 401") {
         navigate("/");
       } else {
@@ -252,7 +248,6 @@ export const deleteServiceCategory = (id) => {
       };
       const url = `/service/type/delete/${id}`;
       const response = await axios.delete(url, config);
-      console.log(response);
       dispatch(removeService(id));
       Swal.fire({
         title: "Service Deleted",
@@ -322,7 +317,6 @@ export const updateServiceCategory = (payload, saveLoading) => {
       };
       const url = `/service/type/update`;
       const response = await axios.patch(url, payload, config);
-      console.log(response);
       dispatch(editService(payload));
       saveLoading();
       Swal.fire({
@@ -392,7 +386,6 @@ export const commenceProject = (projectId, payload) => {
         payload,
         config
       );
-      console.log(response);
       const editPayload = {
         projectId,
       };
@@ -439,7 +432,6 @@ export const approveProjectToStart = (payload) => {
         body,
         config
       );
-      console.log(response);
       dispatch(approveProject(payload));
       Swal.fire({
         title: "Approved",
@@ -476,7 +468,6 @@ export const getDispatchedProjects = (userId, stopLoading) => {
         `/projects/dispatched-projects/${userId}`,
         config
       );
-      console.log(response);
       dispatch(fetchDispatchedProjects(response.data));
       stopLoading();
     } catch (error) {
@@ -510,7 +501,6 @@ export const getServicePartnerProjects = (userId, stopLoading) => {
         `/projects/assigned-projects/${userId}`,
         config
       );
-      console.log(response);
       dispatch(fetchAssignedProjects(response.data));
       stopLoading();
     } catch (error) {
@@ -582,7 +572,6 @@ export const DispatchProject = (projectId, partners) => {
         partners,
         config
       );
-      console.log(response);
       Swal.fire({
         title: "Project Dispatched",
         text: `Project has been dispatched Successfully`,
@@ -619,7 +608,6 @@ export const commitmentFee = (payload) => {
         payload,
         config
       );
-      console.log(response);
       Swal.fire({
         title: "Commitment Fee Set",
         text: `Commitment Fee set Successfully`,
@@ -688,7 +676,6 @@ export const bidForProject = (payload, saveLoading) => {
         icon: "success",
       });
     } catch (error) {
-      console.log(error);
       let errorMsg = error?.response?.data?.message || error.message;
       if (errorMsg === "Request failed with status code 401") {
         window.location.href = "/";
@@ -715,13 +702,11 @@ export const assignProjectToPartner = (payload, saveLoading) => {
           Authorization: authToken,
         },
       };
-      // dispatch(loading());
       const response = await axios.post(
         "/projects/assign-project",
         payload,
         config
       );
-      // console.log(response);
       dispatch(assignProject(payload.projectId));
       saveLoading();
       Swal.fire({
@@ -730,7 +715,6 @@ export const assignProjectToPartner = (payload, saveLoading) => {
         icon: "success",
       });
     } catch (error) {
-      console.log(error);
       let errorMsg = error?.response?.data?.message || error.message;
       dispatch(setError(errorMsg));
       saveLoading();
@@ -755,7 +739,6 @@ export const deleteUserProject = (id, stopLoading) => {
       };
       // dispatch(loading());
       const response = await axios.delete(`/projects/delete/${id}`, config);
-      console.log(response);
       stopLoading();
       dispatch(removeProject(id));
       Swal.fire({
@@ -764,7 +747,6 @@ export const deleteUserProject = (id, stopLoading) => {
         icon: "success",
       });
     } catch (error) {
-      console.log(error);
       let errorMsg = error?.response?.data?.message || error.message;
       if (errorMsg === "Request failed with status code 401") {
         window.location.href = "/";

@@ -26,13 +26,9 @@ export default function ProjectFile() {
             setProjects(data)
             setLoading(false);
         } catch (error) {
-            console.log(error);
             setLoading(false);
         }
     }
-    //  const formatNumber = (number) => {
-    //     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    // }
 
     useEffect(() => {
         getProjectDetail();

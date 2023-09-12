@@ -73,7 +73,6 @@ const AdminMeeting = () => {
 
     const removeFromMeeting = (id) => {
         const newMeeting = meetings.filter(x => x.id !== id && x)
-        console.log(newMeeting, id)
         setMeeting(newMeeting);
     }
 
@@ -98,7 +97,6 @@ const AdminMeeting = () => {
                 ...formik.values,
                 userType: user.userType
             }
-            console.log(payload)
             const newMeeting = await Axios.post(url, payload, config);
             addToMeeting(newMeeting.data);
             setLoading(false);

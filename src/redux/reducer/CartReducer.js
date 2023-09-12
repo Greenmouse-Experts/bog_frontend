@@ -11,7 +11,6 @@ const CartReducer = (state = initialState, action) => {
     const { type, payload } = action
     switch (type) {
         case actionType.ADD_TO_CART:
-            console.log(payload)
             let cartElement = [];
             const oldArr = [...state.cart];
             const product = oldArr.find(where => where.id === payload.id)

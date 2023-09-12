@@ -41,7 +41,6 @@ export default function RefundOrders() {
               return response
           } catch (error) {
               setLoading(false);
-              console.log(error);
           }
     }
   

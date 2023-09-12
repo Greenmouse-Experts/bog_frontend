@@ -23,7 +23,6 @@ export const SmartCalc = () => {
   const openLoading = (type) => {
     setUpload(false);
     setLoadingModal(true)
-    console.log(uploadType);
     setTimeout(() => {
       setLoadingModal(false)
       setSuccessModal(true)

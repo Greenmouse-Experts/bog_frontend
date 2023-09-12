@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as ActionType from '../type';
 import axios from '../../config/config';
 import Swal from "sweetalert2";
@@ -57,10 +58,8 @@ export const getAllSubscriptionPlans = () => {
                 },
             }
             const response = await axios.get('/subscription/plans', config);
-            console.log(response);
             dispatch(fetchAllPlans(response.data))
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -92,7 +91,6 @@ export const deleteSubscriptionPlan = (id) => {
             }
             const url = `/subscription/delete/${id}`
             const response = await axios.delete(url, config);
-            console.log(response);
             dispatch(removePlan(id));
             Swal.fire({
                 title: "Plan Deleted",
@@ -100,7 +98,6 @@ export const deleteSubscriptionPlan = (id) => {
                 icon: "success"
             })
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -132,7 +129,6 @@ export const createSubscriptionPlan = (payload, saveLoading) => {
             }
             const url = `/subscription/create`
             const response = await axios.post(url, payload, config);
-            console.log(response);
             dispatch(addPlan(response.data));
             saveLoading();
             Swal.fire({
@@ -141,7 +137,6 @@ export const createSubscriptionPlan = (payload, saveLoading) => {
                 icon: "success"
             })
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -174,7 +169,6 @@ export const updateSubscriptionPlan = (payload, saveLoading) => {
             }
             const url = `/subscription/update`
             const result = await axios.patch(url, payload, config);
-            console.log(result);
             if (result.success === true) {
                 const response = await axios.get(`/subscription/plans/${payload.planId}`)
                 dispatch(editPlan(response.data));
@@ -187,7 +181,6 @@ export const updateSubscriptionPlan = (payload, saveLoading) => {
                 icon: "success"
             })
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }

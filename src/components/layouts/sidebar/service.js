@@ -5,7 +5,7 @@ import { VscHistory } from "react-icons/vsc";
 import { RiArrowDropDownFill } from "react-icons/ri"
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logout } from '../../../redux/actions/authAction';
 import { MdOutlineEmail } from "react-icons/md";
 import { HiOutlineLogout } from "react-icons/hi";
@@ -19,9 +19,6 @@ const ServiceSidebar = () => {
     }
     const dispatch = useDispatch();
     const [showSideBar, setShowSideBar] = useState(true);
-    const auth = useSelector((state) => state.auth);
-    console.log(auth.user);
-
     const [productDrop, setProductDrop] = useState(false);
 
     const activeStyle = {

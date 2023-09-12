@@ -194,7 +194,6 @@ export default function ProductTable({ status, loader }) {
 
 
   const data = useMemo(() => adminProducts, [adminProducts]);
-  console.log(loader)
   return (
     <>
 

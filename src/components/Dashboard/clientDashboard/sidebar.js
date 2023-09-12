@@ -9,8 +9,6 @@ import ServiceSidebar from "../../layouts/sidebar/service";
 export default function Sidebar() {
   const [showSideBar, setShowSideBar] = useState(true);
   const auth = useSelector((state) => state.auth);
-  console.log(auth.user);
-
 
   useEffect(() => {
 

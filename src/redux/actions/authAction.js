@@ -54,7 +54,6 @@ export const getMe = () => {
             const response = await axios.get(url, config);
             dispatch(setUser(response))
         } catch (error) {
-            console.log(error.message);
             logout()
         }
 
@@ -70,7 +69,6 @@ export const loginUser = (apiData, navigate, stopLoading, displayError) => {
             stopLoading();
             navigate("/dashboard");
         } catch (error) {
-            console.log(error.message);
             const errors = error.response.data.message;
             stopLoading();
             displayError();
@@ -104,7 +102,6 @@ export const register = (apiData, navigate, stopLoading) => {
         try {
             const url = `/user/signup`;
             const response = await axios.post(url, apiData);
-            console.log(response);
             dispatch(registerSuccess(response));
             localStorage.removeItem("reference");
             stopLoading();
@@ -116,7 +113,6 @@ export const register = (apiData, navigate, stopLoading) => {
                 navigate("/login");
             })
         } catch (error) {
-            console.log(error.message);
             const errors = error.response.data.message;
             dispatch(setError(errors));
             dispatch(setAlert(errors, "danger"))

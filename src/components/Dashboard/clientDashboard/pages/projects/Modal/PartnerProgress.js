@@ -34,7 +34,6 @@ export const PartnerProgress = ({CloseModal, id, project, getProjectDetail}) => 
             );
             return response
         }catch(error){
-            console.log(error)
             setIsLoading(false)
             alert(error.response.data.message)
         }

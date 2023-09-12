@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as ActionType from '../type';
 import axios from '../../config/config';
 import toast from 'react-hot-toast';
@@ -93,7 +94,6 @@ export const fetchAllAdminNotifications = (stopLoading) => {
             }
             dispatch(loading());
             const response = await axios.get('/notifications/admin', config);
-            console.log(response);
             dispatch(fetchAdminNotifications(response.data));
             stopLoading();
         } catch (error) {
@@ -166,7 +166,6 @@ export const deleteUserNotification = (id) => {
             }
             dispatch(loading());
             const response = await axios.delete(`/notifications/delete/${id}`, config);
-            console.log(response);
             dispatch(removeUserNotifications(id))
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {

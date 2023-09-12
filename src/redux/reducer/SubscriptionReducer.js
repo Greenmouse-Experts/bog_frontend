@@ -27,7 +27,6 @@ const SubscriptionReducer = (state = initialState, action) => {
         case ActionType.UPDATE_SUBSCRIPTION_PLAN:
             const oldData = [...state.plans]
             const index = oldData.findIndex(where => where.id === payload.id)
-            console.log(index);
             oldData[index] = payload;
             return {
                 ...state,

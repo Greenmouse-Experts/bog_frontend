@@ -5,7 +5,7 @@ import { GrTransaction } from "react-icons/gr"
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logout } from '../../../redux/actions/authAction';
 import { HiOutlineLogout } from "react-icons/hi";
 import { ImNewspaper } from "react-icons/im";
@@ -19,9 +19,6 @@ const ClientSidebar = () => {
     }
     const dispatch = useDispatch();
     const [showSideBar, setShowSideBar] = useState(true);
-    const auth = useSelector((state) => state.auth);
-    console.log(auth.user);
-
 
     useEffect(() => {
 
