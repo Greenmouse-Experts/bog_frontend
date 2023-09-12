@@ -55,7 +55,7 @@ const AddressListItem = ({
               {res.state}
             </td>
             <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
-              {res.country}
+              {res.country === "NG"? "Nigeria" : res.country}
             </td>
             <td className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
               {res.status ? "Active" : ""}

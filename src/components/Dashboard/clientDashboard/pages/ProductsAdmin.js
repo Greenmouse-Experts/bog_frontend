@@ -20,6 +20,12 @@ export default function ProductsAdmin() {
         dispatch(getCategories());
     }, [dispatch])
 
+    const getAdminProds = () => {
+        setTimeout(() => {
+        dispatch(getAdminProducts(stopLoading));
+        }, 3000);
+    }
+
     const [adminAdd, setAdminAdd] = useState(false);
     
 
@@ -85,7 +91,7 @@ export default function ProductsAdmin() {
                 </div>
             </div>
             {adminAdd && (
-                <AdminCreateProduct CloseModal={CloseModal} />
+                <AdminCreateProduct CloseModal={CloseModal} refetch={getAdminProds} />
             )}
         </div>
     )

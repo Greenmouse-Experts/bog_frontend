@@ -52,7 +52,6 @@ export default function Products() {
     setProductEdit(true);
   };
   const changeDeleteProduct = (val) => {
-    console.log(val);
     setSelectedProduct(val);
     setProductDelete(true);
   };

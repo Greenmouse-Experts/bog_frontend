@@ -35,7 +35,6 @@ export const SendMessage = ({closeModal}) => {
             dispatch(createAnnouncement(fd, stopLoading));
         } catch (error) {
             setLoading(false)
-            console.log(error);
         }
     }
 

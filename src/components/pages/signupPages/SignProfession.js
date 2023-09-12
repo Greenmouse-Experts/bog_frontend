@@ -38,7 +38,6 @@ export default function SignProfession() {
 
   const handleSubmit = (values, actions) => {
     setLoading(true)
-    console.log(values);
     const paylaod = {
       ...values,
       userType: "professional",

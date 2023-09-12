@@ -63,7 +63,6 @@ export const fetchMeetings = async (setLoading, setMeeting, user, stopLoading, i
         
         const res = await Axios.get(url, config);
         const results = res.data;
-        console.log(results)
         setMeeting(results);
         setLoading(false);
         stopLoading();

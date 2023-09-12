@@ -65,10 +65,6 @@ export const GeneralInfo = ({
       handleOpen(tab + 1);
     }
   };
-
-  // const [phoneNo, setPhoneNo] = useState(String(formData?.contact_number));
-  // console.log(formData?.contact_number)
-  
   const [formScore, setFormScore] = useState({
     organisation_name: { score: 0, total: 1 },
     email_address: { score: 0, total: 1 },
@@ -144,8 +140,6 @@ export const GeneralInfo = ({
     });
     return { total, score };
   };
-
-  console.log({ kycScore, kycTotal });
 
   const loadData__ = () => {
     const auto = formScoreAuto();

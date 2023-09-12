@@ -122,8 +122,6 @@ export default function Service() {
     setSelectedService(name);
   };
 
-  // console.log(auth);
-
   return (
     <div>
       <div className="font-primary relative z-10">

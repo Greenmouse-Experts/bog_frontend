@@ -23,7 +23,6 @@ export default function SubAdminDetails() {
             const url = `/admin/${adminId}`
             const res = await Axios.get(url);
             const admin = res.admin
-            console.log(admin)
             setAdmin(res.admin);
             setLoading(false);
             return admin;
@@ -40,7 +39,6 @@ export default function SubAdminDetails() {
         try {
             setLoading(true);
             const authToken = localStorage.getItem("auth_token");
-            console.log(authToken);
             const config = {
                 headers:
                 {
@@ -53,7 +51,6 @@ export default function SubAdminDetails() {
                 userId
             }
             const response = await Axios.post(url, body, config);
-            console.log(response);
             if (response.success === true) {
 
                 await fetchAdminDetails(userId)
@@ -76,7 +73,6 @@ export default function SubAdminDetails() {
         try {
             setLoading(true);
             const authToken = localStorage.getItem("auth_token");
-            console.log(authToken);
             const config = {
                 headers:
                 {
@@ -89,7 +85,6 @@ export default function SubAdminDetails() {
                 userId
             }
             const response = await Axios.post(url, body, config);
-            console.log(response);
             if (response.success === true) {
                 await fetchAdminDetails(userId)
             }
@@ -111,7 +106,6 @@ export default function SubAdminDetails() {
         try {
             setLoading(true);
             const authToken = localStorage.getItem("auth_token");
-            console.log(authToken);
             const config = {
                 headers:
                 {
@@ -121,8 +115,6 @@ export default function SubAdminDetails() {
             }
             const url = `/admin/delete-user/${userId}`;
             const response = await Axios.delete(url, config);
-            console.log(response);
-            
             setLoading(false);
         } catch (error) {
             setLoading(false);

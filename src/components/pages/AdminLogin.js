@@ -24,7 +24,6 @@ export default function AdminLogin() {
 
     const handleSubmit = (values) => {
         setLoading(true)
-        console.log(values);
         dispatch(loginAdmin(values, navigate, stopLoading, displayError));
     }
     const formik = useFormik({

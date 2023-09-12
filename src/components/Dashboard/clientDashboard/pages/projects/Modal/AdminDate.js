@@ -34,7 +34,6 @@ export const ProjectMain = ({CloseModal, id, project, refetch}) => {
             );
             return response
         }catch(error){
-            console.log(error)
             setIsLoading(false)
             alert(error.response.data.message)
         }

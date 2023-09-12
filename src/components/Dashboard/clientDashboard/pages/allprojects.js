@@ -116,8 +116,6 @@ export function AllProject() {
     );
   }
 
-  console.log(projects);
-
   return (
     <div>
       <div className="min-h-screen fs-500 relative">

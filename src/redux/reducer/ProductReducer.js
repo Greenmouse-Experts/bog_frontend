@@ -57,7 +57,6 @@ const ProductReducer = (state = initialState, action) => {
             }
         case ActionType.EDIT_CATEGORY:
             const oldCategories = [...state.categories];
-            console.log(oldCategories);
             const catIndex = oldCategories.findIndex(where => where.id === id);
             oldCategories[catIndex] = payload;
             return {
@@ -67,13 +66,10 @@ const ProductReducer = (state = initialState, action) => {
                 error: null,
             }
         case ActionType.UPDATE_PRODUCT_STATUS:
-            console.log(payload);
             const oldProducts = [...state.userProducts];
             const product = oldProducts.find(where => where.id === payload.productId);
             const index = oldProducts.findIndex(where => where.id === payload.productId);
-            console.log({index, product});
             product.status = payload.status;
-            console.log(product);
             oldProducts[index] = product;
             return {
                 ...state,
@@ -82,13 +78,10 @@ const ProductReducer = (state = initialState, action) => {
                 error: null,
             }
         case ActionType.UPDATE_ADMIN_PRODUCT_STATUS:
-            console.log(payload);
             const oldProds = [...state.adminProducts];
             const prod = oldProds.find(where => where.id === payload.productId);
             const prodInd = oldProds.findIndex(where => where.id == payload.productId);
-            console.log({prodInd, prod});
             prod.status = payload.status;
-            console.log(prod);
             oldProds[prodInd] = prod;
             return {
                 ...state,

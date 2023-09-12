@@ -58,7 +58,6 @@ export default function UserDetails() {
       const url = `/users/get-user/${userId}?userType=${userType}`;
       const res = await Axios.get(url);
       const datas = res.data;
-      console.log(datas);
       setClient(res.data.user);
       setAccounts(res.data.accounts);
       setProjects(res.data);
@@ -82,9 +81,7 @@ export default function UserDetails() {
       const res = await Axios.get(url, config);
       const kycs = res.data;
       setKyc(kycs);
-      console.log(kycs);
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -201,7 +198,6 @@ export default function UserDetails() {
   const suspendUser = async (value) => {
     try {
       const authToken = localStorage.getItem("auth_token");
-      console.log(authToken);
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -233,7 +229,6 @@ export default function UserDetails() {
     try {
       // setLoading(true);
       const authToken = localStorage.getItem("auth_token");
-      console.log(authToken);
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -245,7 +240,6 @@ export default function UserDetails() {
         userId,
       };
       const response = await Axios.post(url, body, config);
-      console.log(response);
       // setLoading(false);
     } catch (error) {
       // setLoading(false);

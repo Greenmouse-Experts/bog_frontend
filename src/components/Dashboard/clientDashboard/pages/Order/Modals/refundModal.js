@@ -31,7 +31,6 @@ const RefundOrderModal = ({CloseModal, id, getUserOrders}) => {
           return response
       } catch (error) {
           setLoading(false);
-          console.log(error);
       }
   }
 

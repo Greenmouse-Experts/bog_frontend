@@ -19,7 +19,6 @@ const SignSupply = () => {
   const captchaRef = useRef(null)
   const handleSubmit = (values, actions) => {
     setLoading(true)
-    console.log(values);
     const paylaod = {
       ...values,
       userType: "vendor",

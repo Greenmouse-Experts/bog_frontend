@@ -20,7 +20,6 @@ export default function Contact() {
     try {
       setLoading(true);
       setDisableBtn(true);
-      console.log(values);
       const paylaod = {
         ...values,
         captcha: captchaRef.current.getValue(),
@@ -34,7 +33,6 @@ export default function Contact() {
       setDisableBtn(false);
       return response;
     } catch (error) {
-      console.log(error);
       setLoading(false);
       toast.error(error.response.data.message);
     }

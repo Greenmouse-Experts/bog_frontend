@@ -171,7 +171,6 @@ export default function Homepage() {
             );
         }
     }
-    console.log(reviews)
     useEffect(() => {
         getReviews();
     }, []);

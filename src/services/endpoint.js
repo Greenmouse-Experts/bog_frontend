@@ -1,13 +1,9 @@
 import Axios from "../config/config";
 import Swal from "sweetalert2";
 import toast from 'react-hot-toast';
-// import { useNavigate } from 'react-router-dom';
 import  { Navigate } from 'react-router-dom'
 
 export const Login = () => {
-    // console.log("Login")
-    // const navigate = useNavigate();
-    // navigate("/login")
 }
 
 export const updateAccount = async (payload, headers) => {

@@ -17,6 +17,7 @@ export default function AdminInbox() {
     const [loading, setLoading] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState();
     const announcements = useSelector((state) => state.announcements.announcements);
+    const user = useSelector((state) => state.auth.user);
 
     const stopLoading = () => setLoading(false);
 
@@ -25,7 +26,6 @@ export default function AdminInbox() {
     }
     
     const openViewModal = (msg) => {
-        console.log(msg)
         setSelectedMessage(msg);
         setView(true)
     }
@@ -85,9 +85,9 @@ export default function AdminInbox() {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <div>
+                    {user.level !== 3 && <div>
                         <button className="btn bg-secondary text-white fw-600 flex items-center" onClick={() => setMessage(true)}><BiMessageRoundedDetail className="text-xl"/> <span className="pl-1">New Message</span></button>
-                    </div>
+                    </div>}
                 </div>
                 {/* content */}
                 <div className="lg:p-5 px-3 py-5 mt-6">

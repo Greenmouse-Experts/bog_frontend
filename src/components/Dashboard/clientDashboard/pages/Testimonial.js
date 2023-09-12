@@ -15,7 +15,6 @@ export const Testimonial = () => {
     const { loading: isLoading, data: testimony } = useFetchHook("/testimony/find-user-testimony")
 
     const ratingChanged = (newRating) => {
-        console.log(newRating)
         setStar(newRating)
     }
 

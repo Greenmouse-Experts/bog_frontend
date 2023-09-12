@@ -13,16 +13,13 @@ export default function Userauth() {
   const navigate = useNavigate();
   const email = new URLSearchParams(search).get("email");
   const token = new URLSearchParams(search).get("token");
-  console.log({ email, token });
   const [loading, setLoading] = useState(false)
 
-  console.log(email)
   useEffect(() => {
     setLoading(true);
     const url = `/user/verifyemail?email=${encodeURIComponent(email)}&token=${token}`;
     axios.get(url).then((res) => {
       setLoading(false);
-      console.log(res);
     }).catch(error => {
       setLoading(false);
       Swal.fire({

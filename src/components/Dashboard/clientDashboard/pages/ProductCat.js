@@ -23,12 +23,10 @@ export default function ProductsCategory() {
   const AdminEdit = (id) => {
     setAdminEdit(true)
     setRowValue(id)
-    console.log(id)
   }
   const AdminDelete = (id) => {
     setDeleteModal(true)
     setRowId(id)
-    console.log(id)
   }
 
     const categories = useSelector((state) => state.products.categories);

@@ -45,7 +45,6 @@ export const AdminUpdates = ({CloseModal,project, getUpdates}) => {
                 );
             // }
         }catch(error){
-            console.log(error)
             setIsLoading(false)
             toast.error(
                 error.response.data.message,

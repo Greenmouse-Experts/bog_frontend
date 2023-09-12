@@ -15,13 +15,16 @@ import { fetchAddresses } from "../../../../redux/actions/addressAction";
 import { AddressTable } from "../../assets/Tables/AddressTable";
 import AddressDeleteModal from "./Modals/AddressDeleteModal";
 import AddressInfoModal from "./Modals/AddressInfoModal";
+import { Country, State } from "country-state-city";
 
 const DeliveryAddresses = () => {
   const [deliveryAddress, setDeliveryAddress] = useState(false);
   const [loading, setLoading] = useState(true);
   const [feedback, setFeetback] = useState(false);
   const [addresses, setAddresses] = useState([]);
-  const [action, setAction] = useState(false)
+  const [action, setAction] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState(false);
+  const [selectedState, setSelectedState] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState();
   const user = useSelector((state) => state.auth.user);
 
@@ -88,6 +91,8 @@ const DeliveryAddresses = () => {
       const url = "/address/create";
       const payload = {
         ...formik.values,
+        country: selectedCountry,
+        state: selectedState
       };
       const newAddress = await Axios.post(url, payload, config);
       addToAddress(newAddress.data);
@@ -123,12 +128,18 @@ const DeliveryAddresses = () => {
       country: "",
       charge: "",
       zipcode: "",
-      insurancecharge: ""
+      insurancecharge: "",
     },
     onSubmit: createDeliveryAddress,
   });
-  const { title, address, delivery_time, state, country, charge, zipcode, insurancecharge } =
-    formik.values;
+  const {
+    title,
+    address,
+    delivery_time,
+    charge,
+    zipcode,
+    insurancecharge,
+  } = formik.values;
 
   return (
     <div>
@@ -175,7 +186,11 @@ const DeliveryAddresses = () => {
               <Loader size />
             ) : (
               <>
-                <AddressTable addresses={addresses} openViewModal={openViewModal} updateAddressStatus={updateAddressStatus}/>
+                <AddressTable
+                  addresses={addresses}
+                  openViewModal={openViewModal}
+                  updateAddressStatus={updateAddressStatus}
+                />
               </>
             )}
           </div>
@@ -212,35 +227,33 @@ const DeliveryAddresses = () => {
                 </div>
 
                 <div className="mt-5">
-                  <label className="block">State</label>
-                  <div className="flex">
-                    <input
-                      type="text"
-                      name="state"
-                      id="state"
-                      placeholder="Enter State"
-                      value={state}
-                      onChange={formik.handleChange}
-                      className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
-                      required
-                    />
-                  </div>
+                  <label className="block">Country</label>
+                  <select
+                    onChange={(e) => setSelectedCountry(e.target.value)}
+                    className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
+                  >
+                    <option>Select an option</option>
+                    <option value="NG">Nigeria</option>
+                    {Country.getAllCountries().map((item, index) => (
+                      <option value={item.isoCode}>{item.name}</option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="mt-5">
-                  <label className="block">Country</label>
-                  <div className="flex">
-                    <input
-                      type="text"
-                      name="country"
-                      id="country"
-                      placeholder="Enter Country"
-                      value={country}
-                      onChange={formik.handleChange}
-                      className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
-                      required
-                    />
-                  </div>
+                  <label className="block">State</label>
+                  <select
+                    onChange={(e) => setSelectedState(e.target.value)}
+                    className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
+                  >
+                    <option>Select an option</option>
+                    {selectedCountry &&
+                      State.getStatesOfCountry(selectedCountry).map(
+                        (item, index) => (
+                          <option value={item.name} key={index}>{item.name}</option>
+                        )
+                      )}
+                  </select>
                 </div>
                 <div className="mt-5">
                   <label className="block">Address</label>

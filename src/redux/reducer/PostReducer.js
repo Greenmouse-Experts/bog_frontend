@@ -35,7 +35,6 @@ const PostReducer = (state = initialState, action) => {
         case ActionType.UPDATE_POST:
             const oldData = [...state.posts]
             const index = oldData.findIndex(where => where.id === payload.typeId)
-            console.log(index);
             oldData[index].title = payload.title;
             oldData[index].description = payload.description;
             return {

@@ -11,7 +11,6 @@ import { MdOutlineCancel } from "react-icons/md";
 export const InstallPayment = ({ item, index, id, refetch }) => {
   const user = useSelector((state) => state.auth.user);
   const [loading, setLoading] = useState(false);
-  console.log(item);
   const config = {
     reference: "TR-" + Math.floor(Math.random() * 1000000000 + 1),
     email: user.email,
@@ -42,7 +41,6 @@ export const InstallPayment = ({ item, index, id, refetch }) => {
       return response;
     } catch (error) {
       setLoading(false);
-      console.log(error);
     }
   };
 
@@ -51,7 +49,6 @@ export const InstallPayment = ({ item, index, id, refetch }) => {
     try {
       setLoading(true);
       // Implementation for whatever you want to do with reference and after success call.
-      console.log(reference);
       makePayment(reference.reference);
 
       Swal.fire({
@@ -66,7 +63,6 @@ export const InstallPayment = ({ item, index, id, refetch }) => {
       });
     } catch (error) {
       setLoading(false);
-      console.log(error);
       Swal.fire({
         title: "Error",
         icon: "error",

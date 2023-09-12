@@ -34,7 +34,6 @@ export const AdminProgress = ({CloseModal, id, refetch}) => {
             );
             return response
         }catch(error){
-            console.log(error)
             setIsLoading(false)
             alert(error.response.data.message)
         }

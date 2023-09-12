@@ -128,7 +128,6 @@ export const Cart = () => {
         deliveryFee: 0,
         totalAmount: totalAmount,
       };
-      console.log(payload);
       const config = {
         headers: {
           "Content-Type": "Application/json",
@@ -157,7 +156,6 @@ export const Cart = () => {
     }
   };
   const handlePaystackSuccessAction = (reference) => {
-    console.log(reference);
     sendOrder(reference);
     dispatch(clearCart());
   };

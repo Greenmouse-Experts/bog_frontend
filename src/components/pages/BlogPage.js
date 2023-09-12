@@ -41,7 +41,6 @@ export default function BlogPage() {
 
 
   const fetchRelatedBlog = async () => {
-    console.log(blog)
     try {
       setIsLoading(true);
       const config = {
@@ -55,7 +54,6 @@ export default function BlogPage() {
       const data = res.data;
       const filteredPost = data.filter(where => where.id !== blogId).filter(where => where.isPublished);
       const postData = filteredPost.slice(0, 2)
-      console.log({ postData });
       setPosts(postData);
       setIsLoading(false);
     } catch (error) {

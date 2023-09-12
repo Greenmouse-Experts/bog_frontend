@@ -74,7 +74,6 @@ const ProjectReducer = (state = initialState, action) => {
         case ActionType.UPDATE_SERVICE:
             const oldData = [...state.services]
             const index = oldData.findIndex(where => where.id === payload.typeId)
-            console.log(index);
             oldData[index].title = payload.title;
             oldData[index].description = payload.description;
             return {

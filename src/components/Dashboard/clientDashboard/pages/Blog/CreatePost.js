@@ -66,7 +66,6 @@ export default function BlogPost() {
 
     const handleCategoryChange = (val) => {
         const selectVals = val;
-        console.log({ selectVals });
         setCategorys(selectVals);
     };
 

@@ -58,7 +58,6 @@ export default function OrderDetails() {
         orderProgress.find((progress) => progress.status === data.status)
       );
     } catch (error) {
-      console.log(error);
       setLoading(false);
     }
   };
@@ -78,7 +77,6 @@ export default function OrderDetails() {
           },
         };
         const url = `/orders/update-order`;
-        console.log(_status);
         const bodyParam = {
           orderId: order.id,
           status: _status,
@@ -102,7 +100,6 @@ export default function OrderDetails() {
         });
         getOrderDetail()
       } catch (error) {
-        console.log(error);
         toast.error(
           error.message,
           {

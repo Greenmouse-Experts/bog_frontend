@@ -46,7 +46,6 @@ function Products({ currentItems }) {
 export function ProductItems({ itemsPerPage, products, ofset }) {
 
     // const products = products.filter(where => where.totalProducts !== 0);
-  console.log(products)
   // Here we use item offsets; we could also use page offsets
   // following the API or data you're working with.
   const [itemOffset, setItemOffset] = useState(0);
@@ -55,7 +54,6 @@ export function ProductItems({ itemsPerPage, products, ofset }) {
   // (This could be items from props; or items loaded in a local state
   // from an API endpoint with useEffect and useState)
   const endOffset = itemOffset + itemsPerPage;
-  // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
   const currentItems = products.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(products.length / itemsPerPage);
 

@@ -11,7 +11,6 @@ export const OrderReview = ({ review, productId, status }) => {
   const [star, setStar] = useState(0);
 
   const ratingChanged = (newRating) => {
-    console.log(newRating);
     setStar(newRating);
   };
   const handleSubmit = async () => {

@@ -34,7 +34,6 @@ const ServiceCategory = (state = initialState, action) => {
         case ActionType.UPDATE_SERVICE_CATEGORY:
             const oldData = [...state.services]
             const index = oldData.findIndex(where => where.id === payload.id)
-            console.log(index);
             oldData[index].name = payload.name;
             return {
                 ...state,

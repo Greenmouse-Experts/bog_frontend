@@ -62,7 +62,6 @@ export const getUsers = (stopLoading) => {
             stopLoading();
             dispatch(fetchUsers(response.users))
         } catch (error) {
-            console.log(error.message);
             stopLoading();
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
@@ -99,7 +98,6 @@ export const getUsersAnalyze = (year, stopLoading) => {
             stopLoading();
             dispatch(fetchUsersAnalyze(response.users))
         } catch (error) {
-            console.log(error.message);
             stopLoading();
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
@@ -136,7 +134,6 @@ export const getAdmins = (stopLoading) => {
             stopLoading();
             dispatch(fetchAdmin(response.users))
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }

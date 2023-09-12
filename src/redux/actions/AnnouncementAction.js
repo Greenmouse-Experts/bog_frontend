@@ -52,7 +52,6 @@ export const  getAllAnnouncements = (stopLoading) => {
             stopLoading();
             dispatch(fetchAnnouncement(response.data))
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -92,7 +91,6 @@ export const deleteAnnouncement = (id) => {
                 icon: "success"
             })
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }

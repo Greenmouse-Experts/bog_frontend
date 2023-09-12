@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as ActionType from '../type';
 import axios from '../../config/config';
 import Swal from "sweetalert2";
@@ -66,7 +67,6 @@ export const getAllServiceCategories = (stopLoading) => {
             // stopLoading();
             dispatch(fetchCategory(response.data))
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -99,7 +99,6 @@ export const deleteServiceCategories = (id) => {
             }
             const url = `/services/delete/${id}`
             const response = await axios.delete(url, config);
-            console.log(response);
             dispatch(removeCategory(id));
             Swal.fire({
                 title: "Service Deleted",
@@ -107,7 +106,6 @@ export const deleteServiceCategories = (id) => {
                 icon: "success"
             })
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -139,7 +137,6 @@ export const createServiceCategory = (payload, saveLoading) => {
             }
             const url = `/services/create`
             const response = await axios.post(url, payload, config);
-            console.log(response);
             dispatch(addCategory(response.data));
             saveLoading();
             Swal.fire({
@@ -148,7 +145,6 @@ export const createServiceCategory = (payload, saveLoading) => {
                 icon: "success"
             })
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -181,7 +177,6 @@ export const updateServiceCategory = (payload, saveLoading) => {
             }
             const url = `/services/update/${payload.id}`
             const response = await axios.patch(url, payload, config);
-            console.log(response);
             dispatch(editCategory(payload));
             saveLoading();
             Swal.fire({
@@ -190,7 +185,6 @@ export const updateServiceCategory = (payload, saveLoading) => {
                 icon: "success"
             })
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -224,7 +218,6 @@ export const createServiceForm = (payload, saveLoading, navigate) => {
             }
             const url = `/service/form-builder/create`
             const response = await axios.post(url, payload, config);
-            console.log(response);
             dispatch(addCategory(response.data));
             saveLoading();
             Swal.fire({
@@ -237,7 +230,6 @@ export const createServiceForm = (payload, saveLoading, navigate) => {
                 }
             })
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
@@ -272,7 +264,6 @@ export const getServiceFormBuilder = (id) => {
             const response = await axios.get(`/service/form-builder/${id}`, config);
             dispatch(fetchServiceForm(response.data))
         } catch (error) {
-            console.log(error.message);
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }

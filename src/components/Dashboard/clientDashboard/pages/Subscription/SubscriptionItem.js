@@ -35,8 +35,8 @@ const SubscriptionItem = ({ item, user }) => {
                 planId: item.id,
                 reference
             }
+            // eslint-disable-next-line
             const response = await Axios.post('/subscription/subscribe', data, config);
-            console.log(response);
             setSubscribed(true);
             setLoading(false);
             
@@ -51,7 +51,6 @@ const SubscriptionItem = ({ item, user }) => {
         try {
             setLoading(true)
             // Implementation for whatever you want to do with reference and after success call.
-            console.log(reference);
             subscribeToPlan(reference.reference);
 
             Swal.fire({
@@ -69,7 +68,6 @@ const SubscriptionItem = ({ item, user }) => {
 
         } catch (error) {
             setLoading(false);
-            console.log(error);
             Swal.fire({
                 title: "Error",
                 icon: "error",

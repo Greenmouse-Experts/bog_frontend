@@ -46,9 +46,7 @@ export const SwitchAccount = () => {
             const data = response.accounts;
             setAccounts(data)
             setLoading(false);
-            console.log(data)
         } catch (error) {
-            console.log(error);
             setLoading(false);
         }
     }

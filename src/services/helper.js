@@ -2,7 +2,6 @@ import { BsDatabaseFillCheck } from "react-icons/bs";
 import { MdOutlineCancel } from "react-icons/md";
 
 export const capitalizeFirstLetter = (string) => {
-  console.log({ string });
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 

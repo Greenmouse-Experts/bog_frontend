@@ -103,6 +103,7 @@ export function AddressTable({addresses, openViewModal}) {
           {
             Header: "Country",
             accessor: "country",
+            Cell: (props) => <p>{props.value === "NG"? "Nigeria" : <span className='capitalize'>{props.value}</span>}</p>
           },
           {
             Header: "Status",

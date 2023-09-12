@@ -64,7 +64,6 @@ const BankDetail = () => {
 
     const changeHandler = (e) => {
         const { name, value } = e.target;
-        console.log(name, value);
         setBankData({ ...bankData, [name]: value });
     }
 
@@ -99,7 +98,6 @@ const BankDetail = () => {
                 bank_code: selectedBank.code,
                 bank_name: selectedBank.name
             }
-            console.log(payload);
             await Axios.post("/bank/save-bank", payload);
             setLoading(false);
             setShow(true);  //"1381417409"
