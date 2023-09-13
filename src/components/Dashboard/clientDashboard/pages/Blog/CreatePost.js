@@ -110,7 +110,7 @@ export default function BlogPost() {
                                 <p className="fw-600 lg:text-lg mb-3">Blog Post Title</p>
                                 <input
                                     type="text"
-                                    placeholder="Enter the blog tittle"
+                                    placeholder="Enter the blog title"
                                     className="w-full px-3 rounded-md py-2 border border-gray-400"
                                     id="title"
                                     name="title"

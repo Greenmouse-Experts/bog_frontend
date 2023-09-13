@@ -89,7 +89,7 @@ export default function ProjectsAdmin() {
                         <form>
                             <p className="lg:fs-700 fw-600">Assign New Project</p>
                             <div className="mt-5">
-                                <label className="block">Project Tittle</label>
+                                <label className="block">Project Title</label>
                                 <input type="text" className="w-full lg:w-10/12 border border-gray-400 rounded mt-2 py-2 px-2" required />
                             </div>
                             <div className="mt-5">

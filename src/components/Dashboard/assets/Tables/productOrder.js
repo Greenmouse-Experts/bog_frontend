@@ -145,20 +145,20 @@ export default function ProductOrderTable({status, loader}){
             accessor: "order.status",
             Cell: (props) => formatStatus(props.value)
           },
-          {
-            Header: "Action",
-            accessor: "id",
-            Cell: (row) => <Menu placement="bottom-start" className="w-16">
-            <MenuHandler>
-              <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><p className="lg:text-xl"><BsThreeDotsVertical /></p></Button>
-            </MenuHandler>
-            <MenuList className="w-16 bg-gray-100 fw-600 text-black">
-              <MenuItem>Accept Delivery</MenuItem>
-              <MenuItem>Decline Delivery</MenuItem>
-              {/* <MenuItem>View Details</MenuItem> */}
-            </MenuList>
-          </Menu>,
-          },
+          // {
+          //   Header: "Action",
+          //   accessor: "id",
+          //   Cell: (row) => <Menu placement="bottom-start" className="w-16">
+          //   <MenuHandler>
+          //     <Button className="border-none bg-transparent shadow-none hover:shadow-none text-black"><p className="lg:text-xl"><BsThreeDotsVertical /></p></Button>
+          //   </MenuHandler>
+          //   <MenuList className="w-16 bg-gray-100 fw-600 text-black">
+          //     <MenuItem>Accept Delivery</MenuItem>
+          //     <MenuItem>Decline Delivery</MenuItem>
+          //     {/* <MenuItem>View Details</MenuItem> */}
+          //   </MenuList>
+          // </Menu>,
+          // },
         ],
         [] // eslint-disable-line react-hooks/exhaustive-deps
       );

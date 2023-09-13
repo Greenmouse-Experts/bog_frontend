@@ -107,7 +107,7 @@ export const VendorKyc = () => {
   return (
     <div className="w-full">
      
-      <div
+      {/* <div
         className="fixed text-center"
         style={{
           width: 100,
@@ -120,7 +120,7 @@ export const VendorKyc = () => {
       >
         <CircularProgressbar value={percentage()} text={`${percentage()}%`} />
         Your Score
-      </div>
+      </div> */}
       <div className="w-full">
         <div className="flex lg:w-full w-full overflow-x-auto fs-500 text-center fw-500">
           <div

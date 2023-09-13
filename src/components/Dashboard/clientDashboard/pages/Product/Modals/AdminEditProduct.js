@@ -78,7 +78,7 @@ const AdminEditProduct = ({ CloseModal, product }) => {
                     />
                     </div>
                     <div className="mt-5">
-                        <label className="block">Product Tittle</label>
+                        <label className="block">Product Title</label>
                         <input
                             type="text"
                             className="w-full  border border-gray-400 rounded mt-2 py-2 px-2"

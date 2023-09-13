@@ -94,6 +94,13 @@ export const fetchCommitmentFee = (payload) => {
   };
 };
 
+export const saveRole = (payload) => {
+  return {
+    type: ActionType.SAVE_ROLE,
+    payload,
+  };
+};
+
 export const fetchSelectedPartners = (payload) => {
   return {
     type: ActionType.FETCH_SELECTED_PARTNERS,

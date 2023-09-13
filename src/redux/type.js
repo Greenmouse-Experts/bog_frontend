@@ -43,6 +43,7 @@ export const USER_ERROR = "USER_ERROR";
 export const LOADING = "LOADING";
 export const DELETE_CART_ITEM = "DELETE_CART_ITEM";
 export const FETCH_MY_PROJECTS = "FETCH_MY_PROJECTS";
+export const SAVE_ROLE = 'SAVE_ROLE';
 export const UPDATE_PROJECT = "UPDATE_PROJECT";
 export const APPROVE_PROJECT = "APPROVE_PROJECT";
 export const FETCH_ALL_PROJECTS = "FETCH_All_PROJECTS";
