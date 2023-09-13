@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../../../../layouts/Spinner";
 import ActionFeedBack from "../Modals/ActionFeedBack";
 import { loadData, saveData } from "./DataHandler";
 import Axios from "../../../../../config/config";
 // import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import toast from 'react-hot-toast';
+import { saveRole } from "../../../../../redux/actions/ProjectAction";
 
 export const GeneralInfo = ({
   handleOpen,
@@ -20,8 +22,94 @@ export const GeneralInfo = ({
   const [isLoaded, setDataLoaded] = useState(false);
   const [feedback, setFeetback] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const users = useSelector((state) => state.auth.user)
-  
+  const users = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch()
+
+  const services = [
+    {
+      name: "Quantity Surveyour",
+      value: 'quantity_surveyor',
+      cert: [
+        "HND, MNIQS, RQS",
+        "PGD, MNIQS, RQS",
+        "B.Sc, MNIQS, RQS",
+        "M.Sc, MNIQS, RQS",
+        "Ph.D, MNIQS, RQS",
+      ],
+    },
+    {
+      name: "Structural Engineer",
+      value: 'structural_engineer',
+      cert: [
+        "HND, COREN",
+        "PGD, COREN",
+        "B.Sc, COREN",
+        "M.Sc, COREN",
+        "Ph.D, COREN",
+      ],
+    },
+    {
+      name: "Architects",
+      value: 'architects',
+      cert: [
+        "HND, ATECH",
+        "PGD, ATECH",
+        "B.Sc, G.M.NIA",
+        "M.Sc, A.M.NIA,/MNIA",
+        "Ph.D, MNIA",
+      ],
+    },
+    {
+      name: "Mechanical Engineer",
+      value: 'mechanical_engineer',
+      cert: [
+        "HND, PGD, B.Sc, M.Sc, Ph.D",
+        "PGD, MNIMECHE",
+        "B.Sc, MNIMECHE",
+        "M.Sc, MNIMECHE",
+        "Ph.D, MNIMECHE",
+      ],
+    },
+    {
+      name: "Electrical Engineer",
+      value: 'electrical_engineer',
+      cert: [
+        "HND, COREN",
+        "PGD, COREN",
+        "B.Sc, COREN",
+        "M.Sc, COREN",
+        "Ph.D, COREN",
+      ],
+    },
+    {
+      name: "Surveyor",
+      value: 'surveyor',
+      cert: [
+        "HND, MNIS",
+        "PGD, MNIS",
+        "B.Sc, MNIS",
+        "M.Sc, MNIS",
+        "Ph.D, MNIS",
+      ],
+    },
+    {
+      name: "Civil Engineer",
+      value: 'civil_engineer',
+      cert: [
+        "HND, COREN",
+        "PGD, COREN",
+        "B.Sc, COREN",
+        "M.Sc, COREN",
+        "Ph.D, COREN",
+      ],
+    },
+  ];
+  const years = ["3-5", "6-10", "11-15", "16-20", "Over 20"];
+ 
+  const getCert = (val) => {
+    const filter = services.filter((where) => where.value === val)
+    return filter
+  }
   const [formData, setFormData] = useState({
     organisation_name: users?.profile?.company_name,
     email_address: users.email,
@@ -30,28 +118,47 @@ export const GeneralInfo = ({
     registration_number: null,
     business_address: null,
     operational_address: null,
+    role: null,
+    years_of_experience: null,
+    certification_of_personnel: null,
   });
   const user = useSelector((state) => state.auth.user);
-
+  const prof = useSelector((state) => state.auth.user.userType);
 
   const dataLoader = () => {
     const url = "/kyc-general-info/fetch?userType=" + user.userType;
     loadData(url, formData, setFormData);
   };
   const DataSaver = async () => {
+    if(formData.role === ""){
+      toast.error(
+        "Please select a role field",
+        {
+            duration: 6000,
+            position: "top-center",
+            style: { background: '#BD362F', color: 'white' },
+        }
+    );
+    }
     const url = "/kyc-general-info/create";
 
     const authToken = localStorage.getItem("auth_token");
-    await Axios.patch(`/user/update-account`, {kycScore: JSON.stringify(kycScore), kycTotal: JSON.stringify(kycTotal)}, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authToken,
+    await Axios.patch(
+      `/user/update-account`,
+      {
+        kycScore: JSON.stringify(kycScore),
+        kycTotal: JSON.stringify(kycTotal),
       },
-    });
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+      }
+    );
 
     if (isSaving) {
       setIsSaving(false);
-
       saveData({
         url,
         setLoading,
@@ -103,6 +210,15 @@ export const GeneralInfo = ({
     if (variable === "operational_address") {
       newValue = { operational_address: newVal };
     }
+    if (variable === "role") {
+      newValue = { role: newVal };
+    }
+    if (variable === "years_of_experience") {
+      newValue = { years_of_experience: newVal };
+    }
+    if (variable === "certification_of_personnel") {
+      newValue = { certification_of_personnel: newVal };
+    }
 
     setFormData({
       ...formData,
@@ -151,6 +267,7 @@ export const GeneralInfo = ({
     !isLoaded && dataLoader();
     setDataLoaded(true);
     loadData__();
+    dispatch(saveRole(formData.role))
   }, [formData]);
 
   return (
@@ -198,6 +315,50 @@ export const GeneralInfo = ({
                   rules={{ required: true }}
                 /> */}
       </div>
+      {prof === "professional" && (
+        <div>
+          <div className="mt-3">
+            <label>Role</label>
+            <select  className="w-full p-2 mt-2 border border-gray-400 rounded" value={formData.role} onChange={(e) => updateValue(e.target.value, "role")}>
+              <option>Select an Option</option>
+              {
+                services.map((item) => (
+                  <option value={item.value}>{item.name}</option>
+                ))
+              }
+            </select>
+          </div>
+          <div className="mt-3 grid lg:grid-cols-2 gap-x-6 gap-y-3">
+            <div>
+              <label>Years of Experience</label>
+              <select  className="w-full p-2 mt-2 border border-gray-400 rounded" value={formData.years_of_experience} onChange={(e) =>
+                  updateValue(e.target.value, "years_of_experience")
+                }>
+              <option>Select an Option</option>
+              {
+                years.map((item) => (
+                  <option value={item}>{item}</option>
+                ))
+              }
+            </select>
+            </div>
+            <div>
+              <label>Certification of Personnel</label>
+              <select  className="w-full p-2 mt-2 border border-gray-400 rounded" value={formData.certification_of_personnel} onChange={(e) =>
+                  updateValue(e.target.value, "certification_of_personnel")
+                }>
+              <option>Select an Option</option>
+              {
+                formData.role &&
+                getCert(formData.role)[0].cert.map((item) => (
+                  <option value={item}>{item}</option>
+                ))
+              }
+            </select>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="mt-3">
         <label className="">Type of Registration</label>
         <div className="flex items-center mt-2">

@@ -93,7 +93,7 @@ export function MessageTable({openModal, deleteMsg}) {
             accessor: ( row, index) => index + 1  //RDT provides index by default
           },
           {
-            Header: "Tittle",
+            Header: "Title",
             accessor: "title",
             Cell: (props) => cutText(props.value, 20, "...")
           },

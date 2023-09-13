@@ -9,6 +9,7 @@ const initialState = {
     assignedProjects: [],
     isLoading: false,
     error: null,
+    serviceRole: ''
 }
 
 
@@ -57,6 +58,13 @@ const ProjectReducer = (state = initialState, action) => {
                 assignedProjects: payload,
                 error: null,
             }
+            case ActionType.SAVE_ROLE:
+                return {
+                    ...state,
+                    isLoading: false,
+                    serviceRole: payload,
+                    error: null,
+                }
         case ActionType.FETCH_COMMITMENT_FEE:
             return {
                 ...state,
