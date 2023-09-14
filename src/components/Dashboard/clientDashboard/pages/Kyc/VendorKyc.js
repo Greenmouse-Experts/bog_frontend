@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { CircularProgressbar } from "react-circular-progressbar";
+// import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 import { useSelector } from "react-redux";
@@ -43,9 +43,8 @@ export const VendorKyc = () => {
     uploadDocument: 16,
   });
 
+  // eslint-disable-next-line
   const percentage = () => {
-    // const kycScoreArr = Object.keys(kycScore);
-    // const kycTotalArr = Object.keys(kycTotal);
     let score = 0;
     let total = 0;
     Object.keys(kycScore).forEach((kycEl) => {

@@ -120,7 +120,7 @@ export const TaxDetails = ({
         <input
           value={formData.VAT}
           onChange={(e) => updateValue(e.target.value, "VAT")}
-          type="number"
+          type="text"
           className="w-full mt-2 p-2 border border-gray-400 rounded"
         />
       </div>
@@ -129,7 +129,7 @@ export const TaxDetails = ({
         <input
           value={formData.TIN}
           onChange={(e) => updateValue(e.target.value, "TIN")}
-          type="number"
+          type="text"
           className="w-full mt-2 p-2 border border-gray-400 rounded"
         />
       </div>

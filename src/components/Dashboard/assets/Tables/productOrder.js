@@ -19,7 +19,6 @@ import { useExportData } from "react-table-plugins";
 import Papa from "papaparse";
 import * as XLSX from 'xlsx'
 import { Loader } from "../../../layouts/Spinner";
-import { BsThreeDotsVertical } from "react-icons/bs";
 
  
 

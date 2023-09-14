@@ -197,7 +197,7 @@ export const FinanceData = ({
   useEffect(() => {
     !isLoaded && dataLoader();
     setDataLoaded(true);
-    fetch(`https://maylancer.org/api/nuban/banklist.php/`)
+    fetch(`https://nigerianbanks.xyz`)
       .then((response) => response.json())
       .then((data) => setBanks(data));
     loadData__();
