@@ -55,6 +55,9 @@ const SuggestedPartners = ({ data, closeModal, prjId, loading }) => {
                             <div className="flex lg:px-6 px-5 overflow-auto" style={{ maxHeight: '450px' }}>
                                 <form>
                                     <p className='fs-700'>Suggested Service Partners</p>
+                                    {
+                                        !data.length && <p className='py-6'>There are Service Providers Currently</p>
+                                    }
                                     {data.length > 0 ? data.map((item, index) => (
                                         <>
                                             <div className="flex my-6" key={index}>
@@ -71,8 +74,8 @@ const SuggestedPartners = ({ data, closeModal, prjId, loading }) => {
                                                         <p>{item?.service_user.name}</p>
                                                         <p className="text-gray-600">Service Partner</p>
                                                         <div className="flex">
-                                                            <p className="text-gray-600">KYC Points:</p>
-                                                            <p className="pl-3">{item?.kycPoint}</p>
+                                                            <p className="text-gray-600">Rating Points:</p>
+                                                            <p className="pl-3">{item?.rating}</p>
                                                         </div>
                                                     </div>
                                                 </div>

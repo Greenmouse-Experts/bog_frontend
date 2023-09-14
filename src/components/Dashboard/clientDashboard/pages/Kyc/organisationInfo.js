@@ -33,13 +33,6 @@ export const OrganisationInfo = ({
     "200-500 million",
     "Over 500 million",
   ];
-  const perform = [
-    "Over 15% of time",
-    "10%-15% of time",
-    "5%-10% of time",
-    "Less than 5% of time",
-    "On/Before time",
-  ];
   const gotoPrev = () => {
     handleOpen(tab - 1);
   };

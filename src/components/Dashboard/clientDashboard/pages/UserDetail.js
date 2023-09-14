@@ -410,11 +410,19 @@ export default function UserDetails() {
                       </div>
                     </div>
                     {client?.profile?.isVerified ? (
-                      <div className="absolute top-5 right-5 flex items-center">
+                      <div className="absolute -top-4 text-center right-0">
+                          {client.userType === 'professional' && (
+                            <div className="flex items-center gap-x-2">
+                              <p className="fw-600 fs-300 text-secondary">Rating</p>
+                              <p className="fw-600 text-primary text-lg">{projects.rating}</p>
+                            </div>
+                          )}
+                        <div className="flex justify-center items-center">
                         <MdVerified className="text-3xl text-secondary" />
                         <p className="fw-600 text-primary">
                           {client?.profile.kycPoint}
                         </p>
+                        </div>
                       </div>
                     ) : (
                       ""

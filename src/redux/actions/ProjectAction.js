@@ -537,7 +537,7 @@ export const getSelectedPartners = (score, projectId, stopLoading) => {
         },
       };
       const body = {
-        score,
+        rating: score.score,
       };
       const response = await axios.put(
         "/projects/list-providers/" + projectId,

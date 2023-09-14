@@ -7,7 +7,7 @@ const DispatchProjectModal = ({closeModal, getProjectPartner}) => {
 
     const setData = (number) => {
         setScore(number);
-        if ((number === 0) || (isNaN(number) || (number > 100))) {
+        if ((number === 0) || (isNaN(number) || (number > 5))) {
             setError(true)
         }
         else {
@@ -23,14 +23,14 @@ const DispatchProjectModal = ({closeModal, getProjectPartner}) => {
     return (
         <div className="fixed font-primary left-0 top-0 w-full h-screen bg-op center-item z-40" onClick={closeModal}>
             <div className="bg-white lg:w-5/12 rounded-md  overscroll-none  w-11/12 pt-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
-                <div className="flex lg:px-6 px-5">
+                <div className="lg:px-6 px-5">
                     <form>
-                        <p className='fs-700'>Dispatch Project to Service Partners with score.</p>
-                        <div className='flex items-center mt-5'>
-                            <p>Enter score for selecting service partner</p>
-                            <div className='flex items-center border rounded ml-4 w-24'>
-                                <input type='number' value={score} onChange={(e) => setData(e.target.valueAsNumber)} className='w-10/12 p-1'/>
-                                <p className='p-1 fw-600'>%</p>
+                        <p className='fs-700 border-b border-gray-600 pb-1'>Dispatch Project to Service Partners with score.</p>
+                        <div className=' mt-5'>
+                            <p>Enter rating score for selecting service partner</p>
+                            <div className='flex items-center border rounded mt-3 w-8/12 p-2'>
+                            <p className='p-1 fw-600 w-3/12'>(0-5)</p>
+                                <input type='number' placeholder='Enter Rating Score' value={score} onChange={(e) => setData(e.target.valueAsNumber)} className='w-9/12 border-l pl-4 p-1 ml-1 outline-none'/>
                             </div>
                         </div>
                     </form>
