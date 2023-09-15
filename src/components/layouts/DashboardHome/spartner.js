@@ -139,7 +139,7 @@ export default function ServiceDashboard() {
                   {user?.profile?.kycPoint} KYC Point
                 </p>
                 <div>
-                  <p><span className="fw-600 text-[21px]">{user?.rating}</span> /5 <span className="text-gray-600">Score Ratings</span></p>
+                  <p><span className="fw-600 text-[21px]">{user?.profile?.rating}</span> /5 <span className="text-gray-600">Score Ratings</span></p>
                 </div>
               </div>
               <div>

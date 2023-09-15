@@ -277,7 +277,7 @@ export const JobExecution = ({
             <div className="lg:w-6/12 lg:pl-3 mt-5">
               <label className="fw-500">Value (NGN)</label>
               <input
-                type="text"
+                type="number"
                 name="name"
                 value={formData.value}
                 onChange={(e) => updateValue(e.target.value, "value")}
