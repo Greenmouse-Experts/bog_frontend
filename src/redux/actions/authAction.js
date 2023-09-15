@@ -104,14 +104,24 @@ export const register = (apiData, navigate, stopLoading) => {
             const response = await axios.post(url, apiData);
             dispatch(registerSuccess(response));
             localStorage.removeItem("reference");
+            console.log(response);
             stopLoading();
-            Swal.fire({
+            if(response.exists){
+                Swal.fire({
+                    title: "New Account Profile Created Successfully",
+                    icon: "success",
+                    text: "Proceed to login, your recently created profile has been included in your profile collection."
+                }).then(() => {
+                    navigate("/login");
+                })
+            }else Swal.fire({
                 title: "Registration Completed Successfully",
                 icon: "success",
                 text: "Check Your E-mail to complete verification"
             }).then(() => {
                 navigate("/login");
             })
+            
         } catch (error) {
             const errors = error.response.data.message;
             dispatch(setError(errors));

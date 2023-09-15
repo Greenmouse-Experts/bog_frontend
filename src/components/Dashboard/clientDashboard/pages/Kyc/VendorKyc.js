@@ -143,13 +143,20 @@ export const VendorKyc = () => {
           >
             Tax Details and Permits
           </div>
-          <div
+          {
+            user?.userType === "professional" ||
+            user?.userType === "product_partner" ?
+            <div
             style={open === 4 ? activeStyle : undefined}
             className="px-3 w-36 lg:w-auto cursor-pointer"
             onClick={() => handleOpen(4)}
           >
             Work/Job Execution Experience
           </div>
+          :
+          null
+          }
+          
           {user?.userType === "vendor" ||
           user?.userType === "product_partner" ? (
             <div
