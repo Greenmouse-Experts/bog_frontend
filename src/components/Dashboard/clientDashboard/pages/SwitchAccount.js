@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {Avatar, Breadcrumbs } from "@material-tailwind/react";
+import {Avatar, Breadcrumbs, Button } from "@material-tailwind/react";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
@@ -125,6 +125,9 @@ export const SwitchAccount = () => {
                             {accounts.length > 0 ? accounts.filter(where => where.userType !== user?.userType).map(acct => {
                                 return <AccountType key={acct.id} account={acct} switchAccount={switchAccount} />
                             }) : <h5>No Other Accounts</h5>
+                            }
+                            {
+                                accounts.length <= 3 && <div className="mt-6 flex justify-center border-t pt-3"><Button  className="bg-primary py-2 lg:py-3" onClick={() => navigate('/signup')}>Create New Account Profile</Button></div>
                             }
                         </div>
                     </div>

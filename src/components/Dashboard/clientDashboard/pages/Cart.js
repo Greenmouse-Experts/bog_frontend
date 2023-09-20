@@ -2,23 +2,43 @@
 import { Breadcrumbs } from "@material-tailwind/react";
 // import React from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CartItems from "./CartItems";
 import { Loader } from "../../../layouts/Spinner";
 import React, { useState, useEffect } from "react";
 import { FaShoppingBasket, FaTimes } from 'react-icons/fa'
 import { CartModal } from "../../../pages/cart/CartModal";
+import Swal from "sweetalert2";
 
 export default function Cart() {
     const carts = useSelector((state) => state.cart.cart);
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
     const[cartForm, setCartForm] = useState(false)
+    const auth = useSelector((state) => state.auth);
+    const navigate = useNavigate()
 
   const CloseModal = () => {
     setCartForm(false)
   }
-
+  const FillAdress = () => {
+    Swal.fire({
+      title: "",
+      imageUrl:
+        "https://res.cloudinary.com/greenmouse-tech/image/upload/v1685457317/BOG/info_djndzm.webp",
+      imageWidth: "75px",
+      text: "To continue, kindly complete the mandatory address fields on your dashboard.",
+      confirmButtonText: "Continue",
+      confirmButtonColor: "#3F79AD",
+    }).then((result) => {
+        navigate("/dashboard/settings");
+    });
+  };
+  const checkAdress = () => {
+    if(auth.user.address && auth.user.state){
+      setCartForm(true)
+    }else FillAdress()
+  }
     const formatNumber = (number) => {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
@@ -132,7 +152,7 @@ export default function Cart() {
                                               </div>
                                                 <button
                                                     type="button"
-                                                    onClick={() =>setCartForm(true)}
+                                                    onClick={checkAdress}
                                                     className="w-full cursor-pointer text-center btn bg-primary text-white"
                                                   >
                                                     PROCEED TO CHECKOUT
@@ -151,8 +171,8 @@ export default function Cart() {
             {
                 cartForm && (
                     <div className="bg-op fixed z-50 top-0 h-screen w-full flex justify-center items-center"  onClick={CloseModal}>
-                        <div className="max-h-103 p-5 lg:p-10 bg-white w-11/12 lg:w-6/12 relative overflow-y-scroll " onClick={(e) => e.stopPropagation()}>
-                        <FaTimes className="text-2xl cursor-pointer absolute top-5 right-5" onClick={CloseModal} />
+                        <div className="max-h-103 p-4 lg:p-7 bg-white w-11/12 lg:w-6/12 relative overflow-y-scroll " onClick={(e) => e.stopPropagation()}>
+                        <FaTimes className="text-2xl cursor-pointer absolute top-4 right-5" onClick={CloseModal} />
                         <CartModal CloseModal={CloseModal} />
                         </div>
                     </div>

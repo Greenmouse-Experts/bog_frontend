@@ -13,6 +13,8 @@ import { getMyProject } from "../../../redux/actions/ProjectAction";
 import { Loader } from "../Spinner";
 import { getStatus } from "../../../services/helper";
 import EmptyData from "../../Dashboard/assets/UI/EmptyData";
+import { RiShoppingBasketLine } from "react-icons/ri";
+import { MdHomeRepairService } from "react-icons/md";
 
 export default function PclientDashboard() {
   const dispatch = useDispatch();
@@ -62,29 +64,48 @@ export default function PclientDashboard() {
 
   return (
     <div className="min-h-screen">
-      <div className="w-full py-6 lg:px-8 bg-white px-4">
-        <div className="text-2xl fw-600 flex items-center">
-          <p className="">Welcome, {user?.name}</p>
-          <FontAwesomeIcon icon={faThumbsUp} className="pl-3 text-secondary" />
+      <div className="w-full lg:flex justify-between py-6 lg:px-8 bg-white px-4">
+        <div>
+          <div className="text-2xl fw-600 flex items-center">
+            <p className="">Welcome, {user?.name}</p>
+            <FontAwesomeIcon
+              icon={faThumbsUp}
+              className="pl-3 text-secondary"
+            />
+          </div>
+          <p className="mt-3 fs-500">
+            Enjoy full control of your construction projects
+          </p>
+          <Breadcrumbs className="bg-white pl-0 mt-5">
+            <Link to="/" className="opacity-60">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+              </svg>
+            </Link>
+            <Link to="">
+              <span>Dashboard</span>
+            </Link>
+          </Breadcrumbs>
         </div>
-        <p className="mt-3 fs-500">
-          Enjoy full control of your construction projects
-        </p>
-        <Breadcrumbs className="bg-white pl-0 mt-5">
-          <Link to="/" className="opacity-60">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-            </svg>
-          </Link>
-          <Link to="">
-            <span>Dashboard</span>
-          </Link>
-        </Breadcrumbs>
+        <div className="flex justify-end gap-x-4 mt-4 lg:mt-0">
+          <div className="w-[100px] h-[100px] shadow-xl center-item circle bg-primary cursor-pointer hover:scale-105 duration-100" onClick={() => navigate('/shop')}>
+            <div className="text-center text-white">
+            <RiShoppingBasketLine className="mx-auto text-3xl "/>
+            <p className="fs-300 fw-600">Shop Now</p>
+            </div>
+          </div>
+          <div className="w-[100px] h-[100px] shadow-xl center-item circle bg-secondary cursor-pointer hover:scale-105 duration-100" onClick={() => navigate('/services')}>
+            <div className="text-center text-white">
+            <MdHomeRepairService className="mx-auto text-3xl "/>
+            <p className="fs-300 fw-600">Request Sevice</p>
+            </div>
+          </div>
+        </div>
       </div>
       <div className=" p-5">
         <div className="mt-3">
@@ -211,11 +232,9 @@ export default function PclientDashboard() {
                         </th>
                       </tr>
                     </thead>
-                    {
-                      order.length > 0? 
+                    {order.length > 0 ? (
                       <tbody className="fw-400">
-                      {
-                        order.slice(0, 6).map((item, index) => {
+                        {order.slice(0, 6).map((item, index) => {
                           return (
                             <tr key={index}>
                               <td className="border-b border-gray-200 align-middle  text-sm whitespace-nowrap px-2 py-4 text-left">
@@ -236,12 +255,12 @@ export default function PclientDashboard() {
                             </tr>
                           );
                         })}
-                    </tbody>
-                    :
-                    <div className="w-full absolute top-20">
-                        <EmptyData message='No Orders Yet'/>
-                    </div>
-                    }
+                      </tbody>
+                    ) : (
+                      <div className="w-full absolute top-20">
+                        <EmptyData message="No Orders Yet" />
+                      </div>
+                    )}
                   </table>
                 </div>
               </CardBody>
@@ -255,7 +274,7 @@ export default function PclientDashboard() {
               {order?.length > 0 ? (
                 <UserOrderAnal order={order} />
               ) : (
-                <EmptyData message='No Orders Yet'/>
+                <EmptyData message="No Orders Yet" />
               )}
             </div>
           </div>
@@ -267,8 +286,12 @@ export default function PclientDashboard() {
               <p className="text-lg fw-600">Project Analysis</p>
             </div>
             <div className="mt-4 px-4 ">
-             {project && !project.length && <EmptyData message='No Projects Yet'/>}
-             {project && !!project.length && <ProjectChart data={myProjects} />}
+              {project && !project.length && (
+                <EmptyData message="No Projects Yet" />
+              )}
+              {project && !!project.length && (
+                <ProjectChart data={myProjects} />
+              )}
             </div>
           </div>
           {/* ongoing projects */}
@@ -284,8 +307,11 @@ export default function PclientDashboard() {
               </p>
             </div>
             <div className="pt-5 text-sm fw-600 px-6">
-              {project && !project.length && <EmptyData message='No Projects Yet'/>}
-              {myProjects && !!myProjects.length &&  (
+              {project && !project.length && (
+                <EmptyData message="No Projects Yet" />
+              )}
+              {myProjects &&
+                !!myProjects.length &&
                 myProjects.slice(0, 5).map((item) => (
                   <div className="flex mt-5 justify-between items-center">
                     <div className="w-full">
@@ -301,8 +327,7 @@ export default function PclientDashboard() {
                       </div>
                     </div>
                   </div>
-                ))
-              )}
+                ))}
             </div>
           </div>
         </div>

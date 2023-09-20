@@ -69,6 +69,7 @@ export const CartModal = ({ CloseModal }) => {
   const [phoneNo, setPhoneNo] = useState("");
   const [insuranceId, setInsuranceId] = useState("");
   const [country, setCountry] = useState("");
+  const [isChecked, setIsChecked] = useState(false)
 
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -125,6 +126,8 @@ export const CartModal = ({ CloseModal }) => {
   };
 
   const getAddressInfo = (id) => {
+    setIsChecked(false)
+    setInsure(false)
     if (id !== "") {
       const _address = addresses.find((_a) => _a.id === id);
 
@@ -138,9 +141,14 @@ export const CartModal = ({ CloseModal }) => {
   };
 
   const addInsuranceCharge = () => {
-    if (Number(insure) > 0) {
-      setAddInsure(!addInsure);
-    } else {
+    if(Number(insure) > 0){
+      setIsChecked(!isChecked)
+      if(!isChecked){
+        setAddInsure(true)
+      }else{
+        setAddInsure(false)
+      }
+    }else{
       toast.error("No Insurance for selected location");
     }
   };
@@ -275,9 +283,10 @@ export const CartModal = ({ CloseModal }) => {
 
   return (
     <div>
+      <p className="border-b border-gray-300 pb-1 fw-600">Receiver's Information</p>
       <form onSubmit={form.handleSubmit}>
         <div className="mt-3">
-          <label className="block">Contact Name</label>
+          <label className="block">Name</label>
           <input
             type="text"
             placeholder="enter contact name"
@@ -296,7 +305,7 @@ export const CartModal = ({ CloseModal }) => {
         </div>
         <div className="lg:flex">
           <div className="w-full lg:w-6/12  mt-3">
-            <label className="block">Contact Email</label>
+            <label className="block">Email</label>
             <input
               type="text"
               placeholder="enter contact email"
@@ -413,6 +422,7 @@ export const CartModal = ({ CloseModal }) => {
         <div className="mt-6 flex items-center gap-x-2">
           <input
             type="checkbox"
+            checked={isChecked} 
             onChange={addInsuranceCharge}
             className="w-4 mt-1"
           />

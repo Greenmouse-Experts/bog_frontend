@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "./home-comp/Footer";
 import Header from "./home-comp/Header";
+import { Link } from "react-router-dom";
 
 export default function Privacy() {
 
@@ -20,7 +21,7 @@ export default function Privacy() {
           <div className="box">
             <div>
               <p className="lg:py-6 pb-6 fw-600 fs-700">Privacy Policy for BOG</p>
-              <p className="">At BOG, accessible from www.xxxxxxxxxxx one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by BOG and how we use it.</p>
+              <p className="">At BOG, accessible from <Link to='/'>www.buildonthego.com</Link>, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by BOG and how we use it.</p>
               <p className="mt-4">If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.</p>
               <div className="mt-4">
                 <p className="fw-600 fs-700">Log Files</p>

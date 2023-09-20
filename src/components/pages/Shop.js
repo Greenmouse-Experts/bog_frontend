@@ -161,9 +161,9 @@ export default function Shop() {
                         <div>
                             <p className="text-2xl fw-600 mb-5">Search Products</p>
                             <div className="lg:flex items-center justify-between">
-                                <div class=" relative border lg:w-4/12 border-gray-500 rounded  text-gray-600 hidden lg:block">
-                                    <input id="search-box" placeholder="Search Blog Post" onChange={filterBySearch} class=" lg:w-11/12 bg-white h-10 px-2  rounded text-sm focus:outline-none" />
-                                    <button type="submit" class="absolute bg-tertiary right-0 top-0 py-2 px-4 rounded-r">
+                                <div className=" relative border lg:w-4/12 border-gray-500 rounded  text-gray-600 hidden lg:block">
+                                    <input id="search-box" placeholder="Search Blog Post" onChange={filterBySearch} className=" lg:w-11/12 bg-white h-10 px-2  rounded text-sm focus:outline-none" />
+                                    <button type="submit" className="absolute bg-tertiary right-0 top-0 py-2 px-4 rounded-r">
                                         <FontAwesomeIcon icon={faSearch} className="text-white" />
                                     </button>
                                 </div>

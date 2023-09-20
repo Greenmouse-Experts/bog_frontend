@@ -117,12 +117,6 @@ export default function ProductDetail() {
     <div>
       <div className="font-primary">
         <Header />
-        <div className="bg-shop bg-cover bg-center text-white h-40 lg:h-80  flex items-center">
-          <div className="box">
-            <p className="lg:text-4xl text-2xl fw-700 mb-2">Products</p>
-            <p>Buy top quality building materials for your project</p>
-          </div>
-        </div>
         {loading || !item ? (
           <Spinner2 />
         ) : (

@@ -8,7 +8,6 @@ import {
 // import CartItem from './CartItem';
 import Footer from "./home-comp/Footer";
 import Header from "./home-comp/Header";
-// import { PaystackButton } from "react-paystack";
 import { MdDeleteOutline } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { SuccessAlertWithRedirection } from "../../services/endpoint";
@@ -56,6 +55,24 @@ export const Cart = () => {
       }
     });
   };
+  const FillAdress = () => {
+    Swal.fire({
+      title: "",
+      imageUrl:
+        "https://res.cloudinary.com/greenmouse-tech/image/upload/v1685457317/BOG/info_djndzm.webp",
+      imageWidth: "75px",
+      text: "To continue, kindly complete the mandatory address fields on your dashboard.",
+      confirmButtonText: "Continue",
+      confirmButtonColor: "#3F79AD",
+    }).then((result) => {
+        navigate("/dashboard/settings");
+    });
+  };
+  const checkAdress = () => {
+    if(auth.user.address && auth.user.state){
+      setCartForm(true)
+    }else FillAdress()
+  }
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -291,7 +308,7 @@ export const Cart = () => {
 
                             {auth.isAuthenticated ? (
                               <p
-                                onClick={() => setCartForm(true)}
+                                onClick={checkAdress}
                                 className="w-full cursor-pointer text-center btn bg-primary text-white"
                               >
                                 PROCEED TO CHECKOUT

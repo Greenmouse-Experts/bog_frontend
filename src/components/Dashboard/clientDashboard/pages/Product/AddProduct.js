@@ -41,11 +41,12 @@ const AddProduct = ({ categoryArr }) => {
       price: 0,
       quantity: 0,
       description: "",
+      min_quantity: 0,
     },
     validationSchema: productSchema,
     onSubmit: createNewProduct,
   });
-  const { name, price, quantity, description } = formik.values;
+  const { name, price, quantity, description, min_quantity } = formik.values;
   const changeCategory = (val) => {
     const value = val.value;
     setCategory(value);
@@ -120,6 +121,37 @@ const AddProduct = ({ categoryArr }) => {
           />
           {formik.touched.quantity && formik.errors.quantity ? (
             <p className="text-red-500">{formik.errors.quantity}</p>
+          ) : null}
+        </div>
+        
+        <div className="mt-5">
+          <label className="block">Minimum Purchase</label>
+          <input
+            type="number"
+            className="w-full lg:w-10/12 border border-gray-400 rounded mt-2 py-2 px-2"
+            id="min_quantity"
+            name="min_quantity"
+            value={min_quantity}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.min_quantity && formik.errors.min_quantity ? (
+            <p className="text-red-500">{formik.errors.min_quantity}</p>
+          ) : null}
+        </div>
+        <div className="mt-5">
+          <label className="block">Maximum Purchase</label>
+          <input
+            type="number"
+            className="w-full lg:w-10/12 border border-gray-400 rounded mt-2 py-2 px-2"
+            id="min_quantity"
+            name="min_quantity"
+            value={min_quantity}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.min_quantity && formik.errors.min_quantity ? (
+            <p className="text-red-500">{formik.errors.min_quantity}</p>
           ) : null}
         </div>
         <div className="mt-5">
