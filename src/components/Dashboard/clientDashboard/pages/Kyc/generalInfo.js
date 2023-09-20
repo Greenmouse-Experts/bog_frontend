@@ -27,7 +27,7 @@ export const GeneralInfo = ({
 
   const services = [
     {
-      name: "Quantity Surveyour",
+      name: "Quantity Surveyor",
       value: 'quantity_surveyor',
       cert: [
         "HND, MNIQS, RQS",
@@ -107,8 +107,10 @@ export const GeneralInfo = ({
   const years = ["3-5", "6-10", "11-15", "16-20", "Over 20"];
  
   const getCert = (val) => {
+   if(val){
     const filter = services.filter((where) => where.value === val)
     return filter
+   }else return []
   }
   const [formData, setFormData] = useState({
     organisation_name: users?.profile?.company_name,

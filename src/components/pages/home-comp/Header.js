@@ -47,9 +47,9 @@ export default function Header() {
                     <div className="w-4/12 hidden lg:flex items-center">
                         <ul className="flex xl:font-600 fw-600 fw-600 w-full justify-between">
                             <li><BsList className="xl:text-3xl text-2xl cursor-pointer transition hover:scale-110" onClick={() => setHomeMenu(true)} /></li>
-                            <li><Link to="/shop">Products</Link></li>
+                            <li><Link to="/shop" className="block hover:border-b-[3px] border-blue-800 hover:text-blue-800 hover:scale-x-105 duration-100">Products</Link></li>
                             {((auth?.user?.userType !== 'professional') && (auth?.user?.userType !== 'admin') && (auth?.user?.userType !== 'vendor')) ? (
-                                <li><Link to="/services"><span className="extra3">Request for </span>Service Provider</Link></li>
+                                <li><Link to="/services" className="block hover:border-b-[3px] border-[#ec8b20] hover:text-secondary hover:scale-x-105 duration-100"><span className="extra3">Request for </span>Service Provider</Link></li>
                             )
                                 : (<li className='cursor-pointer' onClick={errorRequest}><span className="extra3">Request for </span>Service Provider</li>)
                             }

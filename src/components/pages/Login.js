@@ -19,6 +19,18 @@ export default function Login() {
 
     const [loading, setLoading] = useState(false);
     const [errorShow, setError] = useState(false);
+    const [checked, setChecked] = useState(false)
+    const [logins, setLogins] = useState();
+
+useEffect(() => {
+  const items = JSON.parse(localStorage.getItem('bog_login'));
+  if (items) {
+   setLogins(items);
+   setChecked(true)
+   formik.setFieldValue('email', items.email)
+   formik.setFieldValue('password', items.pass)
+  }
+}, []);
 
     let errorCatch = useSelector((state) => state.auth.error);
     const stopLoading = () => setLoading(false);
@@ -27,6 +39,16 @@ export default function Login() {
     const handleSubmit = (values) => {
         setLoading(true)
         dispatch(loginUser(values, navigate, stopLoading, displayError));
+    }
+    const handleRemember = () => {
+        setChecked(!checked)
+        const login = {
+            email: formik.values.email,
+            pass: formik.values.password
+        }
+        if(!checked){
+            localStorage.setItem('bog_login', JSON.stringify(login))
+        }else localStorage.removeItem('bog_login')
     }
     const [passwordType, setPasswordType] = useState("password");
     const togglePassword = () => {
@@ -38,8 +60,8 @@ export default function Login() {
     }
     const formik = useFormik({
         initialValues: {
-            email: "",
-            password: "",
+            email: logins?.email || "",
+            password: logins?.pass ||  "",
         },
         validationSchema: loginValidation,
         onSubmit: handleSubmit,
@@ -132,7 +154,7 @@ export default function Login() {
                                     </div>
                                 </div>
                                 <div className="mt-6 w-11/12 flex">
-                                    <input type="checkbox" className="p-4 border-gray-400" />
+                                    <input type="checkbox" checked={checked} onChange={handleRemember} className="p-4 border-gray-400" />
                                     <p className="px-2">Remember me</p>
                                 </div>
                                 <div className="mt-6 w-full flex text-center">

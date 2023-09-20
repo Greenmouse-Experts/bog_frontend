@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "./home-comp/Footer";
 import Header from "./home-comp/Header";
+import { Link } from "react-router-dom";
 
 export default function Refund() {
 
@@ -20,7 +21,7 @@ export default function Refund() {
                   <div className="box">
                     <div>
                       <p className="lg:py-6 pb-6 fw-600 fs-700">Return & Refund Policy</p>
-                      <p className="">Thanks for shopping at **************.com</p>
+                      <p className="">Thanks for shopping at <Link to='/'>www.buildonthego.com</Link></p>
                       <p className="mt-4">If you are not entirely satisfied with your purchase or rendered service, we're here to help.</p>
                       <div className="mt-4">
                         <p className="fw-600 fs-700">Returns</p>

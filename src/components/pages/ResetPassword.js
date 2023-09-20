@@ -8,6 +8,7 @@ import Spinner from "../layouts/Spinner";
 import Axios from "../../config/config";
 import Swal from "sweetalert2";
 import toast from 'react-hot-toast';
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 export default function ResetPassword() {
     const { search } = useLocation();
@@ -16,6 +17,14 @@ export default function ResetPassword() {
     const navigate = useNavigate();
     const error = useSelector((state) => state.auth.error);
     const [loading, setLoading] = useState(false);
+    const [passwordType, setPasswordType] = useState("password");
+    const togglePassword = (index) => {
+        if (passwordType === "password") {
+            setPasswordType("text")
+            return;
+        }
+        setPasswordType("password")
+    }
     const handleSubmit = async (values) => {
         try {
             setLoading(true)
@@ -87,16 +96,21 @@ export default function ResetPassword() {
                                             New Password
                                         </label>
                                     </div>
+                                    <div className="flex mt-2 items-center border-gray-400 rounded border">
                                     <input
-                                        type="password"
+                                        type={passwordType}
                                         placeholder="enter your password"
-                                        className="w-full border-gray-400 mt-2 py-2 px-2 rounded border"
+                                        className="w-full py-2 px-2"
                                         name="password"
                                         value={password}
                                         id="password"
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                     />
+                                    <div onClick={() => togglePassword(1)} className="px-3">
+                                            {passwordType === "password" ? <FaRegEyeSlash className="text-xl" /> : <FaRegEye className="text-xl" />}
+                                        </div>
+                                    </div>
                                     {
                                         formik.touched.password && formik.errors.password ? <p className='text-red-500'>{formik.errors.password}</p> : null
                                     }
@@ -107,16 +121,21 @@ export default function ResetPassword() {
                                             Confirm Password
                                         </label>
                                     </div>
+                                    <div className="flex mt-2 items-center border-gray-400 rounded border">
                                     <input
-                                        type="password"
-                                        placeholder="Confirm Password"
-                                        className="w-full border-gray-400 mt-2 py-2 px-2 rounded border"
+                                        type={passwordType}
+                                        placeholder="confirm password"
+                                        className="w-full py-2 px-2"
                                         name="confirmPassword"
                                         value={confirmPassword}
                                         id="confirmPassword"
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                     />
+                                    <div onClick={() => togglePassword(2)} className="px-3">
+                                            {passwordType === "password" ? <FaRegEyeSlash className="text-xl" /> : <FaRegEye className="text-xl" />}
+                                        </div>
+                                    </div>
                                     {
                                         formik.touched.confirmPassword && formik.errors.confirmPassword ? <p className='text-red-500'>{formik.errors.confirmPassword}</p> : null
                                     }

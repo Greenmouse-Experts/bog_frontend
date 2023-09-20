@@ -19,7 +19,9 @@ function Products({ currentItems }) {
                         <div className="shadow-md px-3 pb-6 pt-3 lg:mt-12 mt-6 rounded-md" key={item.id}>
 
                             <Link to={`/shop/${item.id}`}>
-                                <img src={`${item.image}`} alt="products" className="w-full h-20 lg:h-40 mx-auto" />
+                                <div className='w-full h-20 lg:h-40 '>
+                                <img src={`${item.image}`} alt="products" className="h-full w-full object-cover" />
+                                </div>
                                 <p className="lg:fs-600 fs-300 fw-500  lg:pt-6 pt-2">{item.name}</p>
                                 {
                                 item.star > 0 ? 
