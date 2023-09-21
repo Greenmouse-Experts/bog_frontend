@@ -168,7 +168,7 @@ export default function About() {
             <div className="box">
                 <div>
                     <div className="lg:text-2xl text-xl fw-600 lg:w-4/12">
-                        <p>See what our Clients and Patners have to say about us </p>
+                        <p>See what our Clients and Partners have to say About Us </p>
                     </div>
                     <div className="mt-12 hidden lg:block">
                         {
