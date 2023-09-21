@@ -19,6 +19,7 @@ export default function Footer(){
                                 <li className="py-1"><Link to="/about" className="cursor-pointer">About</Link></li>
                                 <li className="py-1"><Link to="/faqs" className="cursor-pointer">FAQs</Link></li>
                                 <li className="py-1"><Link to="/contact" className="cursor-pointer">Contact Us</Link></li>
+                                <li className="py-1"><Link to="/blog" className="cursor-pointer">Blogs</Link></li>
                             </ul>
                         </div>
                         <div className="lg:w-2/12 mt-10 lg:mt-0">

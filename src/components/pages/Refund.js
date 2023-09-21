@@ -4,8 +4,6 @@ import Header from "./home-comp/Header";
 import { Link } from "react-router-dom";
 
 export default function Refund() {
-
-   
     return (
         <div>
             <div className="font-primary">

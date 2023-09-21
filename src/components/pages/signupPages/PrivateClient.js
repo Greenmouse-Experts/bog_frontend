@@ -369,10 +369,10 @@ const PrivateClient = () => {
             <FcGoogle className="text-2xl" />
             <button className="">Sign Up with Google</button>
           </div>
-          <div className="mt-4 flex cursor-pointer items-center justify-evenly border py-2 rounded-lg shadow bg-black text-white">
+          {/* <div className="mt-4 flex cursor-pointer items-center justify-evenly border py-2 rounded-lg shadow bg-black text-white">
             <BsApple className="text-2xl" />
             <button className="">Sign Up with Apple</button>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="mt-10">
