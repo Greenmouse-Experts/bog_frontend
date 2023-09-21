@@ -16,7 +16,7 @@ const CartReducer = (state = initialState, action) => {
             const product = oldArr.find(where => where.id === payload.id)
             if(product){
                 const index = oldArr.findIndex(where => where.id === payload.id)
-                oldArr[index].quantity + payload.quantity;
+                oldArr[index].quantity +=1;
                 cartElement = oldArr
                 localStorage.setItem("carts", JSON.stringify(cartElement))
             }else{
