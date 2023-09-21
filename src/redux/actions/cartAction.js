@@ -2,7 +2,8 @@ import * as ActionType from '../type';
 // import axios from '../../config/config';
 
 export const addToCart = (payload, cartNum) => {
-    payload.qty = cartNum;
+    payload.quantity = cartNum;
+    console.log(payload);
     return {
         type: ActionType.ADD_TO_CART,
         payload

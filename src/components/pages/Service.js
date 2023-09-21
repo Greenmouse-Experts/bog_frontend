@@ -34,6 +34,25 @@ export default function Service() {
   const auth = useSelector((state) => state.auth);
   //const user = useSelector((state) => state.auth.user);
 
+  const FillAdress = () => {
+    Swal.fire({
+      title: "",
+      imageUrl:
+        "https://res.cloudinary.com/greenmouse-tech/image/upload/v1685457317/BOG/info_djndzm.webp",
+      imageWidth: "75px",
+      text: "To continue, kindly complete the mandatory address fields on your dashboard.",
+      confirmButtonText: "Continue",
+      confirmButtonColor: "#3F79AD",
+    }).then((result) => {
+        navigate("/dashboard/settings");
+    });
+  };
+  const checkAdress = (id) => {
+    if(auth.user.address && auth.user.state){
+      setServiceCategory(id)
+    }else FillAdress()
+  }
+
   const [servicesType, setServicesType] = useState([]);
   const [formDisplay, setServiceFormDisplay] = useState(false);
   const [selectedService, setSelectedService] = useState("");
@@ -174,7 +193,7 @@ export default function Service() {
                         {
                           // eslint-disable-next-line
                           auth.isAuthenticated
-                            ? setServiceCategory(category.id)
+                            ? checkAdress(category.id)
                             : AuhtCheck();
                         }
                       }}

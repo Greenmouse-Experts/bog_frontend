@@ -28,6 +28,8 @@ const AddProduct = ({ categoryArr }) => {
     fd.append("name", value.name);
     fd.append("price", value.price);
     fd.append("quantity", value.quantity);
+    fd.append("min_qty", value.min_qty);
+    fd.append("max_qty", value.max_qty);
     fd.append("unit", units);
     fd.append("description", value.description);
     fd.append("categoryId", category);
@@ -41,12 +43,13 @@ const AddProduct = ({ categoryArr }) => {
       price: 0,
       quantity: 0,
       description: "",
-      min_quantity: 0,
+      min_qty: 0,
+      max_qty: 0
     },
     validationSchema: productSchema,
     onSubmit: createNewProduct,
   });
-  const { name, price, quantity, description, min_quantity } = formik.values;
+  const { name, price, quantity, description, min_qty, max_qty } = formik.values;
   const changeCategory = (val) => {
     const value = val.value;
     setCategory(value);
@@ -129,14 +132,14 @@ const AddProduct = ({ categoryArr }) => {
           <input
             type="number"
             className="w-full lg:w-10/12 border border-gray-400 rounded mt-2 py-2 px-2"
-            id="min_quantity"
-            name="min_quantity"
-            value={min_quantity}
+            id="min_qty"
+            name="min_qty"
+            value={min_qty}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.touched.min_quantity && formik.errors.min_quantity ? (
-            <p className="text-red-500">{formik.errors.min_quantity}</p>
+          {formik.touched.min_qty && formik.errors.min_qty ? (
+            <p className="text-red-500">{formik.errors.min_qty}</p>
           ) : null}
         </div>
         <div className="mt-5">
@@ -144,14 +147,14 @@ const AddProduct = ({ categoryArr }) => {
           <input
             type="number"
             className="w-full lg:w-10/12 border border-gray-400 rounded mt-2 py-2 px-2"
-            id="min_quantity"
-            name="min_quantity"
-            value={min_quantity}
+            id="max_qty"
+            name="max_qty"
+            value={max_qty}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.touched.min_quantity && formik.errors.min_quantity ? (
-            <p className="text-red-500">{formik.errors.min_quantity}</p>
+          {formik.touched.max_qty && formik.errors.max_qty ? (
+            <p className="text-red-500">{formik.errors.max_qty}</p>
           ) : null}
         </div>
         <div className="mt-5">

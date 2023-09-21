@@ -28,7 +28,7 @@ const CartReducer = (state = initialState, action) => {
                     image: payload.image,
                     product_image: payload.product_image,
                     unit: payload.unit,
-                    quantity: Number(payload.qty),
+                    quantity: Number(payload.quantity),
                 }
 
                 cartElement = oldArr.concat(neededElement);
