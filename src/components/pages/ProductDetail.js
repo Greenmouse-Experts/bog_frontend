@@ -6,7 +6,7 @@ import Header from "./home-comp/Header";
 import { useParams } from "react-router-dom";
 import { SimilarProducts } from "./shop/SimilarProduct";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { addToCart } from "../../redux/actions/cartAction";
+import { addToCart, decrementQuantity, incrementQuantity } from "../../redux/actions/cartAction";
 import ReactStars from "react-rating-stars-component";
 import { useSelector, useDispatch } from "react-redux";
 import { ProductImage } from "./shop/ProductImg";
@@ -21,11 +21,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { Alert } from "@material-tailwind/react";
 import { AddProductReview } from "./shop/AddProductReview";
 import dayjs from "dayjs";
+import { FaMinus, FaPlus } from "react-icons/fa";
 
 export default function ProductDetail() {
   // eslint-disable-next-line
   const products = useSelector((state) => state.products.products);
-  const [cartNum, setCartNum] = useState(1);
+  const [cartNum, setCartNum] = useState(0);
   const dispatch = useDispatch();
   const { itemId } = useParams();
   const [item, setItem] = useState(null);
@@ -48,6 +49,7 @@ export default function ProductDetail() {
       const res = await Axios.get(url, config);
       const data = res.data;
       setItem(data);
+      setCartNum(data.min_qty)
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -112,7 +114,16 @@ export default function ProductDetail() {
       }, 4000);
     } // eslint-disable-next-line
   }, [addItemToCart, show]);
-
+  const decrementItem = () => {
+   if(cartNum > item.min_qty){
+    setCartNum(cartNum - 1)
+   }
+  }
+  const incrementItem = () => {
+    if(cartNum < item.max_qty){
+      setCartNum(cartNum + 1)
+     }
+  }
   return (
     <div>
       <div className="font-primary">
@@ -164,12 +175,27 @@ export default function ProductDetail() {
                             </p>
                             <input
                               type="number"
-                              min={0}
-                              max={maxQuantity}
+                              min={item.min_qty}
+                              max={item.max_qty}
                               value={cartNum}
                               onChange={(e) => setCartNum(e.target.value)}
                               className="w-16 px-1 lg:px-2 rounded py-1 lg:py-2 border border-black"
                             />
+                           {/* <div className="flex items-center">
+                           <button
+                                    className="border border-gray-600 rounded fw-600 py-2 px-2 mr-2"
+                                    onClick={decrementItem}
+                                  >
+                                    <FaMinus/>
+                                  </button>
+                                  <p className="text-xl">{cartNum}</p>
+                                  <button
+                                    className="border border-gray-600 rounded fw-600 py-2 rounded px-2 ml-2"
+                                    onClick={incrementItem}
+                                  >
+                                    <FaPlus/>
+                                  </button>
+                           </div> */}
                           </div>
                           <div className="">
                             {user?.profile?.userType === "professional" ||
@@ -180,14 +206,14 @@ export default function ProductDetail() {
                               >
                                 Add To Cart
                               </button>
-                            ) : item.remaining < 1 ? (
+                            ) : item.remaining < item.min_qty ? (
                               <button
                                 className="btn-primary ml-7 px-4 lg:px-8 "
                                 onClick={() => setProductNum(true)}
                               >
                                 Out of Stock
                               </button>
-                            ) : item.remaining < cartNum ? (
+                            ) : cartNum < item.min_qty || cartNum > item.max_qty ? (
                               <button
                                 className="btn-primary ml-7 px-4 lg:px-8 "
                                 onClick={() => setProductNum(true)}
@@ -242,9 +268,9 @@ export default function ProductDetail() {
                       </div>
                       <div className="mt-4">
                         <p className="fw-500 text-gray-500">
-                          Remaining Quantity:{" "}
+                          Purchasing Range:{" "}
                           <span className="text-lg text-gray-600">
-                            {maxQuantity}
+                            {item.min_qty} - {item.max_qty}
                           </span>
                         </p>
                         <p className="mt-2 lg:mt-2 flex fw-500 text-primary fs-300 lg:fs-500">

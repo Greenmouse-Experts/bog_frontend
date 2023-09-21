@@ -16,7 +16,7 @@ const CartReducer = (state = initialState, action) => {
             const product = oldArr.find(where => where.id === payload.id)
             if(product){
                 const index = oldArr.findIndex(where => where.id === payload.id)
-                oldArr[index].quantity +=1;
+                oldArr[index].quantity + payload.quantity;
                 cartElement = oldArr
                 localStorage.setItem("carts", JSON.stringify(cartElement))
             }else{
@@ -28,7 +28,7 @@ const CartReducer = (state = initialState, action) => {
                     image: payload.image,
                     product_image: payload.product_image,
                     unit: payload.unit,
-                    quantity: Number(payload.qty),
+                    quantity: Number(payload.quantity),
                 }
 
                 cartElement = oldArr.concat(neededElement);
