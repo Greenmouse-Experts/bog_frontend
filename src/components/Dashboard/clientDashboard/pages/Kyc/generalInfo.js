@@ -5,10 +5,10 @@ import Spinner from "../../../../layouts/Spinner";
 import ActionFeedBack from "../Modals/ActionFeedBack";
 import { loadData, saveData } from "./DataHandler";
 import Axios from "../../../../../config/config";
-// import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import { saveRole } from "../../../../../redux/actions/ProjectAction";
+import PhoneInput from "react-phone-input-2";
 
 export const GeneralInfo = ({
   handleOpen,
@@ -23,12 +23,12 @@ export const GeneralInfo = ({
   const [feedback, setFeetback] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const users = useSelector((state) => state.auth.user);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const services = [
     {
       name: "Quantity Surveyor",
-      value: 'quantity_surveyor',
+      value: "quantity_surveyor",
       cert: [
         "HND, MNIQS, RQS",
         "PGD, MNIQS, RQS",
@@ -39,7 +39,7 @@ export const GeneralInfo = ({
     },
     {
       name: "Structural Engineer",
-      value: 'structural_engineer',
+      value: "structural_engineer",
       cert: [
         "HND, COREN",
         "PGD, COREN",
@@ -50,7 +50,7 @@ export const GeneralInfo = ({
     },
     {
       name: "Architects",
-      value: 'architects',
+      value: "architects",
       cert: [
         "HND, ATECH",
         "PGD, ATECH",
@@ -61,7 +61,7 @@ export const GeneralInfo = ({
     },
     {
       name: "Mechanical Engineer",
-      value: 'mechanical_engineer',
+      value: "mechanical_engineer",
       cert: [
         "HND, PGD, B.Sc, M.Sc, Ph.D",
         "PGD, MNIMECHE",
@@ -72,7 +72,7 @@ export const GeneralInfo = ({
     },
     {
       name: "Electrical Engineer",
-      value: 'electrical_engineer',
+      value: "electrical_engineer",
       cert: [
         "HND, COREN",
         "PGD, COREN",
@@ -83,7 +83,7 @@ export const GeneralInfo = ({
     },
     {
       name: "Surveyor",
-      value: 'surveyor',
+      value: "surveyor",
       cert: [
         "HND, MNIS",
         "PGD, MNIS",
@@ -94,7 +94,7 @@ export const GeneralInfo = ({
     },
     {
       name: "Civil Engineer",
-      value: 'civil_engineer',
+      value: "civil_engineer",
       cert: [
         "HND, COREN",
         "PGD, COREN",
@@ -105,17 +105,18 @@ export const GeneralInfo = ({
     },
   ];
   const years = ["3-5", "6-10", "11-15", "16-20", "Over 20"];
- 
+
   const getCert = (val) => {
-   if(val){
-    const filter = services.filter((where) => where.value === val)
-    return filter
-   }else return []
-  }
+    if (val) {
+      const filter = services.filter((where) => where.value === val);
+      return filter;
+    } else return [];
+  };
   const [formData, setFormData] = useState({
     organisation_name: users?.profile?.company_name,
     email_address: users.email,
     contact_number: null,
+    contact_number_2: null,
     reg_type: null,
     registration_number: null,
     business_address: null,
@@ -123,6 +124,7 @@ export const GeneralInfo = ({
     role: null,
     years_of_experience: null,
     certification_of_personnel: null,
+    operational_email_tel: null,
   });
   const user = useSelector((state) => state.auth.user);
   const prof = useSelector((state) => state.auth.user.userType);
@@ -131,16 +133,26 @@ export const GeneralInfo = ({
     const url = "/kyc-general-info/fetch?userType=" + user.userType;
     loadData(url, formData, setFormData);
   };
+  const checkField = () => {
+    if (
+      formData.role === "" ||
+      formData.reg_type === "" ||
+      formData.registration_number === "" ||
+      formData.business_address ||
+      formData.years_of_experience ||
+      formData.certification_of_personnel
+    ) {
+      return false;
+    } else return true;
+  };
   const DataSaver = async () => {
-    if(formData.role === ""){
-      toast.error(
-        "Please select a role field",
-        {
-            duration: 6000,
-            position: "top-center",
-            style: { background: '#BD362F', color: 'white' },
-        }
-    );
+    if (checkField()) {
+      toast.error("Please fill the required field", {
+        duration: 6000,
+        position: "top-center",
+        style: { background: "#BD362F", color: "white" },
+      });
+      return;
     }
     const url = "/kyc-general-info/create";
 
@@ -170,6 +182,7 @@ export const GeneralInfo = ({
         setFeetback,
         hasFile: false,
       });
+      handleOpen(tab + 1);
     } else {
       handleOpen(tab + 1);
     }
@@ -183,10 +196,22 @@ export const GeneralInfo = ({
     business_address: { score: 0, total: 1 },
     operational_address: { score: 0, total: 1 },
   });
-
-  // const handlePhoneChange = (formattedValue) => {
-  //   setPhoneNo(`+${formattedValue}`);
-  // };
+  const [phoneNo, setPhoneNo] = useState(formData?.contact_number);
+  const handlePhoneChange = (data) => {
+    setPhoneNo(data);
+    setFormData({
+      ...formData,
+      contact_number: `+${phoneNo}`,
+    });
+  };
+  const [phoneNo2, setPhoneNo2] = useState(formData?.contact_number_2);
+  const handlePhoneChange2 = (data) => {
+    setPhoneNo2(data);
+    setFormData({
+      ...formData,
+      contact_number_2: `+${phoneNo2}`,
+    });
+  };
 
   let newValue = {};
   const updateValue = (newVal, variable) => {
@@ -197,8 +222,8 @@ export const GeneralInfo = ({
     if (variable === "email_address") {
       newValue = { email_address: newVal };
     }
-    if (variable === "contact_number") {
-      newValue = { contact_number: newVal };
+    if (variable === "operational_email_tel") {
+      newValue = { operational_email_tel: newVal };
     }
     if (variable === "reg_type") {
       newValue = { reg_type: newVal };
@@ -269,13 +294,15 @@ export const GeneralInfo = ({
     !isLoaded && dataLoader();
     setDataLoaded(true);
     loadData__();
-    dispatch(saveRole(formData.role))
+    dispatch(saveRole(formData.role));
   }, [formData]);
 
   return (
     <div className="lg:px-4 scale-ani">
       <div>
-        <label>Name of Organisation</label>
+        <label>
+          Name of Organisation <span className="text-red-500 fw-500">*</span>
+        </label>
         <input
           value={formData.organisation_name}
           onChange={(e) => updateValue(e.target.value, "organisation_name")}
@@ -285,7 +312,9 @@ export const GeneralInfo = ({
         />
       </div>
       <div className="mt-3">
-        <label>Email Address</label>
+        <label>
+          Email Address <span className="text-red-500 fw-500">*</span>
+        </label>
         <input
           value={formData.email_address}
           onChange={(e) => updateValue(e.target.value, "email_address")}
@@ -295,74 +324,112 @@ export const GeneralInfo = ({
         />
       </div>
       <div className="mt-3">
-        <label>Office Telephone / Contact No</label>
-        <input
+        <label>
+          Office Telephone / Contact No{" "}
+          <span className="text-red-500 fw-500">*</span>
+        </label>
+        <PhoneInput
+          country={"ng"}
+          name="phone"
+          value={users?.phone}
+          className="mt-1 w-full rounded bg-white border border-gray-700"
+          inputStyle={{
+            width: "100%",
+            border: "none",
+            paddingTop: "19px",
+            paddingBottom: "19px",
+          }}
+          disabled
+        />
+      </div>
+      <div className="mt-3">
+        <label>Optional Telephone</label>
+        {/* <input
           value={formData.contact_number}
           onChange={(e) => updateValue(e.target.value, "contact_number")}
           type="number"
           className="w-full p-2 mt-2 border border-gray-400 rounded"
+        /> */}
+        <PhoneInput
+          country={"ng"}
+          name="phone"
+          value={phoneNo}
+          onChange={(phone) => handlePhoneChange(phone)}
+          className="mt-1 w-full rounded bg-white border border-gray-700"
+          inputStyle={{
+            width: "100%",
+            border: "none",
+            paddingTop: "19px",
+            paddingBottom: "19px",
+          }}
+          rules={{ required: true }}
         />
-        {/* <PhoneInput
-                  country={"ng"}
-                  name="phone"
-                  // value={String(formData?.contact_number)}
-                  onChange={(phone) => updateValue(setPhoneNo(phone), "contact_number")}
-                  className="mt-1 w-full rounded bg-white border border-gray-700"
-                  inputStyle={{
-                    width: "100%",
-                    border: "none",
-                    paddingTop: "19px",
-                    paddingBottom: "19px",
-                  }}
-                  rules={{ required: true }}
-                /> */}
       </div>
       {prof === "professional" && (
         <div>
           <div className="mt-3">
-            <label>Role</label>
-            <select  className="w-full p-2 mt-2 border border-gray-400 rounded" value={formData.role} onChange={(e) => updateValue(e.target.value, "role")}>
+            <label>
+              Role <span className="text-red-500 fw-500">*</span>
+            </label>
+            <select
+              className="w-full p-2 mt-2 border border-gray-400 rounded"
+              value={formData.role}
+              required
+              onChange={(e) => updateValue(e.target.value, "role")}
+            >
               <option>Select an Option</option>
-              {
-                services.map((item) => (
-                  <option value={item.value}>{item.name}</option>
-                ))
-              }
+              {services.map((item) => (
+                <option value={item.value}>{item.name}</option>
+              ))}
             </select>
           </div>
           <div className="mt-3 grid lg:grid-cols-2 gap-x-6 gap-y-3">
             <div>
-              <label>Years of Experience</label>
-              <select  className="w-full p-2 mt-2 border border-gray-400 rounded" value={formData.years_of_experience} onChange={(e) =>
+              <label>
+                Years of Experience{" "}
+                <span className="text-red-500 fw-500">*</span>
+              </label>
+              <select
+                className="w-full p-2 mt-2 border border-gray-400 rounded"
+                value={formData.years_of_experience}
+                required
+                onChange={(e) =>
                   updateValue(e.target.value, "years_of_experience")
-                }>
-              <option>Select an Option</option>
-              {
-                years.map((item) => (
+                }
+              >
+                <option>Select an Option</option>
+                {years.map((item) => (
                   <option value={item}>{item}</option>
-                ))
-              }
-            </select>
+                ))}
+              </select>
             </div>
             <div>
-              <label>Certification of Personnel</label>
-              <select  className="w-full p-2 mt-2 border border-gray-400 rounded" value={formData.certification_of_personnel} onChange={(e) =>
+              <label>
+                Certification of Personnel{" "}
+                <span className="text-red-500 fw-500">*</span>
+              </label>
+              <select
+                className="w-full p-2 mt-2 border border-gray-400 rounded"
+                value={formData.certification_of_personnel}
+                required
+                onChange={(e) =>
                   updateValue(e.target.value, "certification_of_personnel")
-                }>
-              <option>Select an Option</option>
-              {
-                formData.role &&
-                getCert(formData.role)[0].cert.map((item) => (
-                  <option value={item}>{item}</option>
-                ))
-              }
-            </select>
+                }
+              >
+                <option>Select an Option</option>
+                {formData.role &&
+                  getCert(formData.role)[0].cert.map((item) => (
+                    <option value={item}>{item}</option>
+                  ))}
+              </select>
             </div>
           </div>
         </div>
       )}
       <div className="mt-3">
-        <label className="">Type of Registration</label>
+        <label className="">
+          Type of Registration <span className="text-red-500 fw-500">*</span>
+        </label>
         <div className="flex items-center mt-2">
           <input
             value="Incorporation"
@@ -370,6 +437,7 @@ export const GeneralInfo = ({
             onChange={(e) => updateValue(e.target.value, "reg_type")}
             type="radio"
             name="tor"
+            required
             className=""
           />
           <label className="ml-2">Incorporation</label>
@@ -387,18 +455,25 @@ export const GeneralInfo = ({
         </div>
       </div>
       <div className="mt-3">
-        <label>Incorporation / Registration No</label>
+        <label>
+          Incorporation / Registration No{" "}
+          <span className="text-red-500 fw-500">*</span>
+        </label>
         <input
           value={formData.registration_number}
           onChange={(e) => updateValue(e.target.value, "registration_number")}
           type="number"
+          required
           className="w-full p-2 mt-2 border border-gray-400 rounded"
         />
       </div>
       <div className="mt-3">
-        <label>Business Address</label>
+        <label>
+          Business Address <span className="text-red-500 fw-500">*</span>
+        </label>
         <textarea
           value={formData.business_address}
+          required
           onChange={(e) => updateValue(e.target.value, "business_address")}
           className="w-full p-2 mt-2 border border-gray-400 rounded h-24"
         />
@@ -408,11 +483,37 @@ export const GeneralInfo = ({
           Address of other significant operational base (including
           Email/Telephone)
         </label>
-        <textarea
-          value={formData.operational_address}
-          onChange={(e) => updateValue(e.target.value, "operational_address")}
-          className="w-full p-2 mt-2 border border-gray-400 rounded h-24"
+        <div className="grid lg:grid-cols-2 items-top gap-3">
+          <textarea
+            value={formData.operational_address}
+            onChange={(e) => updateValue(e.target.value, "operational_address")}
+            className="w-full p-2 mt-2 border border-gray-400 rounded h-24"
+          />
+          <div className="grid gap-2">
+            <input
+              type="email"
+              value={formData.operational_email_tel}
+              onChange={(e) =>
+                updateValue(e.target.value, "operational_email_tel")
+              }
+              placeholder="email"
+              className="w-full p-2 mt-2 border border-gray-400 rounded"
+            />
+            <PhoneInput
+          country={"ng"}
+          name="phone2"
+          value={phoneNo2}
+          onChange={(phone) => handlePhoneChange2(phone)}
+          className="mt-1 w-full rounded bg-white border border-gray-700"
+          inputStyle={{
+            width: "100%",
+            border: "none",
+            paddingTop: "19px",
+            paddingBottom: "19px",
+          }}
         />
+          </div>
+        </div>
       </div>
       {loading ? (
         <Spinner />
