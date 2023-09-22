@@ -101,7 +101,7 @@ export const hasFileDelete = async ({url, id, user, setLoading, setData, setFeet
 }
 
 
-export const loadData = async (url, formData, setFormData) => {
+export const loadData = async (url, formData, setFormData, setIsFetching) => {
     const authToken = localStorage.getItem("auth_token");
     const config = {
         headers:
@@ -115,6 +115,7 @@ export const loadData = async (url, formData, setFormData) => {
         ...formData,
         ...newInfo.data,
     });
+    setIsFetching(true)
 }
 
 export const fetcherForFiles = async({url, user, setData}) => {

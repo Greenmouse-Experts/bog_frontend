@@ -297,7 +297,7 @@ export default function Homepage() {
                                         </div>
                                     </div>
                                     <div className="w-7/12">
-                                        <p className="fw-600 lg:text-lg">For Servive Partners</p>
+                                        <p className="fw-600 lg:text-lg">For Service Partners</p>
                                         <p className="fs-400 mt-1">Render your services to thousands of client.</p>
                                     </div>
                                     <div className="w-1/12">

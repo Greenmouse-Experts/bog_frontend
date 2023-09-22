@@ -18,6 +18,7 @@ export const GeneralInfo = ({
   setKycTotal,
   kycTotal,
 }) => {
+  const [isFetching, setIsFetching] = useState(false)
   const [loading, setLoading] = useState(false);
   const [isLoaded, setDataLoaded] = useState(false);
   const [feedback, setFeetback] = useState(false);
@@ -131,8 +132,14 @@ export const GeneralInfo = ({
 
   const dataLoader = () => {
     const url = "/kyc-general-info/fetch?userType=" + user.userType;
-    loadData(url, formData, setFormData);
+    loadData(url, formData, setFormData, setIsFetching);
   };
+  useEffect(() => {
+    if(isFetching){
+      setPhoneNo(formData.contact_number)
+      setPhoneNo2(formData.contact_number_2)
+    }
+  }, [isFetching])
   const checkField = () => {
     if (
       formData.role === "" ||
@@ -462,7 +469,7 @@ export const GeneralInfo = ({
         <input
           value={formData.registration_number}
           onChange={(e) => updateValue(e.target.value, "registration_number")}
-          type="number"
+          type="text"
           required
           className="w-full p-2 mt-2 border border-gray-400 rounded"
         />
