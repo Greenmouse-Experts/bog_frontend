@@ -19,7 +19,7 @@ export default function Footer(){
                                 <li className="py-1"><Link to="/about" className="cursor-pointer">About</Link></li>
                                 <li className="py-1"><Link to="/faqs" className="cursor-pointer">FAQs</Link></li>
                                 <li className="py-1"><Link to="/contact" className="cursor-pointer">Contact Us</Link></li>
-                                <li className="py-1"><Link to="/blog" className="cursor-pointer">Blogs</Link></li>
+                                <li className="py-1"><Link to="/blog" className="cursor-pointer">Blog</Link></li>
                             </ul>
                         </div>
                         <div className="lg:w-2/12 mt-10 lg:mt-0">
@@ -28,6 +28,8 @@ export default function Footer(){
                                 <li className="py-1"><Link to="/services" className="cursor-pointer">Find A Service Partner</Link></li>
                                 <li className="py-1"><Link to="/shop" className="cursor-pointer">Shop for Products</Link></li>
                                 <li className="py-1"><Link to="/become-partner" className="cursor-pointer">Become A Partner</Link></li>
+                                <li className="py-1"><Link to="/login" className="cursor-pointer">Sign In</Link></li>
+                                <li className="py-1"><Link to="/signup" className="cursor-pointer">Sign Up</Link></li>
                             </ul>
                         </div>
                         <div className="lg:w-3/12 mt-10 lg:mt-0">

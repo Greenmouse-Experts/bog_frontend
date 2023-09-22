@@ -27,6 +27,13 @@ export const OrganisationInfo = ({
     "Over 10 Storey",
     "Roads, Bridges etc",
   ];
+  const hect = [
+    "1 - 10 Acres",
+    "10 - 20 Acres",
+    "20 - 50 Acres",
+    "Over 50 Acres",
+    "Roads, Bridges etc",
+  ];
   const costs = [
     "Less than 50 million",
     "50-100 million",
@@ -43,6 +50,22 @@ export const OrganisationInfo = ({
   const dataLoader = () => {
     const url = "/kyc-organisation-info/fetch?userType=" + user.userType;
     loadData(url, formData, setFormData);
+  };
+  const checkField = () => {
+    if (
+      formData.Incorporation_date === "" ||
+      formData.complexity_of_projects_completed === "" ||
+      formData.cost_of_projects_completed === "" ||
+      formData.director_designation ||
+      formData.director_email ||
+      formData.director_fullname ||
+      formData.director_phone ||
+      formData.no_of_staff ||
+      formData.organisation_type ||
+      formData.id 
+    ) {
+      return false;
+    } else return true;
   };
   const DataSaver = async () => {
     const url = "/kyc-organisation-info/create";
