@@ -12,7 +12,7 @@ export const PartnerPaymentModal = ({ CloseModal, id, userId }) => {
   const [kyc, setKyc] = useState([]);
 
   const getBank = async () => {
-    fetch(`https://maylancer.org/api/nuban/banklist.php/`)
+    fetch(`https://nigerianbanks.xyz`)
       .then((response) => response.json())
       .then((data) => setBanks(data));
   };

@@ -384,9 +384,9 @@ export const GeneralInfo = ({
               required
               onChange={(e) => updateValue(e.target.value, "role")}
             >
-              <option>Select an Option</option>
-              {services.map((item) => (
-                <option value={item.value}>{item.name}</option>
+              <option value={''}>Select an Option</option>
+              {services.map((item, i) => (
+                <option value={item.value} key={i}>{item.name}</option>
               ))}
             </select>
           </div>
@@ -405,8 +405,8 @@ export const GeneralInfo = ({
                 }
               >
                 <option>Select an Option</option>
-                {years.map((item) => (
-                  <option value={item}>{item}</option>
+                {years.map((item, i) => (
+                  <option value={item} key={i}>{item}</option>
                 ))}
               </select>
             </div>
@@ -425,8 +425,8 @@ export const GeneralInfo = ({
               >
                 <option>Select an Option</option>
                 {formData.role &&
-                  getCert(formData.role)[0].cert.map((item) => (
-                    <option value={item}>{item}</option>
+                  getCert(formData.role)[0].cert.map((item, i) => (
+                    <option value={item} key={i}>{item}</option>
                   ))}
               </select>
             </div>

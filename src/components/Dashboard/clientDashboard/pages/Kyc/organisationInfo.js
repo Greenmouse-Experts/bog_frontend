@@ -5,6 +5,10 @@ import Spinner from "../../../../layouts/Spinner";
 import ActionFeedBack from "../Modals/ActionFeedBack";
 import { loadData, saveData } from "./DataHandler";
 import Axios from "../../../../../config/config";
+import toast from "react-hot-toast";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import dayjs from "dayjs";
 
 export const OrganisationInfo = ({
   handleOpen,
@@ -14,6 +18,7 @@ export const OrganisationInfo = ({
   setKycTotal,
   kycTotal,
 }) => {
+  const [isFetching, setIsFetching] = useState(false)
   const [loading, setLoading] = useState(false);
   const [isLoaded, setDataLoaded] = useState(false);
   const [feedback, setFeetback] = useState(false);
@@ -46,28 +51,37 @@ export const OrganisationInfo = ({
   const user = useSelector((state) => state.auth.user);
   const prof = useSelector((state) => state.auth.user.userType);
   const roleInfo = useSelector((state) => state.projects.serviceRole)
+  const [showOthers, setShowOthers] = useState(false)
 
   const dataLoader = () => {
     const url = "/kyc-organisation-info/fetch?userType=" + user.userType;
-    loadData(url, formData, setFormData);
+    loadData(url, formData, setFormData, setIsFetching);
   };
   const checkField = () => {
     if (
-      formData.Incorporation_date === "" ||
-      formData.complexity_of_projects_completed === "" ||
-      formData.cost_of_projects_completed === "" ||
-      formData.director_designation ||
-      formData.director_email ||
-      formData.director_fullname ||
-      formData.director_phone ||
-      formData.no_of_staff ||
-      formData.organisation_type ||
+      formData.Incorporation_date === " " ||
+      formData.complexity_of_projects_completed === " " ||
+      formData.cost_of_projects_completed === " " ||
+      formData.director_designation === " " ||
+      formData.director_email  === " " ||
+      formData.director_fullname  === " " ||
+      formData.director_phone  === " " ||
+      formData.no_of_staff  === " " ||
+      formData.organisation_type  === " " ||
       formData.id 
     ) {
       return false;
     } else return true;
   };
   const DataSaver = async () => {
+    if (checkField()) {
+      toast.error("Please fill the required field", {
+        duration: 6000,
+        position: "top-center",
+        style: { background: "#BD362F", color: "white" },
+      });
+      return;
+    }
     const url = "/kyc-organisation-info/create";
 
     const authToken = localStorage.getItem("auth_token");
@@ -88,11 +102,17 @@ export const OrganisationInfo = ({
     if (isSaving) {
       setIsSaving(false);
       saveData({ url, setLoading, formData, user, setFormData, setFeetback });
+      handleOpen(tab + 1);
     } else {
       handleOpen(tab + 1);
     }
   };
-
+  useEffect(() => {
+    if(isFetching){
+      setPhoneNo(String(formData.director_phone))
+      setPhoneNo2(String(formData.contact_phone))
+    }
+  }, [isFetching])
   const [formData, setFormData] = useState({
     organisation_type: "",
     others: "",
@@ -122,7 +142,32 @@ export const OrganisationInfo = ({
     contact_email: { score: 0, total: 1 },
     others_operations: { score: 0, total: 1 },
   });
-
+  const handleOrganType = (e) => {
+    e.preventDefault()
+    if(e.target.value === "Others"){
+      updateValue(e.target.value, "organisation_type")
+      setShowOthers(true)
+    }else{
+      setShowOthers(false)
+      updateValue(e.target.value, "organisation_type")
+    }
+  }
+  const [phoneNo, setPhoneNo] = useState();
+  const handlePhoneChange = (data) => {
+    setPhoneNo(data);
+    setFormData({
+      ...formData,
+      director_phone: `+${phoneNo}`,
+    })
+  };
+  const [phoneNo2, setPhoneNo2] = useState();
+  const handlePhoneChange2 = (data) => {
+    setPhoneNo2(data);
+    setFormData({
+      ...formData,
+      contact_phone: `+${phoneNo2}`
+    })
+  };
   let newValue = {};
   const updateValue = (newVal, variable) => {
     if (variable === "organisation_type") {
@@ -140,15 +185,15 @@ export const OrganisationInfo = ({
     if (variable === "director_designation") {
       newValue = { director_designation: newVal };
     }
-    if (variable === "director_phone") {
-      newValue = { director_phone: newVal };
-    }
+    // if (variable === "director_phone") {
+    //   newValue = { director_phone: newVal };
+    // }
     if (variable === "director_email") {
       newValue = { director_email: newVal };
     }
-    if (variable === "contact_phone") {
-      newValue = { contact_phone: newVal };
-    }
+    // if (variable === "contact_phone") {
+    //   newValue = { contact_phone: newVal };
+    // }
     if (variable === "contact_email") {
       newValue = { contact_email: newVal };
     }
@@ -214,6 +259,11 @@ export const OrganisationInfo = ({
     setDataLoaded(true);
     loadData__();
   }, [formData]);
+  useEffect(() => {
+    if(formData.others){
+      setShowOthers(true)
+    }
+  }, [formData])
 
   return (
     <div className="lg:px-4 scale-ani">
@@ -221,17 +271,19 @@ export const OrganisationInfo = ({
         <label>Type of organisation</label>
         <select
           value={formData.organisation_type}
-          onChange={(e) => updateValue(e.target.value, "organisation_type")}
+          onChange={handleOrganType}
           className="w-full mt-2 p-2 border border-gray-400 rounded"
         >
-          <option>Sole Proprietorship</option>
-          <option>Partnership</option>
-          <option>Joint Venture</option>
-          <option>Limited Liability</option>
-          <option>Others(Specify below)</option>
+          <option value={''}>Select an Option</option>
+          <option value={'Sole Proprietorship'}>Sole Proprietorship</option>
+          <option value={'Partnership'}>Partnership</option>
+          <option value={'Joint Venture'}>Joint Venture</option>
+          <option value={'Limited Liability'}>Limited Liability</option>
+          <option value={'Others'}>Others(Specify below)</option>
         </select>
       </div>
-      <div className="mt-3">
+      {
+        showOthers && <div className="mt-3 scale-ani">
         <label>Others(Specify)</label>
         <input
           value={formData.others}
@@ -240,6 +292,7 @@ export const OrganisationInfo = ({
           className="w-full mt-2 p-2 border border-gray-400 rounded"
         />
       </div>
+      }
       {
         prof === 'professional' && (
           <div className="grid grid-cols-2 gap-x-6 gap-y-3 mt-3">
@@ -250,8 +303,8 @@ export const OrganisationInfo = ({
                 }>
               <option>Select an Option</option>
               {
-                staffs.map((item) => (
-                  <option value={item}>{item}</option>
+                staffs.map((item, i) => (
+                  <option value={item} key={i}>{item}</option>
                 ))
               }
             </select>
@@ -263,8 +316,8 @@ export const OrganisationInfo = ({
                 }>
               <option>Select an Option</option>
               {
-                costs.map((item) => (
-                  <option value={item}>{item}</option>
+                costs.map((item, i) => (
+                  <option value={item} key={i}>{item}</option>
                 ))
               }
             </select>
@@ -276,6 +329,11 @@ export const OrganisationInfo = ({
                 }>
               <option>Select an Option</option>
               {
+                roleInfo === "quantity_surveyor"?
+                hect.map((item) => (
+                  <option value={item}>{item}</option>
+                ))
+                :
                 projs.map((item) => (
                   <option value={item}>{item}</option>
                 ))
@@ -292,6 +350,7 @@ export const OrganisationInfo = ({
           onChange={(e) => updateValue(e.target.value, "Incorporation_date")}
           type="date"
           className="w-full mt-2 p-2 border border-gray-400 rounded"
+          max={dayjs(new Date()).format('YYYY-MM-DD')}
         />
       </div>
       <div className="mt-3">
@@ -310,12 +369,26 @@ export const OrganisationInfo = ({
           placeholder="Designation"
           className="w-full mt-2 p-2 border border-gray-400 rounded"
         />
-        <input
+        {/* <input
           value={formData.director_phone}
           onChange={(e) => updateValue(e.target.value, "director_phone")}
           type="number"
           placeholder="Phone number"
           className="w-full mt-2 p-2 border border-gray-400 rounded"
+        /> */}
+         <PhoneInput
+          country={"ng"}
+          name="phone"
+          value={phoneNo}
+          onChange={(phone) => handlePhoneChange(phone)}
+          className="mt-2 w-full rounded bg-white border border-gray-700"
+          inputStyle={{
+            width: "100%",
+            border: "none",
+            paddingTop: "19px",
+            paddingBottom: "19px",
+          }}
+          rules={{ required: true }}
         />
         <input
           value={formData.director_email}
@@ -327,12 +400,26 @@ export const OrganisationInfo = ({
       </div>
       <div className="mt-3">
         <label>Contact Person</label>
-        <input
+        {/* <input
           value={formData.contact_phone}
           onChange={(e) => updateValue(e.target.value, "contact_phone")}
           type="number"
           placeholder="Phone number"
           className="w-full mt-2 p-2 border border-gray-400 rounded"
+        /> */}
+        <PhoneInput
+          country={"ng"}
+          name="phone"
+          value={phoneNo2}
+          onChange={(phone) => handlePhoneChange2(phone)}
+          className="mt-2 w-full rounded bg-white border border-gray-700"
+          inputStyle={{
+            width: "100%",
+            border: "none",
+            paddingTop: "19px",
+            paddingBottom: "19px",
+          }}
+          rules={{ required: true }}
         />
         <input
           value={formData.contact_email}

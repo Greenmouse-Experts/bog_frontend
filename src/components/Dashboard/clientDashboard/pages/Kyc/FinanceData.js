@@ -6,6 +6,7 @@ import Spinner from "../../../../layouts/Spinner";
 import ActionFeedBack from "../Modals/ActionFeedBack";
 import { loadData, saveData } from "./DataHandler";
 import Axios from "../../../../../config/config";
+import toast from "react-hot-toast";
 
 export const FinanceData = ({
   handleOpen,
@@ -21,6 +22,7 @@ export const FinanceData = ({
   const [banks, setBanks] = useState([]);
   const [bankLoader, setVerifyLoader] = useState(false);
   const [bankError, setBankError] = useState("");
+  const [overShow, setOverShow] = useState(false)
 
   const [formData, setFormData] = useState({
     bank_name: "",
@@ -55,7 +57,25 @@ export const FinanceData = ({
     const url = "/kyc-financial-data/fetch?userType=" + user.userType;
     loadData(url, formData, setFormData);
   };
+  const checkField = () => {
+    if (
+      formData.bank_name === "" ||
+      formData.account_number === "" ||
+      formData.account_type === "" || 
+      formData.bank_name === ""
+    ) {
+      return true;
+    } else return false;
+  };
   const DataSaver = async () => {
+    if (checkField()) {
+      toast.error("Please fill the required field", {
+        duration: 6000,
+        position: "top-center",
+        style: { background: "#BD362F", color: "white" },
+      });
+      return;
+    }
     const url = "/kyc-financial-data/create";
 
     const authToken = localStorage.getItem("auth_token");
@@ -76,6 +96,7 @@ export const FinanceData = ({
     if (isSaving) {
       setIsSaving(false);
       saveData({ url, setLoading, formData, user, setFormData, setFeetback });
+      handleOpen(tab + 1);
     } else {
       handleOpen(tab + 1);
     }
@@ -132,7 +153,7 @@ export const FinanceData = ({
         setVerifyLoader(true);
         axios
           .post(
-            `https://bog.greenmouseproperties.com/api/bank/verify-account`,
+            `https://api.buildonthego.com/api/bank/verify-account`,
             payload,
             config
           )
@@ -202,6 +223,11 @@ export const FinanceData = ({
       .then((data) => setBanks(data));
     loadData__();
   }, [formData]);
+  useEffect(() => {
+    if(formData.account_type === "current"){
+      setOverShow(true)
+    }else setOverShow(false)
+  }, [formData])
 
   return (
     <div className="lg:px-4 scale-ani">
@@ -216,6 +242,7 @@ export const FinanceData = ({
           }}
           className="w-full mt-2 p-2 border border-gray-400 rounded"
         >
+          <option value={''}>Select an option</option>
           {banks.map((bank, index) => (
             <option value={bank.name} key={index}>
               {bank.name}
@@ -233,7 +260,7 @@ export const FinanceData = ({
             updateValue(e.target.value, "account_number");
           }}
           type="number"
-          className="w-full mt-2 p-2 border border-gray-400 rounded"
+          className="w-full upndown mt-2 p-2 border border-gray-400 rounded"
         />
       </div>
       <div className="mt-5 mb-8">
@@ -309,7 +336,7 @@ export const FinanceData = ({
           />
           <label>Savings Account</label>
         </div>
-        <div className="mt-5">
+        {overShow && <div className="mt-5 scale-ani">
           <label>Level of current overdraft facility</label>
           <input
             name="overdraft_facility"
@@ -321,7 +348,7 @@ export const FinanceData = ({
             type="text"
             className="w-full mt-2 p-2 border border-gray-400 rounded"
           />
-        </div>
+        </div>}
         {loading ? (
           <Spinner />
         ) : (
