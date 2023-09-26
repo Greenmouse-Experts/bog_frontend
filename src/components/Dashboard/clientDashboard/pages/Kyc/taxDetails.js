@@ -5,6 +5,7 @@ import Spinner from "../../../../layouts/Spinner";
 import ActionFeedBack from "../Modals/ActionFeedBack";
 import { loadData, saveData } from "./DataHandler";
 import Axios from "../../../../../config/config";
+import toast from "react-hot-toast";
 
 
 export const TaxDetails = ({
@@ -39,7 +40,25 @@ export const TaxDetails = ({
 
     loadData(url, formData, setFormData);
   };
+  const checkField = () => {
+    if (
+      formData.VAT === "" ||
+      formData.TIN === ""
+    ) {
+      return true;
+    } else return false;
+  };
   const DataSaver = async () => {
+    console.log(formData);
+    if (checkField()) {
+      console.log(formData);
+      toast.error("Please fill the required field", {
+        duration: 6000,
+        position: "top-center",
+        style: { background: "#BD362F", color: "white" },
+      });
+      return;
+    }
     const url = "/kyc-tax-permits/create";
 
     const authToken = localStorage.getItem("auth_token");
@@ -53,6 +72,7 @@ export const TaxDetails = ({
     if (isSaving) {
       setIsSaving(false);
       saveData({ url, setLoading, formData, user, setFormData, setFeetback });
+      handleOpen(tab + 1);
     } else {
       handleOpen(tab + 1);
     }

@@ -3,7 +3,7 @@ import { FaTimes } from "react-icons/fa";
 import toast from 'react-hot-toast';
 import Axios from "../../../../../config/config";
 
-export const saveData = async ({url, setLoading, formData, user, setFormData, setFeetback, setData, hasFile}) => {
+export const saveData = async ({url, setLoading, formData, user, setFormData, setFeetback, setData, hasFile, lastForm}) => {
     const authToken = localStorage.getItem("auth_token");
     const config = {
         headers:
@@ -30,7 +30,7 @@ export const saveData = async ({url, setLoading, formData, user, setFormData, se
             });
         }
         setLoading(false);
-        if (!hasFile) {
+        if (!lastForm) {
             setFeetback({
                 info: "Saved",
                 status: "success",

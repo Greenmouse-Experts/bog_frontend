@@ -7,6 +7,8 @@ import Spinner from "../../../../layouts/Spinner";
 import ActionFeedBack from "../Modals/ActionFeedBack";
 import { hasFileDelete, fetcherForFiles, saveData } from "./DataHandler";
 import Axios from "../../../../../config/config";
+import dayjs from "dayjs";
+import toast from "react-hot-toast";
 
 export const JobExecution = ({
   handleOpen,
@@ -36,8 +38,27 @@ export const JobExecution = ({
   const gotoPrev = () => {
     handleOpen(tab - 1);
   };
+  const resetForm = () => {
+    setFormData({
+      name: "",
+    value: "",
+    date: "",
+    fileUrl: "",
+    company_involvement: "",
+    years_of_experience: "",
+    })
+  }
+  const AddNewWork = () => {
+    if(myWorks.length >= 5){
+      toast.error('We require a maximum of 5 work experience entries', {
+        duration: 6000,
+        position: "top-center",
+        style: { background: "#BD362F", color: "white" },
+      });
+    }else setAddWork(true)
+  }
   const user = useSelector((state) => state.auth.user);
-  const [formScore, ] = useState({
+  const [formScore] = useState({
     name: { score: 0, total: 1 },
     value: { score: 0, total: 1 },
     date: { score: 0, total: 1 },
@@ -45,7 +66,44 @@ export const JobExecution = ({
     company_involvement: { score: 0, total: 1 },
     years_of_experience: { score: 0, total: 1 },
   });
+  const AddOne = async() => {
+    const url = "/kyc-work-experience/create";
+    const fd = new FormData();
+    fd.append(`document`, doc);
+    fd.append("name", formData.name);
+    fd.append("value", formData.value);
+    fd.append("date", formData.date);
+    fd.append("years_of_experience", formData.years_of_experience);
+    fd.append("company_involvement", formData.company_involvement);
+    fd.append("userType", user.userType);
 
+    const authToken = localStorage.getItem("auth_token");
+    await Axios.patch(
+      `/user/update-account`,
+      {
+        kycScore: JSON.stringify(kycScore),
+        kycTotal: JSON.stringify(kycTotal),
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+      }
+    );
+    setIsSaving(false);
+      saveData({
+        url,
+        setLoading,
+        formData: fd,
+        user,
+        setFormData: setWorks,
+        setFeetback,
+        hasFile: true,
+      });
+      setAddWork(false)
+      resetForm()
+  }
   const DataSaver = async () => {
     const url = "/kyc-work-experience/create";
     const fd = new FormData();
@@ -58,12 +116,19 @@ export const JobExecution = ({
     fd.append("userType", user.userType);
 
     const authToken = localStorage.getItem("auth_token");
-    await Axios.patch(`/user/update-account`, {kycScore: JSON.stringify(kycScore), kycTotal: JSON.stringify(kycTotal)}, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authToken,
+    await Axios.patch(
+      `/user/update-account`,
+      {
+        kycScore: JSON.stringify(kycScore),
+        kycTotal: JSON.stringify(kycTotal),
       },
-    });
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+      }
+    );
 
     if (isSaving) {
       setIsSaving(false);
@@ -93,8 +158,8 @@ export const JobExecution = ({
     variable === "value" && (newValue = { value: newVal });
     variable === "date" && (newValue = { date: newVal });
     variable === "document" && (newValue = { document: newVal });
-    variable === "years_of_experience" &&
-      (newValue = { years_of_experience: newVal });
+    // variable === "years_of_experience" &&
+    //   (newValue = { years_of_experience: newVal });
     variable === "company_involvement" &&
       (newValue = { company_involvement: newVal });
 
@@ -108,18 +173,18 @@ export const JobExecution = ({
   const formScoreAuto = () => {
     let total = 0;
     let score = 0;
-    
-    if(myWorks.length > 0){
-        myWorks.forEach(myWork => {
-            Object.keys(myWork).forEach(work => {
-                if(formScore[work] !== undefined){
-                    if(myWork[work] !== "" && myWork[work] !== null){
-                        score += 1
-                    }
-                    total += 1;
-                }
-            });
-        })
+
+    if (myWorks.length > 0) {
+      myWorks.forEach((myWork) => {
+        Object.keys(myWork).forEach((work) => {
+          if (formScore[work] !== undefined) {
+            if (myWork[work] !== "" && myWork[work] !== null) {
+              score += 1;
+            }
+            total += 1;
+          }
+        });
+      });
     }
 
     return { total, score };
@@ -131,7 +196,6 @@ export const JobExecution = ({
     setKycScore({ ...kycScore, workExperience: auto.score });
   };
 
-  
   useEffect(() => {
     !isLoaded &&
       fetcherForFiles({ url: "kyc-work-experience", user, setData: setWorks });
@@ -141,9 +205,8 @@ export const JobExecution = ({
   return (
     <div>
       <label>
-        List the most relevant jobs by monetary value with other companies (and
-        all jobs done with BOG Limited) and date of execution (provide support
-        documents if any){" "}
+        List the most relevant jobs by monetary value with other companies and
+        date of execution (provide supporting documents if any){" "}
       </label>
       {myWorks.map((element, index) => (
         <div className="form-inline mt-6" key={index}>
@@ -228,7 +291,7 @@ export const JobExecution = ({
                   </a>
                 </div>
               </div>
-              <div className="mt-5">
+              {/* <div className="mt-5">
                 <label className="fw-500">
                   Number of experience(years) as a contractor/sub-contractor
                 </label>
@@ -242,7 +305,7 @@ export const JobExecution = ({
                   }
                   className="w-full mt-2 p-2 border border-gray-400 rounded"
                 />
-              </div>
+              </div> */}
               <div className="mt-5">
                 <label className="fw-500">
                   If the company is a subsidiary, what involvement, if any, will
@@ -294,6 +357,7 @@ export const JobExecution = ({
                 value={formData.date}
                 onChange={(e) => updateValue(e.target.value, "date")}
                 className="w-full mt-2 p-2 border border-gray-400 rounded"
+                max={dayjs(new Date()).format("YYYY-MM-DD")}
               />
             </div>
             <div className="lg:w-6/12 lg:pl-3 mt-5">
@@ -306,7 +370,7 @@ export const JobExecution = ({
               />
             </div>
           </div>
-          <div className="mt-5">
+          {/* <div className="mt-5">
             <label className="fw-500">
               Number of experience(years) as a contractor/sub-contractor
             </label>
@@ -319,7 +383,7 @@ export const JobExecution = ({
               }
               className="w-full mt-2 p-2 border border-gray-400 rounded"
             />
-          </div>
+          </div> */}
           <div className="mt-5">
             <label className="fw-500">
               If the company is a subsidiary, what involvement, if any, will the
@@ -335,14 +399,32 @@ export const JobExecution = ({
           </div>
         </div>
       )}
-      <div className="mt-4">
-        <button
+      <div className="mt-4 flex gap-x-2">
+        {addWork && (
+          <div className="flex gap-x-2">
+            <button
+              type="button"
+              onClick={AddOne}
+              className="rounded-lg px-2 lg:px-6 py-3 text-center bg-primary text-white fw-600"
+            >
+              Add This Experience
+            </button>
+            <button
+              type="button"
+              onClick={() => addWork(false)}
+              className="rounded-lg px-2 lg:px-6 py-3 text-center bg-secondary text-white fw-600"
+            >
+              Close
+            </button>
+          </div>
+        )}
+        {!addWork && <button
           className="rounded-lg px-2 lg:px-6 py-3 text-center bg-secondary text-white fw-600"
           type="button"
-          onClick={() => setAddWork(!addWork)}
+          onClick={AddNewWork}
         >
-          {!addWork ? "Add Job Experience" : "Close"}
-        </button>
+          Add Job Experience
+        </button>}
       </div>
       <div className="mt-10 flex justify-between lg:justify-end items-center">
         <button

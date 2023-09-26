@@ -64,6 +64,7 @@ export const UploadDoc = ({
         setFormData: setAllDocuments,
         setFeetback,
         hasFile: true,
+        lastForm: true,
       });
 
       const authToken = localStorage.getItem("auth_token");
@@ -204,10 +205,6 @@ export const UploadDoc = ({
     {
       title: "Three(3) sided photograph of Operational Area and Main Entrance",
       as: "photograph_of_operational",
-    },
-    {
-      title: "Passport of vendors and all directors",
-      as: "Passport_of_vendors",
     },
   ];
 

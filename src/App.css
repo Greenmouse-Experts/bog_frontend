@@ -741,4 +741,13 @@ to{
     bottom: -6px;
     left: 8%;
   }
+  input.upndown::-webkit-outer-spin-button,
+input.upndown::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number].upndown {
+    -moz-appearance: textfield;
+}
 }
