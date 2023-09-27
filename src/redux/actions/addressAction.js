@@ -68,3 +68,37 @@ export const fetchStateAddresses = async (setAddresses, user, state) => {
         }
     }
 }
+
+export const fetchPrevAddresses = async (setPrev) => {
+    try {
+        const authToken = localStorage.getItem("auth_token");
+        const config = {
+            headers:
+            {
+                "Content-Type": "application/json",
+                'Authorization': authToken
+            }
+        }
+
+        // let _state = state === undefined ? '' : `?q=${state}`;
+        let url = `/orders/delivery/list`;
+        
+        const res = await Axios.get(url, config);
+        const results = res.data;
+        setPrev(results);
+    } catch (error) {
+        if (error.message === 'Request failed with status code 401') {
+            window.location.href = '/';
+        }
+        else {
+            toast.error(
+                error.message,
+                {
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: '#BD362F', color: 'white' },
+                }
+            );
+        }
+    }
+}

@@ -329,7 +329,7 @@ export const OrganisationInfo = ({
                 }>
               <option>Select an Option</option>
               {
-                roleInfo === "quantity_surveyor"?
+                roleInfo === "surveyor"?
                 hect.map((item) => (
                   <option value={item}>{item}</option>
                 ))

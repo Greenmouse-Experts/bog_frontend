@@ -404,7 +404,7 @@ export const GeneralInfo = ({
                   updateValue(e.target.value, "years_of_experience")
                 }
               >
-                <option>Select an Option</option>
+                <option value={''}>Select an Option</option>
                 {years.map((item, i) => (
                   <option value={item} key={i}>{item}</option>
                 ))}
@@ -423,7 +423,7 @@ export const GeneralInfo = ({
                   updateValue(e.target.value, "certification_of_personnel")
                 }
               >
-                <option>Select an Option</option>
+                <option value={''}>Select an Option</option>
                 {formData.role &&
                   getCert(formData.role)[0].cert.map((item, i) => (
                     <option value={item} key={i}>{item}</option>

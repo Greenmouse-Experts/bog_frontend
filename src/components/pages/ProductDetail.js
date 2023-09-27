@@ -6,7 +6,7 @@ import Header from "./home-comp/Header";
 import { useParams } from "react-router-dom";
 import { SimilarProducts } from "./shop/SimilarProduct";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { addToCart, decrementQuantity, incrementQuantity } from "../../redux/actions/cartAction";
+import { addToCart } from "../../redux/actions/cartAction";
 import ReactStars from "react-rating-stars-component";
 import { useSelector, useDispatch } from "react-redux";
 import { ProductImage } from "./shop/ProductImg";
@@ -21,7 +21,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { Alert } from "@material-tailwind/react";
 import { AddProductReview } from "./shop/AddProductReview";
 import dayjs from "dayjs";
-import { FaMinus, FaPlus } from "react-icons/fa";
 
 export default function ProductDetail() {
   // eslint-disable-next-line
@@ -114,16 +113,6 @@ export default function ProductDetail() {
       }, 4000);
     } // eslint-disable-next-line
   }, [addItemToCart, show]);
-  const decrementItem = () => {
-   if(cartNum > item.min_qty){
-    setCartNum(cartNum - 1)
-   }
-  }
-  const incrementItem = () => {
-    if(cartNum < item.max_qty){
-      setCartNum(cartNum + 1)
-     }
-  }
   return (
     <div>
       <div className="font-primary">
@@ -144,6 +133,10 @@ export default function ProductDetail() {
                       <p className="fw-600 py-2 text-gray-600">
                         <span className="pr-2 ">Product Category :</span>
                         {item.category.name}
+                      </p>
+                      <p className="fw-600 pb-2 text-gray-600">
+                        <span className="pr-2 ">Product Unit :</span>
+                        {item.unit}
                       </p>
                       <div className="flex items-center">
                         <div className="hidden lg:block">
