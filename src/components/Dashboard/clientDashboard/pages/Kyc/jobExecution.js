@@ -49,6 +49,7 @@ export const JobExecution = ({
     })
   }
   const AddNewWork = () => {
+    console.log(myWorks.length);
     if(myWorks.length >= 5){
       toast.error('We require a maximum of 5 work experience entries', {
         duration: 6000,

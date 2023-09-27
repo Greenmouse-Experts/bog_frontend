@@ -193,6 +193,28 @@ export const Cart = () => {
     onSuccess: (reference) => handlePaystackSuccessAction(reference),
     onClose: handlePaystackCloseAction,
   };
+  const addMore = (item) => {
+   if(item.quantity < item.max_qty){
+    dispatch(incrementQuantity(item))
+   }else {
+    toast.error("Maximum Quantity reached", {
+      duration: 6000,
+      position: "top-center",
+      style: { background: "#BD362F", color: "white" },
+    });
+  }
+  }
+  const reduceQuan = (item) => {
+    if(item.quantity > item.min_qty){
+     dispatch(decrementQuantity(item))
+    }else {
+      toast.error("Minimum Quantity reached", {
+        duration: 6000,
+        position: "top-center",
+        style: { background: "#BD362F", color: "white" },
+      });
+    }
+   }
   if (loading) {
     return (
       <center>
@@ -244,7 +266,7 @@ export const Cart = () => {
                                   <button
                                     className="border border-gray-300 rounded px-2 mr-2"
                                     onClick={() =>
-                                      dispatch(decrementQuantity(item))
+                                      reduceQuan(item)
                                     }
                                   >
                                     -
@@ -253,7 +275,7 @@ export const Cart = () => {
                                   <button
                                     className="border border-gray-300 rounded px-2 ml-2"
                                     onClick={() =>
-                                      dispatch(incrementQuantity(item))
+                                      addMore(item)
                                     }
                                   >
                                     +

@@ -29,8 +29,9 @@ const CartReducer = (state = initialState, action) => {
                     product_image: payload.product_image,
                     unit: payload.unit,
                     quantity: Number(payload.quantity),
+                    max_qty: payload.max_qty,
+                    min_qty: payload.min_qty
                 }
-
                 cartElement = oldArr.concat(neededElement);
                 localStorage.setItem("carts", JSON.stringify(cartElement))
             }

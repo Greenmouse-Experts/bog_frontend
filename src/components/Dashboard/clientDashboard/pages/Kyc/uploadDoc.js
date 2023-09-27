@@ -5,6 +5,7 @@ import Spinner from "../../../../layouts/Spinner";
 import ActionFeedBack from "../Modals/ActionFeedBack";
 import { fetcherForFiles, hasFileDelete, saveData } from "./DataHandler";
 import Axios from "../../../../../config/config";
+import toast from "react-hot-toast";
 
 export const UploadDoc = ({
   handleOpen,
@@ -22,8 +23,23 @@ export const UploadDoc = ({
   const [formData, setFormData] = useState({});
   const user = useSelector((state) => state.auth.user);
   const [isSaving, setIsSaving] = useState(false);
+  const [photos, setPhotos] = useState([]);
   const gotoPrev = () => {
     handleOpen(tab - 1);
+  };
+  const handlePhotoChange = (e, file) => {
+    const selectedFile = e.target.files
+    console.log(selectedFile);
+    if(selectedFile){
+    setPhotos(Array.from(e.target.files));
+    updateValue(Array.from(e.target.files), file)
+    }else{
+      toast.error("No file selected", {
+        duration: 6000,
+        position: "top-center",
+        style: { background: "blue", color: "white" },
+      });
+    }
   };
   const [formScore, setFormScore] = useState({
     Company_Corporate_Profile: { score: 0, total: 1 },
@@ -43,7 +59,6 @@ export const UploadDoc = ({
     photograph_of_operational: { score: 0, total: 1 },
     Passport_of_vendors: { score: 0, total: 1 },
   });
-
   const DataSaver = async (e) => {
     e.preventDefault();
     const url = "/kyc-documents/create";
@@ -51,9 +66,11 @@ export const UploadDoc = ({
     const fd = new FormData();
     const allDocValues = Object.values(formData);
     const allKeys = Object.keys(formData);
-    for (let i = 0; i < allDocValues.length; i++) {
-      fd.append(allKeys[i], allDocValues[i]);
-    }
+    Object.entries(formData).forEach(([key, value]) => {
+      for (let i = 0; i < value.length; i++) {
+        fd.append(`${key}[]`, value[i]);
+      }
+    });
     fd.append("userType", user.userType);
     if (isSaving) {
       saveData({
@@ -91,12 +108,15 @@ export const UploadDoc = ({
   };
   let newValue = {};
   const updateValue = (newVal, variable) => {
+    console.log(newVal);
+    console.log(variable);
     newValue[variable] = newVal;
     setFormData({
       ...formData,
       ...newValue,
     });
     setIsSaving(true);
+    console.log(formData);
   };
   const isUploaded = (name) => {
     return allDocuments?.filter((doc) => doc.name === name && doc);
@@ -115,10 +135,11 @@ export const UploadDoc = ({
               <input
                 type="file"
                 name={file.as}
-                onChange={(e) => updateValue(e.target.files[0], file.as)}
+                onChange={(e) => handlePhotoChange(e, file.as)}
                 className=""
+                multiple
               />
-              <p className="text-blue-500">{formData[file.as]?.name}</p>
+              <p className="text-blue-500 flex gap-x-3 overflow-x-hidden">{formData[file.as]?.map((item, i)=> <p className="" key={i}>{item.name}</p>)}</p>
             </div>
           </div>
         );

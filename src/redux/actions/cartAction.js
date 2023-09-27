@@ -3,7 +3,6 @@ import * as ActionType from '../type';
 
 export const addToCart = (payload, cartNum) => {
     payload.quantity = cartNum;
-    console.log(payload);
     return {
         type: ActionType.ADD_TO_CART,
         payload

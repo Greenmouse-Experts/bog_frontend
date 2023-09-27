@@ -9,10 +9,16 @@ import { useFormik } from "formik";
 import Swal from "sweetalert2";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../../../redux/actions/cartAction";
-import { fetchStateAddresses } from "../../../redux/actions/addressAction";
+import {
+  fetchPrevAddresses,
+  fetchStateAddresses,
+} from "../../../redux/actions/addressAction";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import PhoneInput from "react-phone-input-2";
 import { Country, State } from "country-state-city";
+import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
+import { AiOutlineHome } from "react-icons/ai";
+import { BiLocationPlus } from "react-icons/bi";
 
 export const CartModal = ({ CloseModal }) => {
   const AuhtCheck = () => {
@@ -69,7 +75,9 @@ export const CartModal = ({ CloseModal }) => {
   const [phoneNo, setPhoneNo] = useState("");
   const [insuranceId, setInsuranceId] = useState("");
   const [country, setCountry] = useState("");
-  const [isChecked, setIsChecked] = useState(false)
+  const [isChecked, setIsChecked] = useState(false);
+  const [showPrev, setShwPrev] = useState(false);
+  const [prev, setPrev] = useState([]);
 
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -84,6 +92,44 @@ export const CartModal = ({ CloseModal }) => {
     totalAmount += cart.price * cart.quantity;
   });
 
+  // fetch previous address
+  useEffect(() => {
+    fetchPrevAddresses(setPrev);
+  }, []);
+  // change to home
+  const changeToHome = () => {
+    setCountry('NG')
+    getStatesAddress(auth.user.state)
+    setOrderForm({
+      city: auth.user.city || null,
+      state: auth.user.state,
+      country: "NG",
+      postal_code: null,
+      address: null,
+      home_address: auth.user.address,
+      contact_name: `${auth.user.fname} ${auth.user.lname}`,
+      contact_email: auth.user.email,
+      contact_phone: auth.user.phone,
+    });
+    setShwPrev(false)
+  };
+  // change to selected
+  const changeToSelected = (item) => {
+    setCountry(item.country)
+    getStatesAddress(item.state)
+    setOrderForm({
+      city: null,
+      state: item.state,
+      country: item.country,
+      postal_code: item.postal_code,
+      address: null,
+      home_address: item.home_address,
+      contact_name: item.contact_name,
+      contact_email: item.contact_email,
+      contact_phone: item.contact_phone,
+    });
+    setShwPrev(false)
+  };
   const form = useFormik({
     initialValues: {
       city: "",
@@ -107,7 +153,8 @@ export const CartModal = ({ CloseModal }) => {
     contact_email: null,
     contact_phone: null,
   });
-
+  
+  console.log(prev);
   let productsArray = carts.map((option) => {
     let prodInfo = {};
     prodInfo.productId = `${option.id}`;
@@ -126,11 +173,10 @@ export const CartModal = ({ CloseModal }) => {
   };
 
   const getAddressInfo = (id) => {
-    setIsChecked(false)
-    setInsure(false)
+    setIsChecked(false);
+    setInsure(false);
     if (id !== "") {
       const _address = addresses.find((_a) => _a.id === id);
-
       setAddress_(_address);
       setInsure(_address.insurancecharge ? _address.insurancecharge : 0);
       setOrderForm({ ...orderForm, address: _address.id });
@@ -141,14 +187,14 @@ export const CartModal = ({ CloseModal }) => {
   };
 
   const addInsuranceCharge = () => {
-    if(Number(insure) > 0){
-      setIsChecked(!isChecked)
-      if(!isChecked){
-        setAddInsure(true)
-      }else{
-        setAddInsure(false)
+    if (Number(insure) > 0) {
+      setIsChecked(!isChecked);
+      if (!isChecked) {
+        setAddInsure(true);
+      } else {
+        setAddInsure(false);
       }
-    }else{
+    } else {
       toast.error("No Insurance for selected location");
     }
   };
@@ -283,7 +329,38 @@ export const CartModal = ({ CloseModal }) => {
 
   return (
     <div>
-      <p className="border-b border-gray-300 pb-1 fw-600">Receiver's Information</p>
+      <p className="border-b border-gray-300 pb-1 fw-600">
+        Receiver's Information
+      </p>
+      <div className="mt-1">
+        <div
+          className="flex gap-x-1 items-center"
+          onClick={() => setShwPrev(!showPrev)}
+        >
+          <p>Delivery Options</p>
+          {!showPrev ? (
+            <RiArrowDropDownLine className="text-3xl mt-[1px]" />
+          ) : (
+            <RiArrowDropUpLine className="text-3xl mt-[1px]" />
+          )}
+        </div>
+        {showPrev && (
+          <div className="grid lg:grid-cols-4 gap-4">
+            <div className="p-2 shadow hover:scale-105" onClick={changeToHome}>
+              <AiOutlineHome className="text-xl text-primary" />
+              <p className="fw-500 mt-1">Home Address</p>
+            </div>
+            {prev &&
+              !!prev.length &&
+              prev.map((item, i) => (
+                <div className="p-2 shadow hover:scale-105" key={i} onClick={() => changeToSelected(item)}>
+                  <BiLocationPlus className="text-xl text-primary" />
+                  <p className="fw-500 mt-1">{item?.address}</p>
+                </div>
+              ))}
+          </div>
+        )}
+      </div>
       <form onSubmit={form.handleSubmit}>
         <div className="mt-3">
           <label className="block">Name</label>
@@ -327,7 +404,7 @@ export const CartModal = ({ CloseModal }) => {
             <PhoneInput
               country={"ng"}
               name="phone"
-              value={phoneNo}
+              value={orderForm.contact_phone}
               onChange={(phone) => handlePhoneChange(phone)}
               className="mt-1 w-full rounded bg-white border border-gray-700"
               inputStyle={{
@@ -347,6 +424,7 @@ export const CartModal = ({ CloseModal }) => {
           <div className="w-full lg:w-6/12 mt-2">
             <label className="block">Country</label>
             <select
+            value={orderForm.country}
               onChange={(e) => getStateFromCountry(e.target.value)}
               className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
             >
@@ -363,6 +441,7 @@ export const CartModal = ({ CloseModal }) => {
           <div className="lg:w-6/12 lg:pl-3 mt-2">
             <label className="block">State</label>
             <select
+            value={orderForm.state}
               onChange={(e) => getStatesAddress(e.target.value)}
               className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
             >
@@ -422,7 +501,7 @@ export const CartModal = ({ CloseModal }) => {
         <div className="mt-6 flex items-center gap-x-2">
           <input
             type="checkbox"
-            checked={isChecked} 
+            checked={isChecked}
             onChange={addInsuranceCharge}
             className="w-4 mt-1"
           />
@@ -474,26 +553,30 @@ export const CartModal = ({ CloseModal }) => {
           </div>
 
           {auth.isAuthenticated ? (
-            completeForm()? (orderForm.address !== null && orderForm.address !== "" ? (
-              <PaystackButton
-                text="CHECKOUT"
-                label="CHECKOUT"
-                className="w-full btn bg-primary text-white"
-                {...componentProps}
-              />
+            completeForm() ? (
+              orderForm.address !== null && orderForm.address !== "" ? (
+                <PaystackButton
+                  text="CHECKOUT"
+                  label="CHECKOUT"
+                  className="w-full btn bg-primary text-white"
+                  {...componentProps}
+                />
+              ) : (
+                <button
+                  onClick={() => addDelivery()}
+                  className="w-full btn bg-primary opacity-75 text-white"
+                >
+                  CHECKOUT
+                </button>
+              )
             ) : (
               <button
-                onClick={() => addDelivery()}
+                onClick={() => completeField()}
                 className="w-full btn bg-primary opacity-75 text-white"
               >
                 CHECKOUT
               </button>
-            )) : <button
-            onClick={() => completeField()}
-            className="w-full btn bg-primary opacity-75 text-white"
-          >
-            CHECKOUT
-          </button>
+            )
           ) : (
             <button
               onClick={() => AuhtCheck()}
