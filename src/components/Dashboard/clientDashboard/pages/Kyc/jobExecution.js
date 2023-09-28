@@ -49,7 +49,6 @@ export const JobExecution = ({
     })
   }
   const AddNewWork = () => {
-    console.log(myWorks.length);
     if(myWorks.length >= 5){
       toast.error('We require a maximum of 5 work experience entries', {
         duration: 6000,
@@ -68,6 +67,15 @@ export const JobExecution = ({
     years_of_experience: { score: 0, total: 1 },
   });
   const AddOne = async() => {
+    if(!doc){
+      return (
+        toast.error("Please attach a supporting document", {
+          duration: 6000,
+          position: "top-center",
+          style: { background: "#BD362F", color: "white" },
+        })
+      )
+    }
     const url = "/kyc-work-experience/create";
     const fd = new FormData();
     fd.append(`document`, doc);

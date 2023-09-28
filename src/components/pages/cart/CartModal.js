@@ -154,7 +154,6 @@ export const CartModal = ({ CloseModal }) => {
     contact_phone: null,
   });
   
-  console.log(prev);
   let productsArray = carts.map((option) => {
     let prodInfo = {};
     prodInfo.productId = `${option.id}`;
@@ -404,7 +403,7 @@ export const CartModal = ({ CloseModal }) => {
             <PhoneInput
               country={"ng"}
               name="phone"
-              value={orderForm.contact_phone}
+              value={phoneNo}
               onChange={(phone) => handlePhoneChange(phone)}
               className="mt-1 w-full rounded bg-white border border-gray-700"
               inputStyle={{

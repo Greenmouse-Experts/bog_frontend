@@ -261,7 +261,7 @@ export const Cart = () => {
                                 </p>
                               </div>
                               <div className="lg:w-3/12 lg:ml-6">
-                                <p>NGN {item.price}</p>
+                                <p>NGN {item.price * item.quantity}</p>
                                 <div className="flex mt-2 fw-600">
                                   <button
                                     className="border border-gray-300 rounded px-2 mr-2"
@@ -313,13 +313,13 @@ export const Cart = () => {
                             NGN {formatNumber(totalAmount)}
                           </p>
                         </div>
-                        <div className="fw-600 mt-3 flex justify-between">
+                        {/* <div className="fw-600 mt-3 flex justify-between">
                           <p>Estimated Delivery Cost</p>
                           <p>TBD</p>
-                        </div>
+                        </div> */}
                         <div className="fw-600 mt-3 flex justify-between">
                           <p>Estimated Sales Tax</p>
-                          <p>TBD</p>
+                          <p>7.5%</p>
                         </div>
                         <form onSubmit={form.handleSubmit}>
                           <div className="fw-600 my-4">
