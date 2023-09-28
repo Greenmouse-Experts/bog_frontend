@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Avatar, Breadcrumbs } from "@material-tailwind/react";
+import { Avatar, Breadcrumbs, Button } from "@material-tailwind/react";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { AiOutlineWechat } from "react-icons/ai";
@@ -25,12 +25,14 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import Axios from "../../../../config/config";
-import { formatNumber } from "../../../../services/helper";
+import { formatNumber, formatServiceType } from "../../../../services/helper";
 import { Loader } from "../../../layouts/Spinner";
 import { VerifyModal } from "./Modals/VerifyModal";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { SuspendUser } from "./Modals/SuspendUser";
-import { FaTools } from 'react-icons/fa'
+import { FaTools } from "react-icons/fa";
+import DisapproveKyc from "./Kyc/Disapprove";
+import ApproveKyc from "./Kyc/ApproveKyc";
 
 // const baseURL = process.env.REACT_APP_IMAGE_URL;
 
@@ -50,7 +52,8 @@ export default function UserDetails() {
   const [kyc, setKyc] = useState(null);
   const [average, setAverage] = useState();
   const [suspendModal, setSusupendModal] = useState(false);
-  const [reason, setReason] = useState("");
+  const [deny, setDeny] = useState(false);
+  const [approve, setApprove] = useState(false);
 
   const fetchUserDetails = async (userId, userType) => {
     try {
@@ -81,8 +84,7 @@ export default function UserDetails() {
       const res = await Axios.get(url, config);
       const kycs = res.data;
       setKyc(kycs);
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const Reload = () => {
@@ -269,7 +271,7 @@ export default function UserDetails() {
           text: "User suspendend",
         }).then(() => {
           //fetchUserDetails(userId, userType);
-        //   navigate("/dashboard/servicepartner");
+          //   navigate("/dashboard/servicepartner");
         });
       }
     });
@@ -411,17 +413,21 @@ export default function UserDetails() {
                     </div>
                     {client?.profile?.isVerified ? (
                       <div className="absolute -top-4 text-center right-0">
-                          {client.userType === 'professional' && (
-                            <div className="flex items-center gap-x-2">
-                              <p className="fw-600 fs-300 text-secondary">Rating</p>
-                              <p className="fw-600 text-primary text-lg">{projects.rating}</p>
-                            </div>
-                          )}
+                        {client.userType === "professional" && (
+                          <div className="flex items-center gap-x-2">
+                            <p className="fw-600 fs-300 text-secondary">
+                              Rating
+                            </p>
+                            <p className="fw-600 text-primary text-lg">
+                              {projects.rating}
+                            </p>
+                          </div>
+                        )}
                         <div className="flex justify-center items-center">
-                        <MdVerified className="text-3xl text-secondary" />
-                        <p className="fw-600 text-primary">
-                          {client?.profile.kycPoint}
-                        </p>
+                          <MdVerified className="text-3xl text-secondary" />
+                          <p className="fw-600 text-primary">
+                            {client?.profile.kycPoint}
+                          </p>
                         </div>
                       </div>
                     ) : (
@@ -601,22 +607,21 @@ export default function UserDetails() {
                           </p>
                         </div>
                       </div>
-                      {
-                        client?.userType === "professional" &&
+                      {client?.userType === "professional" && (
                         <div className="border-b mt-2 py-2">
-                        <div className="w-16 h-16 circle bg-light center-item">
-                          <FaTools className="text-xl lg:text-3xl text-primary" />
+                          <div className="w-16 h-16 circle bg-light center-item">
+                            <FaTools className="text-xl lg:text-3xl text-primary" />
+                          </div>
+                          <div className="fw-500 mt-2 flex">
+                            <p className="text-gray-500">Service Type:</p>
+                            <p className="pl-3">
+                              {client?.profile?.service_category
+                                ? client.profile.service_category.title
+                                : "null"}
+                            </p>
+                          </div>
                         </div>
-                        <div className="fw-500 mt-2 flex">
-                          <p className="text-gray-500">Service Type:</p>
-                          <p className="pl-3">
-                            {client?.profile?.service_category
-                              ? client.profile.service_category.title
-                              : "null"}
-                          </p>
-                        </div>
-                      </div>
-                      }
+                      )}
                     </div>
                   </div>
                 </div>
@@ -674,6 +679,32 @@ export default function UserDetails() {
                         </p>
                       </div>
                       <div className="py-4 border-b">
+                        <p className="text-gray-500">Service Role:</p>
+                        <p className="mt-1">
+                          {kyc?.kycGeneralInfo?.role
+                            ? formatServiceType(kyc?.kycGeneralInfo?.role)
+                            : "No data"}
+                        </p>
+                      </div>
+                      <div className="py-4 border-b">
+                        <p className="text-gray-500">Years of Experience:</p>
+                        <p className="mt-1">
+                          {kyc?.kycGeneralInfo?.years_of_experience
+                            ? kyc?.kycGeneralInfo?.years_of_experience
+                            : "No data"}
+                        </p>
+                      </div>
+                      <div className="py-4 border-b">
+                        <p className="text-gray-500">
+                          Certification of Personnel:
+                        </p>
+                        <p className="mt-1">
+                          {kyc?.kycGeneralInfo?.certification_of_personnel
+                            ? kyc?.kycGeneralInfo?.certification_of_personnel
+                            : "No data"}
+                        </p>
+                      </div>
+                      <div className="py-4 border-b">
                         <p className="text-gray-500">Type of Registration:</p>
                         <p className="mt-1">
                           {kyc?.kycGeneralInfo?.reg_type
@@ -705,8 +736,21 @@ export default function UserDetails() {
                           (including Email/Telephone):
                         </p>
                         <p className="mt-1">
+                          <span>Address: </span>
                           {kyc?.kycGeneralInfo?.operational_address
                             ? kyc?.kycGeneralInfo?.operational_address
+                            : "No data"}
+                        </p>
+                        <p>
+                          <span>Email: </span>
+                          {kyc?.kycGeneralInfo?.contact_number_2
+                            ? kyc?.kycGeneralInfo?.operational_email_tel
+                            : "No data"}
+                        </p>
+                        <p>
+                          <span>Phone: </span>
+                          {kyc?.kycGeneralInfo?.contact_number_2
+                            ? kyc?.kycGeneralInfo?.contact_number_2
                             : "No data"}
                         </p>
                       </div>
@@ -717,8 +761,38 @@ export default function UserDetails() {
                       <div className="py-4 border-b">
                         <p className="text-gray-500">Type of Organisation:</p>
                         <p className="mt-1">
-                          {kyc?.kycOrganisationInfo?.organisation_type
-                            ? kyc?.kycOrganisationInfo?.organisation_type
+                          {kyc?.kycOrganisationInfo?.organisation_type?
+                           kyc?.kycOrganisationInfo?.organisation_type === "Others" ? kyc?.kycOrganisationInfo?.others
+                            : kyc?.kycOrganisationInfo.organisation_type : "No data"}
+                        </p>
+                      </div>
+                      <div className="py-4 border-b">
+                        <p className="text-gray-500">
+                          No of Staff(s):
+                        </p>
+                        <p className="mt-1">
+                          {kyc?.kycOrganisationInfo?.no_of_staff
+                            ?  kyc?.kycOrganisationInfo?.no_of_staff
+                            : "No data"}
+                        </p>
+                      </div>
+                      <div className="py-4 border-b">
+                        <p className="text-gray-500">
+                          Cost of Projects Completed:
+                        </p>
+                        <p className="mt-1">
+                          {kyc?.kycOrganisationInfo?.cost_of_projects_completed
+                            ?  kyc?.kycOrganisationInfo?.cost_of_projects_completed
+                            : "No data"}
+                        </p>
+                      </div>
+                      <div className="py-4 border-b">
+                        <p className="text-gray-500">
+                        Complexity of Projects Completed:
+                        </p>
+                        <p className="mt-1">
+                          {kyc?.kycOrganisationInfo?.complexity_of_projects_completed
+                            ?  kyc?.kycOrganisationInfo?.complexity_of_projects_completed
                             : "No data"}
                         </p>
                       </div>
@@ -958,11 +1032,6 @@ export default function UserDetails() {
                           be obtained:
                         </p>
                         <p className="mt-1">
-                          {kyc?.kycFinancialData?.account_name
-                            ? kyc?.kycFinancialData?.account_name
-                            : "No data"}
-                        </p>
-                        <p className="mt-1">
                           {kyc?.kycFinancialData?.banker_address
                             ? kyc?.kycFinancialData?.banker_address
                             : "No data"}
@@ -1019,6 +1088,10 @@ export default function UserDetails() {
                     </div>
                   </TabPanel>
                 </Tabs>
+                <div className="flex justify-end gap-x-3 mt-5">
+                  <Button className="bg-red-500" onClick={() => setDeny(true)}>Disapprove</Button>
+                  <Button className="bg-primary" onClick={() => setApprove(true)}>Approve</Button>
+                </div>
               </div>
             ) : (
               ""
@@ -1026,6 +1099,12 @@ export default function UserDetails() {
           </div>
         )}
       </div>
+      {
+        deny && <DisapproveKyc close={() => setDeny(false)} id={'hello'} userid={userId}/>
+      }
+      {
+        approve && <ApproveKyc close={() => setApprove(false)} id={'hello'}/>
+      }
       {suspendModal && (
         <SuspendUser
           setSuspend={setSusupendModal}

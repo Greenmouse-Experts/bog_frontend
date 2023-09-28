@@ -68,7 +68,7 @@ export const UploadDoc = ({
     const allKeys = Object.keys(formData);
     Object.entries(formData).forEach(([key, value]) => {
       for (let i = 0; i < value.length; i++) {
-        fd.append(`${key}[]`, value[i]);
+        fd.append(`${key}`, value[i]);
       }
     });
     fd.append("userType", user.userType);

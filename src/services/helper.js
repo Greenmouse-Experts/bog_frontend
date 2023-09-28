@@ -181,3 +181,24 @@ export const getProjectCategory = (type) => {
       return "";
   }
 };
+
+export const formatServiceType = (type) => {
+  switch (type) {
+    case "quantity_surveyor":
+      return "Quantity Surveyor";
+    case "structural_engineer":
+      return "Structural Engineer";
+    case "architects":
+      return "Architects";
+    case "mechanical_engineer":
+      return "Mechanical Engineer";
+    case "Electrical Engineer":
+      return "electrical_engineer";
+      case "Surveyor":
+        return "surveyor";
+        case "Civil Engineer":
+      return "civil_engineer";
+    default:
+      return "";
+  }
+};
