@@ -20,7 +20,7 @@ const DisapproveKyc = ({id, userid, close}) => {
           reason: reason,
         };
         try {
-          const res = await Axios.post(url, payload, config);
+          const res = await Axios.patch(url, payload, config);
           if(res.data){
             toast.success('Disapproved successfully', {
                 duration: 6000,

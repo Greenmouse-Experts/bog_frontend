@@ -21,6 +21,7 @@ import Swal from "sweetalert2";
 import { CartModal } from "./cart/CartModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { calculatePercentage } from "../../services/helper";
 
 // const baseURL = process.env.REACT_APP_IMAGE_URL;
 
@@ -325,7 +326,7 @@ export const Cart = () => {
                           <div className="fw-600 my-4">
                             <div className="flex justify-between my-4">
                               <p>TOTAL COST</p>
-                              <p>NGN {formatNumber(totalAmount)}</p>
+                              <p>NGN {formatNumber(calculatePercentage(totalAmount, 7.5))}</p>
                             </div>
 
                             {auth.isAuthenticated ? (

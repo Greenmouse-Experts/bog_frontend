@@ -766,10 +766,6 @@ export default function UserDetails() {
                         </p>
                       </div>
                     </div>
-                    <div className="flex justify-end gap-x-3 mt-5">
-                  <Button className="bg-red-500" onClick={() => openDisable(kyc?.kycGeneralInfo?.id)}>Disapprove</Button>
-                  <Button className="bg-primary" onClick={() => openApprove(kyc?.kycGeneralInfo?.id)}>Approve</Button>
-                </div>
                   </TabPanel>
                   <TabPanel>
                     <div className="mt-6 fw-500">
@@ -1103,6 +1099,10 @@ export default function UserDetails() {
                     </div>
                   </TabPanel>
                 </Tabs>
+                <div className="flex justify-end gap-x-3 mt-5">
+                  <Button className="bg-red-500" onClick={() => openDisable(kyc?.kycOrganisationInfo?.id)}>Disapprove</Button>
+                  <Button className="bg-primary" onClick={() => openApprove(kyc?.kycOrganisationInfo?.id)}>Approve</Button>
+                </div>
               </div>
             ) : (
               ""

@@ -5,6 +5,8 @@ import Axios from "../../../../../config/config";
 import toast from "react-hot-toast";
 
 const ApproveKyc = ({ id, userid, close }) => {
+  console.log(id);
+  console.log(userid);
   const approveKyc = async () => {
     const authToken = localStorage.getItem("auth_token");
     const config = {
@@ -19,7 +21,7 @@ const ApproveKyc = ({ id, userid, close }) => {
       reason: "Not supported",
     };
     try {
-      const res = await Axios.post(url, payload, config);
+      const res = await Axios.patch(url, payload, config);
       if(res.data){
         toast.success('Approved Successfully', {
             duration: 6000,

@@ -30,6 +30,7 @@ export default function ProjectAdminDashboard(status) {
 
 
     const projects = useSelector((state) => state.projects.projects);
+    const mainProj = projects.filter(where => where.approvalStatus === "approved")
     const pendingProjects = projects.filter(where => where.status === "pending" || where.status === "Pending")
     const ongoingProjects = projects.filter(where => where.status === "ongoing" ||  where.status === "Ongoing")
     const completedProjects = projects.filter(where => where.status === "completed" || where.status === "Completed")
@@ -78,7 +79,7 @@ export default function ProjectAdminDashboard(status) {
             <div className="bg-[#e0e7ff] px-4 py-3 rounded flex justify-between items-center shades">
               <Link to="projectsadmin" className="flex justify-between items-center w-full">
                 <div>
-                    <p className="text-xxl fw-600 pb-2 text-xl">{projects? projects.length : 0}</p>
+                    <p className="text-xxl fw-600 pb-2 text-xl">{mainProj? mainProj.length : 0}</p>
                     <p className="text-gray-600">Total Projects</p>
                 </div>
                 <div className="">

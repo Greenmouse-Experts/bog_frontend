@@ -19,6 +19,7 @@ import { Country, State } from "country-state-city";
 import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiLocationPlus } from "react-icons/bi";
+import { calculatePercentage } from "../../../services/helper";
 
 export const CartModal = ({ CloseModal }) => {
   const AuhtCheck = () => {
@@ -206,16 +207,17 @@ export const CartModal = ({ CloseModal }) => {
   };
 
   const totalCost = () => {
+    const amount = calculatePercentage(totalAmount, 7.5)
     if (address_ !== null) {
       if (Object.keys(address_).length > 0) {
         if (addInsure && Number(insure) > 0) {
-          return totalAmount + address_.charge + Number(insure);
+          return amount + address_.charge + Number(insure);
         } else {
-          return totalAmount + address_.charge;
+          return amount + address_.charge;
         }
       }
     }
-    return totalAmount;
+    return amount;
   };
 
   useEffect(() => {
@@ -537,6 +539,10 @@ export const CartModal = ({ CloseModal }) => {
           <div className="flex justify-between my-4">
             <p>SUB TOTAL</p>
             <p>NGN {formatNumber(totalAmount)}</p>
+          </div>
+          <div className="flex justify-between my-4">
+            <p>Estimated Sales Tax</p>
+            <p>7.5%</p>
           </div>
           <div className="flex justify-between my-4">
             <p>DELIVERY FEE</p>
