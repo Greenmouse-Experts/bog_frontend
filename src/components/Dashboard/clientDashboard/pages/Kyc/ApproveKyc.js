@@ -5,8 +5,6 @@ import Axios from "../../../../../config/config";
 import toast from "react-hot-toast";
 
 const ApproveKyc = ({ id, userid, close }) => {
-  console.log(id);
-  console.log(userid);
   const approveKyc = async () => {
     const authToken = localStorage.getItem("auth_token");
     const config = {

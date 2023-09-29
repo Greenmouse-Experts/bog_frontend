@@ -24,7 +24,11 @@ export default function BlogCategory() {
 
     const categories = useSelector((state) => state.blog.categories);
 
-    const refreshCategory = () => { dispatch(getAllBlogCategories(stopLoading)) } 
+    const refreshCategory = () => { 
+        setTimeout(() => {
+            dispatch(getAllBlogCategories(stopLoading))
+        }, 2000);
+     } 
 
     useEffect(() => {
         setLoading(true);

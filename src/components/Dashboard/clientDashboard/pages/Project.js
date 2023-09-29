@@ -127,6 +127,7 @@ export function ClientProject({ isLoading }) {
                       <Tab>Pending</Tab>
                       <Tab>Ongoing</Tab>
                       <Tab>Completed</Tab>
+                      <Tab>Overdue</Tab>
                     </TabList>
                     <TabPanel>
                       <ProjectTable isLoader={isLoading} />
@@ -135,10 +136,13 @@ export function ClientProject({ isLoading }) {
                       <ProjectTable status={"pending"} isLoader={isLoading} />
                     </TabPanel>
                     <TabPanel>
-                      <ProjectTable status={"Ongoing"} isLoader={isLoading} />
+                      <ProjectTable status={"ongoing"} isLoader={isLoading} />
                     </TabPanel>
                     <TabPanel>
-                      <ProjectTable status={"Completed"} isLoader={isLoading} />
+                      <ProjectTable status={"completed"} isLoader={isLoading} />
+                    </TabPanel>
+                    <TabPanel>
+                      <ProjectTable status={"overdue"} isLoader={isLoading} />
                     </TabPanel>
                   </Tabs>
                 </div>

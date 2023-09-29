@@ -100,7 +100,7 @@ export const PartnerPaymentModal = ({ CloseModal, id, userId }) => {
           Project Partner Payment
         </p>
         <div>
-          <p>Please select on bank option</p>
+          <p>Please select a bank option</p>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mt-3">

@@ -20,8 +20,8 @@ const CreateCategoryModal = ({ CloseModal, refreshCategory }) => {
         };
         dispatch(createBlogCategory(payload, stopLoading));
         setLoading(false)
-        CloseModal()
         refreshCategory()
+        CloseModal()
     }
     const formik = useFormik({
         initialValues: {
