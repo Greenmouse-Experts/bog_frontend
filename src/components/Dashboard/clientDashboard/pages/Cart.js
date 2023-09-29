@@ -9,6 +9,7 @@ import React, { useState, useEffect } from "react";
 import { FaShoppingBasket, FaTimes } from 'react-icons/fa'
 import { CartModal } from "../../../pages/cart/CartModal";
 import Swal from "sweetalert2";
+import { calculatePercentage } from "../../../../services/helper";
 
 export default function Cart() {
     const carts = useSelector((state) => state.cart.cart);
@@ -131,24 +132,24 @@ export default function Cart() {
                                             </p>
                                             <p className="text-end">NGN {formatNumber(totalAmount)}</p>
                                           </div>
-                                          <div className="fw-600 mt-3 flex justify-between">
+                                          {/* <div className="fw-600 mt-3 flex justify-between">
                                             <p>
                                               Estimated Delivery Cost
                                             </p>
                                             <p>TBD</p>
-                                          </div>
+                                          </div> */}
                                           <div className="fw-600 mt-3 flex justify-between">
                                             <p>
                                               Estimated Sales Tax
                                             </p>
-                                            <p>TBD</p>
+                                            <p>7.5%</p>
                                           </div>
                                           <form >
                                             
                                             <div className="fw-600 my-4">
                                               <div className="flex justify-between my-4">
                                                 <p>TOTAL COST</p>
-                                                <p>NGN {formatNumber(totalAmount)}</p>
+                                                <p>NGN {formatNumber(calculatePercentage(totalAmount, 7.5))}</p>
                                               </div>
                                                 <button
                                                     type="button"

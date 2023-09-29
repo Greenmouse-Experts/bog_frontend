@@ -464,7 +464,7 @@ export default function Homepage() {
                 <div className="box pb-6 lg:pb-12">
                     <div>
                         <div className="lg:text-2xl text-xl fw-600 lg:w-4/12">
-                            <p>See what our Clients and Patners have to say about us </p>
+                            <p>See what our Clients and Partners have to say about us </p>
                         </div>
                         <div className="mt-12 hidden lg:block">
                             {
