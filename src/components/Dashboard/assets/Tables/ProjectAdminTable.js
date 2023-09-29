@@ -202,7 +202,7 @@ export default function ProjectsTable({ status, loader }) {
         );
       case "Completed":
         return (
-          <p className="px-2 py-1 text-green-700 bg-green-100 w-24 rounded-md fw-600">
+          <p className="px-2 py-1 text-green-700 bg-green-100 w-28 rounded-md fw-600">
             Completed
           </p>
         );
@@ -211,6 +211,12 @@ export default function ProjectsTable({ status, loader }) {
         return (
           <p className="px-2 py-1 text-orange-700 bg-orange-100 w-24 rounded-md fw-600">
             Ongoing
+          </p>
+        );
+        case "Overdue":
+        return (
+          <p className="px-2 py-1 text-purple-700 bg-purple-100 w-24 rounded-md fw-600">
+            Overdue
           </p>
         );
       case "draft":

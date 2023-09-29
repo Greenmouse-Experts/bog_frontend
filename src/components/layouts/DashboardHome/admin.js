@@ -49,10 +49,11 @@ export default function AdminDashboard(status) {
     }
 
     const projects = useSelector((state) => state.projects.projects);
-    const pendingProjects = projects.filter(where => where.status === "pending")
-    const ongoingProjects = projects.filter(where => where.status === "ongoing")
-    const completedProjects = projects.filter(where => where.status === "completed")
-    const cancelledProjects = projects.filter(where => where.status === "cancelled")
+    const mainProj = projects.filter(where => where.approvalStatus === "approved")
+    const pendingProjects = projects.filter(where => where.status === "pending" || where.status === "Pending")
+    const ongoingProjects = projects.filter(where => where.status === "ongoing" || where.status === "Ongoing")
+    const completedProjects = projects.filter(where => where.status === "completed" || where.status === "Completed")
+    const cancelledProjects = projects.filter(where => where.status === "cancelled" || where.status === "Cancelled")
 
     let adminOrders = useSelector((state) => state.orders.adminOrders);
     // let products = useSelector((state) => state.projects.products)
@@ -66,10 +67,10 @@ export default function AdminDashboard(status) {
     const service = users.filter(where => where.userType === 'professional')
     const vendor = users.filter(where => where.userType === 'vendor')
 
-    const pendingOrder = orders.filter(where => where.status === "pending")
-    const ongoingOrder = orders.filter(where => where.status === "ongoing")
-    const completedOrder = orders.filter(where => where.status === "completed")
-    const cancelledOrder = orders.filter(where => where.status === "cancelled")
+    const pendingOrder = orders.filter(where => where.status === "pending" || where.status === "Pending")
+    const ongoingOrder = orders.filter(where => where.status === "ongoing" || where.status === "Ongoing")
+    const completedOrder = orders.filter(where => where.status === "completed" || where.status === "Completed")
+    const cancelledOrder = orders.filter(where => where.status === "cancelled" || where.status === "Cancelled")
 
     const changeSelect = (e) => {
         dispatch(getUsersAnalyze(Number(e.target.value), stopLoading));
@@ -131,7 +132,7 @@ export default function AdminDashboard(status) {
             <div className="bg-[#e0e7ff] px-4 py-3 rounded flex justify-between items-center shades">
               <Link to="projectsadmin" className="flex justify-between items-center w-full">
                 <div>
-                    <p className="text-xxl fw-600 pb-2 text-xl">{projects? projects.length : 0}</p>
+                    <p className="text-xxl fw-600 pb-2 text-xl">{mainProj? mainProj.length : 0}</p>
                     <p className="text-gray-600">Total Projects</p>
                 </div>
                 <div className="">

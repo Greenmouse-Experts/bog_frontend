@@ -30,10 +30,10 @@ export default function ProjectAdminDashboard(status) {
 
 
     const projects = useSelector((state) => state.projects.projects);
-    const pendingProjects = projects.filter(where => where.status === "pending")
-    const ongoingProjects = projects.filter(where => where.status === "ongoing")
-    const completedProjects = projects.filter(where => where.status === "completed")
-    const cancelledProjects = projects.filter(where => where.status === "cancelled")
+    const pendingProjects = projects.filter(where => where.status === "pending" || where.status === "Pending")
+    const ongoingProjects = projects.filter(where => where.status === "ongoing" ||  where.status === "Ongoing")
+    const completedProjects = projects.filter(where => where.status === "completed" || where.status === "Completed")
+    const cancelledProjects = projects.filter(where => where.status === "cancelled" || where.status === "Cancelled")
 
 
 

@@ -138,7 +138,7 @@ export function ClientProject({ isLoading }) {
                       <ProjectTable status={"Ongoing"} isLoader={isLoading} />
                     </TabPanel>
                     <TabPanel>
-                      <ProjectTable status={"completed"} isLoader={isLoading} />
+                      <ProjectTable status={"Completed"} isLoader={isLoading} />
                     </TabPanel>
                   </Tabs>
                 </div>
