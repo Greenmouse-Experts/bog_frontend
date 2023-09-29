@@ -153,7 +153,9 @@ const AddressInfoModal = ({
             />
             e.g: 2 working days
           </div>
-          <div className="flex mt-5">
+
+          <div className="mt-5">
+          <label className="block">Insurance Charge</label>
                     <input
                       type="number"
                       name="insurancecharge"

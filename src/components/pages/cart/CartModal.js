@@ -100,6 +100,7 @@ export const CartModal = ({ CloseModal }) => {
   const changeToHome = () => {
     setCountry('NG')
     getStatesAddress(auth.user.state)
+    setPhoneNo(auth.user.phone)
     setOrderForm({
       city: auth.user.city || null,
       state: auth.user.state,
@@ -117,6 +118,7 @@ export const CartModal = ({ CloseModal }) => {
   const changeToSelected = (item) => {
     setCountry(item.country)
     getStatesAddress(item.state)
+    setPhoneNo(item.contact_phone)
     setOrderForm({
       city: null,
       state: item.state,
@@ -325,7 +327,6 @@ export const CartModal = ({ CloseModal }) => {
       </center>
     );
   }
-
   return (
     <div>
       <p className="border-b border-gray-300 pb-1 fw-600">

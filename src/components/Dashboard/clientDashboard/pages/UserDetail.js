@@ -54,6 +54,7 @@ export default function UserDetails() {
   const [suspendModal, setSusupendModal] = useState(false);
   const [deny, setDeny] = useState(false);
   const [approve, setApprove] = useState(false);
+  const [selectedId, setSelectedId] = useState()
 
   const fetchUserDetails = async (userId, userType) => {
     try {
@@ -299,6 +300,16 @@ export default function UserDetails() {
       }
     });
   };
+
+  const openDisable = (item) => {
+    setSelectedId(item)
+    setDeny(true)
+  }
+
+  const openApprove = (item) => {
+    setSelectedId(item)
+    setApprove(true)
+  }
 
   return (
     <div>
@@ -755,6 +766,10 @@ export default function UserDetails() {
                         </p>
                       </div>
                     </div>
+                    <div className="flex justify-end gap-x-3 mt-5">
+                  <Button className="bg-red-500" onClick={() => openDisable(kyc?.kycGeneralInfo?.id)}>Disapprove</Button>
+                  <Button className="bg-primary" onClick={() => openApprove(kyc?.kycGeneralInfo?.id)}>Approve</Button>
+                </div>
                   </TabPanel>
                   <TabPanel>
                     <div className="mt-6 fw-500">
@@ -1088,10 +1103,6 @@ export default function UserDetails() {
                     </div>
                   </TabPanel>
                 </Tabs>
-                <div className="flex justify-end gap-x-3 mt-5">
-                  <Button className="bg-red-500" onClick={() => setDeny(true)}>Disapprove</Button>
-                  <Button className="bg-primary" onClick={() => setApprove(true)}>Approve</Button>
-                </div>
               </div>
             ) : (
               ""
@@ -1100,10 +1111,10 @@ export default function UserDetails() {
         )}
       </div>
       {
-        deny && <DisapproveKyc close={() => setDeny(false)} id={'hello'} userid={userId}/>
+        deny && <DisapproveKyc close={() => setDeny(false)} id={selectedId} userid={client?.profile?.id}/>
       }
       {
-        approve && <ApproveKyc close={() => setApprove(false)} id={'hello'}/>
+        approve && <ApproveKyc close={() => setApprove(false)} id={selectedId} userid={client?.profile?.id}/>
       }
       {suspendModal && (
         <SuspendUser
