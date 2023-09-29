@@ -12,6 +12,7 @@ import ReactStars from "react-rating-stars-component";
 import toast from 'react-hot-toast';
 import Swal from "sweetalert2";
 import { PartnerPaymentModal } from "./Product/Modals/PartnerPaymentModal";
+import { useSelector } from "react-redux";
 
 const orderProgress = [
   {
@@ -111,11 +112,21 @@ export default function OrderDetails() {
       }
     }
   };
-
   const openPayment = (id, ids) => {
-    setPayout(true)
-    setPartnerId(id)
+    if(id.fname.includes("admin")){
+      toast.error(
+        'Cannot make payment to Admin',
+        {
+          duration: 6000,
+          position: "top-center",
+          style: { background: '#BD362F', color: 'white' },
+        }
+      );
+    }else{
+      setPayout(true)
+    setPartnerId(id.id)
     setProdId(ids)
+    }
   }
 
   useEffect(() => {
@@ -472,7 +483,7 @@ export default function OrderDetails() {
                           : "No Email"}</p>
                     </div>
                   </div>
-                  <Button className="w-full bg-primary mt-4" onClick={() => openPayment(item.product_owner.id, item.id)}>Initalize Payment</Button>
+                  <Button className="w-full bg-primary mt-4" onClick={() => openPayment(item.product_owner, item.id)}>Initalize Payment</Button>
                       </div>
                     ))
                   }

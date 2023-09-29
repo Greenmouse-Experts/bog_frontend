@@ -106,13 +106,13 @@ export default function ProjectTable({ status, isLoader }) {
 
   useEffect(() => {
     dispatch(getCommitmentFee());
-  }, [dispatch]);
+  }, []);
 
   // let  myProjects = useSelector((state) => state.orders. myProjects);
   let myProjects = useSelector((state) => state.projects.projects);
 
   if (status) {
-    myProjects = myProjects.filter((where) => where.status === status);
+    myProjects = myProjects.filter((where) => where.status.toLowerCase() === status);
   }
 
   const commitment = useSelector((state) => state.projects.fees);
@@ -209,6 +209,12 @@ export default function ProjectTable({ status, isLoader }) {
             Ongoing
           </p>
         );
+        case "Overdue":
+          return (
+            <p className="px-2 py-1 w-24 bg-purple-100 text-purple-700 rounded-md fw-600">
+              Overdue
+            </p>
+          );
       case "closed":
         return (
           <p className="px-2 py-1 w-24 text-red-700 bg-red-100 rounded-md fw-600">

@@ -19,7 +19,7 @@ import { Country, State } from "country-state-city";
 import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiLocationPlus } from "react-icons/bi";
-import { calculatePercentage } from "../../../services/helper";
+import { calculatePercentage, getPercentage } from "../../../services/helper";
 
 export const CartModal = ({ CloseModal }) => {
   const AuhtCheck = () => {
@@ -541,8 +541,8 @@ export const CartModal = ({ CloseModal }) => {
             <p>NGN {formatNumber(totalAmount)}</p>
           </div>
           <div className="flex justify-between my-4">
-            <p>Estimated Sales Tax</p>
-            <p>7.5%</p>
+            <p>Estimated Sales Tax (7.5%)</p>
+            <p>NGN {formatNumber(getPercentage(totalAmount, 7.5))}</p>
           </div>
           <div className="flex justify-between my-4">
             <p>DELIVERY FEE</p>

@@ -4,9 +4,15 @@ import { FaTimes } from 'react-icons/fa'
 import Axios from '../../../../../config/config'
 import toast from 'react-hot-toast'
 
-const DisapproveKyc = ({id, userid, close}) => {
+const DisapproveKyc = ({id, userid, type, close}) => {
     const [reason, setReason] = useState('')
     const disapproveKyc = async () => {
+          const payload = {
+            userType: type,
+            userId: userid,
+            approved: false,
+            reason: reason,
+          };
         const authToken = localStorage.getItem("auth_token");
         const config = {
           headers: {
@@ -14,18 +20,15 @@ const DisapproveKyc = ({id, userid, close}) => {
             Authorization: authToken,
           },
         };
-        let url = `/kyc/document/approval/${id}/${userid}`;
-        const payload = {
-          approved: false,
-          reason: reason,
-        };
         try {
-          const res = await Axios.patch(url, payload, config);
-          if(res.data){
+          const res = await Axios.post("/kyc/admin-approval", payload, config);
+          if(res.success){
             toast.success('Disapproved successfully', {
                 duration: 6000,
                 position: "top-center",
+                style: { background: "green", color: "white" },
               });
+              close()
           }
         } catch (error) {
           toast.error(error.message, {

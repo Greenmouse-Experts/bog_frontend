@@ -9,7 +9,7 @@ import React, { useState, useEffect } from "react";
 import { FaShoppingBasket, FaTimes } from 'react-icons/fa'
 import { CartModal } from "../../../pages/cart/CartModal";
 import Swal from "sweetalert2";
-import { calculatePercentage } from "../../../../services/helper";
+import { calculatePercentage, getPercentage } from "../../../../services/helper";
 
 export default function Cart() {
     const carts = useSelector((state) => state.cart.cart);
@@ -140,9 +140,9 @@ export default function Cart() {
                                           </div> */}
                                           <div className="fw-600 mt-3 flex justify-between">
                                             <p>
-                                              Estimated Sales Tax
+                                              Estimated Sales Tax (7.5%)
                                             </p>
-                                            <p>7.5%</p>
+                                            <p>NGN {formatNumber(getPercentage(totalAmount, 7.5))}</p>
                                           </div>
                                           <form >
                                             

@@ -3,6 +3,7 @@ import * as ActionType from '../type';
 import axios from '../../config/config';
 import Swal from "sweetalert2";
 import toast from 'react-hot-toast';
+import Axios from '../../config/config';
 
 export const loading = () => {
     return {
@@ -261,7 +262,7 @@ export const deleteBlogCategory = (payload) => {
                     "categoryId": payload
                 }
             }
-            const response = await axios(config);
+            const response = await Axios(config);
             toast.success("Category deleted succesfully")            
             return response
         } catch (error) {

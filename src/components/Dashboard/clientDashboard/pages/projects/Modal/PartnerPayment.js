@@ -100,7 +100,7 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
         <div className="bg-white max-h-96 lg:max-h-01 overflow-y-auto lg:w-4/12 relative rounded-md  overscroll-none  w-11/12 p-8 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
             <p className="fw-600 text-lg lg:text-xl mb-6">Project Partner Payment</p>
             <div>
-                <p>Please select on bank option</p>
+                <p>Please select a bank option</p>
             </div>
             <form onSubmit={handleSubmit}>
                 <div className='mt-3'>

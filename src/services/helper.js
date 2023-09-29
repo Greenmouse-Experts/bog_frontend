@@ -210,3 +210,11 @@ export function calculatePercentage(amount, percent) {
 
   return (amount * percent) / 100 + amount;
 }
+
+export function getPercentage(amount, percent) {
+  if (typeof amount !== 'number' || typeof percent !== 'number' || percent < 0) {
+    return 'Invalid input';
+  }
+
+  return (amount * percent) / 100;
+}

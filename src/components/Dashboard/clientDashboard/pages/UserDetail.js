@@ -588,7 +588,7 @@ export default function UserDetails() {
                           <VscReferences className="text-xl lg:text-3xl text-primary" />
                         </div>
                         <div className="fw-500 mt-2 flex">
-                          <p className="text-gray-500">Refferd By:</p>
+                          <p className="text-gray-500">Refferred By:</p>
                           <p className="pl-3">
                             {client.referralId ? client.referralId : "null"}
                           </p>
@@ -1101,7 +1101,7 @@ export default function UserDetails() {
                 </Tabs>
                 <div className="flex justify-end gap-x-3 mt-5">
                   <Button className="bg-red-500" onClick={() => openDisable(kyc?.kycOrganisationInfo?.id)}>Disapprove</Button>
-                  <Button className="bg-primary" onClick={() => openApprove(kyc?.kycOrganisationInfo?.id)}>Approve</Button>
+                  <Button className="bg-primary" onClick={() => setVerify(true)}>Approve</Button>
                 </div>
               </div>
             ) : (
@@ -1111,7 +1111,7 @@ export default function UserDetails() {
         )}
       </div>
       {
-        deny && <DisapproveKyc close={() => setDeny(false)} id={selectedId} userid={client?.profile?.id}/>
+        deny && <DisapproveKyc close={() => setDeny(false)} id={selectedId} type={client?.profile?.userType} userid={client?.profile?.userId}/>
       }
       {
         approve && <ApproveKyc close={() => setApprove(false)} id={selectedId} userid={client?.profile?.id}/>
@@ -1125,7 +1125,7 @@ export default function UserDetails() {
         />
       )}
       {verify && (
-        <VerifyModal setVerify={setVerify} client={client} reload={Reload} />
+        <VerifyModal setVerify={setVerify} client={client} reload={Reload} average={average} />
       )}
     </div>
   );

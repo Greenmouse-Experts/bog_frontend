@@ -21,7 +21,7 @@ import Swal from "sweetalert2";
 import { CartModal } from "./cart/CartModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { calculatePercentage } from "../../services/helper";
+import { calculatePercentage, getPercentage } from "../../services/helper";
 
 // const baseURL = process.env.REACT_APP_IMAGE_URL;
 
@@ -319,8 +319,8 @@ export const Cart = () => {
                           <p>TBD</p>
                         </div> */}
                         <div className="fw-600 mt-3 flex justify-between">
-                          <p>Estimated Sales Tax</p>
-                          <p>7.5%</p>
+                          <p>Estimated Sales Tax (7.5%)</p>
+                          <p>NGN {formatNumber(getPercentage(totalAmount, 7.5))}</p>
                         </div>
                         <form onSubmit={form.handleSubmit}>
                           <div className="fw-600 my-4">
