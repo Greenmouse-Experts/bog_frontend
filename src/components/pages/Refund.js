@@ -45,14 +45,14 @@ export default function Refund() {
                       <div className="mt-4">
                         <p className="fw-600 fs-700">How do I return my order?</p>
                         <p className="py-3">
-                          Kindly send a request to support@bog.com. After confirming your return request, Our team will respond to your request and guide you to the next pickup point.
+                          Kindly send a request to support@buildonthego.com. After confirming your return request, Our team will respond to your request and guide you to the next pickup point.
                           Once we receive your item, we will inspect it, and If your return is approved, we will initiate a refund to your account.
                         </p>
                       </div>
                       <div className="mt-4">
                         <p className="fw-600 fs-700">Cancellation Policy</p>
                         <p className="py-3">
-                          You can only cancel your order when the order is still in processing status. Only cancellation request made by the means of sending a request to support@bog.com will be acknowledged. We do not acknowledge any cancellation requests by other means , i.e. through call.
+                          You can only cancel your order when the order is still in processing status. Only cancellation request made by the means of sending a request to support@buildonthego.com will be acknowledged. We do not acknowledge any cancellation requests by other means , i.e. through call.
                         </p>
                         <p>
                           If the cancellation request of your order is before your order has been shipped or transported, BOG Nigeria Limited will effect a refund. Generally, refund takes between 3 to 30 business days depending on the mode of payment.
