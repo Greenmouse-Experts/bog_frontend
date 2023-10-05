@@ -85,8 +85,8 @@ export default function Contact() {
                   />
                 </div>
                 <p className="fw-600 fs-700 mb-2">Email Support</p>
-                <p>support@bog.com</p>
-                <p>info@bog.com</p>
+                <p>support@buildonthego.com</p>
+                <p>info@buildonthego.com</p>
               </div>
               <div className="lg:w-3/12 text-center relative pt-8 mt-20 lg:mt-0">
                 <div className="w-20 m-auto bg-white py-3 shadow-xl rounded flex justify-center absolute -top-12 x-center">
