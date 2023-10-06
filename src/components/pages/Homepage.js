@@ -345,7 +345,7 @@ export default function Homepage() {
             <div className="box">
                 <div className="section pt-0">
                     <div>
-                        <p className="lg:w-6/12 m-auto text-center lg:text-3xl text-2xl fw-600">Start, monitor and complete your project hazzle free in one app</p>
+                        <p className="lg:w-6/12 m-auto text-center lg:text-3xl text-2xl fw-600">Start, monitor and complete your project hassle-free in one app</p>
                     </div>
                     <div className="lg:flex justify-between my-16" id="hassle" ref={hazzle}>
                         <div className="text-center lg:w-2/12 px-4">

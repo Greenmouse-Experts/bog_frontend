@@ -29,7 +29,7 @@ export const Reviews = [
     name: "Chukka Uzo",
     job: "Construction",
     review:
-      "Thanks to BOG, I now handle the whole construction process hazzle free. I’m glad that I’m part of the BOG service providers.",
+      "Thanks to BOG, I now handle the whole construction process hassle-free. I’m glad that I’m part of the BOG service providers.",
   },
   {
     id: 3,
@@ -61,7 +61,7 @@ export const Reviews = [
     name: "Chukka Uzo",
     job: "Construction",
     review:
-      "Thanks to BOG, I now handle the whole construction process hazzle free. I’m glad that I’m part of the BOG service providers.",
+      "Thanks to BOG, I now handle the whole construction process hassle-free. I’m glad that I’m part of the BOG service providers.",
   },
   {
     id: 7,
