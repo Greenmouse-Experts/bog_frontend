@@ -9,6 +9,10 @@ export const formatNumber = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
+export const formatNgnNumber = (number) => {
+  return `₦${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+};
+
 export const getSubTotal = (items) => {
   const total = items.reduce((sum, data) => {
     return sum + data.amount ;
@@ -208,7 +212,7 @@ export function calculatePercentage(amount, percent) {
     return 'Invalid input';
   }
 
-  return (amount * percent) / 100 + amount;
+  return Math.round((amount * percent) / 100) + amount;
 }
 
 export function getPercentage(amount, percent) {
@@ -216,5 +220,50 @@ export function getPercentage(amount, percent) {
     return 'Invalid input';
   }
 
-  return (amount * percent) / 100;
+  return Math.round((amount * percent) / 100);
 }
+
+export function multiplyStrings(...numbers) {
+  let result = 1;
+
+  for (let numStr of numbers) {
+    // Use optional chaining to safely convert the string to a number
+    const num = numStr ? parseFloat(numStr) : undefined;
+
+    // Check if the conversion was successful and the value is a finite number.
+    if (num !== undefined && !isNaN(num) && isFinite(num)) {
+      // Multiply the number with the current result.
+      result *= num;
+    } else if (num !== undefined) {
+      // Handle invalid input, like non-numeric strings.
+      console.error(`Invalid number: ${numStr}`);
+    }
+  }
+
+  return result;
+}
+export function addValues (...numbers) {
+  let result = 0;
+
+  for (let numStr of numbers) {
+    // Use optional chaining to safely convert the string to a number
+    const num = numStr ? parseFloat(numStr) : undefined;
+
+    // Check if the conversion was successful and the value is a finite number.
+    if (num !== undefined && !isNaN(num) && isFinite(num)) {
+      // Multiply the number with the current result.
+      result += num;
+    } else if (num !== undefined) {
+      // Handle invalid input, like non-numeric strings.
+      console.error(`Invalid number: ${numStr}`);
+    }
+  }
+
+  return result;
+}
+
+
+
+
+
+

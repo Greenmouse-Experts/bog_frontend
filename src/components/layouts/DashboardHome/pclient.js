@@ -67,7 +67,7 @@ export default function PclientDashboard() {
       <div className="w-full lg:flex justify-between py-6 lg:px-8 bg-white px-4">
         <div>
           <div className="text-2xl fw-600 flex items-center">
-            <p className="">Welcome, {user?.name}</p>
+            <p className="">Welcome, {user?.fname}</p>
             <FontAwesomeIcon
               icon={faThumbsUp}
               className="pl-3 text-secondary"

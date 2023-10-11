@@ -4,7 +4,7 @@ import Header from './home-comp/Header';
 import { useNavigate, useLocation } from "react-router-dom";
 import useFetchHook from '../../hooks/useFetchHook';
 import Spinner from '../layouts/Spinner';
-import { capitalizeFirstLetter, formatNumber, getSubTotal } from '../../services/helper';
+import { capitalizeFirstLetter, formatNumber, getPercentage, getSubTotal } from '../../services/helper';
 import dayjs from 'dayjs';
 
 
@@ -60,6 +60,7 @@ export const OrderSuccess = () => {
                                 <p className='bg-primary fw-600 px-3 py-2 text-white w-full'>Payment</p>
                                 <div className='px-3 bg-light py-4'>
                                     <p className=''>Subtotal - <span className='fw-500'>&#8358; {formatNumber(getSubTotal(order.order_items))}</span></p>
+                                    <p className=''>VAT - <span className='fw-500'>&#8358; {formatNumber(getPercentage(getSubTotal(order.order_items), 7.5))}</span></p>
                                     <p className='my-2'>Shipping & Handling - <span className='fw-500'>&#8358; {formatNumber(order.deliveryFee)}</span></p>
                                     {
                                        order?.insurancefee && (

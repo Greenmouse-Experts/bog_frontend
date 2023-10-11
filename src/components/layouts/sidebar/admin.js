@@ -320,6 +320,14 @@ const AdminSidebar = () => {
                     >
                       <p className="py-2">Project Requests</p>
                     </NavLink>
+                    <NavLink
+                      to="project-settings"
+                      style={({ isActive }) =>
+                        isActive ? activeStyles : undefined
+                      }
+                    >
+                      <p className="py-2">Project Settings</p>
+                    </NavLink>
                   </div>
                 )}
               </div>

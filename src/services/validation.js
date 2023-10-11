@@ -7,7 +7,7 @@ export const privateClientSchema = Yup.object({
     email: Yup.string().email("Enter a valid E-mail address").required("E-mail Address is required"),
     phone: Yup.string()
         .required("A phone number is required")
-        .min(7, "Please enter a valid phone number")
+        .min(9, "Please enter a valid phone number")
         .max(13, "Please enter a valid phone number"),
     password: Yup.string().required('Password is required').matches(
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/,

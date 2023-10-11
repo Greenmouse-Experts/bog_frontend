@@ -265,7 +265,7 @@ export default function UserOrderDetail() {
                       <p className="text-black">
                         &#8358;
                         {formatNumber(
-                          getSubTotal(order.order_items) + order.deliveryFee
+                          order.totalAmount
                         )}
                       </p>
                     </div>
