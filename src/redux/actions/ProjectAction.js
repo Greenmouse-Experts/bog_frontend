@@ -3,6 +3,7 @@ import * as ActionType from "../type";
 import axios from "../../config/config";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import Axios from "../../config/config";
 
 export const loading = () => {
   return {
@@ -760,6 +761,40 @@ export const deleteUserProject = (id, stopLoading) => {
       } else {
         stopLoading();
         dispatch(setError(errorMsg));
+        toast.error(errorMsg, {
+          duration: 6000,
+          position: "top-center",
+          style: { background: "#BD362F", color: "white" },
+        });
+      }
+    }
+  };
+};
+
+export const updateGIDetails = (payload, saveLoading) => {
+  return async (dispatch) => {
+    try {
+      const authToken = localStorage.getItem("auth_token");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+      };
+      await Axios.post("/projects/geotechnical-investigation/metadata", payload, config);
+      saveLoading();
+      Swal.fire({
+        title: "Done",
+        text: `Project Pricing Updated`,
+        icon: "success",
+      });
+    } catch (error) {
+      let errorMsg = error?.response?.data?.message || error.message;
+      if (errorMsg === "Request failed with status code 401") {
+        window.location.href = "/";
+      } else {
+        dispatch(setError(errorMsg));
+        saveLoading();
         toast.error(errorMsg, {
           duration: 6000,
           position: "top-center",

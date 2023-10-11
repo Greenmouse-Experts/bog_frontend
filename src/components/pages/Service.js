@@ -15,6 +15,7 @@ import {
 } from "../../redux/actions/ServiceCategoryAction";
 import { fetchServiceCategories } from "../../redux/actions/ProjectAction";
 import { FaGreaterThan } from "react-icons/fa";
+import ServiceGIForm from "./home-comp/GiForm";
 
 window.jQuery = $; //JQuery alias
 window.$ = $; //JQuery alias
@@ -32,7 +33,6 @@ export default function Service() {
   }, [dispatch]);
 
   const auth = useSelector((state) => state.auth);
-  //const user = useSelector((state) => state.auth.user);
 
   const FillAdress = () => {
     Swal.fire({
@@ -56,6 +56,7 @@ export default function Service() {
   const [servicesType, setServicesType] = useState([]);
   const [formDisplay, setServiceFormDisplay] = useState(false);
   const [selectedService, setSelectedService] = useState("");
+  const [openGI, setOpenGI] = useState(false)
 
   const AuhtCheck = () => {
     Swal.fire({
@@ -181,6 +182,24 @@ export default function Service() {
                 </p>
               </div>
               <div className="lg:grid-3 justify-between lg:mt-24 lg:mb-24">
+              <div
+                    className="shadow-md h-48  mt-12 mb-12 center-item text-center"
+                  >
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => 
+                          auth.isAuthenticated
+                            ? setOpenGI(true)
+                            : AuhtCheck()}
+                    >
+                      <img
+                        src='	https://res.cloudinary.com/greenmouse-tech/image/upload/v1691484372/hmftsl09cjqdhybdnvcs.jpg'
+                        alt="survey"
+                        className="lg:w-16 w-16 mx-auto mb-5"
+                      />
+                      <p className="fw-500">Geotechnical Investigation</p>
+                    </div>
+                  </div>
                 {categories.map((category, index) => (
                   <div
                     className="shadow-md h-48  mt-12 mb-12 center-item text-center"
@@ -296,6 +315,9 @@ export default function Service() {
         ) : (
           noFormDisplay()
         ))}
+      {
+        openGI && <ServiceGIForm close={() => setOpenGI(false)}/>
+      }
     </div>
   );
 }

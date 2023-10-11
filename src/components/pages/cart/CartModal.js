@@ -320,7 +320,9 @@ export const CartModal = ({ CloseModal }) => {
       !orderForm.home_address
     ) {
       return false;
-    } else return true;
+    } else if(orderForm.contact_phone.length < 10 || orderForm.contact_phone.length > 13 ) {
+      return false
+    }else return true;
   };
   if (loading) {
     return (
@@ -355,7 +357,7 @@ export const CartModal = ({ CloseModal }) => {
             {prev &&
               !!prev.length &&
               prev.map((item, i) => (
-                <div className="p-2 shadow hover:scale-105" key={i} onClick={() => changeToSelected(item)}>
+                <div className="p-2 shadow cursor-pointer hover:scale-105" key={i} onClick={() => changeToSelected(item)}>
                   <BiLocationPlus className="text-xl text-primary" />
                   <p className="fw-500 mt-1">{item?.address}</p>
                 </div>
@@ -415,7 +417,14 @@ export const CartModal = ({ CloseModal }) => {
                 paddingTop: "19px",
                 paddingBottom: "19px",
               }}
-              rules={{ required: true }}
+              rules={{ required: true,  }}
+              isValid={(value, country) => {
+                if(value.length < 10 || value.length > 13){
+                  return ``
+                }else{
+                  return true
+                }
+              }}
             />
             {orderForm.contact_phone === "" ? (
               <p className="text-red-500">{"Contact Phone is required"}</p>
