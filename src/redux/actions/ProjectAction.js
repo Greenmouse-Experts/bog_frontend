@@ -771,7 +771,7 @@ export const deleteUserProject = (id, stopLoading) => {
   };
 };
 
-export const updateGIDetails = (payload, saveLoading) => {
+export const updateGIDetails = (payload, saveLoading, openPay) => {
   return async (dispatch) => {
     try {
       const authToken = localStorage.getItem("auth_token");
@@ -781,13 +781,20 @@ export const updateGIDetails = (payload, saveLoading) => {
           Authorization: authToken,
         },
       };
-      await Axios.post("/projects/geotechnical-investigation/metadata", payload, config);
+      await Axios.post(
+        "/projects/geotechnical-investigation/order",
+        payload,
+        config
+      );
       saveLoading();
-      Swal.fire({
-        title: "Done",
-        text: `Project Pricing Updated`,
-        icon: "success",
-      });
+      if (res.success) {
+        Swal.fire({
+          title: "Done",
+          text: `Project Pricing Updated`,
+          icon: "success",
+        });
+        openPay();
+      }
     } catch (error) {
       let errorMsg = error?.response?.data?.message || error.message;
       if (errorMsg === "Request failed with status code 401") {

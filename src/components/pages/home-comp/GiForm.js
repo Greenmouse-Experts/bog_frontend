@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
 import { useFormik } from "formik";
-// import DisableNumInputScroll from "../../../../../widgets/DisableNumberScroll";
-// import Spinner from "../../../../../layouts/Spinner";
 import { useDispatch } from "react-redux";
-// import { updateGIDetails } from "../../../../../../redux/actions/ProjectAction";
 import { FaTimes } from "react-icons/fa";
 import Spinner from "../../layouts/Spinner";
 import DisableNumInputScroll from "../../widgets/DisableNumberScroll";
@@ -17,45 +14,104 @@ import {
   formatNumber,
   getPercentage,
 } from "../../../services/helper";
+import { updateGIDetails } from "../../../redux/actions/ProjectAction";
 
 const ServiceGIForm = ({ close }) => {
   const [Loading, setLoading] = useState();
   const [viewPrice, setViewPrice] = useState(false);
+  const [showPay, setShowPay] = useState(false)
   // pricing state
   const [sptOne, setSptOne] = useState(0);
   const [sptTwo, setSptTwo] = useState(0);
   const [cptOne, setCptOne] = useState(0);
   const [cptTwo, setCptTwo] = useState(0);
   const [chem, setChem] = useState(0);
-  const [tots, setTots] = useState(0)
+  const [tots, setTots] = useState(0);
   const [totals, setTotals] = useState(0);
   const { loading, data, refetch } = useFetchHook(
     "/projects/geotechnical-investigation/metadata/view"
   );
+  const checkAllFields = () => {
+    if (
+      name &&
+      address &&
+      setup_dismantle_rig_qty >= 1 &&
+      setup_dismantle_cpt_qty >= 1 &&
+      chemical_analysis_of_ground_water_qty >= 1 &&
+      no_of_bh > 0 &&
+      depth_of_bh
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const [rate, setRate] = useState();
+  const getSelectedRate = () => {
+    if (!data) {
+      return;
+    }
+    if (no_of_bh <= 0 && !depth_of_bh) {
+      return;
+    }
+    const rateMeter = data.filter(
+      (where) =>
+        where.min_qty_bh <= no_of_bh &&
+        where.max_qty_bh >= no_of_bh &&
+        where.depth_of_bh == depth_of_bh
+    );
+    if (!!rateMeter.length) {
+      setRate(rateMeter[0]);
+      setTimeout(() => {
+        setSptTwo(
+          formik.values.setup_dismantle_rig_qty *
+            parseFloat(rateMeter[0].depth_of_borehole_amt)
+        );
+      }, 500);
+    } else {
+      setRate();
+      return toast.error("Pricing for selected value not available yet", {
+        duration: 6000,
+        position: "top-center",
+        style: { background: "#BD362F", color: "white" },
+      });
+    }
+  };
   const dispatch = useDispatch();
   const stopLoading = () => {
     setLoading(false);
   };
+  const openPay = () => {
+    setShowPay(true)
+  }
   const submitHandler = (value) => {
     setLoading(true);
     const payload = {
       ...value,
-      setup_dismantle_rig_amt: Number(data.setup_dismantle_rig),
-      drilling_spt_amt: Number(data.depth_of_borehole),
+      setup_dismantle_rig_amt: Number(rate.setup_dismantle_rig),
+      drilling_spt_amt: Number(rate.depth_of_borehole_amt),
       drilling_spt_qty: formik.values.setup_dismantle_rig_qty,
-      setup_dismantle_cpt_amt: Number(data.setup_dismantle_cpt),
-      dutch_cpt_amt: Number(data.tons_machine),
+      setup_dismantle_cpt_amt: Number(rate.setup_dismantle_cpt),
+      dutch_cpt_amt: Number(rate.tons_machine),
       dutch_cpt_qty: formik.values.setup_dismantle_cpt_qty,
-      chemical_analysis_of_ground_water_amt: Number(data.chemical_analysis_of_ground_water),
-      total: totals
+      chemical_analysis_of_ground_water_amt: Number(
+        rate.chemical_analysis_of_ground_water
+      ),
+      mobilization: rate.mobilization,
+      demobilization: rate.demobilization,
+      lab_test: rate.lab_test,
+      report: rate.report,
+      total: calculatePercentage(tots, 7.5),
     };
     console.log(payload);
-    // dispatch(updateGIDetails(payload, stopLoading))
+    dispatch(updateGIDetails(payload, stopLoading, openPay))
   };
   const formik = useFormik({
     initialValues: {
       name: "",
-      location: "",
+      address: "",
+      no_of_bh: 0,
+      depth_of_bh: 0,
       setup_dismantle_rig_amt: 0,
       setup_dismantle_rig_qty: 0,
       drilling_spt_amt: 0,
@@ -73,7 +129,9 @@ const ServiceGIForm = ({ close }) => {
   });
   const {
     name,
-    location,
+    address,
+    no_of_bh,
+    depth_of_bh,
     setup_dismantle_rig_amt,
     setup_dismantle_rig_qty,
     drilling_spt_amt,
@@ -87,10 +145,18 @@ const ServiceGIForm = ({ close }) => {
     total,
   } = formik.values;
   const handleShowPrice = () => {
-    handleCalculation()
-    if(name && location && setup_dismantle_rig_qty >= 1 && setup_dismantle_cpt_qty >= 1 && chemical_analysis_of_ground_water_qty >= 1){
-      setViewPrice(true);
-    }else{
+    if (checkAllFields()) {
+      if (rate) {
+        handleTotal();
+        setViewPrice(true);
+      } else {
+        return toast.error("Pricing for selected value not available yet", {
+          duration: 6000,
+          position: "top-center",
+          style: { background: "#BD362F", color: "white" },
+        });
+      }
+    } else {
       toast.error("Fill the available fields", {
         duration: 6000,
         position: "top-center",
@@ -100,49 +166,55 @@ const ServiceGIForm = ({ close }) => {
   };
   const handleCalculation = () => {
     if (!data) {
-      return
-      // return toast.error("Data not available yet", {
-      //   duration: 6000,
-      //   position: "top-center",
-      //   style: { background: "#BD362F", color: "white" },
-      // });
+      return;
     }
-    setSptOne(
-      formik.values.setup_dismantle_rig_qty *
-        parseFloat(data.setup_dismantle_rig)
+    if (rate) {
+      setSptOne(
+        formik.values.setup_dismantle_rig_qty *
+          parseFloat(rate.setup_dismantle_rig)
+      );
+      setSptTwo(
+        formik.values.setup_dismantle_rig_qty *
+          parseFloat(rate.depth_of_borehole_amt)
+      );
+      setCptOne(
+        formik.values.setup_dismantle_cpt_qty *
+          parseFloat(rate.setup_dismantle_cpt)
+      );
+      setCptTwo(
+        formik.values.setup_dismantle_cpt_qty * parseFloat(rate.tons_machine)
+      );
+      setChem(
+        formik.values.chemical_analysis_of_ground_water_qty *
+          parseFloat(rate.chemical_analysis_of_ground_water)
+      );
+    }
+  };
+  const handleTotal = () => {
+    setTots(
+      addValues(
+        sptOne,
+        sptTwo,
+        cptOne,
+        cptTwo,
+        chem,
+        rate.mobilization,
+        rate.demobilization,
+        rate.lab_test,
+        rate.report
+      )
     );
-    setSptTwo(
-      formik.values.setup_dismantle_rig_qty * parseFloat(data.depth_of_borehole)
-    );
-    setCptOne(
-      formik.values.setup_dismantle_cpt_qty *
-        parseFloat(data.setup_dismantle_cpt)
-    );
-    setCptTwo(
-      formik.values.setup_dismantle_cpt_qty * parseFloat(data.tons_machine)
-    );
-    setChem(
-      formik.values.chemical_analysis_of_ground_water_qty *
-        parseFloat(data.chemical_analysis_of_ground_water)
-    );
-    setTots(addValues(
-      sptOne,
-      sptTwo,
-      cptOne,
-      cptTwo,
-      chem,
-      data.mobilization,
-      data.demobilization,
-      data.lab_test,
-      data.report
-    ))
-    setTotals(
-      calculatePercentage(tots, 7.5)
-    );
+    setTotals(calculatePercentage(tots, 7.5));
   };
   useEffect(() => {
-    handleCalculation()
-  }, [formik.values])
+    handleCalculation();
+  }, [formik.values]);
+  useEffect(() => {
+    if (no_of_bh > 0 && depth_of_bh) {
+      getSelectedRate();
+    }
+  }, [depth_of_bh, no_of_bh]);
+
   return (
     <>
       <DisableNumInputScroll />
@@ -159,7 +231,7 @@ const ServiceGIForm = ({ close }) => {
             Geotechnical Investigation
           </p>
           <p className="py-4 fw-500">PLEASE, PROVIDE CORRECT INFORMATION</p>
-          <form onSubmit={formik.handleSubmit}>
+          <form >
             <div className="grid gap-5">
               <div className="">
                 <label className="block">
@@ -187,14 +259,57 @@ const ServiceGIForm = ({ close }) => {
                   type="text"
                   className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
                   required
-                  id="location"
-                  name="location"
-                  value={location}
+                  id="address"
+                  name="address"
+                  value={address}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                {formik.touched.location && formik.errors.location ? (
-                  <p className="text-red-500">{formik.errors.location}</p>
+                {formik.touched.address && formik.errors.address ? (
+                  <p className="text-red-500">{formik.errors.address}</p>
+                ) : null}
+              </div>
+              <div className="">
+                <label className="block">
+                  Number of Intended Geotechnical Borehole{" "}
+                  <span className="fw-600 text-red-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
+                  required
+                  id="no_of_bh"
+                  name="no_of_bh"
+                  value={no_of_bh}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.touched.no_of_bh && formik.errors.no_of_bh ? (
+                  <p className="text-red-500">{formik.errors.no_of_bh}</p>
+                ) : null}
+              </div>
+              <div className="">
+                <label className="block">
+                  Depth of Borehole{" "}
+                  <span className="fw-600 text-red-500">*</span>
+                </label>
+                <select
+                  className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
+                  required
+                  id="depth_of_bh"
+                  name="depth_of_bh"
+                  value={depth_of_bh}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                >
+                  <option>Select an option</option>
+                  <option value={30}>30m</option>
+                  <option value={40}>40m</option>
+                  <option value={50}>50m</option>
+                  <option value={70}>70m</option>
+                </select>
+                {formik.touched.depth_of_bh && formik.errors.depth_of_bh ? (
+                  <p className="text-red-500">{formik.errors.depth_of_bh}</p>
                 ) : null}
               </div>
               <div className="">
@@ -263,12 +378,6 @@ const ServiceGIForm = ({ close }) => {
                   </p>
                 ) : null}
               </div>
-              <div>
-                <p>Total Price</p>
-                <div>
-                  <p className="">{formatNgnNumber(totals)}</p>
-                </div>
-              </div>
             </div>
             <div className="mt-8">
               {!Loading ? (
@@ -276,17 +385,18 @@ const ServiceGIForm = ({ close }) => {
                   <Button
                     type="button"
                     onClick={handleShowPrice}
-                    className="bg-white text-primary w-full text-lg fw-500"
+                    className="bg-primary w-full text-lg fw-500"
+                    // className="bg-white text-primary w-full text-lg fw-500"
                   >
                     View Pricing
                   </Button>
-                  <Button
+                  {/* <Button
                     type="submit"
                     // onClick={handleCalculation}
                     className="bg-primary w-full text-lg fw-500"
                   >
                     Submit
-                  </Button>
+                  </Button> */}
                 </div>
               ) : (
                 <Spinner />
@@ -365,30 +475,52 @@ const ServiceGIForm = ({ close }) => {
                         the works as detailed below.
                       </td>
                       <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left"></td>
-                      <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left">LS</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left">
+                        LS
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left"></td>
-                      <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left">{formatNumber(data.mobilization)}</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left">
+                        {formatNumber(rate.mobilization)}
+                      </td>
                     </tr>
                     <tr>
-                      <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left py-2">Allow for demobilization of ditto.</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left py-2">
+                        Allow for demobilization of ditto.
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left"></td>
-                      <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left">LS</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left">
+                        LS
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left"></td>
-                      <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left">{formatNumber(data.demobilization)}</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left">
+                        {formatNumber(rate.demobilization)}
+                      </td>
                     </tr>
                     <tr>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 py-2 fw-600 text-left">BOREHOLE/SPT</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 py-2 fw-600 text-left">
+                        BOREHOLE/SPT
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                     </tr>
                     <tr>
-                      <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left">Set-up and dismantle rig at each test point.</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formik.values.setup_dismantle_rig_qty}</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">Nr</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formatNumber(data.setup_dismantle_rig)}</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formatNumber(sptOne)}</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left">
+                        Set-up and dismantle rig at each test point.
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formik.values.setup_dismantle_rig_qty}
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        Nr
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formatNumber(rate.setup_dismantle_rig)}
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formatNumber(sptOne)}
+                      </td>
                     </tr>
                     <tr>
                       <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left">
@@ -397,13 +529,23 @@ const ServiceGIForm = ({ close }) => {
                         SPT at 1.5m advance into the borehole within
                         cohesionless strata.
                       </td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formik.values.setup_dismantle_rig_qty}</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">Nr</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formatNumber(data.depth_of_borehole)}</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formatNumber(sptTwo)}</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formik.values.setup_dismantle_rig_qty}
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        Nr
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formatNumber(rate.depth_of_borehole_amt)}
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formatNumber(sptTwo)}
+                      </td>
                     </tr>
                     <tr>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 py-2 fw-600 text-left">CONE PENETRATION TEST</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 py-2 fw-600 text-left">
+                        CONE PENETRATION TEST
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
@@ -413,9 +555,15 @@ const ServiceGIForm = ({ close }) => {
                       <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left">
                         Set-up and dismantle CPT machine at each test point.
                       </td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formik.values.setup_dismantle_cpt_qty}</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">Nr</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formatNumber(data.setup_dismantle_cpt)}</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formik.values.setup_dismantle_cpt_qty}
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        Nr
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formatNumber(rate.setup_dismantle_cpt)}
+                      </td>
                       <td>{formatNumber(cptOne)}</td>
                     </tr>
                     <tr>
@@ -423,13 +571,23 @@ const ServiceGIForm = ({ close }) => {
                         Dutch Cone Penetrometer test conducted to refusal using
                         10 Tons Machine.
                       </td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formik.values.setup_dismantle_cpt_qty}</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">Nr</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formatNumber(data.tons_machine)}</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formatNumber(cptTwo)}</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formik.values.setup_dismantle_cpt_qty}
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        Nr
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formatNumber(rate.tons_machine)}
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formatNumber(cptTwo)}
+                      </td>
                     </tr>
                     <tr>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 py-2 fw-600 text-left">CHEMICAL ANALYSIS OF GROUND WATER</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 py-2 fw-600 text-left">
+                        CHEMICAL ANALYSIS OF GROUND WATER
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
@@ -443,12 +601,20 @@ const ServiceGIForm = ({ close }) => {
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
                         {formik.values.chemical_analysis_of_ground_water_qty}
                       </td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">Nr</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formatNumber(data.chemical_analysis_of_ground_water)}</td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formatNumber(chem)}</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        Nr
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formatNumber(rate.chemical_analysis_of_ground_water)}
+                      </td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formatNumber(chem)}
+                      </td>
                     </tr>
                     <tr>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 py-2 fw-600 text-left">LABORATORY TEST</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 py-2 fw-600 text-left">
+                        LABORATORY TEST
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
@@ -459,12 +625,16 @@ const ServiceGIForm = ({ close }) => {
                         Carry out laboratory tests on recovered soil samples
                       </td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">LS</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        LS
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
-                      <td>{formatNumber(data.lab_test)}</td>
+                      <td>{formatNumber(rate.lab_test)}</td>
                     </tr>
                     <tr>
-                      <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left fw-600">REPORTS</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left fw-600">
+                        REPORTS
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
@@ -476,26 +646,42 @@ const ServiceGIForm = ({ close }) => {
                         hard copies of report and 1 electronic copy
                       </td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">LS</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        LS
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formatNumber(data.report)}</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formatNumber(rate.report)}
+                      </td>
                     </tr>
                     <tr>
-                      <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left fw-600">SUBTOTAL</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left fw-600">
+                        SUBTOTAL
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formatNgnNumber(tots)}</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formatNgnNumber(tots)}
+                      </td>
                     </tr>
                     <tr>
-                      <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left fw-600">VAT</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left fw-600">
+                        VAT
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">7.5%</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        7.5%
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
-                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">{formatNgnNumber(getPercentage(totals, 7.5))}</td>
+                      <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                        {formatNgnNumber(getPercentage(tots, 7.5))}
+                      </td>
                     </tr>
-                    <tr >
-                      <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left fw-600">TOTAL</td>
+                    <tr>
+                      <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left fw-600">
+                        TOTAL
+                      </td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
                       <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
@@ -506,10 +692,33 @@ const ServiceGIForm = ({ close }) => {
                   </tbody>
                 </table>
               </div>
+              {!Loading ? (
+                <div className="flex justify-between gap-x-12 mt-8">
+                  <Button
+                    type="button"
+                    onClick={() => setViewPrice(false)}
+                    className="bg-white text-primary w-full text-lg lg:w-5/12 fw-500"
+                  >
+                    Close
+                  </Button>
+                  <Button
+                    type="submit"
+                    onClick={formik.handleSubmit}
+                    className="bg-primary w-full text-lg fw-500 lg:w-5/12"
+                  >
+                    Proceed
+                  </Button>
+                </div>
+              ) : (
+                <Spinner />
+              )}
             </div>
           </div>
         </>
       )}
+      {
+        showPay && <>Hello</>
+      }
     </>
   );
 };
