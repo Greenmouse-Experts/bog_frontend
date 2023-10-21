@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaTimes } from "react-icons/fa";
 import Spinner from "../../layouts/Spinner";
 import DisableNumInputScroll from "../../widgets/DisableNumberScroll";
@@ -15,11 +15,17 @@ import {
   getPercentage,
 } from "../../../services/helper";
 import { updateGIDetails } from "../../../redux/actions/ProjectAction";
+import Swal from "sweetalert2";
+import Axios from "../../../config/config";
+import { usePaystackPayment } from "react-paystack";
+import { useNavigate } from "react-router-dom";
 
 const ServiceGIForm = ({ close }) => {
+  const user = useSelector((state) => state.auth.user);
   const [Loading, setLoading] = useState();
   const [viewPrice, setViewPrice] = useState(false);
-  const [showPay, setShowPay] = useState(false)
+  const [payloads, setPayloads] = useState();
+  const [prjRef, setPrjRef] = useState('');
   // pricing state
   const [sptOne, setSptOne] = useState(0);
   const [sptTwo, setSptTwo] = useState(0);
@@ -28,7 +34,7 @@ const ServiceGIForm = ({ close }) => {
   const [chem, setChem] = useState(0);
   const [tots, setTots] = useState(0);
   const [totals, setTotals] = useState(0);
-  const { loading, data, refetch } = useFetchHook(
+  const { data } = useFetchHook(
     "/projects/geotechnical-investigation/metadata/view"
   );
   const checkAllFields = () => {
@@ -81,9 +87,6 @@ const ServiceGIForm = ({ close }) => {
   const stopLoading = () => {
     setLoading(false);
   };
-  const openPay = () => {
-    setShowPay(true)
-  }
   const submitHandler = (value) => {
     setLoading(true);
     const payload = {
@@ -101,10 +104,11 @@ const ServiceGIForm = ({ close }) => {
       demobilization: rate.demobilization,
       lab_test: rate.lab_test,
       report: rate.report,
+      lab_test_types: rate.lab_test_types,
       total: calculatePercentage(tots, 7.5),
     };
-    console.log(payload);
-    dispatch(updateGIDetails(payload, stopLoading, openPay))
+    setPayloads(payload);
+    dispatch(updateGIDetails(payload, stopLoading, makeProjectOrder));
   };
   const formik = useFormik({
     initialValues: {
@@ -132,15 +136,8 @@ const ServiceGIForm = ({ close }) => {
     address,
     no_of_bh,
     depth_of_bh,
-    setup_dismantle_rig_amt,
     setup_dismantle_rig_qty,
-    drilling_spt_amt,
-    drilling_spt_qty,
-    setup_dismantle_cpt_amt,
     setup_dismantle_cpt_qty,
-    dutch_cpt_amt,
-    dutch_cpt_qty,
-    chemical_analysis_of_ground_water_amt,
     chemical_analysis_of_ground_water_qty,
     total,
   } = formik.values;
@@ -214,6 +211,91 @@ const ServiceGIForm = ({ close }) => {
       getSelectedRate();
     }
   }, [depth_of_bh, no_of_bh]);
+  // make project order
+  let config = {
+    email: user.email,
+    amount: calculatePercentage(tots, 7.5) * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+    publicKey: process.env.REACT_APP_PAYSTACK_API_KEY,
+  };
+  let payRef = ""
+  const makeProjectOrder = async (payload) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: localStorage.getItem("auth_token"),
+        },
+      };
+      const response = await Axios.post(
+        `${process.env.REACT_APP_URL}/projects/geotechnical-investigation/order`,
+        payload,
+        config
+      );
+      if (response.success) {
+        payRef = response.ref
+        setPrjRef(response.ref)
+        initializePayment(onSuccess, onClose);
+        // Swal.fire({
+        //   title: "Make Payment",
+        //   imageUrl:
+        //     "https://cdn3d.iconscout.com/3d/premium/thumb/payment-protection-6871354-5654938.png",
+        //   imageWidth: "105px",
+        //   buttonsStyling: "false",
+        //   confirmButtonText: "Continue",
+        //   confirmButtonColor: "#3F79AD",
+        // }).then(function () {
+        //   initializePayment(onSuccess, onClose);
+        // });
+      }
+      return response;
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+  const navigate = useNavigate();
+
+  const onSuccess = (reference) => {
+    console.log(prjRef);
+    setLoading(true);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: localStorage.getItem("auth_token"),
+      },
+    };
+    // Implementation for whatever you want to do with reference and after success call.
+    Axios.get(
+      `${process.env.REACT_APP_URL}/projects/geotechnical-investigation/verify-payment/${payRef}/${reference.reference}`,
+      config
+    ).then((res) => {
+      if (res.success) {
+        Swal.fire({
+          title: "Success",
+          imageUrl:
+            "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
+          imageWidth: "75px",
+          text: "Payment Successful",
+          buttonsStyling: "false",
+          confirmButtonText: "Continue",
+          confirmButtonColor: "#3F79AD",
+        }).then(function () {
+          navigate("/dashboard/projects");
+        });
+        setLoading(false);
+      } else {
+        toast.error("Failed to validate payment", {
+          duration: 6000,
+          position: "top-center",
+          style: { background: "#BD362F", color: "white" },
+        });
+      }
+    });
+  };
+  const onClose = () => {
+    // implementation for  whatever you want to do when the Paystack dialog closed.
+    console.log("closed");
+  };
+  const initializePayment = usePaystackPayment(config);
 
   return (
     <>
@@ -231,7 +313,7 @@ const ServiceGIForm = ({ close }) => {
             Geotechnical Investigation
           </p>
           <p className="py-4 fw-500">PLEASE, PROVIDE CORRECT INFORMATION</p>
-          <form >
+          <form>
             <div className="grid gap-5">
               <div className="">
                 <label className="block">
@@ -716,9 +798,6 @@ const ServiceGIForm = ({ close }) => {
           </div>
         </>
       )}
-      {
-        showPay && <>Hello</>
-      }
     </>
   );
 };

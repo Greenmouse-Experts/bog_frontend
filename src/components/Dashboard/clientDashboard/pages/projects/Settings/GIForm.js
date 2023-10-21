@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import DisableNumInputScroll from "../../../../../widgets/DisableNumberScroll";
 import Spinner from "../../../../../layouts/Spinner";
 import { useDispatch } from "react-redux";
-import { updateGIDetails } from "../../../../../../redux/actions/ProjectAction";
+import { createGIDetails } from "../../../../../../redux/actions/ProjectAction";
 import { FaTimes } from "react-icons/fa";
 
 const GIForm = ({ close, data, refetch }) => {
@@ -23,7 +23,7 @@ const GIForm = ({ close, data, refetch }) => {
     if (data) {
       payload.id = data.id;
     }
-    dispatch(updateGIDetails(payload, stopLoading));
+    dispatch(createGIDetails(payload, stopLoading));
   };
   const formik = useFormik({
     initialValues: {
@@ -303,7 +303,7 @@ const GIForm = ({ close, data, refetch }) => {
                     Cancel
                   </Button>
                   <Button type="submit" className="bg-primary">
-                    Edit
+                   {data? "Edit" : "Create"}
                   </Button>
                 </div>
               ) : (

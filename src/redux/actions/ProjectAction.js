@@ -771,6 +771,46 @@ export const deleteUserProject = (id, stopLoading) => {
   };
 };
 
+export const createGIDetails = (payload, saveLoading) => {
+  return async (dispatch) => {
+    try {
+      const authToken = localStorage.getItem("auth_token");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+      };
+      const res = await Axios.post(
+        "/projects/geotechnical-investigation/metadata",
+        payload,
+        config
+      );
+      saveLoading();
+      if (res.success) {
+        toast.success(res.message, {
+          duration: 6000,
+          position: "top-center",
+          style: { background: "#BD362F", color: "white" },
+        });
+      }
+    } catch (error) {
+      let errorMsg = error?.response?.data?.message || error.message;
+      if (errorMsg === "Request failed with status code 401") {
+        window.location.href = "/";
+      } else {
+        dispatch(setError(errorMsg));
+        saveLoading();
+        toast.error(errorMsg, {
+          duration: 6000,
+          position: "top-center",
+          style: { background: "#BD362F", color: "white" },
+        });
+      }
+    }
+  };
+};
+
 export const updateGIDetails = (payload, saveLoading, openPay) => {
   return async (dispatch) => {
     try {
@@ -781,19 +821,14 @@ export const updateGIDetails = (payload, saveLoading, openPay) => {
           Authorization: authToken,
         },
       };
-      await Axios.post(
-        "/projects/geotechnical-investigation/order",
+      const res = await Axios.post(
+        "/projects/geotechnical-investigation/verification",
         payload,
         config
       );
       saveLoading();
       if (res.success) {
-        Swal.fire({
-          title: "Done",
-          text: `Project Pricing Updated`,
-          icon: "success",
-        });
-        openPay();
+        openPay(payload);
       }
     } catch (error) {
       let errorMsg = error?.response?.data?.message || error.message;
