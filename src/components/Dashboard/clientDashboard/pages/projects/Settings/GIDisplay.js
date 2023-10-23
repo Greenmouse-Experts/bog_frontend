@@ -3,7 +3,6 @@ import GIForm from "./GIForm";
 import useFetchHook from "../../../../../../hooks/useFetchHook";
 import {
   formatNgnNumber,
-  formatNumber,
 } from "../../../../../../services/helper";
 import Spinner from "../../../../../layouts/Spinner";
 import { FaPlus } from "react-icons/fa";
@@ -11,7 +10,7 @@ import { MdEdit } from "react-icons/md";
 
 const GIDisplay = () => {
   const [showForm, setShowForm] = useState(false);
-  const [editForm, setEditForm] = useState(false)
+  const [editForm, setEditForm] = useState(false);
   const { loading, data, refetch } = useFetchHook(
     "/projects/geotechnical-investigation/metadata/view"
   );
@@ -41,10 +40,7 @@ const GIDisplay = () => {
         </div>
         <div className="flex gap-x-4 mt-4">
           <p className="fw-500">Depth of Borehole:</p>
-          <p>
-            {data?.data.depth_of_bh &&
-              `${data?.data.depth_of_bh}m`}
-          </p>
+          <p>{data?.data.depth_of_bh && `${data?.data.depth_of_bh}m`}</p>
         </div>
         <div className="flex gap-x-4 mt-4">
           <p className="fw-500">Borehole/SPT:</p>
@@ -101,35 +97,43 @@ const GIDisplay = () => {
       {loading && <Spinner />}
       {data && (
         <div className="lg:p-5 pt-5">
-          <div className="flex items-center justify-between">
+          <div className="lg:flex items-center justify-between">
             <p className="fs-700 lg:text-xl fw-500">
               Geotechnical Investigation Pricing
             </p>
             <button
-              className="btn-primary flex gap-x-2 items-center"
+              className="btn-primary flex gap-x-2 mt-2 lg:mt-0 items-center"
               onClick={() => setShowForm(true)}
             >
               <FaPlus />
-              Add New 
+              Add New
             </button>
           </div>
           <div>
             <div className="mt-4">
-              <ul className="flex gap-x-4">
-                {data.map((item, i) => (
-                  <li
-                    key={i}
-                    className={`text-lg px-4 fw-600 border-b-[6px] ${
-                      item.id === activeData
-                        ? "border-blue-800 text-primary"
-                        : "border-gray-500 text-gray-500"
-                    }`}
-                    onClick={() => handleActiveData(item.id)}
-                  >
-                    {`${item.min_qty_bh}-${item.max_qty_bh} bh`}
-                    <span className="pl-2 text-gray-600">{item.depth_of_bh}m</span>
-                  </li>
-                ))}
+              <ul className="flex w-full overflow-x-auto gap-x-4">
+                {data
+                  .sort((a, b) =>
+                    a.createdAt.localeCompare(b.createdAt, undefined, {
+                      numeric: true,
+                    })
+                  )
+                  .map((item, i) => (
+                    <li
+                      key={i}
+                      className={`text-lg px-4 fw-600 whitespace-nowrap border-b-[6px] cursor-pointer ${
+                        item.id === activeData
+                          ? "border-blue-800 text-primary"
+                          : "border-gray-500 text-gray-500"
+                      }`}
+                      onClick={() => handleActiveData(item.id)}
+                    >
+                      {`${item.min_qty_bh}-${item.max_qty_bh} bh`}
+                      <span className="pl-2 text-gray-600">
+                        {item.depth_of_bh}m
+                      </span>
+                    </li>
+                  ))}
               </ul>
             </div>
             <div>
@@ -150,10 +154,7 @@ const GIDisplay = () => {
         </div>
       )}
       {showForm && (
-        <GIForm
-          close={() => setShowForm(false)}
-          refetch={refetch}
-        />
+        <GIForm close={() => setShowForm(false)} refetch={refetch} />
       )}
       {editForm && (
         <GIForm

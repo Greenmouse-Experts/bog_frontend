@@ -196,7 +196,7 @@ export default function ProjectsTable({ status, loader }) {
         );
       case "pending":
         return (
-          <p className="px-2 py-1 text-blue-700 bg-green-100 w-24 rounded-md fw-600">
+          <p className="px-2 py-1 text-yellow-700 bg-yellow-100 w-24 rounded-md fw-600">
             Pending
           </p>
         );
