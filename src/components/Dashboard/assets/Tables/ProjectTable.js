@@ -335,9 +335,9 @@ export default function ProjectTable({ status, isLoader }) {
                   View Details
                 </MenuItem>
               )}
-              <MenuItem onClick={() => gotoProjectFile(row.value)}>
+              {row.row.original.projectTypes !== 'geotechnical_investigation' && <MenuItem onClick={() => gotoProjectFile(row.value)}>
                 View Form
-              </MenuItem>
+              </MenuItem>}
               {row.cell.row.original.approvalStatus === "pending" && (
                 <MenuItem onClick={() => requestForCommencement(row.value)}>
                   Commence Project

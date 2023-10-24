@@ -791,7 +791,7 @@ export const createGIDetails = (payload, saveLoading) => {
         toast.success(res.message, {
           duration: 6000,
           position: "top-center",
-          style: { background: "#BD362F", color: "white" },
+          style: { background: "green", color: "white" },
         });
       }
     } catch (error) {
@@ -829,6 +829,46 @@ export const updateGIDetails = (payload, saveLoading, openPay) => {
       saveLoading();
       if (res.success) {
         openPay(payload);
+      }
+    } catch (error) {
+      let errorMsg = error?.response?.data?.message || error.message;
+      if (errorMsg === "Request failed with status code 401") {
+        window.location.href = "/";
+      } else {
+        dispatch(setError(errorMsg));
+        saveLoading();
+        toast.error(errorMsg, {
+          duration: 6000,
+          position: "top-center",
+          style: { background: "#BD362F", color: "white" },
+        });
+      }
+    }
+  };
+};
+
+export const DeleteGIDetails = (payload, saveLoading) => {
+  return async (dispatch) => {
+    try {
+      const authToken = localStorage.getItem("auth_token");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+      };
+      const res = await Axios.delete(
+        `/projects/geotechnical-investigation/metadata/${payload}`,
+        payload,
+        config
+      );
+      saveLoading();
+      if (res.success) {
+        toast.success(res.message, {
+          duration: 6000,
+          position: "top-center",
+          style: { background: "green", color: "white" },
+        });
       }
     } catch (error) {
       let errorMsg = error?.response?.data?.message || error.message;

@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { FaTimes } from 'react-icons/fa';
 
-export const ProjectMain = ({CloseModal, id, project, refetch}) => {
+export const ProjectMain = ({CloseModal, id, project, refetch, noPrice}) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -55,22 +55,23 @@ export const ProjectMain = ({CloseModal, id, project, refetch}) => {
             <p className="fw-600 text-lg lg:text-xl mb-6">Update Project Price/End date</p>
             <form onSubmit={handleSubmit}>
             <div className="mt-3">
-                    <label>Project Price</label>
+                    <label className='block fw-500'>Project Price</label>
                     <input
                         type="number"
-                        className="w-36 lg:w-60 mt-2 ml-4 rounded border border-gray-400 p-2"
+                        className="w-full lg:w-full mt-2 rounded border border-gray-400 p-2"
                         id="progress"
                         name="totalCost"
                         value={totalCost}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        disabled={noPrice? true : false}
                         />
                 </div>
                 <div className="mt-5">
-                    <label>Project End Date</label>
+                    <label className='block fw-500'>Project End Date</label>
                     <input
                         type="date"
-                        className="w-36 lg:w-60 mt-2 ml-4 rounded border border-gray-400 p-2"
+                        className="w-full mt-2 rounded border border-gray-400 p-2"
                         id="progress"
                         name="totalEndDate"
                         value={totalEndDate}
@@ -81,7 +82,7 @@ export const ProjectMain = ({CloseModal, id, project, refetch}) => {
                 <div className="mt-5">
                     <label>Project Status</label>
                     <select
-                        className="w-36 lg:w-60 mt-2 ml-4 rounded border border-gray-400 p-2"
+                        className="w-full mt-2 rounded border border-gray-400 p-2"
                         id="status"
                         name="status"
                         value={status}
@@ -95,7 +96,7 @@ export const ProjectMain = ({CloseModal, id, project, refetch}) => {
                     </select>
                 </div>
                 <div className="text-end mt-6">
-                    <button className="btn-primary" onClick={formik.handleSubmit}>
+                    <button className="w-full btn-primary" onClick={formik.handleSubmit}>
                     {isLoading? "Updating..." : "Submit"}
                     </button>
                 </div>
