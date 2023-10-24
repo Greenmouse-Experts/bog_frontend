@@ -18,13 +18,8 @@ import {
   usePagination,
 } from "react-table";
 import { useNavigate } from "react-router-dom";
-// import { BsThreeDotsVertical } from "react-icons/bs";
 import { useMemo } from "react";
 import * as moment from "moment";
-// import { SuccessAlert } from "../../../../services/endpoint";
-// import toaster from "toasted-notes";
-// import "toasted-notes/src/styles.css";
-// import Axios from "../../../../config/config";
 import {
   Menu,
   MenuHandler,
@@ -38,14 +33,8 @@ import { useExportData } from "react-table-plugins";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import Swal from "sweetalert2";
-import {
-  approveProjectToStart,
-  getSelectedPartners,
-} from "../../../../redux/actions/ProjectAction";
-import DispatchProjectModal from "../../clientDashboard/pages/Modals/DispatchProject";
 import { Loader } from "../../../layouts/Spinner";
-import SuggestedPartners from "../../clientDashboard/pages/Modals/SuggestedPartners";
+import { getStatus } from "../../../../services/helper";
 
 // export table files
 
@@ -106,180 +95,16 @@ function getExportFileBlob({ columns, data, fileType, fileName }) {
   return false;
 }
 
-export default function ProjectsTable({ status, loader }) {
-
-  let Projects = useSelector((state) => state.allprojects.projects);
-  let allProjects = Projects.filter(
-    (where) => where.projectTypes !== "geotechnical_investigation"
+export default function GtiProjectTable({ status, loader }) {
+  let allProjects = useSelector((state) => state.allprojects.projects);
+  const gtiprojects = allProjects.filter(
+    (where) => where.projectTypes === "geotechnical_investigation"
   );
-  const [open, setOpen] = useState(false);
-  const [partnerOpen, setPartnersOpen] = useState(false);
-  const [loadingPartners, setLoadingPartners] = useState(false);
-  const [projectId, setProjectId] = useState("");
-
-  const openModal = (id) => {
-    setProjectId(id);
-    setOpen(true);
-  };
-
-  const closeModal = () => {
-    setOpen(false);
-  };
-
-  const closePartnerModal = () => {
-    setPartnersOpen(false);
-  };
-
-
-  if (status) {
-    if (status === "approved") {
-      allProjects = allProjects.filter(
-        (where) =>
-          where.approvalStatus !== "pending" &&
-          where.approvalStatus !== "in_review"
-      );
-    } else {
-      allProjects = allProjects.filter((project) => (project.status).toLowerCase() === status);
-    }
-  } else {
-    allProjects = allProjects.filter(
-      (project) =>
-        (project.approvalStatus === "pending" ||
-          project.approvalStatus === "in_review") &&
-        project.status !== "approved"
-    );
-  }
-
-  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const gotoDetailsPage = (id) => {
-    navigate(`/dashboard/projectadmindetails?projectId=${id}`);
+    navigate(`/dashboard/projectgtidetails?projectId=${id}`);
   };
-  const gotoProjectFile = (id) => {
-    navigate(`/dashboard/projectfile?projectId=${id}`);
-  };
-
-  const gotoServiceRequest = (id) => {
-    navigate(`/dashboard/service-request/${id}`);
-  };
-
-  const formatStatus = (status) => {
-    switch (status) {
-      case "in_review":
-        return (
-          <p className="px-2 py-1 text-yellow-700 bg-yellow-100 w-24 rounded-md fw-600">
-            Awaiting Approval
-          </p>
-        );
-      case "dispatched":
-        return (
-          <p className="px-2 py-1 text-blue-700 bg-blue-100 w-28 rounded-md fw-600">
-            Dispatched
-          </p>
-        );
-      case "approved":
-        return (
-          <p className="px-2 py-1 text-green-500 bg-green-50 w-24 rounded-md fw-600">
-            Approved
-          </p>
-        );
-      case "disapproved":
-      case "closed":
-        return (
-          <p className="px-2 py-1 text-red-700 bg-red-100 w-28 rounded-md fw-600">
-            Cancelled
-          </p>
-        );
-      case "close":
-        return (
-          <p className="px-2 py-1 text-red-700 bg-red-100 w-28 rounded-md fw-600">
-            Closed
-          </p>
-        );
-      case "pending":
-        return (
-          <p className="px-2 py-1 text-yellow-700 bg-yellow-100 w-24 rounded-md fw-600">
-            Pending
-          </p>
-        );
-      case "Completed":
-        return (
-          <p className="px-2 py-1 text-green-700 bg-green-100 w-28 rounded-md fw-600">
-            Completed
-          </p>
-        );
-      case "ongoing":
-      case "Ongoing":
-        return (
-          <p className="px-2 py-1 text-orange-700 bg-orange-100 w-24 rounded-md fw-600">
-            Ongoing
-          </p>
-        );
-        case "Overdue":
-        return (
-          <p className="px-2 py-1 text-purple-700 bg-purple-100 w-24 rounded-md fw-600">
-            Overdue
-          </p>
-        );
-      case "draft":
-        return "Draft";
-      default:
-        return status;
-    }
-  };
-  const formatProductType = (projectTypes) => {
-    switch (projectTypes) {
-      case "land_survey":
-        return <p className="">Land Survey</p>;
-      case "building_approval":
-        return <p className=" ">Building Approval</p>;
-      case "contractor":
-        return <p className="">Contractor</p>;
-      case "construction_drawing":
-        return <p className="">Construction Drawing</p>;
-      case "geotechnical_investigation":
-        return <p className="">Geotechnical Investigation</p>;
-      default:
-        return status;
-    }
-  };
-
-  const approveProjectForCommencement = (id, hasApproved) => {
-    Swal.fire({
-      title: hasApproved ? "Approve Project" : "Disapprove Project",
-      text: hasApproved
-        ? "Approve Project to commence?"
-        : "Disapprove Project?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#4BB543",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: hasApproved ? "Yes Commence" : "Yes Disapprove",
-      cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.value) {
-        const payload = {
-          projectId: id,
-          isApproved: hasApproved,
-        };
-        dispatch(approveProjectToStart(payload));
-      }
-    });
-  };
-
-  const stopLoading = () => setLoadingPartners(false);
-
-  const setProjectPartners = (score) => {
-    const payload = {
-      score,
-    };
-    setLoadingPartners(true);
-    dispatch(getSelectedPartners(payload, projectId, stopLoading));
-    setPartnersOpen(true);
-  };
-
-  const partners = useSelector((state) => state.projects.servicePartners);
 
   const columns = useMemo(
     () => [
@@ -294,14 +119,17 @@ export default function ProjectsTable({ status, loader }) {
       {
         Header: " Service Type",
         accessor: "projectTypes",
-        Cell: (props) => formatProductType(props.value),
-        Filter: SelectColumnFilter,
-        filter: "includes",
+        Cell: (props) => "Geotechnical Investigation",
+      },
+      {
+        Header: "Approval Status	",
+        accessor: "approvalStatus",
+        Cell: (props) => getStatus(props.value),
       },
       {
         Header: "Project Status	",
         accessor: "status",
-        Cell: (props) => formatStatus(props.value),
+        Cell: (props) => getStatus(props.value),
       },
       {
         Header: "Due Date",
@@ -319,50 +147,9 @@ export default function ProjectsTable({ status, loader }) {
               </Button>
             </MenuHandler>
             <MenuList>
-              {row.cell.row.original.approvalStatus === "approved" && (
-                <MenuItem onClick={() => gotoDetailsPage(row.value)}>
-                  View Details
-                </MenuItem>
-              )}
-              {row.cell.row.original.approvalStatus !== "approved" && (
-                <>
-                  <MenuItem onClick={() => gotoProjectFile(row.value)}>
-                    View Submission
-                  </MenuItem>
-                </>
-              )}
-              {row.cell.row.original.approvalStatus === "approved" &&
-                row.cell.row.original.status === "approved" && (
-                  <MenuItem onClick={() => openModal(row.value)}>
-                    Post Project
-                  </MenuItem>
-                )}
-              {row.cell.row.original.approvalStatus === "in_review" &&
-                row.cell.row.original.status !== "ongoing" && (
-                  <MenuItem
-                    onClick={() =>
-                      approveProjectForCommencement(row.value, true)
-                    }
-                  >
-                    Approve Project
-                  </MenuItem>
-                )}
-
-              {row.cell.row.original.status === "dispatched" && (
-                <MenuItem onClick={() => gotoServiceRequest(row.value)}>
-                  View Request
-                </MenuItem>
-              )}
-              {(row.cell.row.original.status === "pending") && (
-                  <MenuItem
-                    className="bg-red-600 text-white hover:text-white hover:bg-red-500"
-                    onClick={() =>
-                      approveProjectForCommencement(row.value, false)
-                    }
-                  >
-                    Decline Project
-                  </MenuItem>
-                )}
+              <MenuItem onClick={() => gotoDetailsPage(row.value)}>
+                View Details
+              </MenuItem>
             </MenuList>
           </Menu>
         ),
@@ -371,25 +158,16 @@ export default function ProjectsTable({ status, loader }) {
     [] // eslint-disable-line react-hooks/exhaustive-deps
   );
 
-  const data = useMemo(() => allProjects, [allProjects]);
+  const data = useMemo(() => gtiprojects, [gtiprojects]);
 
   return (
     <>
-      {open && (
-        <DispatchProjectModal
-          closeModal={closeModal}
-          getProjectPartner={setProjectPartners}
-        />
-      )}
-
-      {partnerOpen && (
-        <SuggestedPartners data={partners} closeModal={closePartnerModal} prjId={projectId} loading={loadingPartners} />
-      )}
-
       <div className="overflow-hidden px-4 bg-white py-8 rounded-md">
-        {loader ? <Loader size /> :
+        {loader ? (
+          <Loader size />
+        ) : (
           <Table columns={columns} data={data} className="" />
-        }
+        )}
       </div>
     </>
   );

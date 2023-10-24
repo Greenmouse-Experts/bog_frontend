@@ -5,7 +5,7 @@ import { Loader } from "../../../layouts/Spinner";
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
-import { formatNumber, getUserType } from "../../../../services/helper";
+import { calculatePercentage, formatNgnNumber, formatNumber, getPercentage, getUserType } from "../../../../services/helper";
 import { ClientReview } from "./projects/clientReview";
 import * as moment from "moment";
 import axios from "axios";
@@ -21,7 +21,16 @@ export default function ProjectDetailsClient() {
   const [update, setUpdate] = useState([]);
   const [total, setTotal] = useState(0);
   const auth = useSelector((state) => state.auth.user);
-
+  const [form, setForm] = useState()
+  const getForm = async () => {
+    const response = await Axios.get(
+      `/projects/geotechnical-investigation/order_details/${projectId}`
+    );
+    setForm(response);
+  };
+  useEffect(() => {
+    getForm();
+  }, []);
   const getProjectDetail = async () => {
     try {
       const config = {
@@ -232,105 +241,413 @@ export default function ProjectDetailsClient() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
+                {project.projectTypes === "geotechnical_investigation" ? (
+                  <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
                   <div className="flex justify-between border-b border-gray-300 pb-4">
                     <p className="fw-600">Cost Summary</p>
                   </div>
-                  <div className="fw-500 min-h-56 justify-between pt-6">
-                    {sum.length > 0 ? (
-                      sum.map((item, index) => (
-                        <div
-                          className="flex justify-between border-b py-2"
-                          key={index}
-                        >
-                          <p>{item?.title}</p>
-                          <p>
-                            {item.amount
-                              ? "NGN" + formatNumber(item?.amount)
-                              : ""}
-                          </p>
-                        </div>
-                      ))
-                    ) : (
-                      <p>No costing yet</p>
-                    )}
-                    <p className="border-t text-end fw-500 text-lg">
-                      NGN{total === 0 ? "" : formatNumber(total)}
-                    </p>
+                  <div className="py-2 align-middle inline-block min-w-full ">
+                    <table className="items-center w-full bg-transparent border-collapse">
+                      <thead className="thead-light bg-light">
+                        <tr className="">
+                          <th
+                            scope="col"
+                            className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left"
+                          >
+                            Description
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left"
+                          >
+                            Quantity
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left"
+                          >
+                            Unit
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left"
+                          >
+                            Rate
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-2 text-primary align-middle border-b border-solid border-gray-200 py-3 text-sm whitespace-nowrap text-left"
+                          >
+                            Amount
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border-b fw-600 border-gray-200 align-middle fs-500 whitespace-nowrap px-2 py-2 text-left">
+                            MOBILIZATION AND DEMOBILIZATION
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 px-2 py-2 text-left">
+                            Mobilise and deliver to site all relevant equipment,
+                            personnel and materials necessary for the execution of
+                            the works as detailed below.
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left">
+                            LS
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left">
+                            {form?.order_details.mobilization_amt &&
+                              formatNumber(form?.order_details.mobilization_amt)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left py-2">
+                            Allow for demobilization of ditto.
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left">
+                            LS
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left">
+                            {form?.order_details.demobilization_amt &&
+                              formatNumber(
+                                form?.order_details.demobilization_amt
+                              )}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 py-2 fw-600 text-left">
+                            BOREHOLE/SPT
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left">
+                            Set-up and dismantle rig at each test point.
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            {form?.order_details.setup_dismantle_rig_qty &&
+                              form?.order_details.setup_dismantle_rig_qty}
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            Nr
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            {form?.order_details.setup_dismantle_rig_amt &&
+                              formatNumber(
+                                form?.order_details.setup_dismantle_rig_amt
+                              )}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left">
+                            {`Drill each borehole to maximum depth of 30m, taking
+                          samples at 1.0m depth and change of strata. Also taking
+                          SPT at 1.5m advance into the borehole within
+                          cohesionless strata.`}
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            {form?.order_details.drilling_spt_qty &&
+                              form?.order_details.drilling_spt_qty}
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            Nr
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                           
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            {form?.order_details.drilling_spt_amt &&
+                              formatNumber(form?.order_details.drilling_spt_amt)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 py-2 fw-600 text-left">
+                            CONE PENETRATION TEST
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left">
+                            Set-up and dismantle CPT machine at each test point.
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            {form?.order_details.setup_dismantle_cpt_qty &&
+                              form?.order_details.setup_dismantle_cpt_qty}
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            Nr
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            
+                          </td>
+                          <td>
+                            {form?.order_details.setup_dismantle_cpt_amt &&
+                              formatNumber(
+                                form?.order_details.setup_dismantle_cpt_amt
+                              )}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left">
+                            Dutch Cone Penetrometer test conducted to refusal
+                            using 10 Tons Machine.
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            {form?.order_details.dutch_cpt_qty &&
+                              form?.order_details.dutch_cpt_qty}
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            Nr
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            {form?.order_details.dutch_cpt_amt &&
+                              formatNumber(form?.order_details.dutch_cpt_amt)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 py-2 fw-600 text-left">
+                            CHEMICAL ANALYSIS OF GROUND WATER
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left">
+                            Carry out chemical analysis of ground water retrieved
+                            from drilled borehole
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            {form?.order_details
+                              .chemical_analysis_of_ground_water_qty &&
+                              form?.order_details
+                                .chemical_analysis_of_ground_water_qty}
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            Nr
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            {form?.order_details
+                              .chemical_analysis_of_ground_water_amt &&
+                              formatNumber(
+                                form?.order_details
+                                  .chemical_analysis_of_ground_water_amt
+                              )}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 py-2 fw-600 text-left">
+                            LABORATORY TEST
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left">
+                            Carry out laboratory tests on recovered soil samples
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            LS
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td>
+                            {form?.order_details.lab_test && formatNumber(form?.order_details.lab_test)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left fw-600">
+                            REPORTS
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left">
+                            Prepare geotechnical investigation report and submit 3
+                            hard copies of report and 1 electronic copy
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            LS
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            {form?.order_details.report && formatNumber(form?.order_details.report)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left fw-600">
+                            SUBTOTAL
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            {/* {formatNgnNumber(tots)} */}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left fw-600">
+                            VAT
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            7.5%
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            {formatNgnNumber(getPercentage(project?.totalCost, 7.5))}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border-b border-gray-200 align-middle fs-500 py-2 px-2 text-left fw-600">
+                            TOTAL
+                          </td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className="border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left"></td>
+                          <td className=" text-lg fw-600 border-b border-gray-200 align-middle fs-500 whitespace-nowrap px-2 text-left">
+                            {formatNgnNumber(calculatePercentage(project?.totalCost, 7.5))}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-                <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
-                  <div className="flex justify-between border-b border-gray-300 pb-4">
-                    <p className="fw-600">Transaction</p>
-                  </div>
-                  <div className="">
-                    {install.length > 0 ? (
-                      sortedInstall.map((item, index) => (
-                        <InstallPayment
-                          item={item}
-                          index={index}
-                          id={project.id}
-                          refetch={getInstallSummary}
-                        />
-                      ))
-                    ) : (
-                      <p className="text-center py-4">No Installment yet</p>
-                    )}
-                  </div>
-                </div>
-                <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
-                  <div className="flex justify-between border-b border-gray-300 pb-4">
-                    <p className="fw-600">Admin Progress Updates</p>
-                  </div>
-                  <div className="">
-                    {adminUpdate.length > 0 ? (
-                      adminUpdate.map((item, index) => (
-                        <div className="lg:flex justify-between mt-4">
-                          <div className="flex lg:w-10/12">
-                            <div className="w-12">
-                              {/* <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" alt="order" className="w-16 h-16 lg:h-20 lg:w-20 rounded-lg" /> */}
-                              <Avatar
-                                src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png"
-                                variant="circular"
-                                alt="order"
-                              />
-                            </div>
-                            <div className="grid w-full fs-400 content-between pl-4 fw-500">
+                ) : (
+                  <div>
+                    <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
+                      <div className="flex justify-between border-b border-gray-300 pb-4">
+                        <p className="fw-600">Cost Summary</p>
+                      </div>
+                      <div className="fw-500 min-h-56 justify-between pt-6">
+                        {sum.length > 0 ? (
+                          sum.map((item, index) => (
+                            <div
+                              className="flex justify-between border-b py-2"
+                              key={index}
+                            >
+                              <p>{item?.title}</p>
                               <p>
-                                {item.by === "admin"
-                                  ? "BOG ADMIN"
-                                  : "BOG Service Partner"}
-                              </p>
-                              <p className="text-gray-600">{item.body}</p>
-                              <p className="text-gray-500 text-xs">
-                                {moment(item.createdAt).fromNow()}
+                                {item.amount
+                                  ? "NGN" + formatNumber(item?.amount)
+                                  : ""}
                               </p>
                             </div>
-                          </div>
-                          <div className="lg:w-2/12 mt-3 lg:mt-0 flex justify-end">
-                            {item?.image ? (
-                              <a
-                                href={item.image}
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                <Avatar
-                                  src={item.image}
-                                  variant="rounded"
-                                  alt="order"
-                                />
-                              </a>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="py-2 text-center">No Updates Yet</p>
-                    )}
+                          ))
+                        ) : (
+                          <p>No costing yet</p>
+                        )}
+                        <p className="border-t text-end fw-500 text-lg">
+                          NGN{total === 0 ? "" : formatNumber(total)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
+                      <div className="flex justify-between border-b border-gray-300 pb-4">
+                        <p className="fw-600">Transaction</p>
+                      </div>
+                      <div className="">
+                        {install.length > 0 ? (
+                          sortedInstall.map((item, index) => (
+                            <InstallPayment
+                              item={item}
+                              index={index}
+                              id={project.id}
+                              refetch={getInstallSummary}
+                            />
+                          ))
+                        ) : (
+                          <p className="text-center py-4">No Installment yet</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">
+                      <div className="flex justify-between border-b border-gray-300 pb-4">
+                        <p className="fw-600">Admin Progress Updates</p>
+                      </div>
+                      <div className="">
+                        {adminUpdate.length > 0 ? (
+                          adminUpdate.map((item, index) => (
+                            <div className="lg:flex justify-between mt-4">
+                              <div className="flex lg:w-10/12">
+                                <div className="w-12">
+                                  {/* <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" alt="order" className="w-16 h-16 lg:h-20 lg:w-20 rounded-lg" /> */}
+                                  <Avatar
+                                    src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png"
+                                    variant="circular"
+                                    alt="order"
+                                  />
+                                </div>
+                                <div className="grid w-full fs-400 content-between pl-4 fw-500">
+                                  <p>
+                                    {item.by === "admin"
+                                      ? "BOG ADMIN"
+                                      : "BOG Service Partner"}
+                                  </p>
+                                  <p className="text-gray-600">{item.body}</p>
+                                  <p className="text-gray-500 text-xs">
+                                    {moment(item.createdAt).fromNow()}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="lg:w-2/12 mt-3 lg:mt-0 flex justify-end">
+                                {item?.image ? (
+                                  <a
+                                    href={item.image}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    <Avatar
+                                      src={item.image}
+                                      variant="rounded"
+                                      alt="order"
+                                    />
+                                  </a>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <p className="py-2 text-center">No Updates Yet</p>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
               <div>
                 <div className="bg-white lg:p-6 p-3 mt-8 rounded-md">

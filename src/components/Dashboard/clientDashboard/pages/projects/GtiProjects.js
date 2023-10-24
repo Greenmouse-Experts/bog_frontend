@@ -1,18 +1,28 @@
 import { Breadcrumbs } from "@material-tailwind/react";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import GIDisplay from "./projects/Settings/GIDisplay";
+import GtiProjectTable from "../../../assets/Tables/GtiTable";
+import { useDispatch } from "react-redux";
+import { getProjects } from "../../../../../redux/actions/ProjectAction";
 
-const ProjectSettings = () => {
+const GtiProjects = () => {
+    const [loading, setLoading] = useState(false);
+    const stopLoading = () => setLoading(false);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        setLoading(true);
+        dispatch(getProjects(stopLoading));
+        // dispatch(getCategories());
+    }, [dispatch])
   return (
     <>
       <div className="min-h-screen">
         <div className="w-full py-8 bg-white px-4 lg:flex justify-between items-center">
           <div className="flex-grow">
-            <p className="text-2xl fw-600">Project Settings</p>
+            <p className="text-2xl fw-600">GTI Projects</p>
             <p className="fs-400 text-gray-600 mt-2">
-              View and manage all different service parameters and pricing.
+              View and manage Geotechnical Investigation Project request from
+              users.
             </p>
             <Breadcrumbs className="bg-white pl-0 mt-4">
               <Link to="/" className="opacity-60">
@@ -29,27 +39,17 @@ const ProjectSettings = () => {
                 <span>Dashboard</span>
               </Link>
               <Link to="" className="">
-                <span>Project Settings</span>
+                <span>GTI Request</span>
               </Link>
             </Breadcrumbs>
           </div>
         </div>
-        <div className="lg:p-5 px-2 py-4">
-                    <div className="bg-white lg:p-5 lg:mt-6 mt-6 rounded-lg">
-                        <Tabs className="px-2 lg:px-0 py-5 lg:py-0">
-                            <TabList className="">
-                                <Tab>GI Service</Tab>
-                            </TabList>
-                            <TabPanel>
-                                <GIDisplay/>
-                                {/* <ProjectsTable status={"approved"} loader={loading} /> */}
-                            </TabPanel>
-                        </Tabs>
-                    </div>
-                </div>
+        <div className="bg-white lg:p-5 lg:mt-6 mt-6 rounded-lg">
+            <GtiProjectTable loader={loading}/>
+        </div>
       </div>
     </>
   );
 };
 
-export default ProjectSettings;
+export default GtiProjects;

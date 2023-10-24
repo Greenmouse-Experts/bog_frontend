@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import GIForm from "./GIForm";
 import useFetchHook from "../../../../../../hooks/useFetchHook";
-import {
-  formatNgnNumber,
-} from "../../../../../../services/helper";
+import { formatNgnNumber } from "../../../../../../services/helper";
 import Spinner from "../../../../../layouts/Spinner";
 import { FaPlus } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import { RiDeleteBin5Line } from "react-icons/ri";
+import GIDelete from "./GIDelete";
 
 const GIDisplay = () => {
   const [showForm, setShowForm] = useState(false);
   const [editForm, setEditForm] = useState(false);
+  const [delForm, setDelForm] = useState(false);
   const { loading, data, refetch } = useFetchHook(
     "/projects/geotechnical-investigation/metadata/view"
   );
@@ -139,13 +140,22 @@ const GIDisplay = () => {
             <div>
               {activeData !== "" && (
                 <>
-                  <button
-                    className="btn-primary flex gap-x-2 items-center mt-6 lg:mt-10"
-                    onClick={() => setEditForm(true)}
-                  >
-                    <MdEdit />
-                    Edit Pricing
-                  </button>
+                  <div className="flex gap-x-4">
+                    <button
+                      className="btn-primary flex gap-x-2 items-center mt-6 lg:mt-10"
+                      onClick={() => setEditForm(true)}
+                    >
+                      <MdEdit />
+                      Edit Pricing
+                    </button>
+                    <button
+                      className=" bg-secondary px-2 py-1 rounded-lg text-white fw-500 flex gap-x-2 items-center mt-6 lg:mt-10"
+                      onClick={() => setDelForm(true)}
+                    >
+                      <RiDeleteBin5Line className="text-lg" />
+                      Delete Pricing
+                    </button>
+                  </div>
                   <DisplayData data={passedData} />
                 </>
               )}
@@ -161,6 +171,13 @@ const GIDisplay = () => {
           close={() => setEditForm(false)}
           data={passedData}
           refetch={refetch}
+        />
+      )}
+      {delForm && (
+        <GIDelete
+          id={passedData.id}
+          refetch={refetch}
+          close={() => setDelForm(false)}
         />
       )}
     </>

@@ -62,6 +62,8 @@ import RefundOrders from "./pages/RefundOrder";
 import BlogCategory from "./pages/BlogCat";
 import { PartnerPayment } from "./pages/PartnerPayment";
 import ProjectSettings from "./pages/ProjectSettings";
+import GtiProjects from "./pages/projects/GtiProjects";
+import GtiProjectDetails from "./pages/projects/GtiProjectDetails";
 
 export default function ClientDashboard() {
 
@@ -115,6 +117,8 @@ export default function ClientDashboard() {
                         <Route path="myprojectdetails" element={<ProjectDetailsClient />} />
                         <Route path="projectrequest" element={<ProjectRequest />} />
                         <Route path="project-settings" element={<ProjectSettings />} />
+                        <Route path="gtiprojects" element={<GtiProjects />} />
+                        <Route path="projectgtidetails" element={<GtiProjectDetails/>}/>
                         <Route path="service-request/:projectId" element={<ServiceRequest />} />
                         <Route path="service-category" element={<ServiceCategory />} />
                         <Route path="productpartner" element={<Ppartners />} />

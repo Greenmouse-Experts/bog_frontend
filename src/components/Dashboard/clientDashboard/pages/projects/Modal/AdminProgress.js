@@ -53,10 +53,10 @@ export const AdminProgress = ({CloseModal, id, refetch}) => {
             <p className="fw-600 text-lg mb-6">Update Project Progress</p>
             <form onSubmit={handleSubmit}>
                 <div className="mt-3">
-                    <label>Project Progress (%)</label>
+                    <label className='block'>Project Progress (%)</label>
                     <input
                         type="number"
-                        className="w-36 mt-2 ml-4 rounded border border-gray-400 p-2"
+                        className="w-full mt-2 rounded border border-gray-400 p-2"
                         id="progress"
                         name="progress"
                         value={progress}
@@ -65,7 +65,7 @@ export const AdminProgress = ({CloseModal, id, refetch}) => {
                         />
                 </div>
                 <div className="text-end mt-6">
-                    <button className="btn-primary" onClick={formik.handleSubmit}>
+                    <button className="btn-primary w-full" onClick={formik.handleSubmit}>
                     {isLoading? "Updating..." : "Submit"}
                     </button>
                 </div>
