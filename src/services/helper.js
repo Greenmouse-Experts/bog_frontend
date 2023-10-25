@@ -59,7 +59,8 @@ export const getUserType = (type) => {
   }
 };
 export const getStatus = (type) => {
-  switch (type) {
+  const val = type.toLowerCase()
+  switch (val) {
     case "pending":
       return (
         <p className="px-2 py-1 text-yellow-700 bg-yellow-100 w-24 text-center rounded-md fw-600">

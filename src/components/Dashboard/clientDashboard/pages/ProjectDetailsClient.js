@@ -1,6 +1,6 @@
 import { Breadcrumbs, Avatar, Progress } from "@material-tailwind/react";
 import { Link, useLocation } from "react-router-dom";
-import Axios from "../../../../config/config";
+import Axios, { Instance } from "../../../../config/config";
 import { Loader } from "../../../layouts/Spinner";
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
@@ -23,10 +23,10 @@ export default function ProjectDetailsClient() {
   const auth = useSelector((state) => state.auth.user);
   const [form, setForm] = useState()
   const getForm = async () => {
-    const response = await Axios.get(
+    const response = await Instance.get(
       `/projects/geotechnical-investigation/order_details/${projectId}`
     );
-    setForm(response);
+    setForm(response.data);
   };
   useEffect(() => {
     getForm();

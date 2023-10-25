@@ -44,19 +44,19 @@ export default function Service() {
       confirmButtonText: "Continue",
       confirmButtonColor: "#3F79AD",
     }).then((result) => {
-        navigate("/dashboard/settings");
+      navigate("/dashboard/settings");
     });
   };
   const checkAdress = (id) => {
-    if(auth.user.address && auth.user.state){
-      setServiceCategory(id)
-    }else FillAdress()
-  }
+    if (auth.user.address && auth.user.state) {
+      setServiceCategory(id);
+    } else FillAdress();
+  };
 
   const [servicesType, setServicesType] = useState([]);
   const [formDisplay, setServiceFormDisplay] = useState(false);
   const [selectedService, setSelectedService] = useState("");
-  const [openGI, setOpenGI] = useState(false)
+  const [openGI, setOpenGI] = useState(false);
 
   const AuhtCheck = () => {
     Swal.fire({
@@ -141,6 +141,12 @@ export default function Service() {
     }, 1500);
     setSelectedService(name);
   };
+  const openGIForm = () => {
+    if (auth.user.address && auth.user.state) {
+      setOpenGI(true);
+    }
+    FillAdress();
+  };
 
   return (
     <div>
@@ -182,24 +188,21 @@ export default function Service() {
                 </p>
               </div>
               <div className="lg:grid-3 justify-between lg:mt-24 lg:mb-24">
-              <div
-                    className="shadow-md h-48  mt-12 mb-12 center-item text-center"
+                <div className="shadow-md h-48  mt-12 mb-12 center-item text-center">
+                  <div
+                    className="cursor-pointer"
+                    onClick={() =>
+                      auth.isAuthenticated ? openGIForm() : AuhtCheck()
+                    }
                   >
-                    <div
-                      className="cursor-pointer"
-                      onClick={() => 
-                          auth.isAuthenticated
-                            ? setOpenGI(true)
-                            : AuhtCheck()}
-                    >
-                      <img
-                        src='	https://res.cloudinary.com/greenmouse-tech/image/upload/v1691484372/hmftsl09cjqdhybdnvcs.jpg'
-                        alt="survey"
-                        className="lg:w-16 w-16 mx-auto mb-5"
-                      />
-                      <p className="fw-500">Geotechnical Investigation</p>
-                    </div>
+                    <img
+                      src="	https://res.cloudinary.com/greenmouse-tech/image/upload/v1691484372/hmftsl09cjqdhybdnvcs.jpg"
+                      alt="survey"
+                      className="lg:w-16 w-16 mx-auto mb-5"
+                    />
+                    <p className="fw-500">Geotechnical Investigation</p>
                   </div>
+                </div>
                 {categories.map((category, index) => (
                   <div
                     className="shadow-md h-48  mt-12 mb-12 center-item text-center"
@@ -270,7 +273,7 @@ export default function Service() {
                       onClick={(e) => getServiceForm(e, type.id, type.name)}
                     >
                       {type.name}
-                      <FaGreaterThan className="text-secondary"/>
+                      <FaGreaterThan className="text-secondary" />
                     </div>
                   </li>
                 ))}
@@ -315,9 +318,7 @@ export default function Service() {
         ) : (
           noFormDisplay()
         ))}
-      {
-        openGI && <ServiceGIForm close={() => setOpenGI(false)}/>
-      }
+      {openGI && <ServiceGIForm close={() => setOpenGI(false)} />}
     </div>
   );
 }
