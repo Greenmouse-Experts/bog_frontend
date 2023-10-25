@@ -16,6 +16,14 @@ const Axios = axios.create({
   headers: requestHeaders,
 });
 
+export const Instance = axios.create({
+  baseURL: process.env.REACT_APP_URL,
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: localStorage.getItem("auth_token")
+  }
+});
+
 // Add a request interceptor
 Axios.interceptors.request.use(
   function (config) {

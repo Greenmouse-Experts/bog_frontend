@@ -16,7 +16,7 @@ import { Loader } from "../../../../layouts/Spinner";
 import useFetchHook from "../../../../../hooks/useFetchHook";
 import { AdminProgress } from "./Modal/AdminProgress";
 import { ProjectMain } from "./Modal/AdminDate";
-import Axios from "../../../../../config/config";
+import Axios, { Instance } from "../../../../../config/config";
 
 export default function GtiProjectDetails() {
   const { search } = useLocation();
@@ -30,10 +30,10 @@ export default function GtiProjectDetails() {
   const [progressModal, setProgressModal] = useState(false);
   const [projectMain, setProjectMain] = useState(false);
   const getForm = async () => {
-    const response = await Axios.get(
+    const response = await Instance.get(
       `/projects/geotechnical-investigation/order_details/${projectId}`
     );
-    setForm(response);
+    setForm(response.data);
   };
   const CloseModal = () => {
     setProgressModal(false);
@@ -59,7 +59,6 @@ export default function GtiProjectDetails() {
       return "green";
     }
   };
-  console.log(form);
   return (
     <div>
       <div className="min-h-screen fs-500 relative">
@@ -228,8 +227,8 @@ export default function GtiProjectDetails() {
                         </td>
                         <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left"></td>
                         <td className="border-b border-gray-200 align-middle fs-500 px-2 text-left">
-                          {form?.order_details.mobilization_amt &&
-                            formatNumber(form?.order_details.mobilization_amt)}
+                          {form?.order_details?.mobilization_amt &&
+                            formatNumber(form?.order_details?.mobilization_amt)}
                         </td>
                       </tr>
                       <tr>
