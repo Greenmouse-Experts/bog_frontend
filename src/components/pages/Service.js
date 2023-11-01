@@ -144,8 +144,9 @@ export default function Service() {
   const openGIForm = () => {
     if (auth.user.address && auth.user.state) {
       setOpenGI(true);
+    } else {
+      FillAdress();
     }
-    FillAdress();
   };
 
   return (
