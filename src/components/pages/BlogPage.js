@@ -95,7 +95,6 @@ export default function BlogPage() {
     </center>
   }
 
-
   return (
     <div>
       <div className="font-primary">
@@ -137,11 +136,8 @@ export default function BlogPage() {
                     }
 
                   </div>
-                  <div className="mt-6 lg:mt-12">
-                    <p>
-                      {blog?.body}
-                    </p>
-
+                  <div className="mt-6 w-full lg:mt-12">
+                    <div className="whitespace-pre-line break-words">{blog?.body}</div>
                   </div>
                 </div>
               </div>
