@@ -79,6 +79,7 @@ export const CartModal = ({ CloseModal }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [showPrev, setShwPrev] = useState(false);
   const [prev, setPrev] = useState([]);
+  const [preSelect, setPreSelect] = useState(false);
 
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -99,9 +100,10 @@ export const CartModal = ({ CloseModal }) => {
   }, []);
   // change to home
   const changeToHome = () => {
-    setCountry('NG')
-    getStatesAddress(auth.user.state)
-    setPhoneNo(auth.user.phone)
+    setPreSelect(true);
+    setCountry("NG");
+    getStatesAddress(auth.user.state);
+    setPhoneNo(auth.user.phone);
     setOrderForm({
       city: auth.user.city || null,
       state: auth.user.state,
@@ -113,13 +115,14 @@ export const CartModal = ({ CloseModal }) => {
       contact_email: auth.user.email,
       contact_phone: auth.user.phone,
     });
-    setShwPrev(false)
+    setShwPrev(false);
   };
   // change to selected
   const changeToSelected = (item) => {
-    setCountry(item.country)
-    getStatesAddress(item.state)
-    setPhoneNo(item.contact_phone)
+    setPreSelect(true);
+    setCountry(item.country);
+    getStatesAddress(item.state);
+    setPhoneNo(item.contact_phone);
     setOrderForm({
       city: null,
       state: item.state,
@@ -131,7 +134,25 @@ export const CartModal = ({ CloseModal }) => {
       contact_email: item.contact_email,
       contact_phone: item.contact_phone,
     });
-    setShwPrev(false)
+    setShwPrev(false);
+  };
+  const emptySelected = () => {
+    setCountry("");
+    getStatesAddress("");
+    setPhoneNo("");
+    setOrderForm({
+      city: null,
+      state: "",
+      country: "",
+      postal_code: "",
+      address: null,
+      home_address: "",
+      contact_name: "",
+      contact_email: "",
+      contact_phone: "",
+    });
+    setShwPrev(false);
+    setPreSelect(false);
   };
   const form = useFormik({
     initialValues: {
@@ -156,7 +177,7 @@ export const CartModal = ({ CloseModal }) => {
     contact_email: null,
     contact_phone: null,
   });
-  
+
   let productsArray = carts.map((option) => {
     let prodInfo = {};
     prodInfo.productId = `${option.id}`;
@@ -207,7 +228,7 @@ export const CartModal = ({ CloseModal }) => {
   };
 
   const totalCost = () => {
-    const amount = calculatePercentage(totalAmount, 7.5)
+    const amount = calculatePercentage(totalAmount, 7.5);
     if (address_ !== null) {
       if (Object.keys(address_).length > 0) {
         if (addInsure && Number(insure) > 0) {
@@ -320,9 +341,12 @@ export const CartModal = ({ CloseModal }) => {
       !orderForm.home_address
     ) {
       return false;
-    } else if(orderForm.contact_phone.length < 10 || orderForm.contact_phone.length > 13 ) {
-      return false
-    }else return true;
+    } else if (
+      orderForm.contact_phone.length < 10 ||
+      orderForm.contact_phone.length > 13
+    ) {
+      return false;
+    } else return true;
   };
   if (loading) {
     return (
@@ -338,7 +362,7 @@ export const CartModal = ({ CloseModal }) => {
       </p>
       <div className="mt-1">
         <div
-          className="flex gap-x-1 items-center"
+          className="flex gap-x-1 items-center cursor-pointer"
           onClick={() => setShwPrev(!showPrev)}
         >
           <p>Delivery Options</p>
@@ -347,17 +371,32 @@ export const CartModal = ({ CloseModal }) => {
           ) : (
             <RiArrowDropUpLine className="text-3xl mt-[1px]" />
           )}
+          {preSelect && (
+            <p
+              className="fw-600 fs-400 cursor-pointer text-red-600"
+              onClick={() => emptySelected()}
+            >
+              Clear Selected
+            </p>
+          )}
         </div>
         {showPrev && (
           <div className="grid lg:grid-cols-4 gap-4">
-            <div className="p-2 shadow hover:scale-105" onClick={changeToHome}>
+            <div
+              className="p-2 shadow hover:scale-105 cursor-pointer"
+              onClick={changeToHome}
+            >
               <AiOutlineHome className="text-xl text-primary" />
               <p className="fw-500 mt-1">Home Address</p>
             </div>
             {prev &&
               !!prev.length &&
               prev.map((item, i) => (
-                <div className="p-2 shadow cursor-pointer hover:scale-105" key={i} onClick={() => changeToSelected(item)}>
+                <div
+                  className="p-2 shadow cursor-pointer hover:scale-105"
+                  key={i}
+                  onClick={() => changeToSelected(item)}
+                >
                   <BiLocationPlus className="text-xl text-primary" />
                   <p className="fw-500 mt-1">{item?.address}</p>
                 </div>
@@ -366,26 +405,26 @@ export const CartModal = ({ CloseModal }) => {
         )}
       </div>
       <form onSubmit={form.handleSubmit}>
-        <div className="mt-3">
-          <label className="block">Name</label>
-          <input
-            type="text"
-            placeholder="enter contact name"
-            className="w-full mt-2 py-2 px-2 border-gray-400 rounded border"
-            name="contact_name"
-            required
-            id="contact_name"
-            value={orderForm.contact_name}
-            onChange={(e) =>
-              setOrderForm({ ...orderForm, contact_name: e.target.value })
-            }
-          />
-          {orderForm.contact_name === "" ? (
-            <p className="text-red-500">{"Contact Email is required"}</p>
-          ) : null}
-        </div>
-        <div className="lg:flex">
-          <div className="w-full lg:w-6/12  mt-3">
+        <div classNmae="grid lg:grid-cols-2 gap-x-3">
+          <div className="mt-3 w-full">
+            <label className="block">Name</label>
+            <input
+              type="text"
+              placeholder="enter contact name"
+              className="w-full mt-2 py-2 px-2 border-gray-400 rounded border"
+              name="contact_name"
+              required
+              id="contact_name"
+              value={orderForm.contact_name}
+              onChange={(e) =>
+                setOrderForm({ ...orderForm, contact_name: e.target.value })
+              }
+            />
+            {orderForm.contact_name === "" ? (
+              <p className="text-red-500">{"Contact Email is required"}</p>
+            ) : null}
+          </div>
+          <div className="w-full mt-3">
             <label className="block">Email</label>
             <input
               type="text"
@@ -403,7 +442,9 @@ export const CartModal = ({ CloseModal }) => {
               <p className="text-red-500">{"Contact Email is required"}</p>
             ) : null}
           </div>
-          <div className="w-full lg:w-6/12 lg:pl-3 mt-3">
+        </div>
+        <div className="lg:flex">
+          <div className="w-full lg:w-6/12 mt-3">
             <label className="block">Phone Number</label>
             <PhoneInput
               country={"ng"}
@@ -417,12 +458,12 @@ export const CartModal = ({ CloseModal }) => {
                 paddingTop: "19px",
                 paddingBottom: "19px",
               }}
-              rules={{ required: true,  }}
+              rules={{ required: true }}
               isValid={(value, country) => {
-                if(value.length < 10 || value.length > 13){
-                  return ``
-                }else{
-                  return true
+                if (value.length < 10 || value.length > 13) {
+                  return ``;
+                } else {
+                  return true;
                 }
               }}
             />
@@ -430,12 +471,10 @@ export const CartModal = ({ CloseModal }) => {
               <p className="text-red-500">{"Contact Phone is required"}</p>
             ) : null}
           </div>
-        </div>
-        <div className="lg:flex">
-          <div className="w-full lg:w-6/12 mt-2">
+          <div className="w-full lg:w-6/12 lg:pl-3 mt-2">
             <label className="block">Country</label>
             <select
-            value={orderForm.country}
+              value={orderForm.country}
               onChange={(e) => getStateFromCountry(e.target.value)}
               className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
             >
@@ -449,10 +488,12 @@ export const CartModal = ({ CloseModal }) => {
               <p className="text-red-500">{"State is required"}</p>
             ) : null}
           </div>
-          <div className="lg:w-6/12 lg:pl-3 mt-2">
+        </div>
+        <div className="lg:flex">
+          <div className="lg:w-6/12  mt-2">
             <label className="block">State</label>
             <select
-            value={orderForm.state}
+              value={orderForm.state}
               onChange={(e) => getStatesAddress(e.target.value)}
               className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
             >
@@ -461,6 +502,23 @@ export const CartModal = ({ CloseModal }) => {
                 State.getStatesOfCountry(country).map((item, index) => (
                   <option value={item.name}>{item.name}</option>
                 ))}
+            </select>
+            {orderForm.state === "" ? (
+              <p className="text-red-500">{"State is required"}</p>
+            ) : null}
+          </div>
+          <div className="w-full lg:w-6/12 lg:pl-3 mt-2">
+            <label className="block">Local Government</label>
+            <select
+              value={orderForm.country}
+              onChange={(e) => getStateFromCountry(e.target.value)}
+              className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
+            >
+              <option>Select an option</option>
+              {/* <option value="NG">Nigeria</option>
+              {Country.getAllCountries().map((item, index) => (
+                <option value={item.isoCode}>{item.name}</option>
+              ))} */}
             </select>
             {orderForm.state === "" ? (
               <p className="text-red-500">{"State is required"}</p>
@@ -489,7 +547,7 @@ export const CartModal = ({ CloseModal }) => {
             ) : null}
           </div>
           <div className="mt-2 w-full">
-            <label className="block">Nearest address</label>
+            <label className="block">Landmark</label>
             <select
               name="address"
               className="w-full mt-2 py-2 px-2 border-gray-400 rounded border"

@@ -9,6 +9,12 @@ export const formatNumber = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
+export const formatChartNumber = (number) => {
+  const val = Math.round(number)
+  const num = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return num
+};
+
 export const formatNgnNumber = (number) => {
   return `₦${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 };

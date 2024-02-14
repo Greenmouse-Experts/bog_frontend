@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
 import useFetchHook from '../../../hooks/useFetchHook';
 import { Loader } from '../../layouts/Spinner';
-import { formatNumber } from '../../../services/helper';
+import { formatChartNumber } from '../../../services/helper'
 
 export const FinanceChart = () => {
     const {  data: transactions } = useFetchHook("/transactions");
@@ -246,6 +246,19 @@ export const FinanceChart = () => {
                 sepPayoutMoney, octPayoutMoney, novPayoutMoney, decPayoutMoney]
       }
     ]
+    const janTogether = janOrderMoney + janSubMoney + janPayoutMoney + janProjectMoney
+    const febTogether = febOrderMoney + febSubMoney + febPayoutMoney + febProjectMoney
+    const marTogether = marOrderMoney + marSubMoney + marPayoutMoney + marProjectMoney
+    const aprTogether = aprOrderMoney + aprSubMoney + aprPayoutMoney + aprProjectMoney
+    const mayTogether = mayOrderMoney + maySubMoney + mayPayoutMoney + mayProjectMoney
+    const junTogether = junOrderMoney + junSubMoney + junPayoutMoney + junProjectMoney
+    const julTogether = julOrderMoney + julSubMoney + julPayoutMoney + julProjectMoney
+    const augTogether = augOrderMoney + augSubMoney + augPayoutMoney + augProjectMoney
+    const sepTogether = sepOrderMoney + sepSubMoney + sepPayoutMoney + sepProjectMoney
+    const octTogether = octOrderMoney + octSubMoney + octPayoutMoney + octProjectMoney
+    const novTogether = novOrderMoney + novSubMoney + novPayoutMoney + novProjectMoney
+    const decTogether = decOrderMoney + decSubMoney + decPayoutMoney + decProjectMoney
+    const pieSeries = [ janTogether, febTogether, marTogether, aprTogether, mayTogether, junTogether, julTogether, augTogether, sepTogether, octTogether, novTogether, decTogether ]
     const options = {
         chart: {
           type: 'line',
@@ -288,6 +301,11 @@ export const FinanceChart = () => {
         yaxis: {
           title: {
             text: '₦ (thousands)'
+          },
+          labels: {
+            formatter: function (val) {
+              return "₦ " + formatChartNumber(val)
+            }
           }
         },
         fill: {
@@ -296,12 +314,61 @@ export const FinanceChart = () => {
         tooltip: {
           y: {
             formatter: function (val) {
-              return "₦ " + formatNumber(val)
+              return "₦ " + formatChartNumber(val)
             }
           }
         }
       }
-
+      const pieOptions = {
+        chart: {
+          type: 'pie',
+          height: 450,
+          zoom: {
+            enabled: true
+          },
+          toolbar: {
+            tools: {
+                download: true,
+                selection: true,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+                pan: true,
+                reset: true | '<img src="/static/icons/reset.png" width="20">',
+                customIcons: []
+            }
+            }
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        yaxis: {
+          title: {
+            text: '₦ (thousands)'
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return "₦ " + formatChartNumber(val)
+            }
+          }
+        }
+      }
 
     
   return (
@@ -315,8 +382,13 @@ export const FinanceChart = () => {
                     ))}
                 </select> */}
             </div>
+            <div className='grid lg:grid-cols-2 gap-6'>
             <div className='mt-6'>
                 <ReactApexChart options={options} series={series} width="100%" type="bar" height={550}/>
+            </div>
+            <div>
+            <ReactApexChart options={pieOptions} series={pieSeries} width="100%" type="pie" height={'auto'}/>
+            </div>
             </div>
         </div>
         {/*  */}
