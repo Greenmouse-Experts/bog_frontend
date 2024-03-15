@@ -57,7 +57,7 @@ const SubscriptionItem = ({ item, user }) => {
                 title: "Success",
                 imageUrl: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1686055425/BOG/success_afvfig.jpg",
                 imageWidth: "75px",
-                text: "Congratulation, your subscription is successful",
+                text: "Congratulations, your subscription is successful",
                 buttonsStyling: "false",
                 confirmButtonText: 'Continue',
                 confirmButtonColor: "#3F79AD",

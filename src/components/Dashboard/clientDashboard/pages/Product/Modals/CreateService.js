@@ -60,7 +60,7 @@ const CreateServiceModal = ({ CloseModal, selected }) => {
         <div className="fixed font-primary top-0 left-0 w-full h-screen bg-op center-item z-40" onClick={CloseModal}>
             <div className="bg-white px-4 lg:w-5/12 rounded-md overflow-y-auto overscroll-none  w-11/12 pt-8 pb-8 lg:px-10 shadow fw-500 scale-ani" onClick={e => e.stopPropagation()}>
                 <form onSubmit={formik.handleSubmit}>
-                    <p className="lg:fs-700 fw-600">Add Sercive Category</p>
+                    <p className="lg:fs-700 fw-600">Add Service Category</p>
                     <div className="mt-5">
                         <label className="block">Category Name</label>
                         <input

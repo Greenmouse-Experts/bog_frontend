@@ -151,7 +151,7 @@ export const KycModal = ({ params, resetVerified }) => {
                 Welcome to BOG !
               </p>
               <p style={{ color: "black" }}>
-                Sorry your KYC is not yet Verified, try Subscribing later
+                 Kindly wait for KYC verification
               </p>
             </div>
             <div className="bg-light rounded-b-md  py-4 mt-5 text-end px-5">
