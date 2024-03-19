@@ -3,6 +3,10 @@ import * as ActionType from '../type';
 import axios from '../../config/config';
 import toast from 'react-hot-toast';
 
+export const getToken = () => {
+    return localStorage.getItem("auth_token")
+}
+
 export const loading = () => {
     return {
         type: ActionType.LOADING
@@ -45,7 +49,7 @@ export const removeUserNotifications = (payload) => {
 }
 
 
-export const fetchAllUserNotifications = (user,stopLoading) => {
+export const fetchAllUserNotifications = (user, stopLoading) => {
     return async (dispatch) => {
         try {
             const authToken = localStorage.getItem("auth_token");
@@ -58,8 +62,8 @@ export const fetchAllUserNotifications = (user,stopLoading) => {
             }
             dispatch(loading());
             const response = await axios.get(`/notifications/user/${user.id}?userType=${user.type}`, config);
-            stopLoading();
             dispatch(fetchUserNotifications(response.data))
+            stopLoading();
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
@@ -92,17 +96,18 @@ export const fetchAllAdminNotifications = (stopLoading) => {
                     'Authorization': authToken
                 }
             }
-            dispatch(loading());
-            const response = await axios.get('/notifications/admin', config);
-            dispatch(fetchAdminNotifications(response.data));
-            stopLoading();
+            await axios.get('/notifications/admin', config)
+                .then(response => {
+                    dispatch(fetchAdminNotifications(response.data));
+                    stopLoading();
+                });
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
                 window.location.href = '/';
             }
             else {
                 dispatch(setError(error.message));
-                stopLoading();
+                // stopLoading();
                 toast.error(
                     error.message,
                     {
@@ -113,19 +118,17 @@ export const fetchAllAdminNotifications = (stopLoading) => {
                 );
             }
         }
-
     }
 }
 
 export const deleteAdminNotification = (id, stopLoading) => {
     return async (dispatch) => {
         try {
-            const authToken = localStorage.getItem("auth_token");
             const config = {
                 headers:
                 {
                     'Content-Type': 'application/json',
-                    'Authorization': authToken
+                    'Authorization': getToken()
                 }
             }
             dispatch(loading());

@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createServiceCategory, updateServiceCategory } from '../../../../../../redux/actions/ServiceCategoryAction';
-import {  serviceCategorySchema } from '../../../../../../services/validation';
+import { serviceCategorySchema } from '../../../../../../services/validation';
 import Spinner from '../../../../../layouts/Spinner';
 
 const CreateServiceModal = ({ CloseModal, selected }) => {
@@ -23,7 +23,7 @@ const CreateServiceModal = ({ CloseModal, selected }) => {
         };
         if (!selected) {
             dispatch(createServiceCategory(payload, stopLoading));
-        }else{
+        } else {
             payload.id = selected.id;
             dispatch(updateServiceCategory(payload, stopLoading));
         }
@@ -77,7 +77,7 @@ const CreateServiceModal = ({ CloseModal, selected }) => {
                             formik.touched.name && formik.errors.name ? <p className='text-red-500'>{formik.errors.name}</p> : null
                         }
                     </div>
-                    
+
                     <div className="mt-4">
                         <label className="block">Category Icon</label>
                         <input
@@ -93,7 +93,7 @@ const CreateServiceModal = ({ CloseModal, selected }) => {
                         loading ? <Spinner /> :
                             <div className="mt-8 flex justify-between">
                                 <Button color="red" onClick={CloseModal}>Cancel</Button>
-                                <Button type='submit' className="bg-primary">{ selected ? 'Update' : 'Add'} Service</Button>
+                                <Button type='submit' className="bg-primary">{selected ? 'Update' : 'Add'} Service</Button>
                             </div>
                     }
                 </form>

@@ -16,7 +16,13 @@ export default function Notification() {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const stopLoading = () => setLoading(false);
-
+    const reload = () => {
+        const users = {
+            id: user.profile.id,
+            type: user.profile.userType
+        }
+        dispatch(fetchAllUserNotifications(users,stopLoading))
+    }
     useEffect(() => {
         setLoading(true);
         if(user){
@@ -70,7 +76,7 @@ export default function Notification() {
                                             {
                                                 notifications.length > 0 &&
                                                 notifications.filter(where => !where.isRead).map(item => (
-                                                    <NotificationItem key={item.id} item={item} />
+                                                    <NotificationItem key={item.id} item={item} reload={reload}/>
                                                 ))
                                             }
                                         </div>
@@ -80,7 +86,7 @@ export default function Notification() {
                                             {
                                                 notifications &&
                                                 notifications.map(item => (
-                                                    <NotificationItem key={item.id} item={item} />
+                                                    <NotificationItem key={item.id} item={item} reload={reload}/>
                                                 ))
                                             }
                                         </div>
@@ -90,7 +96,7 @@ export default function Notification() {
                                             {
                                                 notifications &&
                                                 notifications.filter(where => where.status === "unread").map(item => (
-                                                    <NotificationItem key={item.id} item={item} />
+                                                    <NotificationItem key={item.id} item={item} reload={reload}/>
                                                 ))
                                             }
                                         </div>

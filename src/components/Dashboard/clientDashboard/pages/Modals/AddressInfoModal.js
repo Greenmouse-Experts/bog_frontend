@@ -5,6 +5,7 @@ import { BsCheck } from "react-icons/bs";
 import Axios from "../../../../../config/config";
 import { FaTimes } from "react-icons/fa";
 import { Country, State } from "country-state-city";
+import NaijaStates from 'naija-state-local-government';
 
 const AddressInfoModal = ({
   CloseModal,
@@ -57,6 +58,7 @@ const AddressInfoModal = ({
   const [addressInfo, setAddressInfo] = useState(address)
   const [selectedCountry, setSelectedCountry] = useState(address.country);
   const [selectedState, setSelectedState] = useState(address.state);
+  const [selectedLga, setSelectedLga] = useState(address.lga);
 
   return (
     <div
@@ -75,57 +77,72 @@ const AddressInfoModal = ({
               type="text"
               className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
               value={addressInfo.title}
-              onChange={e => setAddressInfo({...addressInfo, title: e.target.value})}
+              onChange={e => setAddressInfo({ ...addressInfo, title: e.target.value })}
             />
           </div>
-
-          <div className="mt-5">
+          {/* <div className="mt-5">
             <label className="block">Address</label>
             <input
               type="text"
               className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
               value={addressInfo.address}
-              onChange={e => setAddressInfo({...addressInfo, address: e.target.value})}
+              onChange={e => setAddressInfo({ ...addressInfo, address: e.target.value })}
             />
-          </div>
+          </div> */}
           <div className="mt-5">
             <label className="block">Zipcode</label>
             <input
               type="text"
               className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
               value={addressInfo.zipcode}
-              onChange={e => setAddressInfo({...addressInfo, zipcode: e.target.value})}
+              onChange={e => setAddressInfo({ ...addressInfo, zipcode: e.target.value })}
             />
           </div>
           <div className="mt-5">
-          <label className="block">Country</label>
+            <label className="block">Country</label>
+            <select
+              value={selectedCountry}
+              onChange={(e) => setSelectedCountry(e.target.value)}
+              className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
+            >
+              <option>Select an option</option>
+              <option value="NG">Nigeria</option>
+              {Country.getAllCountries().map((item, index) => (
+                <option value={item.isoCode} key={index}>{item.name}</option>
+              ))}
+            </select>
+            <div className="mt-3">
+              <label className="block">State</label>
+              <select
+                value={selectedState}
+                onChange={(e) => setSelectedState(e.target.value)}
+                className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
+              >
+                <option>Select an option</option>
+                {selectedCountry &&
+                  State.getStatesOfCountry(selectedCountry).map(
+                    (item, index) => (
+                      <option value={item.name} key={index}>{item.name}</option>
+                    )
+                  )}
+              </select>
+            </div>
+            <div className="mt-5">
+                  <label className="block">Local Government</label>
                   <select
-                  value={selectedCountry}
-                    onChange={(e) => setSelectedCountry(e.target.value)}
+                  value={selectedLga}
+                    onChange={(e) => setSelectedLga(e.target.value)}
                     className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
                   >
                     <option>Select an option</option>
-                    <option value="NG">Nigeria</option>
-                    {Country.getAllCountries().map((item, index) => (
-                      <option value={item.isoCode} key={index}>{item.name}</option>
-                    ))}
-                  </select>
-                  <div className="mt-3">
-                  <label className="block">State</label>
-                  <select
-                   value={selectedState}
-                    onChange={(e) => setSelectedState(e.target.value)}
-                    className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
-                  >
-                    <option>Select an option</option>
-                    {selectedCountry &&
-                      State.getStatesOfCountry(selectedCountry).map(
+                    {selectedState &&
+                      NaijaStates.lgas(selectedState).lgas.map(
                         (item, index) => (
-                          <option value={item.name} key={index}>{item.name}</option>
+                          <option value={item} key={index}>{item}</option>
                         )
                       )}
                   </select>
-                  </div>
+                </div>
             {/* <label className="block">Country</label>
             <input
               type="text"
@@ -140,7 +157,7 @@ const AddressInfoModal = ({
               type="number"
               className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
               value={addressInfo.charge}
-              onChange={e => setAddressInfo({...addressInfo, charge: e.target.value})}
+              onChange={e => setAddressInfo({ ...addressInfo, charge: e.target.value })}
             />
           </div>
           <div className="mt-5">
@@ -149,24 +166,24 @@ const AddressInfoModal = ({
               type="text"
               className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
               value={addressInfo.delivery_time}
-              onChange={e => setAddressInfo({...addressInfo, delivery_time: e.target.value})}
+              onChange={e => setAddressInfo({ ...addressInfo, delivery_time: e.target.value })}
             />
             e.g: 2 working days
           </div>
 
           <div className="mt-5">
-          <label className="block">Insurance Charge</label>
-                    <input
-                      type="number"
-                      name="insurancecharge"
-                      id="insurancecharge"
-                      placeholder="Enter Insurance Charge"
-                      value={addressInfo.insurancecharge}
-                      onChange={e => setAddressInfo({...addressInfo, insurancecharge: e.target.value})}
-                      required
-                      className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
-                    />
-                  </div>
+            <label className="block">Insurance Charge</label>
+            <input
+              type="number"
+              name="insurancecharge"
+              id="insurancecharge"
+              placeholder="Enter Insurance Charge"
+              value={addressInfo.insurancecharge}
+              onChange={e => setAddressInfo({ ...addressInfo, insurancecharge: e.target.value })}
+              required
+              className="w-full border border-gray-400 rounded mt-2 py-2 px-2"
+            />
+          </div>
           <div className="mt-8 flex justify-between">
             <Button
               type="button"

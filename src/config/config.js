@@ -1,8 +1,21 @@
 import axios from "axios";
+import { getToken } from "../redux/actions/notifications";
 // import handleResponseError from "./handleResponseError";
 
 const requestHeaders = { "Content-Type": "application/json" };
 const authToken = localStorage.getItem("auth_token");
+axios.interceptors.request.use(
+  function(config) {
+    const token = getToken(); 
+    if (token) {
+      config.headers["Authorization"] = getToken();
+    }
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
 
 if (authToken) {
   requestHeaders.Authorization = `${authToken}`;

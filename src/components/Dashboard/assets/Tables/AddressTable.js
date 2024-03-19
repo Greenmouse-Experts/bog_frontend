@@ -93,8 +93,8 @@ export function AddressTable({addresses, openViewModal}) {
             accessor: "title",
           },
           {
-            Header: "Address",
-            accessor: "address",
+            Header: "Local Government",
+            accessor: "lga",
           },
           {
             Header: "State",

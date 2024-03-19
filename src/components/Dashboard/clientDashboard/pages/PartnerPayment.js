@@ -145,7 +145,7 @@ export const PartnerPayment = () => {
               <div className="bg-white p-6 rounded">
                 {loading && <Spinner2 />}
                 {!loading && (
-                  <PayoutTableProduct payout={pays} adminApprove={approvePayment} />
+                  <PayoutTableProduct payout={pays} refetch={getPays} adminApprove={approvePayment} />
                 )}
               </div>
             </TabPanel>
@@ -153,7 +153,7 @@ export const PartnerPayment = () => {
               <div className="bg-white p-6 rounded">
                 {loading && <Spinner2 />}
                 {!loading && (
-                  <PayoutTable payout={payment} adminApprove={approvePayment}/>
+                  <PayoutTable payout={payment} refetch={getPayments} adminApprove={approvePayment}/>
                 )}
               </div>
             </TabPanel>

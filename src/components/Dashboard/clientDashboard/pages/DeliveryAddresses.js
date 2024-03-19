@@ -16,6 +16,7 @@ import { AddressTable } from "../../assets/Tables/AddressTable";
 import AddressDeleteModal from "./Modals/AddressDeleteModal";
 import AddressInfoModal from "./Modals/AddressInfoModal";
 import { Country, State } from "country-state-city";
+import NaijaStates from 'naija-state-local-government';
 
 const DeliveryAddresses = () => {
   const [deliveryAddress, setDeliveryAddress] = useState(false);
@@ -25,6 +26,7 @@ const DeliveryAddresses = () => {
   const [action, setAction] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(false);
   const [selectedState, setSelectedState] = useState(false);
+  const [selectedLga, setSelectedLga] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState();
   const user = useSelector((state) => state.auth.user);
 
@@ -76,6 +78,10 @@ const DeliveryAddresses = () => {
     setLoading(true);
   };
 
+  const getLgas = (param) => {
+    return NaijaStates.lgas(param).lgas
+  }
+
   const authToken = localStorage.getItem("auth_token");
   const config = {
     headers: {
@@ -92,7 +98,8 @@ const DeliveryAddresses = () => {
       const payload = {
         ...formik.values,
         country: selectedCountry,
-        state: selectedState
+        state: selectedState,
+        lga: selectedLga,
       };
       const newAddress = await Axios.post(url, payload, config);
       addToAddress(newAddress.data);
@@ -256,16 +263,19 @@ const DeliveryAddresses = () => {
                   </select>
                 </div>
                 <div className="mt-5">
-                  <label className="block">Address</label>
-                  <textarea
-                    name="address"
-                    id="address"
-                    value={address}
-                    placeholder="Enter Address"
-                    onChange={formik.handleChange}
-                    className="w-full h-24 border border-gray-400 rounded mt-2 p-2"
-                    required
-                  ></textarea>
+                  <label className="block">Local Government</label>
+                  <select
+                    onChange={(e) => setSelectedLga(e.target.value)}
+                    className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
+                  >
+                    <option>Select an option</option>
+                    {selectedState &&
+                      getLgas(selectedState).map(
+                        (item, index) => (
+                          <option value={item} key={index}>{item}</option>
+                        )
+                      )}
+                  </select>
                 </div>
                 <div className="mt-5">
                   <label className="block">Delivery Time</label>

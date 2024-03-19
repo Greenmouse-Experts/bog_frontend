@@ -13,15 +13,15 @@ export default function Notify() {
     const notifications = useSelector(state => state.notifications.adminNotifications);
     const [loading, setLoading] = useState(false);
     const [seeMores, setSeeMores] = useState(10);
-    const stopLoading = () => setLoading(false);
+    const stopLoading = () => { setLoading(false);}
 
     useEffect(() => {
         setLoading(true)
-        dispatch(fetchAllAdminNotifications(stopLoading()))
+        dispatch(fetchAllAdminNotifications(stopLoading))
     }, [dispatch]);
 
     const setReload = () => {
-        dispatch(fetchAllAdminNotifications(stopLoading()))
+        dispatch(fetchAllAdminNotifications(stopLoading))
     }
 
     const seeMore = () => {
@@ -69,7 +69,7 @@ export default function Notify() {
                                         {
                                             notifications.length > 0 &&
                                             notifications.filter(where => !where.isRead).slice(0,20).map(item => (
-                                                <NotificationItem key={item.id} item={item} isAdmin seeMore={seeMore}/>
+                                                <NotificationItem key={item.id} item={item} isAdmin seeMore={seeMore} reload={setReload}/>
                                             ))
                                         }
                                     </div>
@@ -92,7 +92,7 @@ export default function Notify() {
                                         {
                                             notifications &&
                                             notifications.filter(where => !where.isRead).slice(0,20).map(item => (
-                                                <NotificationItem key={item.id} item={item} isAdmin />
+                                                <NotificationItem key={item.id} item={item} isAdmin reload={setReload}/>
                                             ))
                                         }
                                     </div>

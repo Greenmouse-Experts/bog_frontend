@@ -15,7 +15,7 @@ const NotificationItem = ({ item, reload, isAdmin }) => {
     const [modal, setModalDelete] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const stopLoading = () => setLoading(false);
+    const stopLoading = () => { setLoading(false); }
 
     const [deleteItem, setDeleteItem] = useState('');
 
@@ -35,7 +35,7 @@ const NotificationItem = ({ item, reload, isAdmin }) => {
             if (!loading) {
                 reload();
             }
-        }else{
+        } else {
             dispatch(deleteUserNotification(deleteItem, stopLoading))
             if (!loading) {
                 reload();
@@ -49,15 +49,15 @@ const NotificationItem = ({ item, reload, isAdmin }) => {
 
     return (
         <>
-        <div className="flex relative mt-7 lg:mt-12" onClick={readNotification}>
-            <div className="w-24 mt-2 lg:w-32  lg:w-auto">
-                <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" alt="avatar"  />
-            </div>
-            <div className="lg:pl-6 w-full">
-                <p className="text-gray-600 pr-5"><span className="text-black">BOG Admin</span> {item.message} </p>
-                <p className="fs-400 text-gray-500"><ReactTimeAgo date={Date.parse(item.createdAt)} locale="en-US" /></p>
-            </div>
-            <p className='top-0 right-4 absolute w-6 h-6 bg-gray-200 circle grid place-content-center'><RiDeleteBin5Line onClick={() => deleteModal(item.id)} className='text-red-500 cursor-pointer hover:scale-105 ' /></p>
+            <div className="flex relative mt-7 lg:mt-12" onClick={readNotification}>
+                <div className="w-24 mt-2 lg:w-32  lg:w-auto">
+                    <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" alt="avatar" />
+                </div>
+                <div className="lg:pl-6 w-full">
+                    <p className="text-gray-600 pr-5"><span className="text-black">BOG Admin</span> {item.message} </p>
+                    <p className="fs-400 text-gray-500"><ReactTimeAgo date={Date.parse(item.createdAt)} locale="en-US" /></p>
+                </div>
+                <p className='top-0 right-4 absolute w-6 h-6 bg-gray-200 circle grid place-content-center'><RiDeleteBin5Line onClick={() => deleteModal(item.id)} className='text-red-500 cursor-pointer hover:scale-105 ' /></p>
             </div>
             {
                 modal && (
@@ -82,8 +82,8 @@ const NotificationItem = ({ item, reload, isAdmin }) => {
                             </div>
                         </div>
                     </div>
-            )    
-        }
+                )
+            }
         </>
     )
 }
