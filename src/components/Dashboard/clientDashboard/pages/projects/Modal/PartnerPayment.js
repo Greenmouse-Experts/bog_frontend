@@ -99,13 +99,13 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
         enableReinitialize: true,
         initialValues: {
           amount: "",
-          accountName: kyc?.kycFinancialData?.account_name? kyc?.kycFinancialData?.account_name : "",
-          accountNumber: kyc?.kycFinancialData?.account_number? kyc?.kycFinancialData?.account_number : "",
-          bankName: kyc?.kycFinancialData?.bank_name? kyc?.kycFinancialData?.bank_name : ""
+          account_name: kyc?.kycFinancialData?.account_name? kyc?.kycFinancialData?.account_name : "",
+          account_number: kyc?.kycFinancialData?.account_number? kyc?.kycFinancialData?.account_number : "",
+          bank_name: kyc?.kycFinancialData?.bank_name? kyc?.kycFinancialData?.bank_name : ""
         },
         onSubmit: handleSubmit,
       });
-      const { amount, accountName, accountNumber, bankName } = formik.values;
+      const { amount, account_name, account_number, bank_name } = formik.values;
 
   return (
     <div className="fixed font-primary left-0 top-0 w-full h-screen bg-op center-item z-40" onClick={CloseModal}>
@@ -123,7 +123,7 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
                         className="w-full mt-2 rounded border border-gray-400 p-2"
                         id="accountName"
                         name="accountName"
-                        value={accountName}
+                        value={account_name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         disabled
@@ -137,7 +137,7 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
                         className="w-full mt-2 rounded border border-gray-400 p-2"
                         id="accountNumber"
                         name="accountNumber"
-                        value={accountNumber}
+                        value={account_number}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         disabled
@@ -177,7 +177,7 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
                         className="w-full mt-2 rounded border border-gray-400 p-2"
                         id="bankName"
                         name="bankName"
-                        value={bankName}
+                        value={bank_name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         disabled
