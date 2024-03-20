@@ -29,15 +29,37 @@ export const PartnerPaymentModal = ({ CloseModal, id, userId }) => {
       const res = await Axios.get(url, config);
       const kycs = res.data;
       setKyc(kycs);
+      if(kycs?.kycFinancialData === null){
+        toast.error(
+          'No account information to initiate payment',
+          {
+              duration: 6000,
+              position: "top-center",
+              style: { background: 'red', color: 'white' },
+          }
+      );
+      }
     } catch (error) {}
   };
 
   const handleSubmit = async (values) => {
+    if(values.amount === "" || values.bankName === "" || values.accountName === "" || values.accountNumber === ""){
+      toast.error(
+          'No complete information to initiate payment',
+          {
+              duration: 6000,
+              position: "top-center",
+              style: { background: 'red', color: 'white' },
+          }
+      );
+      return;
+  }
     try {
       setIsLoading(true);
       const paylaod = {
         ...values,
         bank_code: "044",
+        amount: Number(values.amount)
       };
       const config = {
         headers: {
@@ -77,15 +99,13 @@ export const PartnerPaymentModal = ({ CloseModal, id, userId }) => {
     enableReinitialize: true,
     initialValues: {
       amount: "",
-      accountName: kyc?.kycFinancialData?.account_name
-        ? kyc?.kycFinancialData?.account_name
-        : "",
-      accountNumber: "0690000040",
-      bankName: "",
+      account_name: kyc?.kycFinancialData?.account_name? kyc?.kycFinancialData?.account_name : "",
+      account_number: kyc?.kycFinancialData?.account_number? kyc?.kycFinancialData?.account_number : "",
+      bank_name: kyc?.kycFinancialData?.bank_name? kyc?.kycFinancialData?.bank_name : ""
     },
     onSubmit: handleSubmit,
   });
-  const { amount, accountName, accountNumber, bankName } = formik.values;
+  const { amount, account_name, account_number, bank_name } = formik.values;
 
   return (
     <div
@@ -97,7 +117,7 @@ export const PartnerPaymentModal = ({ CloseModal, id, userId }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <p className="fw-600 text-lg lg:text-xl mb-6">
-          Project Partner Payment
+          Product Partner Payment
         </p>
         <div>
           <p>Please select a bank option</p>
@@ -111,9 +131,10 @@ export const PartnerPaymentModal = ({ CloseModal, id, userId }) => {
               className="w-full mt-2 rounded border border-gray-400 p-2"
               id="accountName"
               name="accountName"
-              value={accountName}
+              value={account_name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              disabled
             />
           </div>
           <div className="mt-3">
@@ -124,9 +145,10 @@ export const PartnerPaymentModal = ({ CloseModal, id, userId }) => {
               className="w-full mt-2 rounded border border-gray-400 p-2"
               id="accountNumber"
               name="accountNumber"
-              value={accountNumber}
+              value={account_number}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              disabled
             />
           </div>
           <div className="mt-3">
@@ -144,11 +166,11 @@ export const PartnerPaymentModal = ({ CloseModal, id, userId }) => {
           </div>
           <div className="mt-3">
             <label>Select Bank</label>
-            <select
+            {/* <select
               className="w-full mt-2 rounded border border-gray-400 p-2"
               id="bankName"
               name="bankName"
-              value={bankName}
+              value={bank_name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             >
@@ -157,7 +179,18 @@ export const PartnerPaymentModal = ({ CloseModal, id, userId }) => {
                   {bank.name}
                 </option>
               ))}
-            </select>
+            </select> */}
+             <input
+                        type="text"
+                        placeholder='Bank Name'
+                        className="w-full mt-2 rounded border border-gray-400 p-2"
+                        id="bankName"
+                        name="bankName"
+                        value={bank_name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        disabled
+                        />
           </div>
           <div className="text-end mt-6">
             {isLoading ? (
