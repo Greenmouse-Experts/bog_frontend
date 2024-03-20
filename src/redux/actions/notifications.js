@@ -107,7 +107,7 @@ export const fetchAllAdminNotifications = (stopLoading) => {
             }
             else {
                 dispatch(setError(error.message));
-                // stopLoading();
+                stopLoading();
                 toast.error(
                     error.message,
                     {

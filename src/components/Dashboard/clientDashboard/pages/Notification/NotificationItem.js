@@ -49,8 +49,8 @@ const NotificationItem = ({ item, reload, isAdmin }) => {
 
     return (
         <>
-            <div className="flex relative mt-7 lg:mt-12" onClick={readNotification}>
-                <div className="w-24 mt-2 lg:w-32  lg:w-auto">
+            <div className="flex relative mt-7 lg:mt-12">
+                <div className="w-24 mt-2 lg:w-auto">
                     <Avatar src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1667909634/BOG/logobog_rmsxxc.png" alt="avatar" />
                 </div>
                 <div className="lg:pl-6 w-full">
