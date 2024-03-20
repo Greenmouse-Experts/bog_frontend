@@ -20,6 +20,7 @@ import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiLocationPlus } from "react-icons/bi";
 import { calculatePercentage, getPercentage } from "../../../services/helper";
+import NaijaStates from 'naija-state-local-government';
 
 export const CartModal = ({ CloseModal }) => {
   const AuhtCheck = () => {
@@ -76,6 +77,7 @@ export const CartModal = ({ CloseModal }) => {
   const [phoneNo, setPhoneNo] = useState("");
   const [insuranceId, setInsuranceId] = useState("");
   const [country, setCountry] = useState("");
+  const [countryState, setCountryState] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [showPrev, setShwPrev] = useState(false);
   const [prev, setPrev] = useState([]);
@@ -170,12 +172,14 @@ export const CartModal = ({ CloseModal }) => {
     city: null,
     state: null,
     country: null,
+    lga: null,
     postal_code: null,
     address: null,
     home_address: null,
     contact_name: null,
     contact_email: null,
     contact_phone: null,
+    landmark: null
   });
 
   let productsArray = carts.map((option) => {
@@ -190,19 +194,36 @@ export const CartModal = ({ CloseModal }) => {
     setCountry(country);
   };
 
+  const getLgas = (param) => {
+    if(NaijaStates.lgas(param)?.lgas.length){
+    return NaijaStates.lgas(param)?.lgas}else{return []}
+  }
+
   const getStatesAddress = (state) => {
+    setCountryState(state)
     setOrderForm({ ...orderForm, state });
     fetchStateAddresses(setAddresses, auth.user, state);
   };
+
+  const handleLgaSelect = (lga) => {
+    setOrderForm({ ...orderForm, lga: lga });
+    getAddressInfo(lga)
+  }
 
   const getAddressInfo = (id) => {
     setIsChecked(false);
     setInsure(false);
     if (id !== "") {
-      const _address = addresses.find((_a) => _a.id === id);
+      const _address = addresses.find((_a) => _a.lga === id);
+      if(!_address){
+        setAddress_({});
+        setOrderForm({ ...orderForm, address: null });
+        toast.error("This location is currently not available for delivery")
+        return;
+      }
       setAddress_(_address);
       setInsure(_address.insurancecharge ? _address.insurancecharge : 0);
-      setOrderForm({ ...orderForm, address: _address.id });
+      setOrderForm({ ...orderForm, address: _address?.id });
       setInsuranceId(_address.id);
     } else {
       setOrderForm({ ...orderForm, address: "" });
@@ -265,7 +286,7 @@ export const CartModal = ({ CloseModal }) => {
           state: address_.state,
           country: address_.country,
           postal_code: address_.zipcode,
-          address: address_.address,
+          address: orderForm.landmark,
           home_address: orderForm.home_address,
           contact_name: orderForm.contact_name,
           contact_email: orderForm.contact_email,
@@ -510,15 +531,15 @@ export const CartModal = ({ CloseModal }) => {
           <div className="w-full lg:w-6/12 lg:pl-3 mt-2">
             <label className="block">Local Government</label>
             <select
-              value={orderForm.country}
-              onChange={(e) => getStateFromCountry(e.target.value)}
+              value={orderForm.lga}
+              onChange={(e) => handleLgaSelect(e.target.value)}
+              // onChange={(e) => getStateFromCountry(e.target.value)}
               className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
             >
               <option>Select an option</option>
-              {/* <option value="NG">Nigeria</option>
-              {Country.getAllCountries().map((item, index) => (
-                <option value={item.isoCode}>{item.name}</option>
-              ))} */}
+              {countryState && getLgas(countryState).map((item, index) => (
+                <option value={item}>{item}</option>
+              ))}
             </select>
             {orderForm.state === "" ? (
               <p className="text-red-500">{"State is required"}</p>
@@ -530,7 +551,7 @@ export const CartModal = ({ CloseModal }) => {
             <label className="block">Delivery Address</label>
             <input
               type="text"
-              placeholder="enter your address"
+              placeholder="enter your delivery address"
               className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
               name="home_address"
               required
@@ -547,8 +568,20 @@ export const CartModal = ({ CloseModal }) => {
             ) : null}
           </div>
           <div className="mt-2 w-full">
-            <label className="block">Landmark</label>
-            <select
+            <label className="block">Landmark / Nearest Bus Stop</label>
+            <input
+              type="text"
+              placeholder="enter your address"
+              className="w-full mt-1 py-2 px-2 border-gray-400 rounded border"
+              name="addres"
+              required
+              id="addres"
+              value={orderForm.landmark}
+              onChange={(e) =>
+                setOrderForm({ ...orderForm, landmark: e.target.value })
+              }
+            />
+            {/* <select
               name="address"
               className="w-full mt-2 py-2 px-2 border-gray-400 rounded border"
               id="nearest_address"
@@ -561,7 +594,7 @@ export const CartModal = ({ CloseModal }) => {
                   {_address.address}, {_address.state.toLowerCase()}
                 </option>
               ))}
-            </select>
+            </select> */}
             {orderForm.address === "" ? (
               <p className="text-red-500">{"Nearest address is required"}</p>
             ) : null}

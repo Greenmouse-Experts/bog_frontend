@@ -61,7 +61,7 @@ export default function ProjectDetails() {
       },
     };
     const res = await axios.get(
-      `${process.env.REACT_APP_URL}/projects/installments/${project.id}/view?type=cost`,
+      `${process.env.REACT_APP_URL}/projects/installments/${project?.id}/view?type=cost`,
       config
     );
     setSum(res.data.data);
@@ -74,7 +74,7 @@ export default function ProjectDetails() {
       },
     };
     const res = await axios.get(
-      `${process.env.REACT_APP_URL}/projects/installments/${project.id}/view?type=installment`,
+      `${process.env.REACT_APP_URL}/projects/installments/${project?.id}/view?type=installment`,
       config
     );
     setInstall(res.data.data);
@@ -87,13 +87,14 @@ export default function ProjectDetails() {
       },
     };
     const res = await axios.get(
-      `${process.env.REACT_APP_URL}/projects/notification/${project.id}/view`,
+      `${process.env.REACT_APP_URL}/projects/notification/${project?.id}/view`,
       config
     );
     setUpdate(res.data.data);
   };
   const getTotal = async () => {
-    setTotal(sum.reduce((sum, r) => sum + r.amount, 0));
+    if(sum){
+    setTotal(sum.reduce((sum, r) => sum + r.amount, 0));}
   };
 
   // sort installment
@@ -102,7 +103,7 @@ export default function ProjectDetails() {
   );
 
   useEffect(() => {
-    if (!loading) {
+    if (project) {
       getCostSummary();
       getInstallSummary();
       getUpdates();

@@ -239,7 +239,7 @@ export function PayoutTableProduct({ payout, refetch }) {
                     </MenuItem>
                     <MenuItem
                       className=" text-center"
-                      onClick={() => openDetails(row.value)}
+                      onClick={() => openDetails(row.cell.row.original.transfer)}
                     >
                       View Account Details
                     </MenuItem>
@@ -319,15 +319,15 @@ export function PayoutTableProduct({ payout, refetch }) {
             <div className="grid gap-3">
               <div className="flex items-center gap-x-2">
                 <p>Bank Name:</p>
-                <p>Acces Bank</p>
+                <p>{details?.bank_name}</p>
               </div>
               <div className="flex items-center gap-x-2">
                 <p>Account Name:</p>
-                <p>Acces Bank</p>
+                <p>{details?.account_name}</p>
               </div>
               <div className="flex items-center gap-x-2">
                 <p>Account Number:</p>
-                <p>2345738333</p>
+                <p>{details?.account_number}</p>
               </div>
             </div>
           </div>

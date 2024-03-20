@@ -41,11 +41,23 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
     }
 
     const handleSubmit = async (values) => {
+        if(values.amount === "" || values.bankName === "" || values.accountName === "" || values.accountNumber === ""){
+            toast.error(
+                'No complete information to initiate payment',
+                {
+                    duration: 6000,
+                    position: "top-center",
+                    style: { background: 'red', color: 'white' },
+                }
+            );
+            return;
+        }
         try{
             setIsLoading(true)
             const paylaod = {
                 ...values,
-                bank_code: "044"
+                bank_code: "044",
+                amount: Number(values.amount)
             }
             const config = {
                 headers: {
@@ -88,8 +100,8 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
         initialValues: {
           amount: "",
           accountName: kyc?.kycFinancialData?.account_name? kyc?.kycFinancialData?.account_name : "",
-          accountNumber: "0690000040",
-          bankName: ""
+          accountNumber: kyc?.kycFinancialData?.account_number? kyc?.kycFinancialData?.account_number : "",
+          bankName: kyc?.kycFinancialData?.bank_name? kyc?.kycFinancialData?.bank_name : ""
         },
         onSubmit: handleSubmit,
       });
@@ -114,6 +126,7 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
                         value={accountName}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        disabled
                         />
                 </div>
                 <div className='mt-3'>
@@ -127,6 +140,7 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
                         value={accountNumber}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        disabled
                         />
                 </div>
                 <div className='mt-3'>
@@ -144,7 +158,7 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
                 </div>
                 <div className='mt-3'>
                     <label>Select Bank</label>
-                    <select 
+                    {/* <select 
                         className="w-full mt-2 rounded border border-gray-400 p-2"
                         id="bankName"
                         name="bankName"
@@ -156,7 +170,18 @@ export const PartnerPayment = ({CloseModal, id, project}) => {
                             {bank.name}
                             </option>
                         ))}
-                    </select>
+                    </select> */}
+                     <input
+                        type="text"
+                        placeholder='Bank Name'
+                        className="w-full mt-2 rounded border border-gray-400 p-2"
+                        id="bankName"
+                        name="bankName"
+                        value={bankName}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        disabled
+                        />
                 </div>
                 <div className="text-end mt-6">
                     {isLoading?  <Spinner/> : <button className="btn-primary" onClick={formik.handleSubmit}>

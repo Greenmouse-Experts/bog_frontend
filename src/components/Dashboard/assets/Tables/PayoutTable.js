@@ -105,12 +105,18 @@ export function PayoutTable({ payout, refetch, adminApprove }) {
   };
   const admin = useSelector((state) => state.auth.user);
   const [uploadModal, setUploadModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
   const [uploadFile, setUploadFile] = useState();
   const [selected, setSelected] = useState("");
+  const [details, setDetails] = useState()
   const [loading, setLoading] = useState(false);
   const openUpload = (item) => {
     setSelected(item);
     setUploadModal(true);
+  };
+  const openDetails = (item) => {
+    setDetails(item);
+    setDetailModal(true);
   };
   const handleUpload = (e) => {
     e.preventDefault();
@@ -237,7 +243,7 @@ export function PayoutTable({ payout, refetch, adminApprove }) {
                     </MenuItem>
                     <MenuItem
                       className=" text-center"
-                      onClick={() => openUpload(row.value)}
+                      onClick={() => openDetails(row.cell.row.original.transfer)}
                     >
                       View Account Details
                     </MenuItem>
@@ -299,6 +305,35 @@ export function PayoutTable({ payout, refetch, adminApprove }) {
                 )}
               </div>
             </form>
+          </div>
+        </div>
+      )}
+       {detailModal && (
+        <div
+          className="fixed font-primary top-0 left-0 w-full h-screen bg-op center-item z-40"
+          onClick={() => setDetailModal(false)}
+        >
+          <div
+            className="bg-white px-4 lg:w-5/12 rounded-md overflow-y-auto overscroll-none  w-11/12 pt-8 pb-8 lg:px-10 shadow fw-500 scale-ani"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="mb-6 text-center fw-600 text-xl">
+              Bank Account Details
+            </p>
+            <div className="grid gap-3">
+            <div className="flex items-center gap-x-2">
+                <p>Bank Name:</p>
+                <p>{details?.bank_name}</p>
+              </div>
+              <div className="flex items-center gap-x-2">
+                <p>Account Name:</p>
+                <p>{details?.account_name}</p>
+              </div>
+              <div className="flex items-center gap-x-2">
+                <p>Account Number:</p>
+                <p>{details?.account_number}</p>
+              </div>
+            </div>
           </div>
         </div>
       )}
