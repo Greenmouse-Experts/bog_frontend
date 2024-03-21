@@ -261,8 +261,9 @@ export function PayoutTable({ payout, refetch, adminApprove }) {
     ], // eslint-disable-next-line
     []
   );
+  const sortedData = payout?.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
 
-  const data = useMemo(() => payout, [payout]);
+  const data = useMemo(() => sortedData, [sortedData]);
 
   return (
     <>

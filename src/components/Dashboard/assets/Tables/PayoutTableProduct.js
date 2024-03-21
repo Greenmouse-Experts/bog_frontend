@@ -258,7 +258,9 @@ export function PayoutTableProduct({ payout, refetch }) {
     []
   );
 
-  const data = useMemo(() => payout, [payout]);
+  const sortedData = payout?.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
+
+  const data = useMemo(() => sortedData, [sortedData]);
 
   return (
     <>
