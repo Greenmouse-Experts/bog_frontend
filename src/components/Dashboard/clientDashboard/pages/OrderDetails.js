@@ -337,7 +337,7 @@ export default function OrderDetails() {
                       <p className="text-black">
                         &#8358;
                         {formatNumber(
-                          getSubTotal(order.order_items) + order.deliveryFee
+                          order?.totalAmount
                         )}
                       </p>
                     </div>
@@ -362,7 +362,7 @@ export default function OrderDetails() {
                       <p className="text-black">
                         &#8358;
                         {formatNumber(
-                          getSubTotal(order.order_items) + order.deliveryFee
+                          order?.totalAmount
                         )}
                       </p>
                     </div>
